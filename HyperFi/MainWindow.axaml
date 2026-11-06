@@ -853,6 +853,12 @@
     </Window.Resources>
 
     <Window.Styles>
+        <Style Selector="Button#ShuffleButton.shuffleActive /template/ Border#Bd">
+            <Setter Property="Background" Value="{StaticResource AppSelectionTealBrush}"/>
+        </Style>
+        <Style Selector="Button#ShuffleButton.shuffleActive">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
         <!-- Implicit DataGrid styles -->
         <Style Selector="DataGrid">
             <Setter Property="Background" Value="{DynamicResource AppContentBrush}"/>
@@ -900,7 +906,8 @@
             <Setter Property="Background" Value="{DynamicResource AppSurfaceHoverBrush}"/>
         </Style>
         <Style Selector="DataGridRow:selected">
-            <Setter Property="Background" Value="{DynamicResource AppSurfaceSelectedBrush}"/>
+            <Setter Property="Background" Value="{StaticResource AppSelectionTealBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
         <Style Selector="DataGridRow.nowPlaying:not(:selected)">
             <Setter Property="Background" Value="{DynamicResource AppNowPlayingRowBrush}"/>

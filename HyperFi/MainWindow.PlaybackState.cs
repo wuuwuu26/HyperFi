@@ -780,12 +780,12 @@ public partial class MainWindow : Window
 
     private void UpdateShuffleButton()
     {
-        ShuffleButton.Background = new SolidColorBrush(
-            _shuffleEnabled
-                ? Color.FromRgb(0x6C, 0x63, 0xFF)
-                : Color.FromRgb(0x25, 0x26, 0x40));
+        ShuffleButton.Classes.Set("shuffleActive", _shuffleEnabled);
+        ShuffleButton.Background = _shuffleEnabled
+            ? FindResource<IBrush>("AppSelectionTealBrush")
+            : FindResource<IBrush>("AppTransportButtonBrush");
         ShuffleButton.Foreground = _shuffleEnabled
             ? Brushes.White
-            : new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xEE));
+            : FindResource<IBrush>("AppTransportButtonTextBrush");
     }
 }

@@ -51,6 +51,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- The selected song row and the active **Shuffle** button now use the teal
+  花青 highlight (`#1FA7A0`) instead of the default blue and purple accents.
 - The transport format line now uses kHz, separates the PCM output method from
   the bit depth, and shows the localized channel count, for example
   `PCM · 16-bit · 44.1 kHz · 2 声道` instead of `PCM_S16LE · 44,100 Hz · 2 ch`.
