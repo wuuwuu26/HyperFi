@@ -41,6 +41,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- Direct ALSA reopens the device at the next queued track's source rate when it
+  differs from the open rate, so a 44.1 kHz track after a 48 kHz track is no
+  longer silently resampled to 48 kHz. Same-rate runs stay gapless; a rate
+  change has a short gap.
 - The library scanner imports DFF sources instead of dropping them after four
   failed attempts; their technical fields come from FFprobe, like WavPack.
 - DSD to PCM conversion defaults to 384 kHz and is no longer clamped to 192 kHz

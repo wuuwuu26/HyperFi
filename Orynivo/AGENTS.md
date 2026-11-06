@@ -1669,7 +1669,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   direct ALSA hardware into the OpenAL device list. Direct ALSA uses stereo
   signed 32-bit PCM, the source rate, and `soft_resample=0`; failure to open
   that exact format/rate must be reported rather than silently falling back to
-  resampling. An `EBUSY` open failure must identify PipeWire/other-process
+  resampling. When a queued track's source rate differs from the open device
+  rate, reopen direct ALSA at the new exact rate at the track boundary; never
+  keep the previous session rate and resample the next track. A short gap is
+  preferable to silent conversion, while same-rate runs remain gapless. An `EBUSY` open failure must identify PipeWire/other-process
   ownership and explain that changing the desktop default does not release the
   card. The shared device-information window must use ALSA/OpenAL terminology on
   Linux and must not expose its historical WASAPI labels there. OpenAL requests
@@ -1680,7 +1683,7 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   Cross-platform behavior shared with the server belongs in `Orynivo.Core`.
 - The Linux target exposes system-media control through MPRIS 2 instead of SMTC.
   `Orynivo/Compatibility/Linux/MprisMediaTransport.cs` registers
-  `org.mpris.MediaPlayer2.orynivo` on the session bus and is compiled only under
+  `org.mpris.MediaPlayer2.hyperfi` on the session bus and is compiled only under
   the `ORYNIVO_LINUX` define, because `Tmds.DBus.Protocol` is referenced on
   Linux only. It connects asynchronously and must stay inert (never throw into
   playback) when the session bus is unavailable. The non-Windows
@@ -1696,7 +1699,7 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   Keep the `VolumeChangeRequested`/`SetVolume` members on the Windows
   implementation as no-ops so the shared `MainWindow` code compiles for every
   target.
-- The Windows installer shortcuts must carry the same `Orynivo.AudioPlayer`
+- The Windows installer shortcuts must carry the same `HyperFi.AudioPlayer`
   application user model ID that `App.xaml.cs` assigns to the process. Windows
   uses that identity to attribute the SMTC media session to Orynivo instead of
   showing an unknown application.

@@ -22,11 +22,15 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     private readonly TaskCompletionSource _started =
         new(TaskCreationOptions.RunContinuationsAsynchronously);
     private readonly object _requestLock = new();
-    private readonly ParametricEqualizer _equalizer;
     private readonly nint _device;
     private readonly nint _context;
-    private readonly nint _alsaPcm;
-    private readonly int _sampleRate;
+    private nint _alsaPcm;
+    private int _sampleRate;
+    private ParametricEqualizer _equalizer;
+    private readonly string _alsaDeviceName;
+    private readonly int _maxOutputSampleRateHz;
+    private bool _equalizerEnabled;
+    private EqualizerProfile? _equalizerProfile;
     private readonly Task _pumpTask;
     private EqualizerUpdateRequest? _pendingEqualizerUpdate;
     private SeekRequest? _pendingSeek;
@@ -44,7 +48,9 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
         nint alsaPcm,
         int sampleRate,
         bool equalizerEnabled,
-        EqualizerProfile? equalizerProfile)
+        EqualizerProfile? equalizerProfile,
+        string alsaDeviceName,
+        int maxOutputSampleRateHz)
     {
         _items = items;
         _infos = new AudioFileInfo?[items.Count];
@@ -54,7 +60,11 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
         _context = context;
         _alsaPcm = alsaPcm;
         _sampleRate = sampleRate;
-        _equalizer = new ParametricEqualizer(sampleRate, equalizerEnabled, equalizerProfile);
+        _alsaDeviceName = alsaDeviceName;
+        _maxOutputSampleRateHz = maxOutputSampleRateHz;
+        _equalizerEnabled = equalizerEnabled;
+        _equalizerProfile = equalizerProfile?.Clone();
+        _equalizer = new ParametricEqualizer(sampleRate, _equalizerEnabled, _equalizerProfile);
         _pumpTask = Task.Run(PumpAsync);
     }
 
@@ -137,7 +147,9 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
                 pcm,
                 sourceRate,
                 equalizerEnabled,
-                equalizerProfile);
+                equalizerProfile,
+                deviceId["alsa:".Length..],
+                maxOutputSampleRateHz);
             try
             {
                 await alsaPlayer._started.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -184,7 +196,9 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
             nint.Zero,
             sampleRate,
             equalizerEnabled,
-            equalizerProfile);
+            equalizerProfile,
+            string.Empty,
+            maxOutputSampleRateHz);
         try
         {
             await player._started.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -435,6 +449,9 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
                     Volatile.Write(ref _trackStartFrames[nextIndex], writtenFrames);
                     var nextInfo = _items[nextIndex].TryCreateKnownAudioInfo()
                                    ?? await ProbeAsync(_items[nextIndex].PlaybackPath, _cts.Token).ConfigureAwait(false);
+                    var nextRate = ResolveAlsaTrackRate(nextInfo);
+                    if (nextRate != _sampleRate)
+                        SwitchAlsaRate(nextRate, writtenFrames);
                     _infos[nextIndex] = ApplyKnownDuration(_items[nextIndex], nextInfo)
                         with { OutputSampleRate = _sampleRate };
                     decoder = await CreateAlsaDecoderAsync(nextIndex, TimeSpan.Zero, _cts.Token).ConfigureAwait(false);
@@ -630,7 +647,11 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     {
         var update = Interlocked.Exchange(ref _pendingEqualizerUpdate, null);
         if (update is not null)
+        {
+            _equalizerEnabled = update.Enabled;
+            _equalizerProfile = update.Profile;
             _equalizer.Update(update.Enabled, update.Profile);
+        }
         var gain = trackReplayGain * volume;
         var samples = MemoryMarshal.Cast<byte, int>(bytes);
         for (var index = 0; index + 1 < samples.Length; index += 2)
@@ -652,6 +673,30 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
             : sample >= 1.0f
                 ? int.MaxValue
                 : (int)Math.Round(sample * 2147483647.0);
+
+    /// <summary>Resolves the direct-ALSA output rate for one probed track.</summary>
+    /// <param name="info">Probed or pre-known track information.</param>
+    /// <returns>The exact output rate, capped by the configured maximum.</returns>
+    private int ResolveAlsaTrackRate(AudioFileInfo info)
+    {
+        var rate = info.IsDsd ? DsdPlaybackOptions.ResolveOutputRate() : NormalizePcmRate(info.OutputSampleRate);
+        return _maxOutputSampleRateHz > 0 ? Math.Min(rate, _maxOutputSampleRateHz) : rate;
+    }
+
+    /// <summary>Reopens the direct-ALSA device at a new source rate at a track boundary.</summary>
+    /// <param name="newRate">Required output rate in hertz.</param>
+    /// <param name="writtenFrames">Cumulative frames written before the switch.</param>
+    private void SwitchAlsaRate(int newRate, long writtenFrames)
+    {
+        var previousRate = _sampleRate;
+        AlsaNative.Drain(_alsaPcm);
+        AlsaNative.Close(_alsaPcm);
+        _alsaPcm = AlsaNative.OpenExact(_alsaDeviceName, newRate);
+        _sampleRate = newRate;
+        SeekDiagnostics.Log("alsa-rate-switch", $"from={previousRate} to={newRate}");
+        _equalizer = new ParametricEqualizer(newRate, _equalizerEnabled, _equalizerProfile);
+        Interlocked.Exchange(ref _playedFrames, writtenFrames);
+    }
 
     private static AudioFileInfo ApplyKnownDuration(GaplessPlaybackItem item, AudioFileInfo info) =>
         item.SegmentDuration is { } segmentDuration
