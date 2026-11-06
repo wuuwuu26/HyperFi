@@ -73,6 +73,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   soft; they now decode the stored full-resolution cover at the rendered size.
 - The Linux device info dialog listed a hard-coded PCM rate set capped at
   192 kHz; it now reports the rates the ALSA device actually advertises.
+- The About window no longer overlaps its license heading, build information and
+  first license line. The heading and scrolling license list now share a docked
+  layout instead of relying on grid margins.
 - The signed update manifest now covers the Windows portable archive as well,
   and the workflow waits for it before signing, so a release whose assets are
   still being replaced cannot publish a manifest that omits it or that hashes a
