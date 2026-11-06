@@ -51,6 +51,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Genre Cloud nodes now use a gold-tinted rounded card with a border, soft
+  shadow, hover glow, and a separate count pill instead of the default flat grey
+  buttons. The breadcrumb pills use the same rounded treatment.
 - The shared track tables no longer show the personal **My rating** star column.
   Personal ratings remain editable through the bulk action bar and MCP and are
   still listed in the track information dialog.

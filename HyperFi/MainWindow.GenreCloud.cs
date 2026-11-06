@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using HyperFi.Controls;
 using HyperFi.Library;
@@ -1167,8 +1168,8 @@ public partial class MainWindow
             Content = label,
             Tag = key,
             Margin = new Thickness(0, 0, 7, 4),
-            Padding = new Thickness(10, 5),
-            FontSize = GetTypographySize("FontSizeCaption", 12)
+            FontSize = GetTypographySize("FontSizeCaption", 12),
+            Theme = FindResource<ControlTheme>("GenreCloudBreadcrumbTheme")
         };
         button.Click += GenreCloudButton_OnClick;
         GenreCloudBreadcrumbPanel.Children.Add(button);
@@ -1203,15 +1204,43 @@ public partial class MainWindow
         {
             var count = useAlbumCounts ? node.AlbumCount : node.TrackCount;
             var scale = Math.Log(1 + count) / Math.Log(1 + maximum);
+            var fontSize = minimumSize + (maximumSize - minimumSize) * scale;
+            var countFontSize = Math.Max(10.0, fontSize * 0.5);
+            var name = new TextBlock
+            {
+                Text = GetGenreCloudDisplayName(node.Key),
+                FontSize = fontSize,
+                FontWeight = count == maximum ? FontWeight.SemiBold : FontWeight.Normal,
+                Foreground = FindResource<IBrush>("AppPrimaryTextBrush"),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            var countPill = new Border
+            {
+                Background = FindResource<IBrush>("AppAccentSoftBrush"),
+                CornerRadius = new CornerRadius(Math.Max(6.0, countFontSize * 0.8)),
+                Padding = new Thickness(8, 2),
+                Margin = new Thickness(10, 0, 0, 0),
+                VerticalAlignment = VerticalAlignment.Center,
+                Child = new TextBlock
+                {
+                    Text = $"{count:N0}",
+                    FontSize = countFontSize,
+                    FontWeight = FontWeight.SemiBold,
+                    Foreground = FindResource<IBrush>("AppAccentBrush"),
+                    VerticalAlignment = VerticalAlignment.Center
+                }
+            };
             var button = new Button
             {
-                Content = $"{GetGenreCloudDisplayName(node.Key)}  ·  {count:N0}",
+                Content = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Children = { name, countPill }
+                },
                 Tag = node.Key,
                 Margin = new Thickness(0, 0, 9, 9),
-                Padding = new Thickness(12, 7),
-                FontSize = minimumSize + (maximumSize - minimumSize) * scale,
-                FontWeight = count == maximum ? FontWeight.SemiBold : FontWeight.Normal,
-                HorizontalContentAlignment = HorizontalAlignment.Center
+                Theme = FindResource<ControlTheme>("GenreCloudNodeTheme")
             };
             button.Opacity = 0;
             button.Transitions = MotionPreferences.ResolveTransitions(

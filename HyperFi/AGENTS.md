@@ -676,7 +676,9 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   separate from the elliptical cloud surface below it; drill-down transitions
   cross-fade the old level and stagger the new count-scaled nodes. Cloud nodes
   use measured, centered rows with explicit horizontal/vertical gaps and must
-  never overlap; excess rows scroll vertically. The recommendation mode uses the
+  never overlap; excess rows scroll vertically. Nodes use the shared
+  gold-tinted rounded card, count pill, border, soft shadow, and hover glow;
+  breadcrumbs use the same rounded treatment. The recommendation mode uses the
   same segmented `ViewModeRadioTheme` controls as the Artists/Albums view
   selector and switches between the shared track table and source-aware album
   artwork cards. The cloud surface owns a dedicated Auto-sized main-content row

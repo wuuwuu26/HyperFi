@@ -42,6 +42,110 @@
             <GradientStop Color="#C99A3F" Offset="0.5"/>
             <GradientStop Color="#F2D98C" Offset="1"/>
         </LinearGradientBrush>
+        <LinearGradientBrush x:Key="GenreCloudNodeBackgroundBrush"
+                             StartPoint="0%,0%"
+                             EndPoint="100%,100%">
+            <GradientStop Color="#2C2516" Offset="0"/>
+            <GradientStop Color="#17120B" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="GenreCloudNodeHoverBackgroundBrush"
+                             StartPoint="0%,0%"
+                             EndPoint="100%,100%">
+            <GradientStop Color="#3B301C" Offset="0"/>
+            <GradientStop Color="#1E1810" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="GenreCloudNodePressedBackgroundBrush"
+                             StartPoint="0%,0%"
+                             EndPoint="100%,100%">
+            <GradientStop Color="#211B10" Offset="0"/>
+            <GradientStop Color="#120E08" Offset="1"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="GenreCloudNodeBorderBrush" Color="#4A3A1C"/>
+        <SolidColorBrush x:Key="GenreCloudBreadcrumbBackgroundBrush" Color="#18130B"/>
+        <SolidColorBrush x:Key="GenreCloudBreadcrumbBorderBrush" Color="#3A2E14"/>
+
+        <ControlTheme x:Key="GenreCloudNodeTheme" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource GenreCloudNodeBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GenreCloudNodeBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}"/>
+            <Setter Property="Padding" Value="18,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="16"
+                            Padding="{TemplateBinding Padding}"
+                            BoxShadow="0 8 20 0 #30000000">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ Border#Bd">
+                <Setter Property="Transitions">
+                    <Transitions>
+                        <BrushTransition Property="Background" Duration="0:0:0.16"/>
+                        <BrushTransition Property="BorderBrush" Duration="0:0:0.16"/>
+                    </Transitions>
+                </Setter>
+            </Style>
+            <Style Selector="^:pointerover /template/ Border#Bd">
+                <Setter Property="Background" Value="{StaticResource GenreCloudNodeHoverBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource AppAccentBrush}"/>
+                <Setter Property="BoxShadow" Value="0 0 24 0 #33E8C46A"/>
+            </Style>
+            <Style Selector="^:pressed /template/ Border#Bd">
+                <Setter Property="Background" Value="{StaticResource GenreCloudNodePressedBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource AppAccentBrush}"/>
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="GenreCloudBreadcrumbTheme" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource GenreCloudBreadcrumbBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GenreCloudBreadcrumbBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource AppSecondaryTextBrush}"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="12"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ Border#Bd">
+                <Setter Property="Transitions">
+                    <Transitions>
+                        <BrushTransition Property="Background" Duration="0:0:0.16"/>
+                        <BrushTransition Property="BorderBrush" Duration="0:0:0.16"/>
+                    </Transitions>
+                </Setter>
+            </Style>
+            <Style Selector="^:pointerover /template/ Border#Bd">
+                <Setter Property="Background" Value="{StaticResource GenreCloudNodeHoverBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource AppAccentBrush}"/>
+            </Style>
+            <Style Selector="^:pointerover">
+                <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}"/>
+            </Style>
+        </ControlTheme>
 
         <!-- Shared album artwork card. Used by the Albums artwork view and by the
              Dashboard "recently added" strip/full view so both look identical and
