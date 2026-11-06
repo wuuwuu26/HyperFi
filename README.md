@@ -21,33 +21,9 @@ keeps your files and listening data yours, HyperFi is built for you.
 feature reference:**
 [docs/FULL-FEATURE-REFERENCE.md](docs/FULL-FEATURE-REFERENCE.md)
 
-## See HyperFi in action
+## Screenshot
 
-<!-- markdownlint-disable MD034 -->
-
-https://github.com/user-attachments/assets/92e1cde3-b787-4752-8ad9-944d47d0b32f
-
-<!-- markdownlint-enable MD034 -->
-
-If the embedded video does not play in your browser,
-[watch it on YouTube](https://www.youtube.com/watch?v=llYTFwNLZAY).
-
-## Screenshots
-
-<table>
-  <tr>
-    <td><img src="html/assets/screenshots/dashboard.webp" alt="Dashboard" width="400"></td>
-    <td><img src="html/assets/screenshots/albums.webp" alt="Albums" width="400"></td>
-  </tr>
-  <tr>
-    <td><img src="html/assets/screenshots/artists.webp" alt="Artists" width="400"></td>
-    <td><img src="html/assets/screenshots/tracks.webp" alt="Tracks" width="400"></td>
-  </tr>
-  <tr>
-    <td><img src="html/assets/screenshots/cloud.webp" alt="Genre Cloud" width="400"></td>
-    <td><img src="html/assets/screenshots/ai-chat.webp" alt="AI Chat" width="400"></td>
-  </tr>
-</table>
+<img src="html/assets/screenshots/hyperfi.png" alt="HyperFi playlist view" width="800">
 
 ## Why HyperFi?
 

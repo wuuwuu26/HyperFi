@@ -1748,78 +1748,18 @@ const pageMetadata = {
   }
 };
 const galleryTitles = {
-  "hi": ["कलाकार खोजें","एल्बम देखें","ट्रैक प्रबंधित करें","शैलियाँ खोजें","फ़ोल्डर संरचना","इंटरनेट रेडियो","पॉडकास्ट खोजें","अंतर्निर्मित AI चैट","निजी डैशबोर्ड"],
-  "en": [
-    "Discover artists",
-    "Browse albums",
-    "Manage tracks",
-    "Explore genres",
-    "Folder structure",
-    "Internet radio",
-    "Discover podcasts",
-    "Built-in AI chat",
-    "Personal dashboard"
-  ],
-  "de": [
-    "Künstler entdecken",
-    "Alben durchsuchen",
-    "Tracks verwalten",
-    "Genres entdecken",
-    "Ordnerstruktur",
-    "Internet Radio",
-    "Podcasts entdecken",
-    "Integrierter KI-Chat",
-    "Persönliches Dashboard"
-  ],
-  "fr": [
-    "Découvrir les artistes",
-    "Parcourir les albums",
-    "Gérer les titres",
-    "Explorer les genres",
-    "Arborescence",
-    "Radio Internet",
-    "Découvrir les podcasts",
-    "Chat IA intégré",
-    "Tableau de bord personnel"
-  ],
-  "es": [
-    "Descubrir artistas",
-    "Explorar álbumes",
-    "Gestionar pistas",
-    "Explorar géneros",
-    "Estructura de carpetas",
-    "Radio por Internet",
-    "Descubrir pódcasts",
-    "Chat de IA integrado",
-    "Panel personal"
-  ],
-  "ru": [
-    "Исполнители",
-    "Альбомы",
-    "Управление треками",
-    "Облако жанров",
-    "Структура папок",
-    "Интернет-радио",
-    "Подкасты",
-    "Встроенный чат с ИИ",
-    "Личная панель управления"
-  ],
-  "zh": [
-    "发现艺术家",
-    "浏览专辑",
-    "管理曲目",
-    "探索流派",
-    "文件夹结构",
-    "网络电台",
-    "发现播客",
-    "内置 AI 聊天",
-    "个人仪表板"
-  ]
+  "hi": ["आपकी संगीत लाइब्रेरी"],
+  "en": ["Your music library"],
+  "de": ["Deine Musikbibliothek"],
+  "fr": ["Votre bibliothèque musicale"],
+  "es": ["Tu biblioteca musical"],
+  "ru": ["Ваша музыкальная библиотека"],
+  "zh": ["你的音乐库"]
 };
 const languageUrls = {en:'/', de:'/de/', fr:'/fr/', es:'/es/', ru:'/ru/', zh:'/zh/', hi:'/hi/'};
 function validateTranslations() {
   for (const language of Object.keys(languageUrls)) {
-    if (!pageMetadata[language]?.title || !pageMetadata[language]?.description || galleryTitles[language]?.length !== 9)
+    if (!pageMetadata[language]?.title || !pageMetadata[language]?.description || galleryTitles[language]?.length !== 1)
       throw new Error('Incomplete website metadata: ' + language);
     for (const [key, values] of Object.entries(translations))
       if (typeof values[language] !== 'string' || !values[language].trim())

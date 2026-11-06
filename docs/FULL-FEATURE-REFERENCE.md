@@ -22,18 +22,6 @@ cross-platform music server for local Hi-Fi libraries.
 cwASIO/Steinberg ASIO/WASAPI · DSD/DSF/DFF · Gapless Playback · ReplayGain ·
 Parametric EQ Plex · Radio · Podcasts · AI Chat · MCP Server · Network Streaming
 
-## See HyperFi in action
-
-Watch the HyperFi walkthrough:
-
-<!-- markdownlint-disable MD034 -->
-
-https://github.com/user-attachments/assets/92e1cde3-b787-4752-8ad9-944d47d0b32f
-
-<!-- markdownlint-enable MD034 -->
-
-If the embedded video does not play in your browser,
-[watch it on YouTube](https://www.youtube.com/watch?v=llYTFwNLZAY).
 
 ## Why HyperFi?
 

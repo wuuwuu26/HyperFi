@@ -30,7 +30,7 @@ for (const language of Object.keys(web.languageUrls)) {
   const buttons = Object.keys(web.languageUrls).map(l => ({
     dataset:{language:l}, classList:{toggle(){}}, setAttribute(){}, addEventListener(){}
   }));
-  const shots = Array.from({length:9}, () => ({dataset:{}})), title = {};
+  const shots = Array.from({length:1}, () => ({dataset:{}})), title = {};
   const document = {
     body:{dataset:{pageLanguage:language}},
     querySelectorAll: s => s === '[data-language]' ? buttons : shots,
