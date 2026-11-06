@@ -257,8 +257,8 @@ public static partial class LyricsService
     private static HttpClient CreateClient()
     {
         var client = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("Orynivo/1.0 (WPF music player)");
-        client.DefaultRequestHeaders.Add("Lrclib-Client", "Orynivo-WPF");
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("HyperFi/1.0");
+        client.DefaultRequestHeaders.Add("Lrclib-Client", "HyperFi");
         return client;
     }
 

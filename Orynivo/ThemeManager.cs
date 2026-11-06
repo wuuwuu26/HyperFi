@@ -94,11 +94,11 @@ public static class ThemeManager
         resources["TreeViewItemBackgroundPointerOver"] = Brush(dark ? "#D9241E14" : "#FAF4E4");
 
         resources["AppAboutLogoSource"] = AssetImage(dark
-            ? "avares://Orynivo/Assets/Orynivo_Logo.png"
-            : "avares://Orynivo/Assets/logo_about_light.png");
+            ? "avares://HyperFi/Assets/HyperFi_Logo.png"
+            : "avares://HyperFi/Assets/hyperfi_about_light.png");
         resources["AppProgramLogoSource"] = AssetImage(dark
-            ? "avares://Orynivo/Assets/logo_prog.png"
-            : "avares://Orynivo/Assets/logo_prog_light.png");
+            ? "avares://HyperFi/Assets/HyperFi_Logo.png"
+            : "avares://HyperFi/Assets/hyperfi_about_light.png");
     }
 
     private static SolidColorBrush Brush(string hex) => new(Color.Parse(hex));

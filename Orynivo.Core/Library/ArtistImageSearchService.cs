@@ -257,7 +257,7 @@ public static class ArtistImageSearchService
     {
         var client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
         client.DefaultRequestHeaders.UserAgent.ParseAdd(
-            "Orynivo/1.0 (Windows music player; artist image search)");
+            "HyperFi/1.0 (music player; artist image search)");
         return client;
     }
 }

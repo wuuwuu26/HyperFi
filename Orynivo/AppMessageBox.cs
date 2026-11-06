@@ -16,7 +16,7 @@ internal static class AppMessageBox
     /// <param name="title">Dialog title.</param>
     /// <param name="owner">Optional owning window.</param>
     /// <returns>A task that completes when the dialog closes.</returns>
-    public static Task ShowAsync(string message, string title = "Orynivo", Window? owner = null) =>
+    public static Task ShowAsync(string message, string title = "HyperFi", Window? owner = null) =>
         Dispatcher.UIThread.InvokeAsync(() => ShowInternal(message, title, owner));
 
     /// <summary>Shows a themed confirmation dialog.</summary>
@@ -27,7 +27,7 @@ internal static class AppMessageBox
     /// <returns><see langword="true"/> when the user confirms; otherwise <see langword="false"/>.</returns>
     public static Task<bool> ConfirmAsync(
         string message,
-        string title = "Orynivo",
+        string title = "HyperFi",
         Window? owner = null,
         string? confirmText = null) =>
         Dispatcher.UIThread.InvokeAsync(() => ConfirmInternal(message, title, owner, confirmText));

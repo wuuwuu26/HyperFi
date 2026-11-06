@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="using:Orynivo"
         Title="{DynamicResource L_ArtistImageSearchTitle}"
-        Icon="avares://Orynivo/Assets/Orynivo.ico"
+        Icon="avares://HyperFi/Assets/HyperFi.ico"
         Height="620"
         Width="560"
         MinHeight="440"

@@ -574,7 +574,7 @@ public static class LibraryBackupService
 
     private static string CreateTemporaryDirectory()
     {
-        var path = Path.Combine(Path.GetTempPath(), "Orynivo", Guid.NewGuid().ToString("N"));
+        var path = Path.Combine(Path.GetTempPath(), "HyperFi", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(path);
         return path;
     }

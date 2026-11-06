@@ -40,7 +40,7 @@ public static class CrashLogger
             var assembly = Assembly.GetEntryAssembly();
 
             var report = new StringBuilder()
-                .AppendLine("Orynivo crash report")
+                .AppendLine("HyperFi crash report")
                 .AppendLine("===================")
                 .AppendLine($"Timestamp: {timestamp:O}")
                 .AppendLine($"Source: {source}")

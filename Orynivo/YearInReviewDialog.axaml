@@ -2,7 +2,7 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{DynamicResource L_YearInReview}"
-        Icon="avares://Orynivo/Assets/Orynivo.ico"
+        Icon="avares://HyperFi/Assets/HyperFi.ico"
         Width="720"
         Height="780"
         MinWidth="560"

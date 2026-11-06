@@ -827,7 +827,7 @@ public partial class MainWindow : Window
             {
                 File.WriteAllText(
                     path,
-                    $"Orynivo UI diagnostics{Environment.NewLine}" +
+                    $"HyperFi UI diagnostics{Environment.NewLine}" +
                     $"======================{Environment.NewLine}" +
                     $"Timestamp: {DateTimeOffset.Now:O}{Environment.NewLine}" +
                     $"Process ID: {Environment.ProcessId}{Environment.NewLine}" +

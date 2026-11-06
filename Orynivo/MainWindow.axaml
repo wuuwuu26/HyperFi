@@ -7,7 +7,7 @@
         xmlns:controls="clr-namespace:Orynivo.Controls"
         xmlns:conv="using:Avalonia.Data.Converters"
         xmlns:ai="using:Orynivo.AI"
-        Title="Orynivo" Icon="avares://Orynivo/Assets/Orynivo.ico"
+        Title="HyperFi" Icon="avares://HyperFi/Assets/HyperFi.ico"
         Height="760" Width="1100"
         MinHeight="600" MinWidth="800">
     <Window.Resources>
@@ -17,7 +17,7 @@
         <SolidColorBrush x:Key="AppTransportAccentBrush" Color="#E8C46A"/>
         <SolidColorBrush x:Key="AppTransportAccentTextBrush" Color="#1A1408"/>
         <ImageBrush x:Key="DashboardHeroBackgroundBrush"
-                    Source="avares://Orynivo/Assets/DashboardHeroBackground.png"
+                    Source="avares://HyperFi/Assets/DashboardHeroBackground.png"
                     Stretch="UniformToFill"
                     AlignmentX="Center"
                     AlignmentY="Center"/>
@@ -977,7 +977,7 @@
                 <StackPanel>
                     <Image Height="58"
                            HorizontalAlignment="Left"
-                           Source="avares://Orynivo/Assets/DashboardLogo.png"
+                           Source="avares://HyperFi/Assets/DashboardLogo.png"
                            Stretch="Uniform"/>
                     <TextBlock x:Name="SelectedDriverTextBlock"
                                Foreground="{DynamicResource AppMutedTextBrush}" FontSize="{DynamicResource FontSizeMeta}" Margin="4,8,4,0"

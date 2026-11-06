@@ -25,6 +25,12 @@
       <InformationalVersion>$(_MainVersion)-dev+$(_DevelopmentCommit)</InformationalVersion>
       <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(_MainVersion)' == ''">
+      <Version>0.1.0-dev</Version>
+      <AssemblyVersion>0.1.0.0</AssemblyVersion>
+      <FileVersion>0.1.0.0</FileVersion>
+      <InformationalVersion>0.1.0-dev</InformationalVersion>
+    </PropertyGroup>
     <Message Importance="High"
              Condition="'$(_MainVersion)' != ''"
              Text="Development version resolved from origin/main: $(InformationalVersion)" />

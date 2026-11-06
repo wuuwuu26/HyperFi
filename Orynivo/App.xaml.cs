@@ -14,7 +14,7 @@ namespace Orynivo;
 
 public partial class App : Application
 {
-    private const string AppUserModelId = "Orynivo.AudioPlayer";
+    private const string AppUserModelId = "HyperFi.AudioPlayer";
     private int _fatalExceptionHandling;
 
     public override void Initialize()

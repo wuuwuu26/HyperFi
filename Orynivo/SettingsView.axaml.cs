@@ -3289,7 +3289,7 @@ internal partial class SettingsView : UserControl
             Title = LocalizationManager.Current.ExportLibrary,
             FileTypeChoices = [new FilePickerFileType("ZIP") { Patterns = ["*.zip"] }],
             DefaultExtension = "zip",
-            SuggestedFileName = $"Orynivo-library-{DateTime.Now:yyyyMMdd-HHmm}.zip"
+            SuggestedFileName = $"HyperFi-library-{DateTime.Now:yyyyMMdd-HHmm}.zip"
         });
         if (file is null)
             return;

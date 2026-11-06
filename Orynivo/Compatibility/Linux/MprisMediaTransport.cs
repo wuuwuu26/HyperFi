@@ -15,7 +15,7 @@ namespace Orynivo;
 internal sealed class MprisMediaTransport : IPathMethodHandler, IDisposable
 {
     /// <summary>Well-known bus name registered by the Orynivo media player.</summary>
-    internal const string BusName = "org.mpris.MediaPlayer2.orynivo";
+    internal const string BusName = "org.mpris.MediaPlayer2.hyperfi";
 
     private const string ObjectPathValue = "/org/mpris/MediaPlayer2";
     private const string RootInterface = "org.mpris.MediaPlayer2";
@@ -31,7 +31,7 @@ internal sealed class MprisMediaTransport : IPathMethodHandler, IDisposable
     private double _volume = 1.0;
     private long _positionMicros;
     private long _durationMicros;
-    private string _trackId = "/org/orynivo/track/none";
+    private string _trackId = "/org/hyperfi/track/none";
     private DateTime _lastPositionUpdate = DateTime.MinValue;
     private bool _disposed;
 
@@ -421,8 +421,8 @@ internal sealed class MprisMediaTransport : IPathMethodHandler, IDisposable
                 ["CanSetFullscreen"] = VariantValue.Bool(false),
                 ["CanRaise"] = VariantValue.Bool(false),
                 ["HasTrackList"] = VariantValue.Bool(false),
-                ["Identity"] = VariantValue.String("Orynivo"),
-                ["DesktopEntry"] = VariantValue.String("orynivo"),
+                ["Identity"] = VariantValue.String("HyperFi"),
+                ["DesktopEntry"] = VariantValue.String("hyperfi"),
                 ["SupportedUriSchemes"] = VariantValue.Array(Array.Empty<string>()),
                 ["SupportedMimeTypes"] = VariantValue.Array(Array.Empty<string>())
             };
@@ -565,7 +565,7 @@ internal sealed class MprisMediaTransport : IPathMethodHandler, IDisposable
     {
         var key = $"{metadata.Title}\n{metadata.Artist}\n{metadata.Album}";
         var hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(key)))[..16];
-        return "/org/orynivo/track/" + hash.ToLowerInvariant();
+        return "/org/hyperfi/track/" + hash.ToLowerInvariant();
     }
 
     private void EmitPropertiesChanged(string iface, Dict<string, VariantValue> changed)

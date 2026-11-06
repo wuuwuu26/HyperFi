@@ -670,7 +670,7 @@ public partial class MainWindow : Window
         };
         ToolTip.SetTip(badge, sourceBadge switch
         {
-            "OS" => "Orynivo Server",
+            "OS" => "HyperFi Server",
             "P" => "Plex",
             _ => LocalizationManager.Current.LocalLibrary
         });

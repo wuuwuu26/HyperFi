@@ -57,7 +57,7 @@ public sealed class McpServerService : IAsyncDisposable
             {
                 options.ServerInfo = new ModelContextProtocol.Protocol.Implementation
                 {
-                    Name    = "Orynivo",
+                    Name    = "HyperFi",
                     Version = "1.0"
                 };
             })

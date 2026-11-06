@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- The independent HyperFi project starts from the Orynivo codebase with a new
+  name, a gold waveform letter-mark icon, HyperFi window and About branding,
+  HyperFi Server labels, and a separate `~/.local/share/HyperFi` data root that
+  migrates the previous Orynivo library on first launch.
 - DSDIFF (DFF) files expose the ID3v2.3 tag and embedded cover art they carry,
   so they appear with their title, artist, album, track number and artwork.
 - The audio settings offer a **DSD → PCM output rate** choice, so the conversion
@@ -19,6 +23,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - The lyrics view now scrolls smoothly between lines, grows and fades the active
   line with a short transition, and lights each word of an enhanced-LRC line in
   the accent colour as it becomes audible.
+- Lyrics whose LRC timestamps were stored in the plain-text field are now parsed
+  as synchronized lyrics instead of showing the raw `[mm:ss.xx]` markers, so the
+  dynamic highlight works for embedded and previously cached lyrics too.
 - The interface uses a warm gold accent on translucent surfaces over a subtle
   gradient, replacing the previous blue-grey palette. The wordmark, dashboard
   hero artwork, About logos, statistic icons, secondary buttons and dialog

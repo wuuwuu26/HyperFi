@@ -24,7 +24,7 @@ internal static class StartupTimingLog
             Stopwatch.Restart();
             File.WriteAllText(
                 _filePath,
-                $"Orynivo startup timing{Environment.NewLine}" +
+                $"HyperFi startup timing{Environment.NewLine}" +
                 $"======================{Environment.NewLine}" +
                 $"Timestamp: {DateTimeOffset.Now:O}{Environment.NewLine}" +
                 $"Process ID: {Environment.ProcessId}{Environment.NewLine}" +

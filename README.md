@@ -1,15 +1,15 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
-  <img src="Logo/logo_about.png" alt="Orynivo" width="720">
+  <img src="Logo/hyperfi.png" alt="HyperFi" width="160">
 </p>
 
-# Orynivo
+# HyperFi
 
 **A free, open-source Hi-Fi music library, player, and self-hosted server for
 Windows, Linux, and macOS — for people who still own their music.**
 
 If you like what Roon does, but want software that is free, open source, and
-keeps your files and listening data yours, Orynivo is built for you.
+keeps your files and listening data yours, HyperFi is built for you.
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/bschlaack/Orynivo)](https://github.com/bschlaack/Orynivo/releases/latest)

@@ -884,7 +884,7 @@ public static class LibraryMetadataRepairService
     private static HttpClient CreateClient()
     {
         var client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("Orynivo/1.0 (https://github.com/bschlaack/Orynivo)");
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("HyperFi/1.0 (https://github.com/wuuwuu26/HyperFi)");
         client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
         return client;
     }

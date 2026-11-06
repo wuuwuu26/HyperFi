@@ -79,7 +79,7 @@ public sealed class MusicBrainzRatingService
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         if (!_httpClient.DefaultRequestHeaders.UserAgent.Any())
-            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Orynivo/1.0 (https://orynivo.app)");
+            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("HyperFi/1.0 (https://github.com/wuuwuu26/HyperFi)");
     }
 
     /// <summary>Gets a community rating by MBID or a conservative metadata fallback.</summary>

@@ -24,7 +24,7 @@ public static class MusicBrainzCoverSearch
     private static HttpClient CreateClient()
     {
         var client = new HttpClient { Timeout = Timeout.InfiniteTimeSpan };
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("Orynivo/1.0 (album-artwork-search)");
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("HyperFi/1.0 (album-artwork-search)");
         return client;
     }
     private static readonly Regex NonAlphanumericCharacters = new(

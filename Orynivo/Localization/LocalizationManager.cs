@@ -863,7 +863,7 @@ public static class LocalizationManager
         LastFmDisconnect = "Trennen",
         LastFmScrobblingConnected = "Verbunden als {0}",
         LastFmScrobblingNotConnected = "Nicht verbunden",
-        LastFmScrobblingAuthorizeHint = "Orynivo im Browser autorisieren und dann erneut auf „Verbinden“ klicken.",
+        LastFmScrobblingAuthorizeHint = "HyperFi im Browser autorisieren und dann erneut auf „Verbinden“ klicken.",
         LastFmScrobblingConnectFailed = "Verbindung zu Last.fm fehlgeschlagen.",
         OutputType = "Ausgabeart",
         AsioOutputDevice = "ASIO-Ausgabegerät",
@@ -1018,7 +1018,7 @@ public static class LocalizationManager
         MetadataQuickHint = "Beim Öffnen werden nur gespeicherte Metadaten geprüft – keine Musikdateien gelesen. Für die gründliche Prüfung die Option aktivieren und „Analyse aktualisieren“ wählen. Ältere Server benötigen für die schnelle Prüfung ein Update.",
         MetadataSelectHint = "Wähle einen Ordner. Die Prüfung ändert nichts und löscht keine Dateien.",
         MetadataActionGuide = "„Ordner als Album erkennen“ sucht Titel, Künstler und Nummerierung bei MusicBrainz. Fehlendes ReplayGain: Einstellungen → Wiedergabe. Bilder: Album-/Künstleransicht. Fehlende Dateien und Duplikate bitte manuell prüfen. Änderungen werden erst nach Bestätigung in der Bibliothek gespeichert; Audiodateien bleiben unverändert.",
-        MetadataRemoteReadOnly = "Dieser Eintrag stammt vom Server und ist hier nur ein Bericht. Die MusicBrainz-Ordnerkorrektur ist nur für lokale Einträge verfügbar. ReplayGain lässt sich unter Orynivo Server berechnen; Bilder in der Album-/Künstleransicht ergänzen.",
+        MetadataRemoteReadOnly = "Dieser Eintrag stammt vom Server und ist hier nur ein Bericht. Die MusicBrainz-Ordnerkorrektur ist nur für lokale Einträge verfügbar. ReplayGain lässt sich unter HyperFi Server berechnen; Bilder in der Album-/Künstleransicht ergänzen.",
         MetadataReviewGuide = "Oben stehen deine aktuellen Tracks. Wähle unten eine Veröffentlichung und vergleiche die Vorschau zeilenweise. Suchbegriffe kannst du ändern. Nur „Korrektur übernehmen“ speichert Änderungen in der Bibliothek.",
         MetadataPhaseDatabase = "Gespeicherte Metadaten werden geladen…",
         MetadataPhaseFolders = "Ordner und Metadaten werden geprüft…",
@@ -1029,7 +1029,7 @@ public static class LocalizationManager
         MetadataRemaining = "Geschätzte Restzeit dieses Schritts: {0}",
         MetadataRemainingUnknown = "Restzeit noch nicht abschätzbar",
         MetadataElapsed = "Verstrichen: {0}",
-        MetadataProblemsHint = "Orynivo prüft physische Ordner unabhängig von möglicherweise zerrissenen Albumzuordnungen. Doppelklicke einen Eintrag, um passende MusicBrainz-Veröffentlichungen zu suchen.",
+        MetadataProblemsHint = "HyperFi prüft physische Ordner unabhängig von möglicherweise zerrissenen Albumzuordnungen. Doppelklicke einen Eintrag, um passende MusicBrainz-Veröffentlichungen zu suchen.",
         IdentifyFolderAsAlbum = "Ordner als Album identifizieren",
         MetadataFolder = "Ordner",
         MetadataIssues = "Erkannte Probleme",
@@ -1046,7 +1046,7 @@ public static class LocalizationManager
         MetadataRefreshAnalysis = "Analyse aktualisieren",
         MetadataAlbumQuery = "Album-Suchbegriff",
         MetadataArtistQuery = "Künstler-Suchbegriff",
-        MetadataRepairSuccess = "Die Metadaten wurden in Orynivos Bibliothek korrigiert.",
+        MetadataRepairSuccess = "Die Metadaten wurden in HyperFis Bibliothek korrigiert.",
         MetadataIssueAlbums = "unterschiedliche Albumtitel",
         MetadataIssueArtists = "unterschiedliche Albumkünstler",
         MetadataIssueMissingTitles = "fehlende Titelnamen",
@@ -1128,7 +1128,7 @@ public static class LocalizationManager
         InfiniteMixActive = "Endlos-Mix aktiv · wird automatisch ergänzt",
         InfiniteMixCalculating = "Dein Endlos-Mix wird gerade berechnet …",
         InfiniteMixSettingsTitle = "Endlos-Mix anpassen",
-        InfiniteMixSettingsHint = "Lege fest, wie Orynivo deine nächste fortlaufende Mischung zusammenstellt.",
+        InfiniteMixSettingsHint = "Lege fest, wie HyperFi deine nächste fortlaufende Mischung zusammenstellt.",
         InfiniteMixMood = "Stimmung", InfiniteMixMoodCalm = "Ruhig", InfiniteMixMoodBalanced = "Ausgewogen", InfiniteMixMoodEnergetic = "Energiegeladen",
         InfiniteMixDiscovery = "Entdeckungsgrad", InfiniteMixFamiliar = "Vertraut", InfiniteMixAdventurous = "Abenteuerlich",
         InfiniteMixPeriod = "Hörverlauf", InfiniteMixSources = "Quellen",
@@ -1154,11 +1154,11 @@ public static class LocalizationManager
         DeviceProbeInconclusive = "Konnte nicht eindeutig geprüft werden. Das Gerät wird möglicherweise von einer anderen Anwendung verwendet.",
         WasapiEndpointSummary = "WASAPI-Endpunkt · {0} Kanäle\nMix-Format: {1} · {2} Bit",
         WasapiNoExclusiveFormats = "Keine exklusiven PCM-Formate erkannt.",
-        WasapiDsdNotRelevant = "Für WASAPI in Orynivo nicht relevant.",
+        WasapiDsdNotRelevant = "Für WASAPI in HyperFi nicht relevant.",
         LinuxAlsaEndpointSummary = "Direktes ALSA-Gerät · {0} Kanäle\nPCM: {1} Bit · exakte Titel-Samplerate\nALSA-Resampling deaktiviert",
         LinuxOpenAlEndpointSummary = "OpenAL-Gerät · {0} Kanäle\nPCM: {1} Bit · Mixer-Samplerate wird beim Abspielen ermittelt",
         LinuxDsdOutputUnavailable = "Für diesen PCM-Ausgabepfad derzeit nicht verfügbar.",
-        NativeDsdUsesAsio = "Native DSD-Wiedergabe läuft in Orynivo über ASIO.",
+        NativeDsdUsesAsio = "Native DSD-Wiedergabe läuft in HyperFi über ASIO.",
         Dashboard = "Dashboard", ThemeLight = "Hell", ThemeDark = "Dunkel",
         StatusAvailable = "Verfügbar", StatusUnavailable = "Nicht verfügbar",
         StatusEnabled = "Aktiviert", StatusDisabled = "Deaktiviert", StatusReady = "Bereit",
@@ -1326,7 +1326,7 @@ public static class LocalizationManager
         , StartMaximized = "Maximiert starten"
         , CheckingForUpdates = "Updates werden gesucht …"
         , UpdateAvailable = "Version {0} ist verfügbar."
-        , UpToDate = "Orynivo ist auf dem neuesten Stand."
+        , UpToDate = "HyperFi ist auf dem neuesten Stand."
         , UpdateUnavailable = "Verifizierte Updates sind für diesen Build nicht eingerichtet."
         , DownloadAndInstall = "Herunterladen und installieren"
         , DownloadingUpdate = "Update wird heruntergeladen und geprüft …"
@@ -1343,10 +1343,10 @@ public static class LocalizationManager
         , SourceColumn = "Quelle"
         , LocalSource = "Lokal"
         , LocalSourceShort = "L"
-        , OrynivoServersSettings = "Orynivo-Server"
-        , OrynivoServersHint = "Verbinde den Player mit einem oder mehreren Orynivo-Server-Instanzen im lokalen Netzwerk. Der API-Key wird verschlüsselt im benutzergebundenen Zugangsdaten-Tresor gespeichert."
+        , OrynivoServersSettings = "HyperFi-Server"
+        , OrynivoServersHint = "Verbinde den Player mit einem oder mehreren HyperFi-Server-Instanzen im lokalen Netzwerk. Der API-Key wird verschlüsselt im benutzergebundenen Zugangsdaten-Tresor gespeichert."
         , AddOrynivoServer = "Server hinzufügen"
-        , OrynivoServerDialogTitle = "Orynivo-Server"
+        , OrynivoServerDialogTitle = "HyperFi-Server"
         , OrynivoServerName = "Anzeigename"
         , OrynivoServerUrl = "Server-URL (z. B. http://192.168.1.10:5280)"
         , OrynivoServerApiKey = "API-Key"
@@ -1431,7 +1431,7 @@ public static class LocalizationManager
         , CreateSmartPlaylist = "Smart-Playlist erstellen"
         , InvalidSmartPlaylistCriteria = "Bitte gültige Zahlen und widerspruchsfreie Mindest-/Maximalwerte eingeben. „Noch nie gespielt“ kann nicht mit einer kürzlichen Wiedergabe oder einer Mindestanzahl kombiniert werden."
         , EditSmartPlaylist = "Smart-Playlist bearbeiten"
-        , LibraryEmptyHint = "Noch keine Medienquelle eingerichtet. Füge lokale Musikordner hinzu oder verbinde einen Orynivo Server."
+        , LibraryEmptyHint = "Noch keine Medienquelle eingerichtet. Füge lokale Musikordner hinzu oder verbinde einen HyperFi Server."
         , LibraryScanHint = "Neue Ordner werden beim Hinzufügen automatisch gescannt. Der Fortschritt erscheint unter dem Ordner; dort kannst du den Scan abbrechen oder später mit „Scannen“ erneut starten. Speichere nach Abschluss die Einstellungen, öffne „Titel“ in der Bibliothek und starte einen Titel per Doppelklick."
         , LibraryViewEmptyHint = "Diese Ansicht zeigt keine Einträge. Prüfe deine Filter sowie Musikordner oder Server in den Einstellungen. Lokale Ordner kannst du dort scannen."
         , LibraryLoadPartial = "Bibliothek teilweise geladen. Nicht verfügbare Quellen: {0}."
@@ -1451,7 +1451,7 @@ public static class LocalizationManager
         , PhysicalPath = "Physischer Dateipfad"
         , UpNext = "Als Nächstes"
         , GenreExplorer = "Genre-Wolke"
-        , GenreCloudHint = "Entdecke Genres aus deiner lokalen Bibliothek und allen verbundenen Orynivo Servern. Wähle ein Genre, um tiefer einzusteigen."
+        , GenreCloudHint = "Entdecke Genres aus deiner lokalen Bibliothek und allen verbundenen HyperFi Servern. Wähle ein Genre, um tiefer einzusteigen."
         , GenreCloudLoading = "Die Genre-Ansicht wird zusammengestellt …"
             , GenreCloudLoadingProgress = "{0}% abgeschlossen"
         , AllGenres = "Alle Genres"
@@ -1506,7 +1506,7 @@ public static class LocalizationManager
         , WebMaxResponseKb   = "Maximale Antwortgröße (KB)"
         , AiChat                = "KI-Chat"
         , AiChatSettings        = "KI-Chat"
-        , AiChatHint            = "Verbindet sich mit einem lokalen oder cloudbasierten KI-Modell über eine OpenAI-kompatible API (z. B. LM Studio, Ollama, OpenAI). Dem Modell stehen alle 32 Orynivo-Tools zur Verfügung, um die Bibliothek zu durchsuchen, Playlisten zu verwalten und die Wiedergabe zu steuern."
+        , AiChatHint            = "Verbindet sich mit einem lokalen oder cloudbasierten KI-Modell über eine OpenAI-kompatible API (z. B. LM Studio, Ollama, OpenAI). Dem Modell stehen alle 32 HyperFi-Tools zur Verfügung, um die Bibliothek zu durchsuchen, Playlisten zu verwalten und die Wiedergabe zu steuern."
         , AiChatEnabled         = "KI-Chat aktivieren"
         , AiChatEndpointUrl     = "Endpunkt-URL"
         , AiChatApiKey          = "API-Schlüssel (optional)"
@@ -1745,7 +1745,7 @@ public static class LocalizationManager
         LastFmDisconnect = "Disconnect",
         LastFmScrobblingConnected = "Connected as {0}",
         LastFmScrobblingNotConnected = "Not connected",
-        LastFmScrobblingAuthorizeHint = "Authorize Orynivo in the browser, then click Connect again.",
+        LastFmScrobblingAuthorizeHint = "Authorize HyperFi in the browser, then click Connect again.",
         LastFmScrobblingConnectFailed = "Could not connect to Last.fm.",
         OutputType = "Output type", AsioOutputDevice = "ASIO output device", WasapiOutputDevice = "WASAPI output device",
         AirPlay = "AirPlay 2", AirPlayOutputDevice = "AirPlay 2 output device",
@@ -1885,7 +1885,7 @@ public static class LocalizationManager
         MetadataQuickHint = "Opening this page checks stored metadata without reading music files. Enable the option and refresh the analysis for physical-file checks. Older servers need an update for the quick review.",
         MetadataSelectHint = "Select a folder. Analysis changes nothing and deletes no files.",
         MetadataActionGuide = "Identify folder as album searches MusicBrainz for titles, artists and numbering. Missing ReplayGain: Settings → Playback. Images: album/artist views. Review missing files and duplicates manually. Only confirmed changes are saved to the library; audio files stay unchanged.",
-        MetadataRemoteReadOnly = "This server entry is a read-only report. MusicBrainz folder correction is available only for local entries. Calculate ReplayGain under Orynivo Server; add images in album/artist views.",
+        MetadataRemoteReadOnly = "This server entry is a read-only report. MusicBrainz folder correction is available only for local entries. Calculate ReplayGain under HyperFi Server; add images in album/artist views.",
         MetadataReviewGuide = "Your current tracks appear above. Select a release below and compare the preview row by row. Search terms are editable. Only Apply correction saves library changes.",
         MetadataPhaseDatabase = "Loading stored metadata…",
         MetadataPhaseFolders = "Reviewing folders and metadata…",
@@ -1896,7 +1896,7 @@ public static class LocalizationManager
         MetadataRemaining = "Estimated time left in this step: {0}",
         MetadataRemainingUnknown = "Time remaining cannot yet be estimated",
         MetadataElapsed = "Elapsed: {0}",
-        MetadataProblemsHint = "Orynivo reviews physical folders independently of possibly fragmented album assignments. Double-click an entry to search for matching MusicBrainz releases.",
+        MetadataProblemsHint = "HyperFi reviews physical folders independently of possibly fragmented album assignments. Double-click an entry to search for matching MusicBrainz releases.",
         IdentifyFolderAsAlbum = "Identify folder as album",
         MetadataFolder = "Folder",
         MetadataIssues = "Detected problems",
@@ -1913,7 +1913,7 @@ public static class LocalizationManager
         MetadataRefreshAnalysis = "Refresh analysis",
         MetadataAlbumQuery = "Album search term",
         MetadataArtistQuery = "Artist search term",
-        MetadataRepairSuccess = "The metadata was corrected in Orynivo's library.",
+        MetadataRepairSuccess = "The metadata was corrected in HyperFi's library.",
         MetadataIssueAlbums = "inconsistent album titles",
         MetadataIssueArtists = "inconsistent album artists",
         MetadataIssueMissingTitles = "missing track titles",
@@ -1992,7 +1992,7 @@ public static class LocalizationManager
         InfiniteMixActive = "Infinite Mix active · replenishes automatically",
         InfiniteMixCalculating = "Your Infinite Mix is being prepared …",
         InfiniteMixSettingsTitle = "Adjust Infinite Mix",
-        InfiniteMixSettingsHint = "Choose how Orynivo should build your next continuously replenished mix.",
+        InfiniteMixSettingsHint = "Choose how HyperFi should build your next continuously replenished mix.",
         InfiniteMixMood = "Mood", InfiniteMixMoodCalm = "Calm", InfiniteMixMoodBalanced = "Balanced", InfiniteMixMoodEnergetic = "Energetic",
         InfiniteMixDiscovery = "Discovery level", InfiniteMixFamiliar = "Familiar", InfiniteMixAdventurous = "Adventurous",
         InfiniteMixPeriod = "Listening history", InfiniteMixSources = "Sources",
@@ -2188,7 +2188,7 @@ public static class LocalizationManager
         , StartMaximized = "Start maximized"
         , CheckingForUpdates = "Checking for updates…"
         , UpdateAvailable = "Version {0} is available."
-        , UpToDate = "Orynivo is up to date."
+        , UpToDate = "HyperFi is up to date."
         , UpdateUnavailable = "Verified updates are not configured for this build."
         , DownloadAndInstall = "Download and install"
         , DownloadingUpdate = "Downloading and verifying the update…"
@@ -2205,10 +2205,10 @@ public static class LocalizationManager
         , SourceColumn = "Source"
         , LocalSource = "Local"
         , LocalSourceShort = "L"
-        , OrynivoServersSettings = "Orynivo servers"
-        , OrynivoServersHint = "Connect the player to one or more Orynivo Server instances on your local network. The API key is stored encrypted in the current user's credential vault."
+        , OrynivoServersSettings = "HyperFi servers"
+        , OrynivoServersHint = "Connect the player to one or more HyperFi Server instances on your local network. The API key is stored encrypted in the current user's credential vault."
         , AddOrynivoServer = "Add server"
-        , OrynivoServerDialogTitle = "Orynivo Server"
+        , OrynivoServerDialogTitle = "HyperFi Server"
         , OrynivoServerName = "Display name"
         , OrynivoServerUrl = "Server URL (e.g. http://192.168.1.10:5280)"
         , OrynivoServerApiKey = "API key"
@@ -2293,7 +2293,7 @@ public static class LocalizationManager
         , CreateSmartPlaylist = "Create smart playlist"
         , InvalidSmartPlaylistCriteria = "Enter valid numbers and consistent minimum/maximum values. “Never played” cannot be combined with recent playback or a positive minimum play count."
         , EditSmartPlaylist = "Edit smart playlist"
-        , LibraryEmptyHint = "No media source is configured yet. Add local music folders or connect an Orynivo Server."
+        , LibraryEmptyHint = "No media source is configured yet. Add local music folders or connect an HyperFi Server."
         , LibraryScanHint = "New folders are scanned automatically when added. Progress appears below the folder; cancel the scan there or select Scan to run it again later. When it finishes, save Settings, open Tracks in Library and double-click a track to play it."
         , LibraryViewEmptyHint = "Nothing is displayed in this view. Check your filters and music folders or servers in Settings. Local folders can be scanned there."
         , LibraryLoadPartial = "Library partially loaded. Unavailable sources: {0}."
@@ -2313,7 +2313,7 @@ public static class LocalizationManager
         , PhysicalPath = "Physical file path"
         , UpNext = "Up next"
         , GenreExplorer = "Genre cloud"
-        , GenreCloudHint = "Explore genres from your local library and every connected Orynivo Server. Select a genre to drill down."
+        , GenreCloudHint = "Explore genres from your local library and every connected HyperFi Server. Select a genre to drill down."
         , GenreCloudLoading = "Assembling the genre view …"
             , GenreCloudLoadingProgress = "{0}% complete"
         , AllGenres = "All genres"
@@ -2368,7 +2368,7 @@ public static class LocalizationManager
         , WebMaxResponseKb   = "Maximum response size (KB)"
         , AiChat                = "AI Chat"
         , AiChatSettings        = "AI Chat"
-        , AiChatHint            = "Connects to a local or cloud-based AI model via an OpenAI-compatible API (e.g. LM Studio, Ollama, OpenAI). The model has access to all 32 Orynivo tools to search the library, manage playlists, and control playback."
+        , AiChatHint            = "Connects to a local or cloud-based AI model via an OpenAI-compatible API (e.g. LM Studio, Ollama, OpenAI). The model has access to all 32 HyperFi tools to search the library, manage playlists, and control playback."
         , AiChatEnabled         = "Enable AI Chat"
         , AiChatEndpointUrl     = "Endpoint URL"
         , AiChatApiKey          = "API key (optional)"
@@ -2610,7 +2610,7 @@ public static class LocalizationManager
         LastFmDisconnect = "Déconnecter",
         LastFmScrobblingConnected = "Connecté en tant que {0}",
         LastFmScrobblingNotConnected = "Non connecté",
-        LastFmScrobblingAuthorizeHint = "Autorisez Orynivo dans le navigateur, puis cliquez à nouveau sur Connecter.",
+        LastFmScrobblingAuthorizeHint = "Autorisez HyperFi dans le navigateur, puis cliquez à nouveau sur Connecter.",
         LastFmScrobblingConnectFailed = "Impossible de se connecter à Last.fm.",
         OutputType = "Type de sortie", AsioOutputDevice = "Périphérique de sortie ASIO", WasapiOutputDevice = "Périphérique de sortie WASAPI",
         AirPlay = "AirPlay 2", AirPlayOutputDevice = "Périphérique de sortie AirPlay 2",
@@ -2750,7 +2750,7 @@ public static class LocalizationManager
         MetadataQuickHint = "À l’ouverture, seules les métadonnées enregistrées sont vérifiées. Activez l’option puis actualisez pour vérifier les fichiers. Les anciens serveurs nécessitent une mise à jour pour l’analyse rapide.",
         MetadataSelectHint = "Choisissez un dossier. L’analyse ne modifie ni ne supprime aucun fichier.",
         MetadataActionGuide = "Identifier le dossier comme album recherche titres, artistes et numéros sur MusicBrainz. ReplayGain : Paramètres → Lecture. Images : vues albums/artistes. Vérifiez manuellement fichiers manquants et doublons. Seules les corrections confirmées sont enregistrées dans la bibliothèque, sans modifier les fichiers audio.",
-        MetadataRemoteReadOnly = "Cette entrée serveur est un rapport en lecture seule. La correction MusicBrainz concerne uniquement les dossiers locaux. Calculez ReplayGain sous Orynivo Server ; ajoutez les images dans les vues albums/artistes.",
+        MetadataRemoteReadOnly = "Cette entrée serveur est un rapport en lecture seule. La correction MusicBrainz concerne uniquement les dossiers locaux. Calculez ReplayGain sous HyperFi Server ; ajoutez les images dans les vues albums/artistes.",
         MetadataReviewGuide = "Vos pistes actuelles figurent en haut. Choisissez une édition puis comparez chaque ligne. Les termes de recherche sont modifiables. Seule l’application de la correction enregistre les changements.",
         MetadataPhaseDatabase = "Chargement des métadonnées…",
         MetadataPhaseFolders = "Vérification des dossiers et métadonnées…",
@@ -2761,7 +2761,7 @@ public static class LocalizationManager
         MetadataRemaining = "Temps restant estimé pour cette étape : {0}",
         MetadataRemainingUnknown = "Temps restant pas encore estimable",
         MetadataElapsed = "Écoulé : {0}",
-        MetadataProblemsHint = "Orynivo vérifie les dossiers physiques indépendamment des albums éventuellement fragmentés. Double-cliquez sur une entrée pour rechercher les éditions MusicBrainz correspondantes.",
+        MetadataProblemsHint = "HyperFi vérifie les dossiers physiques indépendamment des albums éventuellement fragmentés. Double-cliquez sur une entrée pour rechercher les éditions MusicBrainz correspondantes.",
         IdentifyFolderAsAlbum = "Identifier le dossier comme album",
         MetadataFolder = "Dossier",
         MetadataIssues = "Problèmes détectés",
@@ -2778,7 +2778,7 @@ public static class LocalizationManager
         MetadataRefreshAnalysis = "Actualiser l’analyse",
         MetadataAlbumQuery = "Terme de recherche de l’album",
         MetadataArtistQuery = "Terme de recherche de l’artiste",
-        MetadataRepairSuccess = "Les métadonnées ont été corrigées dans la bibliothèque Orynivo.",
+        MetadataRepairSuccess = "Les métadonnées ont été corrigées dans la bibliothèque HyperFi.",
         MetadataIssueAlbums = "titres d’album incohérents",
         MetadataIssueArtists = "artistes d’album incohérents",
         MetadataIssueMissingTitles = "titres de piste manquants",
@@ -2857,7 +2857,7 @@ public static class LocalizationManager
         InfiniteMixActive = "Mix infini actif · complété automatiquement",
         InfiniteMixCalculating = "Votre mix infini est en cours de préparation …",
         InfiniteMixSettingsTitle = "Ajuster le mix infini",
-        InfiniteMixSettingsHint = "Choisissez comment Orynivo doit composer votre prochain mix alimenté en continu.",
+        InfiniteMixSettingsHint = "Choisissez comment HyperFi doit composer votre prochain mix alimenté en continu.",
         InfiniteMixMood = "Ambiance", InfiniteMixMoodCalm = "Calme", InfiniteMixMoodBalanced = "Équilibrée", InfiniteMixMoodEnergetic = "Énergique",
         InfiniteMixDiscovery = "Niveau de découverte", InfiniteMixFamiliar = "Familier", InfiniteMixAdventurous = "Aventureux",
         InfiniteMixPeriod = "Historique d’écoute", InfiniteMixSources = "Sources",
@@ -3053,7 +3053,7 @@ public static class LocalizationManager
         , StartMaximized = "Démarrer agrandie"
         , CheckingForUpdates = "Recherche de mises à jour…"
         , UpdateAvailable = "La version {0} est disponible."
-        , UpToDate = "Orynivo est à jour."
+        , UpToDate = "HyperFi est à jour."
         , UpdateUnavailable = "Les mises à jour vérifiées ne sont pas configurées pour cette version."
         , DownloadAndInstall = "Télécharger et installer"
         , DownloadingUpdate = "Téléchargement et vérification de la mise à jour…"
@@ -3070,10 +3070,10 @@ public static class LocalizationManager
         , SourceColumn = "Source"
         , LocalSource = "Local"
         , LocalSourceShort = "L"
-        , OrynivoServersSettings = "Serveurs Orynivo"
-        , OrynivoServersHint = "Connectez le lecteur à une ou plusieurs instances Orynivo Server sur votre réseau local. La clé API est chiffrée dans le coffre d'identifiants de l'utilisateur actuel."
+        , OrynivoServersSettings = "Serveurs HyperFi"
+        , OrynivoServersHint = "Connectez le lecteur à une ou plusieurs instances HyperFi Server sur votre réseau local. La clé API est chiffrée dans le coffre d'identifiants de l'utilisateur actuel."
         , AddOrynivoServer = "Ajouter un serveur"
-        , OrynivoServerDialogTitle = "Orynivo Server"
+        , OrynivoServerDialogTitle = "HyperFi Server"
         , OrynivoServerName = "Nom d'affichage"
         , OrynivoServerUrl = "URL du serveur (ex. http://192.168.1.10:5280)"
         , OrynivoServerApiKey = "Clé API"
@@ -3158,7 +3158,7 @@ public static class LocalizationManager
         , CreateSmartPlaylist = "Créer la playlist intelligente"
         , InvalidSmartPlaylistCriteria = "Saisissez des nombres valides et des valeurs minimum/maximum cohérentes. « Jamais lu » ne peut pas être combiné avec une lecture récente ou un minimum de lectures positif."
         , EditSmartPlaylist = "Modifier la playlist intelligente"
-        , LibraryEmptyHint = "Aucune source multimédia configurée. Ajoutez des dossiers musicaux locaux ou connectez un serveur Orynivo."
+        , LibraryEmptyHint = "Aucune source multimédia configurée. Ajoutez des dossiers musicaux locaux ou connectez un serveur HyperFi."
         , LibraryScanHint = "Les nouveaux dossiers sont analysés automatiquement dès leur ajout. La progression apparaît sous le dossier ; vous pouvez y annuler l’analyse ou sélectionner Analyser pour la relancer plus tard. Une fois terminée, enregistrez les Paramètres, ouvrez Titres dans la Bibliothèque et double-cliquez sur un titre pour le lire."
         , LibraryViewEmptyHint = "Cette vue ne contient aucune entrée. Vérifiez vos filtres ainsi que les dossiers musicaux ou serveurs dans les Paramètres. Vous pouvez y analyser les dossiers locaux."
         , LibraryLoadPartial = "Bibliothèque partiellement chargée. Sources indisponibles : {0}."
@@ -3178,7 +3178,7 @@ public static class LocalizationManager
         , PhysicalPath = "Chemin physique du fichier"
         , UpNext = "À suivre"
         , GenreExplorer = "Nuage de genres"
-        , GenreCloudHint = "Explorez les genres de votre bibliothèque locale et de tous les serveurs Orynivo connectés. Sélectionnez un genre pour l’affiner."
+        , GenreCloudHint = "Explorez les genres de votre bibliothèque locale et de tous les serveurs HyperFi connectés. Sélectionnez un genre pour l’affiner."
         , GenreCloudLoading = "Préparation de la vue des genres…"
             , GenreCloudLoadingProgress = "{0}% terminé"
         , AllGenres = "Tous les genres"
@@ -3233,7 +3233,7 @@ public static class LocalizationManager
         , WebMaxResponseKb   = "Taille de réponse maximale (Ko)"
         , AiChat                = "Chat IA"
         , AiChatSettings        = "Chat IA"
-        , AiChatHint            = "Se connecte à un modèle IA local ou en nuage via une API compatible OpenAI (p. ex. LM Studio, Ollama, OpenAI). Le modèle dispose des 32 outils Orynivo pour rechercher la bibliothèque, gérer les listes de lecture et contrôler la lecture."
+        , AiChatHint            = "Se connecte à un modèle IA local ou en nuage via une API compatible OpenAI (p. ex. LM Studio, Ollama, OpenAI). Le modèle dispose des 32 outils HyperFi pour rechercher la bibliothèque, gérer les listes de lecture et contrôler la lecture."
         , AiChatEnabled         = "Activer le Chat IA"
         , AiChatEndpointUrl     = "URL de l'endpoint"
         , AiChatApiKey          = "Clé API (optionnel)"
@@ -3472,7 +3472,7 @@ public static class LocalizationManager
         LastFmDisconnect = "Desconectar",
         LastFmScrobblingConnected = "Conectado como {0}",
         LastFmScrobblingNotConnected = "No conectado",
-        LastFmScrobblingAuthorizeHint = "Autoriza Orynivo en el navegador y vuelve a pulsar Conectar.",
+        LastFmScrobblingAuthorizeHint = "Autoriza HyperFi en el navegador y vuelve a pulsar Conectar.",
         LastFmScrobblingConnectFailed = "No se pudo conectar con Last.fm.",
         OutputType = "Tipo de salida", AsioOutputDevice = "Dispositivo de salida ASIO", WasapiOutputDevice = "Dispositivo de salida WASAPI",
         AirPlay = "AirPlay 2", AirPlayOutputDevice = "Dispositivo de salida AirPlay 2",
@@ -3612,7 +3612,7 @@ public static class LocalizationManager
         MetadataQuickHint = "Al abrir se revisan los metadatos guardados sin leer archivos de música. Active la opción y actualice para revisar archivos. Los servidores antiguos necesitan actualizarse para la revisión rápida.",
         MetadataSelectHint = "Elija una carpeta. El análisis no cambia ni elimina archivos.",
         MetadataActionGuide = "Identificar carpeta como álbum busca títulos, artistas y números en MusicBrainz. ReplayGain: Ajustes → Reproducción. Imágenes: vistas de álbumes/artistas. Revise archivos ausentes y duplicados manualmente. Solo se guardan cambios confirmados en la biblioteca; el audio no se modifica.",
-        MetadataRemoteReadOnly = "Esta entrada del servidor es un informe de solo lectura. La corrección MusicBrainz solo está disponible para carpetas locales. Calcule ReplayGain en Orynivo Server y añada imágenes en las vistas de álbumes/artistas.",
+        MetadataRemoteReadOnly = "Esta entrada del servidor es un informe de solo lectura. La corrección MusicBrainz solo está disponible para carpetas locales. Calcule ReplayGain en HyperFi Server y añada imágenes en las vistas de álbumes/artistas.",
         MetadataReviewGuide = "Arriba aparecen sus pistas actuales. Elija una edición y compare cada fila. Puede editar la búsqueda. Solo Aplicar corrección guarda los cambios.",
         MetadataPhaseDatabase = "Cargando metadatos guardados…",
         MetadataPhaseFolders = "Revisando carpetas y metadatos…",
@@ -3623,7 +3623,7 @@ public static class LocalizationManager
         MetadataRemaining = "Tiempo estimado restante de este paso: {0}",
         MetadataRemainingUnknown = "Tiempo restante aún no estimable",
         MetadataElapsed = "Transcurrido: {0}",
-        MetadataProblemsHint = "Orynivo revisa las carpetas físicas independientemente de posibles álbumes fragmentados. Haz doble clic en una entrada para buscar publicaciones coincidentes en MusicBrainz.",
+        MetadataProblemsHint = "HyperFi revisa las carpetas físicas independientemente de posibles álbumes fragmentados. Haz doble clic en una entrada para buscar publicaciones coincidentes en MusicBrainz.",
         IdentifyFolderAsAlbum = "Identificar carpeta como álbum",
         MetadataFolder = "Carpeta",
         MetadataIssues = "Problemas detectados",
@@ -3640,7 +3640,7 @@ public static class LocalizationManager
         MetadataRefreshAnalysis = "Actualizar análisis",
         MetadataAlbumQuery = "Término de búsqueda del álbum",
         MetadataArtistQuery = "Término de búsqueda del artista",
-        MetadataRepairSuccess = "Los metadatos se corrigieron en la biblioteca de Orynivo.",
+        MetadataRepairSuccess = "Los metadatos se corrigieron en la biblioteca de HyperFi.",
         MetadataIssueAlbums = "títulos de álbum incoherentes",
         MetadataIssueArtists = "artistas de álbum incoherentes",
         MetadataIssueMissingTitles = "títulos de pista ausentes",
@@ -3719,7 +3719,7 @@ public static class LocalizationManager
         InfiniteMixActive = "Mezcla infinita activa · se completa automáticamente",
         InfiniteMixCalculating = "Se está preparando tu mezcla infinita …",
         InfiniteMixSettingsTitle = "Ajustar mezcla infinita",
-        InfiniteMixSettingsHint = "Elige cómo debe crear Orynivo tu próxima mezcla que se repone continuamente.",
+        InfiniteMixSettingsHint = "Elige cómo debe crear HyperFi tu próxima mezcla que se repone continuamente.",
         InfiniteMixMood = "Estado de ánimo", InfiniteMixMoodCalm = "Tranquilo", InfiniteMixMoodBalanced = "Equilibrado", InfiniteMixMoodEnergetic = "Enérgico",
         InfiniteMixDiscovery = "Nivel de descubrimiento", InfiniteMixFamiliar = "Familiar", InfiniteMixAdventurous = "Aventurero",
         InfiniteMixPeriod = "Historial de escucha", InfiniteMixSources = "Fuentes",
@@ -3915,7 +3915,7 @@ public static class LocalizationManager
         , StartMaximized = "Iniciar maximizada"
         , CheckingForUpdates = "Buscando actualizaciones…"
         , UpdateAvailable = "La versión {0} está disponible."
-        , UpToDate = "Orynivo está actualizado."
+        , UpToDate = "HyperFi está actualizado."
         , UpdateUnavailable = "Las actualizaciones verificadas no están configuradas para esta compilación."
         , DownloadAndInstall = "Descargar e instalar"
         , DownloadingUpdate = "Descargando y verificando la actualización…"
@@ -3932,10 +3932,10 @@ public static class LocalizationManager
         , SourceColumn = "Origen"
         , LocalSource = "Local"
         , LocalSourceShort = "L"
-        , OrynivoServersSettings = "Servidores Orynivo"
-        , OrynivoServersHint = "Conecta el reproductor a una o varias instancias de Orynivo Server en tu red local. La clave API se guarda cifrada en el almacén de credenciales del usuario actual."
+        , OrynivoServersSettings = "Servidores HyperFi"
+        , OrynivoServersHint = "Conecta el reproductor a una o varias instancias de HyperFi Server en tu red local. La clave API se guarda cifrada en el almacén de credenciales del usuario actual."
         , AddOrynivoServer = "Agregar servidor"
-        , OrynivoServerDialogTitle = "Orynivo Server"
+        , OrynivoServerDialogTitle = "HyperFi Server"
         , OrynivoServerName = "Nombre para mostrar"
         , OrynivoServerUrl = "URL del servidor (p. ej. http://192.168.1.10:5280)"
         , OrynivoServerApiKey = "Clave API"
@@ -4020,7 +4020,7 @@ public static class LocalizationManager
         , CreateSmartPlaylist = "Crear lista inteligente"
         , InvalidSmartPlaylistCriteria = "Introduce números válidos y valores mínimos/máximos coherentes. «Nunca reproducido» no puede combinarse con reproducción reciente ni con un mínimo positivo de reproducciones."
         , EditSmartPlaylist = "Editar lista inteligente"
-        , LibraryEmptyHint = "Aún no hay ninguna fuente multimedia configurada. Añade carpetas de música locales o conecta un servidor Orynivo."
+        , LibraryEmptyHint = "Aún no hay ninguna fuente multimedia configurada. Añade carpetas de música locales o conecta un servidor HyperFi."
         , LibraryScanHint = "Las carpetas nuevas se analizan automáticamente al añadirlas. El progreso aparece debajo de la carpeta; puedes cancelar el análisis allí o seleccionar Analizar para repetirlo más tarde. Cuando termine, guarda los Ajustes, abre Pistas en la Biblioteca y haz doble clic en una pista para reproducirla."
         , LibraryViewEmptyHint = "Esta vista no muestra entradas. Revisa tus filtros y las carpetas de música o servidores en Ajustes. Allí puedes analizar las carpetas locales."
         , LibraryLoadPartial = "Biblioteca cargada parcialmente. Fuentes no disponibles: {0}."
@@ -4040,7 +4040,7 @@ public static class LocalizationManager
         , PhysicalPath = "Ruta física del archivo"
         , UpNext = "A continuación"
         , GenreExplorer = "Nube de géneros"
-        , GenreCloudHint = "Explora los géneros de tu biblioteca local y de todos los servidores Orynivo conectados. Selecciona un género para profundizar."
+        , GenreCloudHint = "Explora los géneros de tu biblioteca local y de todos los servidores HyperFi conectados. Selecciona un género para profundizar."
         , GenreCloudLoading = "Preparando la vista de géneros…"
             , GenreCloudLoadingProgress = "{0}% completado"
         , AllGenres = "Todos los géneros"
@@ -4095,7 +4095,7 @@ public static class LocalizationManager
         , WebMaxResponseKb   = "Tamaño máximo de respuesta (KB)"
         , AiChat                = "Chat IA"
         , AiChatSettings        = "Chat IA"
-        , AiChatHint            = "Se conecta a un modelo de IA local o en la nube a través de una API compatible con OpenAI (p. ej. LM Studio, Ollama, OpenAI). El modelo tiene acceso a las 32 herramientas de Orynivo para buscar la biblioteca, gestionar listas de reproducción y controlar la reproducción."
+        , AiChatHint            = "Se conecta a un modelo de IA local o en la nube a través de una API compatible con OpenAI (p. ej. LM Studio, Ollama, OpenAI). El modelo tiene acceso a las 32 herramientas de HyperFi para buscar la biblioteca, gestionar listas de reproducción y controlar la reproducción."
         , AiChatEnabled         = "Activar Chat IA"
         , AiChatEndpointUrl     = "URL del endpoint"
         , AiChatApiKey          = "Clave API (opcional)"
@@ -4291,7 +4291,7 @@ private static readonly LocalizedStrings Russian = new(
         StartMaximized = "Запускать развёрнутым",
         CheckingForUpdates = "Проверка обновлений…",
         UpdateAvailable = "Доступна версия {0}.",
-        UpToDate = "Установлена актуальная версия Orynivo.",
+        UpToDate = "Установлена актуальная версия HyperFi.",
         UpdateUnavailable = "Проверенные обновления не настроены для этой сборки.",
         DownloadAndInstall = "Загрузить и установить",
         DownloadingUpdate = "Загрузка и проверка обновления…",
@@ -4482,14 +4482,14 @@ private static readonly LocalizedStrings Russian = new(
         RecommendationListView = "Список",
         RecommendationStageView = "Сцена",
         MetadataProblems = "Проверка метаданных",
-        MetadataProblemsHint = "Orynivo проверяет физические папки независимо от возможного разделения одного альбома на несколько записей. Дважды щёлкните запись для поиска подходящих изданий в MusicBrainz.",
+        MetadataProblemsHint = "HyperFi проверяет физические папки независимо от возможного разделения одного альбома на несколько записей. Дважды щёлкните запись для поиска подходящих изданий в MusicBrainz.",
         MetadataWorkflow = "1. Просмотрите результаты → 2. Выберите папку → 3. Сравните и подтвердите предложение",
         MetadataNoFindings = "Для выбранных фильтров замечаний пока нет.",
         MetadataInspectFiles = "Также проверить файлы (чтение и дубликаты контрольных сумм; медленнее)",
         MetadataQuickHint = "Страница проверяет сохранённые метаданные без чтения музыкальных файлов.",
         MetadataSelectHint = "Выберите папку для просмотра найденных проблем.",
         MetadataActionGuide = "«Определить альбом по папке» ищет названия, исполнителей и номера треков в MusicBrainz. Недостающий ReplayGain: Настройки → Воспроизведение. Изображения: страницы альбомов и исполнителей. Отсутствующие файлы и дубликаты проверяйте вручную. В библиотеку сохраняются только подтверждённые изменения; аудиофайлы не меняются.",
-        MetadataRemoteReadOnly = "Эта запись сервера доступна только для просмотра. Исправление папок через MusicBrainz доступно лишь для локальных записей. Рассчитайте ReplayGain в разделе сервера Orynivo; добавьте изображения на страницах альбомов и исполнителей.",
+        MetadataRemoteReadOnly = "Эта запись сервера доступна только для просмотра. Исправление папок через MusicBrainz доступно лишь для локальных записей. Рассчитайте ReplayGain в разделе сервера HyperFi; добавьте изображения на страницах альбомов и исполнителей.",
         MetadataReviewGuide = "Выберите папку. Анализ ничего не изменяет и не удаляет файлы.",
         MetadataPhaseDatabase = "Загрузка сохранённых метаданных…",
         MetadataPhaseFolders = "Проверка папок и метаданных…",
@@ -4516,7 +4516,7 @@ private static readonly LocalizedStrings Russian = new(
         MetadataRefreshAnalysis = "Обновить анализ",
         MetadataAlbumQuery = "Название альбома для поиска",
         MetadataArtistQuery = "Имя исполнителя для поиска",
-        MetadataRepairSuccess = "Метаданные исправлены в библиотеке Orynivo.",
+        MetadataRepairSuccess = "Метаданные исправлены в библиотеке HyperFi.",
         MetadataIssueAlbums = "несогласованные названия альбомов",
         MetadataIssueArtists = "несогласованные исполнители альбомов",
         MetadataIssueMissingTitles = "отсутствуют названия треков",
@@ -4808,14 +4808,14 @@ private static readonly LocalizedStrings Russian = new(
         PlexRemoveServer = "Удалить",
         PlexNoAudioLibraries = "Аудиобиблиотеки не найдены.",
         PlexLoading = "Загрузка содержимого Plex…",
-        OrynivoServers = "Серверы Orynivo",
+        OrynivoServers = "Серверы HyperFi",
         SourceColumn = "Источник",
         LocalSource = "Локально",
         LocalSourceShort = "L",
-        OrynivoServersSettings = "Серверы Orynivo",
-        OrynivoServersHint = "Подключите проигрыватель к одному или нескольким серверам Orynivo в локальной сети.",
+        OrynivoServersSettings = "Серверы HyperFi",
+        OrynivoServersHint = "Подключите проигрыватель к одному или нескольким серверам HyperFi в локальной сети.",
         AddOrynivoServer = "Добавить сервер",
-        OrynivoServerDialogTitle = "Сервер Orynivo",
+        OrynivoServerDialogTitle = "Сервер HyperFi",
         OrynivoServerName = "Отображаемое имя",
         OrynivoServerUrl = "URL сервера (например, http://192.168.1.10:5280)",
         OrynivoServerApiKey = "API-ключ",
@@ -4900,7 +4900,7 @@ private static readonly LocalizedStrings Russian = new(
         CreateSmartPlaylist = "Создать умный плейлист",
         InvalidSmartPlaylistCriteria = "Введите корректные числа и согласованные минимальные и максимальные значения. Условие «Никогда не воспроизводилось» нельзя сочетать с недавним прослушиванием или положительным минимумом воспроизведений.",
         EditSmartPlaylist = "Изменить умный плейлист",
-        LibraryEmptyHint = "Источники музыки ещё не настроены. Добавьте локальные музыкальные папки или подключите сервер Orynivo.",
+        LibraryEmptyHint = "Источники музыки ещё не настроены. Добавьте локальные музыкальные папки или подключите сервер HyperFi.",
         LibraryScanHint = "Новые папки сканируются автоматически при добавлении. Ход сканирования отображается под папкой; там можно отменить сканирование или нажать «Сканировать», чтобы повторить его позже. После завершения сохраните настройки, откройте «Треки» в библиотеке и дважды нажмите на трек для воспроизведения.",
         LibraryViewEmptyHint = "В этом представлении нет записей. Проверьте фильтры, музыкальные папки или серверы в настройках. Там можно запустить сканирование локальных папок.",
         LibraryLoadPartial = "Библиотека загружена частично. Недоступных источников: {0}.",
@@ -4917,7 +4917,7 @@ private static readonly LocalizedStrings Russian = new(
         AlbumPath = "Путь к альбому",
         UpNext = "Далее",
         GenreExplorer = "Облако жанров",
-        GenreCloudHint = "Изучайте жанры локальной библиотеки и подключённых серверов Orynivo. Выберите жанр, чтобы перейти глубже.",
+        GenreCloudHint = "Изучайте жанры локальной библиотеки и подключённых серверов HyperFi. Выберите жанр, чтобы перейти глубже.",
         GenreCloudLoading = "Подготовка представления жанров…",
             GenreCloudLoadingProgress = "Выполнено {0}%",
         AllGenres = "Все жанры",
@@ -5132,7 +5132,7 @@ private static readonly LocalizedStrings Russian = new(
         LastFmDisconnect = "Отключить",
         LastFmScrobblingConnected = "Подключено как {0}",
         LastFmScrobblingNotConnected = "Не подключено",
-        LastFmScrobblingAuthorizeHint = "Авторизуйте Orynivo в браузере, затем снова нажмите «Подключить».",
+        LastFmScrobblingAuthorizeHint = "Авторизуйте HyperFi в браузере, затем снова нажмите «Подключить».",
         LastFmScrobblingConnectFailed = "Не удалось подключиться к Last.fm.",
     };
 
@@ -5308,7 +5308,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         StartMaximized = "启动时最大化",
         CheckingForUpdates = "正在检查更新…",
         UpdateAvailable = "版本 {0} 已可用。",
-        UpToDate = "Orynivo 已是最新版本。",
+        UpToDate = "HyperFi 已是最新版本。",
         UpdateUnavailable = "此版本未配置经过验证的更新。",
         DownloadAndInstall = "下载并安装",
         DownloadingUpdate = "正在下载并验证更新…",
@@ -5499,14 +5499,14 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         RecommendationListView = "列表",
         RecommendationStageView = "舞台",
         MetadataProblems = "检查元数据",
-        MetadataProblemsHint = "Orynivo 按实际文件夹检查，不受专辑可能被拆分成多个条目的影响。双击条目以搜索匹配的 MusicBrainz 发行版本。",
+        MetadataProblemsHint = "HyperFi 按实际文件夹检查，不受专辑可能被拆分成多个条目的影响。双击条目以搜索匹配的 MusicBrainz 发行版本。",
         MetadataWorkflow = "1. 查看结果 → 2. 选择文件夹 → 3. 比较并确认建议",
         MetadataNoFindings = "当前筛选条件下暂无检测结果。",
         MetadataInspectFiles = "同时检查文件（可读性和重复校验；较慢）",
         MetadataQuickHint = "此页面检查已保存的元数据，不读取音乐文件。",
         MetadataSelectHint = "选择文件夹以查看发现的问题。",
         MetadataActionGuide = "“将文件夹识别为专辑”会在 MusicBrainz 搜索曲名、艺术家和编号。缺失的 ReplayGain：设置 → 播放。图片：专辑或艺术家页面。缺失文件和重复文件需手动检查。仅将已确认的更改保存到媒体库；音频文件保持不变。",
-        MetadataRemoteReadOnly = "此服务器条目为只读报告。通过 MusicBrainz 修正文件夹仅适用于本地条目。请在 Orynivo 服务器设置中计算 ReplayGain，在专辑或艺术家页面添加图片。",
+        MetadataRemoteReadOnly = "此服务器条目为只读报告。通过 MusicBrainz 修正文件夹仅适用于本地条目。请在 HyperFi 服务器设置中计算 ReplayGain，在专辑或艺术家页面添加图片。",
         MetadataReviewGuide = "选择文件夹。分析不会修改或删除文件。",
         MetadataPhaseDatabase = "正在加载已保存的元数据…",
         MetadataPhaseFolders = "正在检查文件夹和元数据…",
@@ -5533,7 +5533,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         MetadataRefreshAnalysis = "重新分析",
         MetadataAlbumQuery = "专辑搜索词",
         MetadataArtistQuery = "艺术家搜索词",
-        MetadataRepairSuccess = "Orynivo 媒体库中的元数据已修正。",
+        MetadataRepairSuccess = "HyperFi 媒体库中的元数据已修正。",
         MetadataIssueAlbums = "专辑名称不一致",
         MetadataIssueArtists = "专辑艺术家不一致",
         MetadataIssueMissingTitles = "缺少曲名",
@@ -5825,14 +5825,14 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         PlexRemoveServer = "移除",
         PlexNoAudioLibraries = "未找到音频库。",
         PlexLoading = "正在加载 Plex 内容…",
-        OrynivoServers = "Orynivo 服务器",
+        OrynivoServers = "HyperFi 服务器",
         SourceColumn = "来源",
         LocalSource = "本地",
         LocalSourceShort = "L",
-        OrynivoServersSettings = "Orynivo 服务器",
-        OrynivoServersHint = "将播放器连接到本地网络中的一个或多个 Orynivo 服务器。",
+        OrynivoServersSettings = "HyperFi 服务器",
+        OrynivoServersHint = "将播放器连接到本地网络中的一个或多个 HyperFi 服务器。",
         AddOrynivoServer = "添加服务器",
-        OrynivoServerDialogTitle = "Orynivo 服务器",
+        OrynivoServerDialogTitle = "HyperFi 服务器",
         OrynivoServerName = "显示名称",
         OrynivoServerUrl = "服务器 URL（例如 http://192.168.1.10:5280）",
         OrynivoServerApiKey = "API 密钥",
@@ -5917,7 +5917,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         CreateSmartPlaylist = "创建智能播放列表",
         InvalidSmartPlaylistCriteria = "请输入有效数字，并确保最小值和最大值一致。“从未播放”不能与最近播放或大于零的最少播放次数组合。",
         EditSmartPlaylist = "编辑智能播放列表",
-        LibraryEmptyHint = "尚未配置媒体来源。请添加本地音乐文件夹或连接 Orynivo 服务器。",
+        LibraryEmptyHint = "尚未配置媒体来源。请添加本地音乐文件夹或连接 HyperFi 服务器。",
         LibraryScanHint = "添加新文件夹后会自动扫描。进度显示在文件夹下方；可在那里取消扫描，或选择“扫描”以稍后重新扫描。完成后，保存设置，打开媒体库中的“曲目”，双击曲目即可播放。",
         LibraryViewEmptyHint = "此视图未显示任何条目。请检查筛选条件，并在设置中检查音乐文件夹或服务器。您可以在那里扫描本地文件夹。",
         LibraryLoadPartial = "媒体库已部分加载。不可用的来源：{0}。",
@@ -5934,7 +5934,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         AlbumPath = "专辑路径",
         UpNext = "待播队列",
         GenreExplorer = "流派云",
-        GenreCloudHint = "探索本地媒体库和已连接的 Orynivo 服务器中的流派。选择流派以继续浏览。",
+        GenreCloudHint = "探索本地媒体库和已连接的 HyperFi 服务器中的流派。选择流派以继续浏览。",
         GenreCloudLoading = "正在整理流派视图…",
             GenreCloudLoadingProgress = "已完成 {0}%",
         AllGenres = "所有流派",
@@ -6149,7 +6149,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         LastFmDisconnect = "断开连接",
         LastFmScrobblingConnected = "已连接为 {0}",
         LastFmScrobblingNotConnected = "未连接",
-        LastFmScrobblingAuthorizeHint = "在浏览器中授权 Orynivo，然后再次点击“连接”。",
+        LastFmScrobblingAuthorizeHint = "在浏览器中授权 HyperFi，然后再次点击“连接”。",
         LastFmScrobblingConnectFailed = "无法连接到 Last.fm。",
     };
 
@@ -6325,7 +6325,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         StartMaximized = "अधिकतम आकार में शुरू करें",
         CheckingForUpdates = "अपडेट जाँचे जा रहे हैं…",
         UpdateAvailable = "संस्करण {0} उपलब्ध है।",
-        UpToDate = "Orynivo अद्यतित है।",
+        UpToDate = "HyperFi अद्यतित है।",
         UpdateUnavailable = "इस बिल्ड के लिए सत्यापित अपडेट कॉन्फ़िगर नहीं हैं।",
         DownloadAndInstall = "डाउनलोड और इंस्टॉल करें",
         DownloadingUpdate = "अपडेट डाउनलोड और सत्यापित हो रहा है…",
@@ -6516,14 +6516,14 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         RecommendationListView = "सूची",
         RecommendationStageView = "मंच",
         MetadataProblems = "मेटाडेटा की समीक्षा करें",
-        MetadataProblemsHint = "Orynivo वास्तविक फ़ोल्डर की समीक्षा करता है, भले ही एल्बम आवंटन बिखरे हुए हों। मिलती-जुलती MusicBrainz रिलीज़ खोजने के लिए प्रविष्टि पर डबल-क्लिक करें।",
+        MetadataProblemsHint = "HyperFi वास्तविक फ़ोल्डर की समीक्षा करता है, भले ही एल्बम आवंटन बिखरे हुए हों। मिलती-जुलती MusicBrainz रिलीज़ खोजने के लिए प्रविष्टि पर डबल-क्लिक करें।",
         MetadataWorkflow = "1. निष्कर्ष देखें   →   2. फ़ोल्डर चुनें   →   3. प्रस्ताव की तुलना और पुष्टि करें",
         MetadataNoFindings = "चुने हुए फ़िल्टर के लिए अभी कोई निष्कर्ष नहीं है।",
         MetadataInspectFiles = "फ़ाइलें भी जाँचें (पठनीयता और डुप्लिकेट चेकसम; धीमा)",
         MetadataQuickHint = "यह पृष्ठ खोलने पर संगीत फ़ाइलें पढ़े बिना सहेजा गया मेटाडेटा जाँचा जाता है। वास्तविक फ़ाइलें जाँचने के लिए विकल्प सक्षम करें और विश्लेषण रीफ़्रेश करें। त्वरित समीक्षा के लिए पुराने सर्वर अपडेट करें।",
         MetadataSelectHint = "फ़ोल्डर चुनें। विश्लेषण कुछ बदलता नहीं और कोई फ़ाइल नहीं हटाता।",
         MetadataActionGuide = "“फ़ोल्डर को एल्बम के रूप में पहचानें” MusicBrainz पर शीर्षक, कलाकार और क्रमांक खोजता है। अनुपलब्ध ReplayGain: सेटिंग्स → प्लेबैक। चित्र: एल्बम/कलाकार दृश्य। अनुपलब्ध फ़ाइलें और डुप्लिकेट स्वयं जाँचें। केवल पुष्टि किए गए बदलाव संग्रह में सहेजे जाते हैं; ऑडियो फ़ाइलें नहीं बदलतीं।",
-        MetadataRemoteReadOnly = "यह सर्वर प्रविष्टि केवल-पढ़ने योग्य रिपोर्ट है। MusicBrainz फ़ोल्डर सुधार केवल स्थानीय प्रविष्टियों के लिए उपलब्ध है। Orynivo सर्वर में ReplayGain की गणना करें; एल्बम/कलाकार दृश्य में चित्र जोड़ें।",
+        MetadataRemoteReadOnly = "यह सर्वर प्रविष्टि केवल-पढ़ने योग्य रिपोर्ट है। MusicBrainz फ़ोल्डर सुधार केवल स्थानीय प्रविष्टियों के लिए उपलब्ध है। HyperFi सर्वर में ReplayGain की गणना करें; एल्बम/कलाकार दृश्य में चित्र जोड़ें।",
         MetadataReviewGuide = "आपके वर्तमान ट्रैक ऊपर हैं। नीचे रिलीज़ चुनें और पूर्वावलोकन की पंक्ति-दर-पंक्ति तुलना करें। खोज शब्द संपादित किए जा सकते हैं। केवल “सुधार लागू करें” संग्रह में बदलाव सहेजता है।",
         MetadataPhaseDatabase = "सहेजा गया मेटाडेटा लोड हो रहा है…",
         MetadataPhaseFolders = "फ़ोल्डर और मेटाडेटा की समीक्षा हो रही है…",
@@ -6550,7 +6550,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         MetadataRefreshAnalysis = "विश्लेषण रीफ़्रेश करें",
         MetadataAlbumQuery = "एल्बम खोज शब्द",
         MetadataArtistQuery = "कलाकार खोज शब्द",
-        MetadataRepairSuccess = "Orynivo के संग्रह में मेटाडेटा सुधार दिया गया।",
+        MetadataRepairSuccess = "HyperFi के संग्रह में मेटाडेटा सुधार दिया गया।",
         MetadataIssueAlbums = "असंगत एल्बम शीर्षक",
         MetadataIssueArtists = "असंगत एल्बम कलाकार",
         MetadataIssueMissingTitles = "अनुपलब्ध ट्रैक शीर्षक",
@@ -6632,7 +6632,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         InfiniteMixActive = "अनवरत मिक्स सक्रिय · ट्रैक स्वतः जुड़ते हैं",
         InfiniteMixCalculating = "आपका अनवरत मिक्स तैयार हो रहा है …",
         InfiniteMixSettingsTitle = "अनवरत मिक्स समायोजित करें",
-        InfiniteMixSettingsHint = "चुनें कि Orynivo अगला मिक्स कैसे बनाए, जिसमें ट्रैक लगातार जुड़ते रहें।",
+        InfiniteMixSettingsHint = "चुनें कि HyperFi अगला मिक्स कैसे बनाए, जिसमें ट्रैक लगातार जुड़ते रहें।",
         InfiniteMixMood = "मूड",
         InfiniteMixMoodCalm = "शांत",
         InfiniteMixMoodBalanced = "संतुलित",
@@ -6845,10 +6845,10 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         SourceColumn = "स्रोत",
         LocalSource = "स्थानीय",
         LocalSourceShort = "L",
-        OrynivoServersSettings = "Orynivo सर्वर",
-        OrynivoServersHint = "प्लेयर को स्थानीय नेटवर्क पर एक या अधिक Orynivo सर्वर से जोड़ें। API कुंजी वर्तमान उपयोगकर्ता के क्रेडेंशियल भंडार में एन्क्रिप्ट करके रखी जाती है।",
+        OrynivoServersSettings = "HyperFi सर्वर",
+        OrynivoServersHint = "प्लेयर को स्थानीय नेटवर्क पर एक या अधिक HyperFi सर्वर से जोड़ें। API कुंजी वर्तमान उपयोगकर्ता के क्रेडेंशियल भंडार में एन्क्रिप्ट करके रखी जाती है।",
         AddOrynivoServer = "सर्वर जोड़ें",
-        OrynivoServerDialogTitle = "Orynivo सर्वर",
+        OrynivoServerDialogTitle = "HyperFi सर्वर",
         OrynivoServerName = "दिखने वाला नाम",
         OrynivoServerUrl = "सर्वर URL (जैसे http://192.168.1.10:5280)",
         OrynivoServerApiKey = "API कुंजी",
@@ -6933,7 +6933,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         CreateSmartPlaylist = "स्मार्ट प्लेलिस्ट बनाएँ",
         InvalidSmartPlaylistCriteria = "मान्य संख्याएँ और संगत न्यूनतम/अधिकतम मान दर्ज करें। “कभी नहीं चलाया” को हाल के प्लेबैक या शून्य से अधिक न्यूनतम प्लेबैक संख्या के साथ नहीं जोड़ सकते।",
         EditSmartPlaylist = "स्मार्ट प्लेलिस्ट संपादित करें",
-        LibraryEmptyHint = "अभी कोई मीडिया स्रोत कॉन्फ़िगर नहीं है। स्थानीय संगीत फ़ोल्डर जोड़ें या Orynivo सर्वर से जुड़ें।",
+        LibraryEmptyHint = "अभी कोई मीडिया स्रोत कॉन्फ़िगर नहीं है। स्थानीय संगीत फ़ोल्डर जोड़ें या HyperFi सर्वर से जुड़ें।",
         LibraryScanHint = "नया फ़ोल्डर जोड़ते ही अपने आप स्कैन होता है। प्रगति फ़ोल्डर के नीचे दिखती है; वहाँ स्कैन रद्द कर सकते हैं या बाद में फिर स्कैन करने के लिए स्कैन चुन सकते हैं। पूरा होने पर सेटिंग्स सहेजें, संग्रह में ट्रैक खोलें और चलाने के लिए किसी ट्रैक पर डबल-क्लिक करें।",
         LibraryViewEmptyHint = "इस दृश्य में कोई प्रविष्टि नहीं दिख रही है। अपने फ़िल्टर जाँचें और सेटिंग्स में संगीत फ़ोल्डर या सर्वर जाँचें। वहाँ स्थानीय फ़ोल्डर स्कैन कर सकते हैं।",
         LibraryLoadPartial = "संग्रह आंशिक रूप से लोड हुआ। अनुपलब्ध स्रोत: {0}।",
@@ -6950,7 +6950,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         AlbumPath = "एल्बम पथ",
         UpNext = "आगे चलने वाले",
         GenreExplorer = "शैली क्लाउड",
-        GenreCloudHint = "स्थानीय संग्रह और हर जुड़े Orynivo सर्वर की शैलियाँ खोजें। विस्तार से देखने के लिए कोई शैली चुनें।",
+        GenreCloudHint = "स्थानीय संग्रह और हर जुड़े HyperFi सर्वर की शैलियाँ खोजें। विस्तार से देखने के लिए कोई शैली चुनें।",
         GenreCloudLoading = "शैली दृश्य तैयार किया जा रहा है…",
             GenreCloudLoadingProgress = "{0}% पूरा हुआ",
         AllGenres = "सभी शैलियाँ",
@@ -7005,7 +7005,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         WebMaxResponseKb = "अधिकतम उत्तर आकार (KB)",
         AiChat = "AI चैट",
         AiChatSettings = "AI चैट",
-        AiChatHint = "OpenAI-संगत API (जैसे LM Studio, Ollama, OpenAI) से स्थानीय या क्लाउड AI मॉडल से जुड़ता है। मॉडल संग्रह खोजने, प्लेलिस्ट प्रबंधित करने और प्लेबैक नियंत्रित करने के लिए Orynivo के सभी 32 टूल उपयोग कर सकता है।",
+        AiChatHint = "OpenAI-संगत API (जैसे LM Studio, Ollama, OpenAI) से स्थानीय या क्लाउड AI मॉडल से जुड़ता है। मॉडल संग्रह खोजने, प्लेलिस्ट प्रबंधित करने और प्लेबैक नियंत्रित करने के लिए HyperFi के सभी 32 टूल उपयोग कर सकता है।",
         AiChatEnabled = "AI चैट सक्षम करें",
         AiChatEndpointUrl = "एंडपॉइंट URL",
         AiChatApiKey = "API कुंजी (वैकल्पिक)",
@@ -7165,7 +7165,7 @@ private static readonly LocalizedStrings ChineseSimplified = new(
         LastFmDisconnect = "डिस्कनेक्ट करें",
         LastFmScrobblingConnected = "{0} के रूप में जुड़ा हुआ",
         LastFmScrobblingNotConnected = "जुड़ा नहीं है",
-        LastFmScrobblingAuthorizeHint = "ब्राउज़र में Orynivo को अधिकृत करें, फिर कनेक्ट पर दोबारा क्लिक करें।",
+        LastFmScrobblingAuthorizeHint = "ब्राउज़र में HyperFi को अधिकृत करें, फिर कनेक्ट पर दोबारा क्लिक करें।",
         LastFmScrobblingConnectFailed = "Last.fm से कनेक्ट नहीं हो सका।",
         LanguageHindi = "हिन्दी",
     };

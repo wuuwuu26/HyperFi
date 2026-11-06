@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="using:Orynivo"
         Title="{Binding DialogTitle}"
-        Icon="avares://Orynivo/Assets/Orynivo.ico"
+        Icon="avares://HyperFi/Assets/HyperFi.ico"
         Width="1040"
         Height="620"
         MinWidth="760"

@@ -4,15 +4,15 @@ namespace Orynivo;
 
 /// <summary>
 /// Centralises application data paths and one-time migration from the legacy
-/// <c>Player</c> directory. Explicit data roots remain isolated from legacy data.
+/// <c>Orynivo</c> directory. Explicit data roots remain isolated from legacy data.
 /// </summary>
 public static class AppPaths
 {
     /// <summary>Current product name used as the local application data subdirectory.</summary>
-    public const string ProductName = "Orynivo";
+    public const string ProductName = "HyperFi";
 
-    /// <summary>Legacy product name whose data is migrated on first launch.</summary>
-    public const string LegacyProductName = "Player";
+    /// <summary>Legacy Orynivo product name whose data is migrated on first launch.</summary>
+    public const string LegacyProductName = "Orynivo";
 
     /// <summary>
     /// Environment variable selecting an isolated data directory for desktop tests
@@ -43,7 +43,7 @@ public static class AppPaths
             ProductName);
     }
 
-    /// <summary>Legacy data directory beneath local application data.</summary>
+    /// <summary>Legacy Orynivo data directory beneath local application data.</summary>
     public static string LegacyDataRoot { get; } = Path.Combine(
         Environment.GetFolderPath(
             Environment.SpecialFolder.LocalApplicationData,
@@ -52,7 +52,7 @@ public static class AppPaths
 
     /// <summary>
     /// Copies missing legacy files once for the default root. Explicit roots only
-    /// receive a completion marker and never import settings or caches from Player.
+    /// receive a completion marker and never import settings or caches from Orynivo.
     /// Existing destination files are preserved, including concurrent creations.
     /// </summary>
     public static void MigrateLegacyData()

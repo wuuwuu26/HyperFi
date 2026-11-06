@@ -10,16 +10,16 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <AssemblyName>Orynivo</AssemblyName>
+    <AssemblyName>HyperFi</AssemblyName>
     <RootNamespace>Orynivo</RootNamespace>
-    <Product>Orynivo</Product>
-    <Title>Orynivo</Title>
+    <Product>HyperFi</Product>
+    <Title>HyperFi</Title>
     <Authors>Björn Schlaack</Authors>
     <Copyright>Copyright © 2026 Björn Schlaack</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/bschlaack/Orynivo</RepositoryUrl>
+    <RepositoryUrl>https://github.com/wuuwuu26/HyperFi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <ApplicationIcon Condition="'$(OS)' == 'Windows_NT'">Assets\Orynivo.ico</ApplicationIcon>
+    <ApplicationIcon Condition="'$(OS)' == 'Windows_NT'">Assets\HyperFi.ico</ApplicationIcon>
     <UpdatePublicKeyBase64 Condition="'$(UpdatePublicKeyBase64)' == ''"></UpdatePublicKeyBase64>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <DefineConstants Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(DefineConstants);ORYNIVO_MACOS</DefineConstants>

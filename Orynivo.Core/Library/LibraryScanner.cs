@@ -235,7 +235,7 @@ public static class LibraryScanner
         var downloaded = 0;
 
         using var client = new HttpClient();
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("Orynivo/1.0 (album-artwork-download)");
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("HyperFi/1.0 (album-artwork-download)");
 
         for (var i = 0; i < albums.Count; i++)
         {

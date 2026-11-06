@@ -54,7 +54,7 @@ internal sealed class AirPlay2NativeSession : IDisposable
         RemoteCommandCallback remoteCallback = (_, command) => remoteCommand(command);
         var instance = new AirPlay2NativeSession(callback, remoteCallback);
         var hostPointer = Marshal.StringToCoTaskMemUTF8(host);
-        var namePointer = Marshal.StringToCoTaskMemUTF8(deviceName ?? "Orynivo AirPlay 2");
+        var namePointer = Marshal.StringToCoTaskMemUTF8(deviceName ?? "HyperFi AirPlay 2");
         var idPointer = Marshal.StringToCoTaskMemUTF8(deviceId ?? string.Empty);
         var titlePointer = Marshal.StringToCoTaskMemUTF8(metadata.Title ?? string.Empty);
         var artistPointer = Marshal.StringToCoTaskMemUTF8(metadata.Artist ?? string.Empty);

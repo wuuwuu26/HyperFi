@@ -537,7 +537,7 @@ public partial class MainWindow : Window
     private static HttpClient CreateRadioImageHttpClient()
     {
         var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("Orynivo/1.0");
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("HyperFi/1.0");
         return client;
     }
 }
