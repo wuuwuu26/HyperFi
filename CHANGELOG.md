@@ -68,6 +68,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   soft; they now decode the stored full-resolution cover at the rendered size.
 - The Linux device info dialog listed a hard-coded PCM rate set capped at
   192 kHz; it now reports the rates the ALSA device actually advertises.
+- The signed update-manifest workflow now waits for the Windows portable
+  archive as well, so a release whose assets are still being replaced cannot
+  publish a manifest that omits it or that hashes a stale file.
 
 ## [0.49.0] - 2026-11-04
 

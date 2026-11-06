@@ -30,6 +30,7 @@ jobs:
             rm -f assets/*
             gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --dir assets
             if compgen -G 'assets/HyperFi-*-win-x64-Setup.exe' > /dev/null \
+              && compgen -G 'assets/HyperFi-*-win-x64-Portable.zip' > /dev/null \
               && compgen -G 'assets/HyperFi-*-linux-x64.tar.gz' > /dev/null \
               && compgen -G 'assets/HyperFi-*-linux-arm64.tar.gz' > /dev/null \
               && compgen -G 'assets/HyperFi-*-osx-x64.tar.gz' > /dev/null \
