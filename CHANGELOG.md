@@ -67,9 +67,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - The transport format line now uses kHz, separates the PCM output method from
   the bit depth, and shows the localized channel count, for example
   `PCM · 16-bit · 44.1 kHz · 2 声道` instead of `PCM_S16LE · 44,100 Hz · 2 ch`.
-- The redundant "Playback through …" line above **About** is gone. The sidebar
-  status line now collapses when empty and only appears for transient status or
-  error messages.
+- The redundant "Playback through …" line above **About** is gone, and the
+  sidebar no longer shows status messages at all. Transient status and error
+  feedback now appears as a small pill at the bottom of the content area that
+  dismisses itself after a few seconds.
 - The source column now shows the full localized source name (for example
   **Local** or **本地**) instead of the single-letter `L`; unified rows show
   `Local+OS`.

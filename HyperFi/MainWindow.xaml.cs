@@ -138,6 +138,7 @@ public partial class MainWindow : Window
     private readonly SettingsStore _settingsStore = new();
     private AppSettings _settings = new();
     private DispatcherTimer? _appLogoGlowTimer;
+    private DispatcherTimer? _statusToastTimer;
     private double _appLogoGlowPhase;
     private readonly Scrobbling.LastFmScrobblingService _lastFmScrobbler =
         new(new Scrobbling.PendingScrobbleStore(AppPaths.GetDataPath("scrobbling", "pending.json")));
@@ -422,11 +423,10 @@ public partial class MainWindow : Window
         using var timing = StartupTimingLog.Time("MainWindow constructor");
         using (StartupTimingLog.Time("MainWindow.InitializeComponent"))
             InitializeComponent();
-        StatusTextBlock.IsVisible = false;
         StatusTextBlock.PropertyChanged += (_, args) =>
         {
             if (args.Property == TextBlock.TextProperty)
-                StatusTextBlock.IsVisible = !string.IsNullOrWhiteSpace(StatusTextBlock.Text);
+                UpdateStatusToast();
         };
         AttachSegmentedThumb(AlbumViewModeBorder);
         AttachSegmentedThumb(PlexViewModeBorder);
@@ -552,7 +552,37 @@ public partial class MainWindow : Window
         LogUiDiagnostics("MainWindow constructor completed");
     }
 
-    /// <summary>Sets the sidebar status text from startup/background services.</summary>
+    /// <summary>Shows transient status feedback and schedules its dismissal.</summary>
+    private void UpdateStatusToast()
+    {
+        if (string.IsNullOrWhiteSpace(StatusTextBlock.Text))
+        {
+            StatusToast.IsVisible = false;
+            _statusToastTimer?.Stop();
+            return;
+        }
+
+        StatusToast.IsVisible = true;
+        _statusToastTimer ??= CreateStatusToastTimer();
+        _statusToastTimer.Stop();
+        _statusToastTimer.Start();
+    }
+
+    /// <summary>Creates the single-shot timer that hides the transient status pill.</summary>
+    /// <returns>The configured timer.</returns>
+    private DispatcherTimer CreateStatusToastTimer()
+    {
+        var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(6) };
+        timer.Tick += (_, _) =>
+        {
+            timer.Stop();
+            StatusToast.IsVisible = false;
+            StatusTextBlock.Text = string.Empty;
+        };
+        return timer;
+    }
+
+    /// <summary>Sets the transient status text from startup/background services.</summary>
     /// <param name="status">The status text to show.</param>
     internal void SetStatusText(string status)
     {
@@ -565,7 +595,7 @@ public partial class MainWindow : Window
         StatusTextBlock.Text = status;
     }
 
-    /// <summary>Clears the sidebar status text when it still matches <paramref name="expectedStatus"/>.</summary>
+    /// <summary>Clears the transient status text when it still matches <paramref name="expectedStatus"/>.</summary>
     /// <param name="expectedStatus">The status text that must still be visible before clearing.</param>
     internal void ClearStatusText(string expectedStatus)
     {

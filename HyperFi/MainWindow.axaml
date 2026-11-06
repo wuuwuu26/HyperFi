@@ -1385,11 +1385,6 @@
                                TextTrimming="CharacterEllipsis"
                                VerticalAlignment="Center"/>
                 </StackPanel>
-                <TextBlock x:Name="StatusTextBlock"
-                           IsVisible="False"
-                           Padding="24,4,24,8"
-                           Foreground="{DynamicResource AppMutedTextBrush}" FontSize="{DynamicResource FontSizeMeta}"
-                           TextWrapping="Wrap"/>
             </StackPanel>
 
             <!-- About -->
@@ -3739,6 +3734,28 @@
                             IsVisible="False"
                             Background="{DynamicResource AppContentBrush}"
                             ZIndex="100"/>
+
+            <!-- Transient status pill: keeps feedback out of the sidebar -->
+            <Border x:Name="StatusToast"
+                    Grid.Row="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="24,0,24,22"
+                    Padding="18,10"
+                    CornerRadius="12"
+                    Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppInputBorderBrush}"
+                    BorderThickness="1"
+                    IsHitTestVisible="False"
+                    IsVisible="False"
+                    ZIndex="150">
+                <TextBlock x:Name="StatusTextBlock"
+                           MaxWidth="760"
+                           Foreground="{DynamicResource AppPrimaryTextBrush}"
+                           FontSize="{DynamicResource FontSizeCaption}"
+                           TextWrapping="Wrap"
+                           AutomationProperties.LiveSetting="Polite"/>
+            </Border>
         </Grid>
 
         <!-- ═══ TRANSPORT BAR ═══ -->
