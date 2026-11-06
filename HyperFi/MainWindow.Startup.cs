@@ -183,6 +183,7 @@ public partial class MainWindow : Window
     private void LoadSettings()
     {
         _settings = _settingsStore.Load();
+        StartAppLogoGlow();
         DsdPlaybackOptions.PcmSampleRateHz = _settings.DsdPcmSampleRateHz;
         _lastFmScrobbler.Configure(
             _settings.LastFmScrobblingEnabled,

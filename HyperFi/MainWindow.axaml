@@ -1094,14 +1094,25 @@
             <!-- App title -->
             <Border Padding="20,18,20,16" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource AppHeaderBorderBrush}">
                 <StackPanel>
-                    <Image Height="58"
-                           HorizontalAlignment="Left"
-                           Source="avares://HyperFi/Assets/DashboardLogo.png"
-                           Stretch="Uniform"/>
+                    <Grid Height="42" HorizontalAlignment="Left">
+                        <Image x:Name="AppLogoGlow"
+                               Height="42"
+                               Stretch="Uniform"
+                               Opacity="0.3"
+                               IsHitTestVisible="False"
+                               Source="avares://HyperFi/Assets/DashboardLogoTrimmed.png">
+                            <Image.Effect>
+                                <DropShadowEffect Color="#E8C46A" BlurRadius="18" OffsetX="0" OffsetY="0"/>
+                            </Image.Effect>
+                        </Image>
+                        <Image Height="42"
+                               Stretch="Uniform"
+                               Source="avares://HyperFi/Assets/DashboardLogoTrimmed.png"/>
+                    </Grid>
                     <TextBlock x:Name="SelectedDriverTextBlock"
                                Foreground="{DynamicResource AppMutedTextBrush}" FontSize="{DynamicResource FontSizeMeta}" Margin="4,8,4,0"
                                Text="{DynamicResource L_NoDeviceSelected}"
-                               TextTrimming="CharacterEllipsis"/>
+                               TextWrapping="Wrap"/>
                 </StackPanel>
             </Border>
 

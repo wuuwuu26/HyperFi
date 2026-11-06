@@ -137,6 +137,8 @@ public partial class MainWindow : Window
     private bool _releasedOutputWasPaused;
     private readonly SettingsStore _settingsStore = new();
     private AppSettings _settings = new();
+    private DispatcherTimer? _appLogoGlowTimer;
+    private double _appLogoGlowPhase;
     private readonly Scrobbling.LastFmScrobblingService _lastFmScrobbler =
         new(new Scrobbling.PendingScrobbleStore(AppPaths.GetDataPath("scrobbling", "pending.json")));
     private UserProfileManager? _profileManager;
@@ -422,6 +424,7 @@ public partial class MainWindow : Window
         StartUiDiagnosticsLog();
         LogUiDiagnostics("MainWindow constructor after InitializeComponent");
         _dashboardRootPanel = DashboardPanel;
+        StartAppLogoGlow();
         _animatedViewSurfaces =
         [
             DashboardScrollViewer,
@@ -817,6 +820,26 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>Starts or stops the slow gold pulse behind the sidebar logo.</summary>
+    private void StartAppLogoGlow()
+    {
+        _appLogoGlowTimer?.Stop();
+        _appLogoGlowTimer = null;
+        if (!MotionPreferences.ShouldAnimate(_settings.ReduceMotion))
+        {
+            AppLogoGlow.Opacity = 0.3;
+            return;
+        }
+        _appLogoGlowPhase = 0;
+        _appLogoGlowTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(40) };
+        _appLogoGlowTimer.Tick += (_, _) =>
+        {
+            _appLogoGlowPhase += Math.PI * 2 * 0.04 / 2.4;
+            AppLogoGlow.Opacity = 0.3 + 0.18 * Math.Sin(_appLogoGlowPhase);
+        };
+        _appLogoGlowTimer.Start();
+    }
+
     private void StartUiDiagnosticsLog()
     {
         try
@@ -888,6 +911,8 @@ public partial class MainWindow : Window
         LogUiDiagnostics("OnClosed started");
         _uiDiagnosticsHeartbeatTimer?.Stop();
         _uiDiagnosticsHeartbeatTimer = null;
+        _appLogoGlowTimer?.Stop();
+        _appLogoGlowTimer = null;
         CloseEmbeddedSettings();
         _ = _mcpServer.StopAsync();
         _ = _mobileRemoteServer.StopAsync();

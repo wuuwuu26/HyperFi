@@ -1169,8 +1169,9 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
 - Optional UI motion is governed by `AppSettings.ReduceMotion` through the pure,
   tested `HyperFi.Controls.MotionPreferences` helper. The Genre Cloud, the
   Dashboard cover stage, the lyrics view scroll, sidebar/settings selection,
-  the top-level view surface, the content header and `KaraokeWindow` must ask
-  that helper instead of building transitions or frame loops directly, and
+  the sidebar logo glow, the top-level view surface, the content header and
+  `KaraokeWindow` must ask that helper instead of building transitions or frame
+  loops directly, and
   `KaraokeWindow.ReduceMotion` is assigned from the saved setting when the
   window opens. Navigation motion stays brief (at most 200 ms), never blocks
   loading or ownership checks, and must not run when the preference is reduced.

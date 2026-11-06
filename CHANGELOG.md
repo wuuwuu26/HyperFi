@@ -80,6 +80,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- The sidebar logo now uses a trimmed asset, so the icon is fully visible
+  instead of being clipped. The output-device line wraps to show the complete
+  device name, and the icon and wordmark carry a slow gold glow that is disabled
+  by **Reduce motion**.
 - View and Settings transitions no longer blink or leave a blank frame. The
   loading overlay provides the view fade while the content and header only
   lift, Settings sections start slightly dimmed instead of fully transparent
