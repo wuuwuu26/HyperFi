@@ -334,7 +334,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
             while (!_cts.IsCancellationRequested)
             {
                 ApplyControlRequests(source, ref decoder, ref writeTrackIndex, ref completedFrames, freeBuffers, queuedFrames);
-                OpenAlNative.AlSourcef(source, OpenAlNative.AlGain, _volume);
+                OpenAlNative.AlSourcef(source, OpenAlNative.AlGain, _volume * _volume * _volume);
 
                 OpenAlNative.AlGetSourcei(source, OpenAlNative.AlBuffersProcessed, out var processed);
                 while (processed-- > 0)
@@ -672,7 +672,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
             _equalizerProfile = update.Profile;
             _equalizer.Update(update.Enabled, update.Profile);
         }
-        var gain = trackReplayGain * volume;
+        var gain = trackReplayGain * volume * volume * volume;
         var samples = MemoryMarshal.Cast<byte, int>(bytes);
         for (var index = 0; index + 1 < samples.Length; index += 2)
         {

@@ -67,11 +67,39 @@ internal static partial class AlsaHardwareVolume
             return;
         try
         {
-            Maximize(mixer);
+            SetPlaybackVolume(mixer, 1.0f);
         }
         catch
         {
             // A missing or restricted mixer must never prevent playback.
+        }
+        finally
+        {
+            SndMixerClose(mixer);
+        }
+    }
+
+    /// <summary>Sets every playback volume control on the card to a linear fraction of its range.</summary>
+    /// <param name="alsaDeviceId">Direct ALSA identifier such as <c>alsa:hw:CARD=Audio,DEV=0</c>.</param>
+    /// <param name="volume">Linear volume from 0.0 to 1.0.</param>
+    internal static void SetVolume(string alsaDeviceId, float volume)
+    {
+        if (!OperatingSystem.IsLinux())
+            return;
+        var cardId = ExtractCardId(alsaDeviceId);
+        if (cardId is null)
+            return;
+        var mixer = Open(cardId);
+        if (mixer == nint.Zero)
+            return;
+        try
+        {
+            SetPlaybackVolume(mixer, Math.Clamp(volume, 0.0f, 1.0f));
+        }
+        catch
+        {
+            // Bit-perfect DSD falls back to the hardware mixer; a missing mixer
+            // must never interrupt playback.
         }
         finally
         {
@@ -101,7 +129,7 @@ internal static partial class AlsaHardwareVolume
         }
     }
 
-    private static void Maximize(nint mixer)
+    private static void SetPlaybackVolume(nint mixer, float volume)
     {
         for (var element = SndMixerFirstElem(mixer);
              element != nint.Zero;
@@ -114,9 +142,11 @@ internal static partial class AlsaHardwareVolume
             {
                 continue;
             }
-            _ = SndMixerSelemSetPlaybackVolumeAll(element, maximum);
+            var value = minimum +
+                        (long)Math.Round((maximum - minimum) * (double)volume);
+            _ = SndMixerSelemSetPlaybackVolumeAll(element, value);
             if (SndMixerSelemHasPlaybackSwitch(element) != 0)
-                _ = SndMixerSelemSetPlaybackSwitchAll(element, 1);
+                _ = SndMixerSelemSetPlaybackSwitchAll(element, volume > 0.0f ? 1 : 0);
         }
     }
 

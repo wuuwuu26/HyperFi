@@ -66,7 +66,13 @@ Before opening a direct ALSA device, `AlsaHardwareVolume` sets every playback
 mixer control on that card to its maximum and unmutes it. A hardware control
 left low by the system mixer is outside HyperFi's software volume path and
 would otherwise cap the maximum volume. The control is left at unity so the
-software mixer remains the single volume stage.
+software mixer remains the single volume stage for PCM.
+
+PCM software gain follows a cubic perceptual curve (`volume³`), so the low end
+of the slider is genuinely quiet rather than a linear -40 dB at 1%. Bit-perfect
+DSF/DFF players bypass software gain by design, so their `Volume` setter applies
+the same slider value through `AlsaHardwareVolume.SetVolume`, using the card's
+playback mixer as the attenuation stage.
 
 macOS desktop builds target `net10.0` for `osx-arm64` and `osx-x64`. PCM
 playback uses Apple's system OpenAL framework. FFmpeg/FFprobe discovery checks

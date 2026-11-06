@@ -80,6 +80,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Direct ALSA output now sets the card's playback mixer to unity before opening
   the device. A hardware control left low by PipeWire/PulseAudio previously
   capped the maximum volume even when HyperFi's software volume was 100%.
+- The volume slider now follows a perceptual cubic curve for software PCM
+  output, so low percentages (including 1%) are actually quiet instead of only
+  -40 dB. Bit-perfect DSF/DFF output applies the same slider through the card's
+  ALSA playback mixer because DSD bypasses the software gain stage.
 - A new direct-ALSA player no longer starts at full software volume while the
   volume slider shows a lower value; the prepared player now receives the
   slider value for backends whose volume is applied in software.

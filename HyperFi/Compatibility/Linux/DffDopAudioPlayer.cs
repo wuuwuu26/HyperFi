@@ -17,6 +17,7 @@ public sealed class DffDopAudioPlayer : IAudioPlayer
 
     private readonly IDffSource _source;
     private readonly nint _pcm;
+    private readonly string _alsaDeviceId;
     private readonly int _dsdSampleRate;
     private readonly bool _usesNativeDsd;
     private readonly long _dataStart;
@@ -30,12 +31,19 @@ public sealed class DffDopAudioPlayer : IAudioPlayer
     private long _position;
     private long _seekGeneration;
     private volatile bool _paused;
+    private float _volume = 1.0f;
     private bool _disposed;
 
-    private DffDopAudioPlayer(IDffSource source, nint pcm, DffHeader header, bool usesNativeDsd)
+    private DffDopAudioPlayer(
+        IDffSource source,
+        nint pcm,
+        DffHeader header,
+        bool usesNativeDsd,
+        string alsaDeviceId)
     {
         _source = source;
         _pcm = pcm;
+        _alsaDeviceId = alsaDeviceId;
         _dsdSampleRate = header.SampleRate;
         _usesNativeDsd = usesNativeDsd;
         _dataStart = header.DataStart;
@@ -100,7 +108,7 @@ public sealed class DffDopAudioPlayer : IAudioPlayer
                 pcm = AlsaNative.OpenExact(alsaDevice, header.SampleRate / 16);
             }
 
-            var player = new DffDopAudioPlayer(source, pcm, header, usesNativeDsd);
+            var player = new DffDopAudioPlayer(source, pcm, header, usesNativeDsd, deviceId);
             await player._started.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
             var outputRate = header.SampleRate / (usesNativeDsd ? 32 : 16);
             var info = new AudioFileInfo(
@@ -140,7 +148,17 @@ public sealed class DffDopAudioPlayer : IAudioPlayer
     public bool UsesNativeDsd => _usesNativeDsd;
 
     /// <inheritdoc/>
-    public float Volume { get => 1.0f; set { } }
+    public float Volume
+    {
+        get => _volume;
+        set
+        {
+            _volume = Math.Clamp(value, 0.0f, 1.0f);
+            var volume = _volume;
+            var deviceId = _alsaDeviceId;
+            _ = Task.Run(() => AlsaHardwareVolume.SetVolume(deviceId, volume));
+        }
+    }
 
     /// <inheritdoc/>
     public float ReplayGainFactor { get => 1.0f; set { } }

@@ -1649,7 +1649,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   `AlsaHardwareVolume` must set the card's playback mixer to unity and unmute
   it before every direct ALSA open (PCM and DoP), because a hardware control
   left low by the system mixer is outside the software volume path and would
-  cap the maximum volume.
+  cap the maximum volume. PCM software gain uses a cubic perceptual curve
+  (`volume³`); bit-perfect DSF/DFF players bypass software gain and must apply
+  the same slider through `AlsaHardwareVolume.SetVolume` so DSD volume is not
+  fixed at full scale.
 - The persisted DoP preference and forced DSD-to-PCM conversion are mutually
   exclusive. DoP is bit-perfect encapsulation and must bypass PCM gain and
   equalizer processing. Linux local and HTTP-range-streamed stereo DSF DoP uses

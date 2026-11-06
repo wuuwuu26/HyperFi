@@ -643,7 +643,9 @@ byte-range streaming without FFmpeg.
 - Direct ALSA follows the system output volume, so desktop volume and mute keys
   keep working while HyperFi bypasses PipeWire/PulseAudio. The card's playback
   mixer is set to 0 dB while HyperFi owns it, so a hardware control left low by
-  the system mixer cannot cap the maximum volume.
+  the system mixer cannot cap the maximum volume. PCM volume uses a perceptual
+  curve, and bit-perfect DSD volume is applied through the card's hardware
+  mixer.
 - Classic AirPlay playback through automatically discovered RAOP receivers on
   Windows, Linux, and macOS when a compatible `raop_play` helper is installed
 - Automatic PCM down-conversion through `ffmpeg` when the source sample rate

@@ -15,6 +15,7 @@ public sealed class DsfDopAudioPlayer : IAudioPlayer
 
     private readonly FileStream _file;
     private readonly nint _pcm;
+    private readonly string _alsaDeviceId;
     private readonly int _dsdSampleRate;
     private readonly int _blockSizePerChannel;
     private readonly bool _isLeastSignificantBitFirst;
@@ -29,12 +30,19 @@ public sealed class DsfDopAudioPlayer : IAudioPlayer
     private readonly Task _pumpTask;
     private long _seekGeneration;
     private volatile bool _paused;
+    private float _volume = 1.0f;
     private bool _disposed;
 
-    private DsfDopAudioPlayer(FileStream file, nint pcm, DsfHeader header, bool usesNativeDsd)
+    private DsfDopAudioPlayer(
+        FileStream file,
+        nint pcm,
+        DsfHeader header,
+        bool usesNativeDsd,
+        string alsaDeviceId)
     {
         _file = file;
         _pcm = pcm;
+        _alsaDeviceId = alsaDeviceId;
         _dsdSampleRate = header.DsdSampleRate;
         _blockSizePerChannel = header.BlockSizePerChannel;
         _isLeastSignificantBitFirst = header.IsLeastSignificantBitFirst;
@@ -75,7 +83,7 @@ public sealed class DsfDopAudioPlayer : IAudioPlayer
                 usesNativeDsd = false;
                 pcm = AlsaNative.OpenExact(alsaDevice, header.DopSampleRate);
             }
-            var player = new DsfDopAudioPlayer(file, pcm, header, usesNativeDsd);
+            var player = new DsfDopAudioPlayer(file, pcm, header, usesNativeDsd, deviceId);
             await player._started.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
             var info = usesNativeDsd
                 ? header.Info with { OutputSampleRate = header.DsdSampleRate / 32 }
@@ -113,8 +121,14 @@ public sealed class DsfDopAudioPlayer : IAudioPlayer
     /// <inheritdoc/>
     public float Volume
     {
-        get => 1.0f;
-        set { }
+        get => _volume;
+        set
+        {
+            _volume = Math.Clamp(value, 0.0f, 1.0f);
+            var volume = _volume;
+            var deviceId = _alsaDeviceId;
+            _ = Task.Run(() => AlsaHardwareVolume.SetVolume(deviceId, volume));
+        }
     }
 
     /// <inheritdoc/>

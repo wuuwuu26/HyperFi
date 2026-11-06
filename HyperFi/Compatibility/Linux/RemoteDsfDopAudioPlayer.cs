@@ -18,6 +18,7 @@ public sealed class RemoteDsfDopAudioPlayer : IAudioPlayer
     private readonly HttpClient _httpClient;
     private readonly Uri _uri;
     private readonly nint _pcm;
+    private readonly string _alsaDeviceId;
     private readonly int _dsdSampleRate;
     private readonly int _blockSizePerChannel;
     private readonly bool _isLeastSignificantBitFirst;
@@ -33,6 +34,7 @@ public sealed class RemoteDsfDopAudioPlayer : IAudioPlayer
     private long _position;
     private long _seekGeneration;
     private volatile bool _paused;
+    private float _volume = 1.0f;
     private bool _disposed;
 
     private RemoteDsfDopAudioPlayer(
@@ -40,11 +42,13 @@ public sealed class RemoteDsfDopAudioPlayer : IAudioPlayer
         Uri uri,
         nint pcm,
         DsfHeader header,
-        bool usesNativeDsd)
+        bool usesNativeDsd,
+        string alsaDeviceId)
     {
         _httpClient = httpClient;
         _uri = uri;
         _pcm = pcm;
+        _alsaDeviceId = alsaDeviceId;
         _dsdSampleRate = header.DsdSampleRate;
         _blockSizePerChannel = header.BlockSizePerChannel;
         _isLeastSignificantBitFirst = header.IsLeastSignificantBitFirst;
@@ -95,7 +99,7 @@ public sealed class RemoteDsfDopAudioPlayer : IAudioPlayer
                 usesNativeDsd = false;
                 pcm = AlsaNative.OpenExact(alsaDevice, header.DopSampleRate);
             }
-            var player = new RemoteDsfDopAudioPlayer(httpClient, uri, pcm, header, usesNativeDsd);
+            var player = new RemoteDsfDopAudioPlayer(httpClient, uri, pcm, header, usesNativeDsd, deviceId);
             await player._started.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
             var info = usesNativeDsd
                 ? header.Info with { OutputSampleRate = header.DsdSampleRate / 32 }
@@ -131,7 +135,17 @@ public sealed class RemoteDsfDopAudioPlayer : IAudioPlayer
     public bool UsesNativeDsd => _usesNativeDsd;
 
     /// <inheritdoc/>
-    public float Volume { get => 1.0f; set { } }
+    public float Volume
+    {
+        get => _volume;
+        set
+        {
+            _volume = Math.Clamp(value, 0.0f, 1.0f);
+            var volume = _volume;
+            var deviceId = _alsaDeviceId;
+            _ = Task.Run(() => AlsaHardwareVolume.SetVolume(deviceId, volume));
+        }
+    }
 
     /// <inheritdoc/>
     public float ReplayGainFactor { get => 1.0f; set { } }
