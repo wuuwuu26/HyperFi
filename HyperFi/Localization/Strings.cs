@@ -1037,7 +1037,6 @@ public sealed record LocalizedStrings(
     /// <summary>Gets the display label for local library rows in source filters and tooltips.</summary>
     public string LocalSource { get; init; } = "";
     /// <summary>Gets the short badge text for local library rows in source columns.</summary>
-    public string LocalSourceShort { get; init; } = "";
     /// <summary>Gets the Settings label for configured HyperFi Server connections.</summary>
     public string HyperFiServersSettings { get; init; } = "";
     /// <summary>Gets the hint text below the HyperFi Server section header in Settings.</summary>

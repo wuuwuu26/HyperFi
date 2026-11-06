@@ -51,6 +51,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- The source column now shows the full localized source name (for example
+  **Local** or **本地**) instead of the single-letter `L`; unified rows show
+  `Local+OS`.
 - Genre Cloud nodes now use a gold-tinted rounded card with a border, soft
   shadow, hover glow, and a separate count pill instead of the default flat grey
   buttons. The breadcrumb pills use the same rounded treatment.

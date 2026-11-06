@@ -330,14 +330,14 @@ internal sealed class ContentRow : INotifyPropertyChanged
     public string SourceKey => (HyperFiServer?.Id ?? UnresolvedPlaylistServerId) is string serverId
         ? MainWindow.GetServerSourceKey(serverId) : MainWindow.LocalSourceKey;
 
-    /// <summary>Gets the short source badge shown in the source column.</summary>
+    /// <summary>Gets the source badge shown in the source column.</summary>
     public string SourceBadge => EntityType == "UnifiedArtist"
-        ? $"{LocalizationManager.Current.LocalSourceShort}+OS"
+        ? $"{LocalizationManager.Current.LocalSource}+OS"
         : EntityType == "UnifiedAlbum"
             ? LogicalAlbumParts?.Any(part => part.Server is null) == true
-                ? $"{LocalizationManager.Current.LocalSourceShort}+OS"
+                ? $"{LocalizationManager.Current.LocalSource}+OS"
                 : "OS"
-        : HyperFiServer is null && UnresolvedPlaylistServerId is null ? LocalizationManager.Current.LocalSourceShort : "OS";
+        : HyperFiServer is null && UnresolvedPlaylistServerId is null ? LocalizationManager.Current.LocalSource : "OS";
 
     /// <summary>Gets the readable source name used by tooltips and detail views.</summary>
     public string? SourceName => EntityType == "UnifiedArtist"

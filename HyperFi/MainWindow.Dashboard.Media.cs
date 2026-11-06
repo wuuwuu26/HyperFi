@@ -438,7 +438,7 @@ public partial class MainWindow : Window
         var playable = IsPlayableHistoryEntry(entry);
         var isRemote = TryGetHyperFiHistoryTarget(entry, out var favoriteServer, out var favoriteRemoteTrackId);
         var isPlex = entry.ExternalId?.StartsWith("plex:", StringComparison.OrdinalIgnoreCase) == true;
-        var sourceBadge = isRemote ? "OS" : isPlex ? "P" : "L";
+        var sourceBadge = isRemote ? "OS" : isPlex ? "P" : LocalizationManager.Current.LocalSource;
         var isFavorite = isRemote
             ? IsHyperFiFavorite(favoriteServer, "Track", favoriteRemoteTrackId)
             : entry.TrackId is long localTrackId && favoriteTrackIds.Contains(localTrackId);

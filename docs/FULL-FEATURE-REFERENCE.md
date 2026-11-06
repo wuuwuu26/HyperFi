@@ -796,7 +796,7 @@ byte-range streaming without FFmpeg.
   the selected artist, and offers the checkbox to show all album tracks.
 - Album views, Dashboard recommendations, and Recently Added displays combine
   local and HyperFi Server records with the same artist and album title into one
-  source-aware logical album (`L+OS` when both contribute). When matching tags
+  source-aware logical album (`Local+OS` when both contribute). When matching tags
   occur in several physical folders (for example an original release, a sampler,
   and a hi-res collection), the detail view retains every track and presents
   each folder as a separate edition group; similarly named tracks are never

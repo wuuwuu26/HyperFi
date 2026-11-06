@@ -606,7 +606,7 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   surfaces.
 - Album overview rows are logically coalesced across the local library and all
   HyperFi Server providers when normalized artist and trimmed album title match.
-  Mixed rows show `L+OS` and retain every source-aware provider-local album ID;
+  Mixed rows show `Local+OS` and retain every source-aware provider-local album ID;
   opening one loads all of those records and uses the shared album folder-group
   surface to keep physical releases/directories separate. Never discard
   duplicate track titles because they may be different masterings. Conventional
@@ -902,7 +902,7 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   strip starts below the hero.
 - Artist-detail album cards expose the same missing-artwork cover-search,
   favorite, and source-badge controls as the shared Albums artwork cards.
-  Equivalent local/server albums show `L+OS`, apply favorite changes to every
+  Equivalent local/server albums show `Local+OS`, apply favorite changes to every
   represented identity, and open their combined logical album detail. Below the
   album strip, the detail page shows one source-aware local/HyperFi Server track
   table ordered by album, disc, and track number. Its rows reuse the normal

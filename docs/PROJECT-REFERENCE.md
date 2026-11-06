@@ -1399,7 +1399,7 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   `%LOCALAPPDATA%\HyperFi\remote-artworks\`. In the shared Artists view and
   global search, local and HyperFi Server artists with the same
   `ArtistNameNormalizer.CreateComparisonKey` are represented by one
-  `UnifiedArtist` row with an `L+OS` source badge. Opening that row loads and
+  `UnifiedArtist` row with an `Local+OS` source badge. Opening that row loads and
   combines the matching artist's albums from the local library and every
   configured HyperFi Server; each album row must retain its own source IDs and
   `HyperFiServer` context so album navigation, artwork, and favorites continue

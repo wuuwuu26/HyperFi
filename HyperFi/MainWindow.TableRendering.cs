@@ -83,7 +83,7 @@ public partial class MainWindow : Window
         {
             Header = LocalizationManager.Current.SourceColumn,
             SortMemberPath = nameof(ContentRow.SourceName),
-            Width = new DataGridLength(54),
+            Width = new DataGridLength(88),
             CellTemplate = new FuncDataTemplate<ContentRow>((_, _) =>
             {
                 var badge = new Border
