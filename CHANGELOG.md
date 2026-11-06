@@ -73,6 +73,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   lift, Settings sections start slightly dimmed instead of fully transparent
   while they slide into place, and each section starts at the top instead of
   inheriting the previous section's scroll offset.
+- Sidebar selection no longer shifts its content by one pixel; every item now
+  reserves the same left accent border and only the brush changes.
 - Switching tracks no longer emits a brief full-volume burst. New players now
   start silent and receive the prepared volume (or the crossfade's zero) before
   their first audible buffers; bit-perfect DSD players mute the hardware mixer

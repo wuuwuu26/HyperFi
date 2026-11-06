@@ -189,7 +189,7 @@
                 <ControlTemplate>
                     <Border x:Name="Bd"
                             Background="Transparent"
-                            BorderThickness="1"
+                            BorderThickness="2,1,1,1"
                             BorderBrush="Transparent"
                             Padding="14,9,12,9"
                             Margin="8,2"
@@ -212,7 +212,6 @@
             <Style Selector="^:selected /template/ Border#Bd">
                 <Setter Property="Background" Value="{StaticResource DashboardNavSelectedBackgroundBrush}"/>
                 <Setter Property="BorderBrush" Value="{StaticResource DashboardNavSelectedBorderBrush}"/>
-                <Setter Property="BorderThickness" Value="2,1,1,1"/>
             </Style>
             <Style Selector="^:selected">
                 <Setter Property="Foreground" Value="{DynamicResource AppNavSelectedTextBrush}"/>
