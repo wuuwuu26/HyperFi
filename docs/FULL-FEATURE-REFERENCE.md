@@ -1212,7 +1212,7 @@ byte-range streaming without FFmpeg.
 - Dashboard favorite totals match the unified Favorites view by counting only
   currently resolvable local and HyperFi Server tracks
 - Persistent personal 1–5-star ratings for local and HyperFi Server tracks,
-  editable directly in shared track tables. An optional MusicBrainz rating
+  editable through the bulk action bar and MCP. An optional MusicBrainz rating
   column shows cached community scores and vote counts; lookups prefer embedded
   recording MBIDs and conservatively match artist, title, and duration only when
   exactly one recording remains. Personal ratings are weighted strongly in

@@ -822,37 +822,6 @@ public partial class MainWindow : Window
         };
     }
 
-    /// <summary>Persists a personal rating and opportunistically refreshes its MusicBrainz community value.</summary>
-    /// <param name="row">Track row being rated.</param>
-    /// <param name="rating">New zero-to-five-star rating.</param>
-    /// <returns>A task representing persistence and optional metadata refresh.</returns>
-    private async Task SetPersonalTrackRatingAsync(ContentRow row, int rating)
-    {
-        if (row.Id is not long trackId || row.EntityType is not ("Track" or "HyperFiTrack"))
-            return;
-        var previous = row.UserRating;
-        row.UserRating = rating;
-        var saved = row.HyperFiServer is { } server
-            ? await _hyperfiClient.UpdateTrackRatingAsync(
-                server,
-                trackId,
-                new HyperFiTrackRatingUpdate(UserRating: rating))
-            : await Task.Run(() =>
-            {
-                using var db = AudioDatabase.OpenDefault();
-                db.SetTrackUserRating(trackId, rating);
-                return true;
-            });
-        if (!saved)
-        {
-            row.UserRating = previous;
-            StatusTextBlock.Text = LocalizationManager.Current.RatingUpdateFailed;
-            return;
-        }
-
-        _ = RefreshMusicBrainzTrackRatingAsync(row);
-    }
-
     /// <summary>
     /// Starts a cancellable, sequential MusicBrainz refresh for stale tracks in the
     /// currently displayed album without delaying album rendering.

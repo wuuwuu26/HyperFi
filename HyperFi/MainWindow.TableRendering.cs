@@ -676,7 +676,6 @@ public partial class MainWindow : Window
             Add(LocalizationManager.Current.AddedAt, nameof(ContentRow.AddedAt), 110, "addedAt", defaultVisible: false);
             Add(LocalizationManager.Current.ReplayGainTrackColumn, nameof(ContentRow.ReplayGainTrack), 120, "replayGainTrack", right: true, defaultVisible: false);
             Add(LocalizationManager.Current.ReplayGainAlbumColumn, nameof(ContentRow.ReplayGainAlbum), 120, "replayGainAlbum", right: true, defaultVisible: false);
-            grid.Columns.Add(CreatePersonalRatingColumn());
             var musicBrainzRatingColumn = CreateMusicBrainzRatingColumn();
             musicBrainzRatingColumn.IsVisible = false;
             grid.Columns.Add(musicBrainzRatingColumn);

@@ -51,6 +51,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- The shared track tables no longer show the personal **My rating** star column.
+  Personal ratings remain editable through the bulk action bar and MCP and are
+  still listed in the track information dialog.
 - The shared Artists, Albums, Tracks, and Folders intro card is gone. Those
   views now start directly below the plain content header, so the page title is
   no longer duplicated by a separate headline and hint.

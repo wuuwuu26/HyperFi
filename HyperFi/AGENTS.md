@@ -1579,8 +1579,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   can block Avalonia's UI thread for large mixed libraries. Album and artist
   actions retain their source-aware navigation behavior.
 - Shared local and HyperFi Server track rows carry a personal zero-to-five
-  rating plus cached MusicBrainz recording rating metadata. The interactive star
-  column persists through the owning database/API. MusicBrainz lookup runs on
+  rating plus cached MusicBrainz recording rating metadata. Personal ratings
+  remain editable through the bulk action bar and MCP and are shown in track
+  information; the shared track tables no longer expose a personal-rating star
+  column. MusicBrainz lookup runs on
   the client, prefers the recording MBID, and accepts an artist/title fallback
   only when optional duration filtering leaves one exact result. Server scans
   must preserve client-resolved recording MBIDs and all rating fields. Album
