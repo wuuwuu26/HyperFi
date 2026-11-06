@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Orynivo.Server</AssemblyName>
+    <RootNamespace>Orynivo.Server</RootNamespace>
+    <Product>Orynivo Server</Product>
+    <Authors>Björn Schlaack</Authors>
+    <Copyright>Copyright © 2026 Björn Schlaack</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/bschlaack/Orynivo</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <UpdatePublicKeyBase64 Condition="'$(UpdatePublicKeyBase64)' == ''"></UpdatePublicKeyBase64>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>OrynivoUpdatePublicKey</_Parameter1>
+      <_Parameter2>$(UpdatePublicKeyBase64)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.4" />
+    <ProjectReference Include="..\Orynivo.Core\Orynivo.Core.csproj" />
+  </ItemGroup>
+
+</Project>

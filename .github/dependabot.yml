@@ -1,0 +1,43 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "deps(nuget)"
+    ignore:
+      # Major upgrades need a deliberate migration instead of an automatic bump.
+      # Avalonia is on 12.1.2 and a future 13 line will have breaking API changes;
+      # the Microsoft.Data.Sqlite and test-SDK major lines also need review. The
+      # projects target .NET 10 LTS (not .NET 9, which is already in security-only
+      # maintenance). Keep Dependabot on the minor/patch line and review majors by
+      # hand. The triggers, steps, and required checks live in
+      # DEPENDENCY-MIGRATION.md.
+      #
+      # All Avalonia packages, including Avalonia.Controls.DataGrid, move together
+      # on the 12.1 line; DataGrid has a 12.1.2 release after all, so the earlier
+      # "no release beyond 11.3.13" note was wrong.
+      - dependency-name: "Avalonia*"
+        update-types:
+          - "version-update:semver-major"
+      # SkiaSharp is pinned to the 3.119 line because Avalonia.Skia 12.1.2 depends
+      # on SkiaSharp 3.119.4 and SkiaSharp.NativeAssets.Linux 3.119.4. Raising it
+      # independently in Orynivo.Core/Orynivo.Server would force the desktop app to
+      # render through an incompatible managed/native Skia pair.
+      - dependency-name: "SkiaSharp*"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "Microsoft.Data.Sqlite"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "Microsoft.NET.Test.Sdk"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "deps(actions)"

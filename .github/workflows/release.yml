@@ -1,0 +1,179 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number without v prefix (e.g. 0.13.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build installer and publish GitHub Release
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: ver
+        shell: pwsh
+        run: |
+          if ('${{ github.event_name }}' -eq 'workflow_dispatch') {
+            $version = '${{ github.event.inputs.version }}'
+            $tag     = "v$version"
+          } else {
+            $tag     = '${{ github.ref_name }}'
+            $version = $tag.TrimStart('v')
+          }
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "tag=$tag"         | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          Write-Host "Building version $version (tag $tag)"
+
+      - name: Validate release tag on main
+        shell: pwsh
+        run: |
+          $tag = '${{ steps.ver.outputs.tag }}'
+          if ($tag -notmatch '^v\d+\.\d+\.\d+$') { throw "Invalid release tag '$tag'." }
+          git fetch origin main --tags --force
+          git rev-parse --verify "refs/tags/$tag^{commit}"
+          if ($LASTEXITCODE -ne 0) { throw "Tag '$tag' does not exist." }
+          $tagCommit = (git rev-list -n 1 $tag).Trim()
+          git merge-base --is-ancestor $tagCommit origin/main
+          if ($LASTEXITCODE -ne 0) { throw "Tag '$tag' is not contained in origin/main." }
+          git checkout --detach $tag
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore Orynivo/Orynivo.csproj --runtime win-x64
+
+      - name: Build cwASIO bridge (Release)
+        shell: pwsh
+        run: |
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} `
+            'Microsoft Visual Studio\Installer\vswhere.exe'
+          $inst = & $vswhere -latest -products '*' `
+            -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+            -property installationPath
+          $msbuild = Join-Path $inst.Trim() 'MSBuild\Current\Bin\amd64\MSBuild.exe'
+          & $msbuild Native/CwAsioBridge/CwAsioBridge.vcxproj `
+            /p:Configuration=Release /p:Platform=x64
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build and test AirPlay 2 bridge (Release)
+        shell: pwsh
+        run: |
+          cmake -S Native/AirPlay2Bridge -B artifacts/AirPlay2Bridge -A x64
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cmake --build artifacts/AirPlay2Bridge --config Release --parallel
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ctest --test-dir artifacts/AirPlay2Bridge -C Release --output-on-failure
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Publish self-contained Windows build
+        shell: pwsh
+        run: >
+          dotnet publish Orynivo/Orynivo.csproj
+          --configuration Release
+          --runtime win-x64
+          --self-contained true
+          --no-restore
+          --output artifacts/Orynivo-win-x64
+          /p:IncludeAsioBridge=false
+          /p:IncludeCwAsioBridge=true
+          /p:IncludeAirPlay2Bridge=true
+          /p:AssemblyVersion=${{ steps.ver.outputs.version }}.0
+          /p:FileVersion=${{ steps.ver.outputs.version }}.0
+          /p:InformationalVersion=${{ steps.ver.outputs.version }}
+          /p:UpdatePublicKeyBase64=${{ vars.UPDATE_SIGNING_PUBLIC_KEY_BASE64 }}
+          /p:ReleaseVersionFromTag=true
+          /p:IncludeSourceRevisionInInformationalVersion=false
+
+      - name: Create portable ZIP
+        shell: pwsh
+        run: |
+          $zip = "installer/Output/Orynivo-${{ steps.ver.outputs.version }}-win-x64-Portable.zip"
+          New-Item -ItemType Directory -Force installer/Output | Out-Null
+          Compress-Archive -Path artifacts/Orynivo-win-x64/* -DestinationPath $zip
+          Write-Host "Created $zip ($([math]::Round((Get-Item $zip).Length / 1MB, 1)) MB)"
+
+      - name: Compile Inno Setup installer
+        shell: pwsh
+        run: |
+          $iscc = 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+          & $iscc /dAppVersion=${{ steps.ver.outputs.version }} installer\Orynivo.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Create canonical draft and upload Windows packages
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bash .github/scripts/upload-release-assets.sh \
+            '${{ steps.ver.outputs.tag }}' \
+            'Orynivo ${{ steps.ver.outputs.version }}' \
+            true \
+            'installer/Output/Orynivo-${{ steps.ver.outputs.version }}-win-x64-Setup.exe' \
+            'installer/Output/Orynivo-${{ steps.ver.outputs.version }}-win-x64-Portable.zip' <<'EOF'
+            ## Orynivo ${{ steps.ver.outputs.version }}
+
+            See [CHANGELOG.md](https://github.com/bschlaack/Orynivo/blob/main/CHANGELOG.md)
+            for a full list of changes.
+
+            ### Download
+
+            | Package | Description |
+            | --- | --- |
+            | `Orynivo-${{ steps.ver.outputs.version }}-win-x64-Setup.exe` | Installer — adds Start Menu entry and uninstaller |
+            | `Orynivo-${{ steps.ver.outputs.version }}-win-x64-Portable.zip` | Portable — extract anywhere and run `Orynivo.exe` |
+            | `Orynivo-${{ steps.ver.outputs.version }}-linux-x64.tar.gz` | Portable Linux archive for x86-64 |
+            | `Orynivo-${{ steps.ver.outputs.version }}-linux-arm64.tar.gz` | Portable Linux archive for ARM64 |
+            | `Orynivo-${{ steps.ver.outputs.version }}-osx-x64.pkg` | macOS installer for Intel Macs |
+            | `Orynivo-${{ steps.ver.outputs.version }}-osx-arm64.pkg` | macOS installer for Apple Silicon |
+            | `Orynivo-${{ steps.ver.outputs.version }}-osx-x64-Portable.zip` | Portable macOS app for Intel Macs |
+            | `Orynivo-${{ steps.ver.outputs.version }}-osx-arm64-Portable.zip` | Portable macOS app for Apple Silicon |
+            | `Orynivo-${{ steps.ver.outputs.version }}-osx-x64.tar.gz` | Alternative macOS app archive for Intel Macs |
+            | `Orynivo-${{ steps.ver.outputs.version }}-osx-arm64.tar.gz` | Alternative macOS app archive for Apple Silicon |
+            | `orynivo_${{ steps.ver.outputs.version }}_amd64.deb` / `arm64.deb` | Debian and Ubuntu package |
+            | `orynivo-${{ steps.ver.outputs.version }}-1.x86_64.rpm` / `aarch64.rpm` | Fedora, RHEL, and compatible distributions |
+            | `orynivo-${{ steps.ver.outputs.version }}-1-x86_64.pkg.tar.zst` | Arch Linux package |
+
+            All desktop builds are self-contained and bundle .NET 8. Linux
+            playback additionally requires FFmpeg, ALSA, and OpenAL; the
+            distribution packages declare those runtime dependencies. macOS
+            playback uses the system OpenAL framework and requires FFmpeg on
+            `PATH`.
+
+            > **Windows SmartScreen:** an unsigned build may show a warning on
+            > first run. Click **More info → Run anyway** to proceed.
+
+            ### Updating (installer)
+
+            Run the new installer over an existing installation.
+            Library data, settings, and playlists are not affected.
+
+            ### Uninstalling (installer)
+
+            Use **Add or Remove Programs** in Windows Settings.
+            Library data under `%LOCALAPPDATA%\Orynivo\` is preserved.
+
+            ### Portable notes
+
+            Extract the ZIP to any folder (e.g. a USB drive) and run
+            `Orynivo.exe`. Library data is always written to
+            `%LOCALAPPDATA%\Orynivo\` on the current user profile,
+            regardless of where the executable lives.
+          EOF

@@ -1,0 +1,154 @@
+name: macOS Player Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number without v prefix (e.g. 0.29.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build macOS player ${{ matrix.rid }}
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rid: osx-x64
+            runner: macos-15-intel
+          - rid: osx-arm64
+            runner: macos-15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: ver
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+            TAG="v${VERSION}"
+          else
+            TAG="${{ github.ref_name }}"
+            VERSION="${TAG#v}"
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate release tag on main
+        run: |
+          TAG="${{ steps.ver.outputs.tag }}"
+          printf '%s' "$TAG" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$' || exit 1
+          git fetch origin main --tags --force
+          git rev-parse --verify "refs/tags/${TAG}^{commit}"
+          TAG_COMMIT="$(git rev-list -n 1 "$TAG")"
+          git merge-base --is-ancestor "$TAG_COMMIT" origin/main || {
+            echo "Tag '$TAG' is not contained in origin/main." >&2
+            exit 1
+          }
+          git checkout --detach "$TAG"
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore macOS player
+        run: dotnet restore Orynivo/Orynivo.csproj --runtime ${{ matrix.rid }}
+
+      - name: Publish macOS player
+        run: >
+          dotnet publish Orynivo/Orynivo.csproj
+          --configuration Release
+          --runtime ${{ matrix.rid }}
+          --self-contained true
+          --no-restore
+          --output publish/${{ matrix.rid }}
+          /p:AssemblyVersion=${{ steps.ver.outputs.version }}.0
+          /p:FileVersion=${{ steps.ver.outputs.version }}.0
+          /p:InformationalVersion=${{ steps.ver.outputs.version }}
+          /p:UpdatePublicKeyBase64=${{ vars.UPDATE_SIGNING_PUBLIC_KEY_BASE64 }}
+          /p:ReleaseVersionFromTag=true
+          /p:IncludeSourceRevisionInInformationalVersion=false
+
+      - name: Create application bundle and portable packages
+        run: |
+          VERSION="${{ steps.ver.outputs.version }}"
+          RID="${{ matrix.rid }}"
+          APP="bundle/${RID}/Orynivo.app"
+          mkdir -p "${APP}/Contents/MacOS"
+          mkdir -p "${APP}/Contents/Resources"
+          cp -a "publish/${RID}/." "${APP}/Contents/MacOS/"
+          cp .github/player-macos/Info.plist "${APP}/Contents/Info.plist"
+          ICONSET="bundle/${RID}/Orynivo.iconset"
+          mkdir -p "${ICONSET}"
+          sips -z 16 16 Logo/icon.png --out "${ICONSET}/icon_16x16.png"
+          sips -z 32 32 Logo/icon.png --out "${ICONSET}/icon_16x16@2x.png"
+          sips -z 32 32 Logo/icon.png --out "${ICONSET}/icon_32x32.png"
+          sips -z 64 64 Logo/icon.png --out "${ICONSET}/icon_32x32@2x.png"
+          sips -z 128 128 Logo/icon.png --out "${ICONSET}/icon_128x128.png"
+          sips -z 256 256 Logo/icon.png --out "${ICONSET}/icon_128x128@2x.png"
+          sips -z 256 256 Logo/icon.png --out "${ICONSET}/icon_256x256.png"
+          sips -z 512 512 Logo/icon.png --out "${ICONSET}/icon_256x256@2x.png"
+          sips -z 512 512 Logo/icon.png --out "${ICONSET}/icon_512x512.png"
+          sips -z 1024 1024 Logo/icon.png --out "${ICONSET}/icon_512x512@2x.png"
+          iconutil -c icns "${ICONSET}" -o "${APP}/Contents/Resources/Orynivo.icns"
+          chmod 755 "${APP}/Contents/MacOS/Orynivo"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${VERSION}" "${APP}/Contents/Info.plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${VERSION}" "${APP}/Contents/Info.plist"
+          mkdir -p packages
+          ditto -c -k --sequesterRsrc --keepParent \
+            "${APP}" "packages/Orynivo-${VERSION}-${RID}-Portable.zip"
+          tar -czf "packages/Orynivo-${VERSION}-${RID}.tar.gz" -C "bundle/${RID}" Orynivo.app
+
+      - name: Create macOS installer package
+        run: |
+          VERSION="${{ steps.ver.outputs.version }}"
+          RID="${{ matrix.rid }}"
+          PACKAGE_ROOT="installer-root/${RID}"
+          mkdir -p "${PACKAGE_ROOT}/Applications"
+          ditto "bundle/${RID}/Orynivo.app" "${PACKAGE_ROOT}/Applications/Orynivo.app"
+          pkgbuild \
+            --root "${PACKAGE_ROOT}" \
+            --identifier com.bschlaack.orynivo \
+            --version "${VERSION}" \
+            --install-location / \
+            "packages/Orynivo-${VERSION}-${RID}.pkg"
+
+      - name: Validate application bundle
+        run: |
+          VERSION="${{ steps.ver.outputs.version }}"
+          RID="${{ matrix.rid }}"
+          plutil -lint "bundle/${{ matrix.rid }}/Orynivo.app/Contents/Info.plist"
+          test -x "bundle/${{ matrix.rid }}/Orynivo.app/Contents/MacOS/Orynivo"
+          test -s "bundle/${{ matrix.rid }}/Orynivo.app/Contents/Resources/Orynivo.icns"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIconFile" \
+            "bundle/${{ matrix.rid }}/Orynivo.app/Contents/Info.plist" \
+            | grep -Fxq 'Orynivo.icns'
+          file "bundle/${{ matrix.rid }}/Orynivo.app/Contents/MacOS/Orynivo"
+          unzip -t "packages/Orynivo-${VERSION}-${RID}-Portable.zip"
+          tar -tzf "packages/Orynivo-${VERSION}-${RID}.tar.gz" \
+            | grep -Fxq 'Orynivo.app/Contents/Info.plist'
+          pkgutil --payload-files "packages/Orynivo-${VERSION}-${RID}.pkg" \
+            | grep -Fxq './Applications/Orynivo.app/Contents/Info.plist'
+
+      - name: Upload package to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          bash .github/scripts/upload-release-assets.sh
+          '${{ steps.ver.outputs.tag }}'
+          'Orynivo ${{ steps.ver.outputs.version }}'
+          false
+          packages/*

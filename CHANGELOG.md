@@ -1,0 +1,7182 @@
+# Changelog
+
+All notable changes to Orynivo are documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [Unreleased]
+
+### Added
+
+- DSDIFF (DFF) files expose the ID3v2.3 tag and embedded cover art they carry,
+  so they appear with their title, artist, album, track number and artwork.
+- The audio settings offer a **DSD → PCM output rate** choice, so the conversion
+  target no longer has to be fixed at build time. Automatic keeps the
+  conventional DSD rate divided by sixteen.
+- The lyrics view uses the album cover as a blurred full-bleed background,
+  shows the cover and track details beside left-aligned lyrics, and keeps the
+  active line vertically centred.
+- The lyrics view now scrolls smoothly between lines, grows and fades the active
+  line with a short transition, and lights each word of an enhanced-LRC line in
+  the accent colour as it becomes audible.
+- The interface uses a warm gold accent on translucent surfaces over a subtle
+  gradient, replacing the previous blue-grey palette. The wordmark, dashboard
+  hero artwork, About logos, statistic icons, secondary buttons and dialog
+  accents now share that gold palette instead of retaining blue and violet
+  tones.
+
+### Removed
+
+- The music visualizer is gone: its transport button, Settings page, preset
+  selection and download actions, fullscreen window, MilkDrop preset engine,
+  audio spectrum analysis and the related tests no longer ship. The lyrics view
+  replaces it as the full-screen listening surface.
+
+### Fixed
+
+- The library scanner imports DFF sources instead of dropping them after four
+  failed attempts; their technical fields come from FFprobe, like WavPack.
+- DSD to PCM conversion defaults to 384 kHz and is no longer clamped to 192 kHz
+  on Linux, so USB DACs without 176.4/352.8 kHz support open without resampling.
+- Clicking the already selected sidebar item while the settings are open now
+  returns to that view instead of leaving the user stuck in the settings.
+- Dashboard "recently played" cards used the 96 px list thumbnail and looked
+  soft; they now decode the stored full-resolution cover at the rendered size.
+- The Linux device info dialog listed a hard-coded PCM rate set capped at
+  192 kHz; it now reports the rates the ALSA device actually advertises.
+
+## [0.49.0] - 2026-11-04
+
+### Added
+
+- Artist and album rows in the web remote show their artwork before the text,
+  with lazy authenticated thumbnails and stable placeholders for missing images.
+
+- The web remote has dedicated **Artists** and **Albums** destinations in a
+  single navigation row, with remaining destinations in **More**. Browser music
+  output offers **Original format**, **DSD → PCM**, six FLAC precision/rate
+  choices from 16-bit/44.1 kHz to 24-bit/192 kHz and MP3 at 128–320 kbps. Radio
+  and podcasts retain their independent streaming behavior.
+
+- **This device** in the mobile web remote sends audio exclusively to the
+  selecting browser. Switching waits for complete WASAPI/ASIO or other output
+  release, retains the current position/pause state, and progressively converts
+  music PCM or DSD to stereo 48 kHz MP3 at 192 kbps through FFmpeg. Radio and
+  podcasts use direct streaming with a browser-format fallback. Browser
+  progress, pause, seeking, volume and natural queue advancement use the shared
+  player lifecycle. Session-only, HttpOnly media cookies protect streaming
+  without placing tokens or source URLs in media addresses. Returning to a
+  configured output restores desktop playback; closing the page never
+  automatically reopens a device.
+
+- Starting playback in the mobile web remote opens **Now playing** and refreshes
+  the current source information. Music displays its actual album, radio shows
+  its station and live title, and podcasts show their episode, show, publisher
+  and publication date when available, alongside genre and audio details. Album
+  covers, station logos and podcast covers load through the authenticated
+  thumbnail endpoint, including images that arrive after playback starts.
+
+### Fixed
+
+- Web music search ranks local/server matches together, favors exact titles and
+  requires every literal query word. Playing from search or album browsing now
+  queues the displayed suffix. Provider ID batches avoid per-track network
+  lookups during queue preparation. Now-playing artwork prefers the original
+  image and delivers up to 1280 pixels. Indexed audio metadata avoids redundant
+  probes; conversion and seeking no longer throttle input to realtime speed.
+
+- Playing a playlist row in the web remote now continues through the remaining
+  playlist, retaining the selected occurrence even for duplicate tracks. Browser
+  music conversion streams packets immediately; radio and podcasts relay their
+  original bytes with supported range seeking and an encoding fallback for
+  unsupported formats. Playback details show the delivered format. The desktop
+  output picker shows **Remote device** and restores the source and position
+  when a physical output is selected, even after the remote closes.
+
+- macOS CI and release builds use supported macOS 15 runners matched to Intel
+  and Apple Silicon, replacing the retired macOS 14 runner image that prevented
+  jobs from starting and left Apple Silicon release packages unavailable.
+
+## [0.48.3] - 2026-11-04
+
+### Added
+
+- Mobile web remote sections for saved internet-radio stations, Radio Browser
+  search, pinned podcasts, Apple Podcasts search, and episode playback through
+  the desktop output. Pinned episodes reuse progress and existing downloads.
+  Media selections use bounded opaque identities without exposing feed or audio
+  URLs. The remote now also includes complete Russian and Simplified Chinese
+  translations alongside its five existing languages.
+
+## [0.48.2] - 2026-11-02
+
+### Added
+
+- Caddy/nginx reverse-proxy guidance for HTTPS server access and authenticated
+  MCP streaming, with matching local wiki navigation. Added version-pinned AUR
+  and Homebrew packaging drafts with native validation/publication checklists;
+  these are not published distribution channels.
+
+### Fixed
+
+- The AUR binary package draft declares native .NET and Avalonia dependencies
+  explicitly and offers CoreCLR tracing as an optional dependency.
+
+- Equalizer APO/AutoEQ imports reject malformed filter rows, unsupported
+  trailing parameters and non-finite values instead of silently importing a
+  partial or altered profile. Explicit neutral profiles now import successfully.
+  Offline tests cover import boundaries, stereo bypass, filter gain and
+  transitions.
+
+- Release uploads reconcile existing assets on every retry so interrupted
+  successful transfers do not repeatedly fail with duplicate-name errors.
+  Workflows reject obsolete assets after a release tag moves to another commit.
+
+- Improve Hindi (hi) strings: fix typo, grammar and awkward terms (part of #181)
+
+## [0.48.1] - 2026-10-14
+
+### Fixed
+
+- Changing Shuffle during playback rebuilds the prepared gapless sequence at the
+  current position and preserves pause state, including Genre Cloud queues.
+  Automatic advancement also respects forward history after Previous.
+
+## [0.48.0] - 2026-10-13
+
+### Changed
+
+- Genre Cloud resolves selected albums instead of loading complete catalogs,
+  loads independent sources concurrently, and reuses local genre inputs until
+  catalog invalidation. Genre ancestry and phrase matching are precomputed, and
+  repeated genre values are classified once per snapshot. Joined facet reads
+  retain profile ratings, favorites and MusicBrainz enrichment. Updated servers
+  support bounded album batches; older servers use bounded detail requests.
+
+- Selecting an uncached Genre Cloud branch immediately replaces its old display
+  with a localized assembly message and a bar showing completed work steps.
+  Cached levels still appear directly; cancellation and navigation release only
+  the owning loading state.
+
+- Dashboard and Genre Cloud show their last cached display before background
+  refresh, including after restarting Orynivo. Dashboard sections refresh
+  independently, unchanged data retains existing controls, and cached views
+  remain interactive without the blocking loading overlay. Restart previews
+  exclude credentials and authenticated URLs and are bounded by size, age and
+  file count.
+
+### Fixed
+
+- Catalog changes retain the last Genre Cloud display while refreshing it;
+  unavailable sources no longer replace a retained level with an empty refresh.
+  Abandoned refreshes cannot replace another view or a newer profile/source
+  configuration.
+
+- Blocking audio-player disposal runs on independent background workers so
+  parallel retirements cannot occupy the shared thread pool needed by output
+  release, preparation and timeout continuations. Complete device release still
+  drains every owned retirement and isolates disposal failures.
+
+## [0.47.0] - 2026-10-12
+
+### Changed
+
+- Supplement incomplete high-resolution WavPack technical metadata with a
+  bounded FFprobe read during scanning. Preserve readable tags when TagLib
+  cannot read extended-rate properties; CUE tracks retain source precision and
+  correct final segment duration. Probe each physical source once per sheet.
+
+- Enforce the configured maximum WASAPI output sample rate as a strict limit.
+  Never fall back above it when a driver rejects lower rates, preventing an
+  advertised but unstable high-rate mode from bypassing the user's restriction.
+
+- Scan newly added local directories immediately in Settings, using the existing
+  progress, cancellation and retry controls. Preserve active directory rows when
+  other folders are added or removed; duplicate folders do not start new scans.
+
+- Keep explicit ORYNIVO_DATA_DIR profiles isolated from legacy Player settings
+  and caches. Preserve destination files created during legacy migration without
+  crashing startup; other copy failures remain retryable.
+
+- Improve setup hint contrast and use one themed keyboard-focus outline. Check
+  simulated 100/200% scaling, reduced motion and opaque theme contrast.
+- Disable Play before a track is available, including after an empty stop;
+  retain resume/retry for a remembered source.
+- Isolate UI smoke output configuration from default-device discovery. Add
+  opt-in setup frame export and manual first-playback profile preparation.
+
+- Give library setup and output-profile actions a themed keyboard-focus border
+  and highlighted fill without changing their size or introducing animation.
+
+- Keep every empty-library setup action reachable with Tab and Shift+Tab in the
+  sidebar. Continue tab traversal through its child buttons instead of skipping
+  the remaining actions after the first; Enter opens normal Settings.
+
+- Hide obsolete empty-library guidance during reload and after catalog or
+  watcher invalidation. Reuse existing request ownership so late empty results
+  cannot replace current failure/recovery presentation.
+
+- Show source/filter guidance and a Settings action for successfully loaded
+  empty Artists, Albums and Tracks views. Failed or incomplete sources retain
+  their separate retry notice; search and detail surfaces are excluded.
+
+- Add localized folder scan guidance in Settings, explaining progress, saving
+  Settings after completion and opening Tracks for first playback.
+
+- Expand the Library sidebar when its first local music folder is configured,
+  matching first-server setup. Later folder changes retain the collapsed
+  preference; configured roots are copied before watcher and cleanup handoff.
+
+- Keep the output profile selector full-width and wrap Create output, Configure
+  output and Delete output below it. Translated captions can grow vertically
+  instead of clipping in narrow Settings layouts.
+
+- Add an Output device entry to empty-library setup, reusing existing audio
+  Settings. Verify that profiles without outputs can create one while
+  selection-only actions remain disabled.
+
+- Add distinct Directories and Orynivo servers actions to empty-library setup,
+  opening each existing Settings section with wrapped localized captions and
+  explicit accessible names. Remove hint clipping and track fresh-profile layout
+  and routing checks.
+
+- Add composed fake-player workflows for gapless queue edits and output
+  switching at simulated playing positions, preserving current queue snapshots,
+  resume position/pause and unique disposal through the production lifecycle
+  helpers.
+
+- Add an opt-in synthetic catalog measurement tool for 1,000 and 100,000 tracks,
+  recording warm query samples and managed allocations without personal media.
+  Document repeated observations and bounded-read guidance without CI time
+  gates.
+
+- Await transcode process termination before returning after request
+  cancellation or response-write failure. Five real managed-child regression
+  cases cover cleanup, natural completion, pre-cancelled requests and startup
+  failure.
+
+- Add thirteen in-memory original-file stream integration cases for exact bytes,
+  range headers/slices and 416, invalid-range fallback, missing files, rejected
+  options/authentication and client cancellation reaching the file-response
+  write.
+
+- Add seven in-memory playlist endpoint integration cases for ordered duplicate
+  entries, regular mutations, per-profile track state, smart favorite overrides,
+  similarity/count resolution and rejection of invalid or unauthenticated
+  writes.
+
+- Complete active-profile favorites/rating handling for compact full-track,
+  album-track and path-resolved lists. Explicit false favorites and zero ratings
+  now override legacy shared values consistently with paging and ID resolution.
+
+- Add in-memory integration checks for track paging, detail/ID resolution and
+  profile-scoped favorites through the production authentication pipeline. Paged
+  and ID-resolved tracks now apply the active profile's favorites and ratings
+  instead of returning only legacy shared values.
+
+- Extend tracked Windows UI smoke coverage with unified catalog retry and
+  configuration recovery: retained rows, duplicate suppression, stale navigation
+  and cache rejection, reentrant cancellation and fresh configuration loading.
+
+- Extend tracked Windows UI smoke coverage with eight remote album cache cases:
+  failed/full/empty recovery, timestamp invalidation, current favorites, corrupt
+  cache rebuilding, malformed payload preservation and artwork invalidation.
+
+- Extend tracked Windows UI smoke coverage with local album publication guards
+  and a populated search-to-remote-album-to-Back journey with colliding album
+  IDs. Back restores the original search selection and source without extra
+  history.
+
+- Extend tracked Windows UI smoke coverage with twelve remote album cases for
+  late metadata admission, captured fallback/source ownership, overlapping opens
+  and superseded overview/detail restoration.
+
+- Extend tracked Windows UI smoke coverage with ten search groups: late replies,
+  source failures and successful empty results, localized partial results, retry
+  recovery, cache invalidation and source-aware Back restoration.
+
+- Add a tracked Windows headless workflow suite for cached artist detail,
+  source-aware Back, late profile/image selection and guarded scroll restore.
+  Windows Debug/Release CI and local full verification run it in a separate
+  synthetic-data process with external profile/image transport blocked.
+
+- Back now captures and restores the outer artist-detail scroll position,
+  without borrowing a selection from an overlaid table. Deferred scrolling
+  rechecks detail identity and Back ownership; newly opened artist details start
+  at the top. Offline Back checks cover delayed profile/dialog/image completion
+  and retained source-aware selection.
+
+- Artist image rejection now stays attached to each running profile or artwork
+  operation. Later changes to another artist cannot revive an older image.
+  Observations are released on completion, without keeping mutation history.
+  Local metadata binds the resolved canonical name and manual synchronization
+  notifies exact local identities before writes. Artwork decoding permits atomic
+  cache replacement and old-format cleanup during concurrent reads.
+
+- Missing artist artwork synchronization now shares artist write admission
+  through current metadata reads, image capture and local/server writes. Recheck
+  donor availability and target image/manual state, retain current biography and
+  original server connections, and reject abandoned detail or superseded image
+  work. Later manual changes retain the final state.
+
+- Settings missing-artist-image acceptance now shares artist write ordering with
+  profile and manual image work. Recheck current image/artist/source state after
+  waiting and preserve images added during search or preview. Remote acceptance
+  uploads only to the owning server. Settings connection copies retain personal
+  profile and streaming preferences.
+
+- Remote artist context-menu image searches retain their original row binding
+  and server connection through selection and ordered upload/synchronization.
+  Abandoned selections and superseded completions no longer change unrelated
+  artwork or status.
+
+- Automatic artist-row profile downloads, database persistence and artwork
+  decoding now share write ordering with manual image changes. Waiting jobs
+  recheck their original row binding and current manual-image state.
+
+- Now Playing server profiles share ordered download/upload and cache work with
+  manual artist-image changes. Queued work refreshes authoritative manual-image
+  state, uses source-owned cache IDs and rechecks playback/source/image
+  ownership. Superseded cached images still allow current biography display
+  without writes. Forced biography refresh retains manual server artwork;
+  guarded cache staging preserves prior bytes when publication is abandoned.
+
+- Server artist-detail profile downloads and image-byte capture share write
+  ordering with manual image changes. Image policy is checked after waiting;
+  obsolete capture is rejected while retaining biography data. Waiting downloads
+  reject abandoned views, changed sources and cancellation before cache writes.
+  Server manual-image state is checked after admission; unavailable state
+  protects existing images. Server downloads use source-derived negative cache
+  identifiers so matching numeric IDs cannot replace positive local artist
+  files. Cache file names remain culture-independent.
+
+- Local foreground artist profiles order download, SQLite persistence and image
+  byte capture together with manual image changes. Download policy is checked
+  after waiting; later manual uploads/deletions finish last. Current biographies
+  still persist when a manual change supersedes the image.
+
+- Primary profile uploads from the server artist-detail view share write
+  ordering with manual image changes. Waiting uploads recheck view/source
+  ownership and discard obsolete image bytes while retaining current biography
+  updates. Later manual uploads or deletions finish after an already admitted
+  profile upload.
+
+- Automatic unified artist-profile synchronization shares write ordering with
+  manual artist-detail image changes. A later manual upload or deletion waits
+  through an admitted automatic file/SQLite/server batch and then writes last.
+  Waiting profile work rechecks its enclosing ownership before any writes and
+  retains the original destination set.
+
+- Automatic Wikipedia/Last.fm artist-image downloads use the shared serialized
+  cache writer. Complete streams are staged before replacement; cancelled,
+  failed or empty transfers preserve the existing image and clean temporary
+  files. Provider MIME and URL-extension fallback rules remain unchanged.
+
+- Artist-detail image search, upload and deletion order their complete manual
+  write batches per normalized artist within the window. Later changes wait
+  through earlier file, SQLite and server work; obsolete waiting actions perform
+  no writes. Queued work retains its original destination set.
+
+- Artist image cache saves and deletions serialize per artist and data directory
+  within the process. Unique staging files are cleaned after cancellation or
+  failed publication; cancelled waiters preserve the current image. The existing
+  deletion API remains compatible alongside asynchronous deletion.
+
+- Running local, server and Now Playing profiles retain separate ownership for
+  their images. Admitting a manual image change rejects older image/placeholder
+  publication, image status, retained-row refresh and profile-image
+  synchronization while still allowing the current biography and loading cleanup
+  to finish. Late cached server metadata preserves manually changed row images
+  and deletion state. Cancelled selections leave profile images admitted;
+  rejected decoded images are disposed.
+
+- Artist-detail image search uses the guarded manual-image flow for local,
+  server and Now Playing artists. Search retains its original query and target;
+  obsolete confirmations cannot upload or replace a newer image. Search and file
+  upload share action ownership. Direct uploads use copied owning-server
+  connections and retain current failure feedback; changed sources or views
+  reject subsequent synchronization/publication. Successful admitted uploads
+  invalidate catalogs even after navigation. Redundant unguarded detail-search
+  continuations and the separate Now Playing search flow were removed.
+
+- Artist-image upload selection and deletion retain their original displayed
+  artist, source, playback and navigation context. Outdated selections cannot
+  start synchronization; admitted data changes complete without overwriting a
+  replacement hero, row or status. Newer manual actions and profile admissions
+  reject older publication. Uploaded images decode off the UI thread, and
+  rejected decoded images are disposed. Local row reads and refreshes retain the
+  same guard; upload/deletion failures only affect their current view.
+
+- Manual artist-image upload and deletion synchronization captures its original
+  server set and copied connections before local work. Delayed lookups and
+  writes cannot start further mutations or delete list/artwork caches on changed
+  or removed sources. Cancellation is rechecked before local metadata writes and
+  between remote operations; shared catalog caches are invalidated even when
+  cancellation follows an admitted write. Already started changes are not rolled
+  back, and local biography metadata remains intact.
+
+- Server artist edits retain their original displayed row, connection and
+  navigation context across rename/merge dialogs and delayed responses. Changed
+  sources or abandoned views cannot admit new edits, reopen old details or
+  overwrite current status. Playback updates retain the original track/provider
+  and owning server instead of matching numeric artist IDs alone. Accepted
+  changes invalidate library caches and still synchronize local metadata after
+  navigation. Refreshing the renamed detail preserves its hero instead of
+  temporarily opening the server overview.
+
+- Local artist rename and merge flows retain their original detail across
+  database reads, dialogs, synchronization and profile refresh. Obsolete merge
+  choices cannot start a transaction, and delayed results cannot replace a newer
+  title, status, filter or playback artist. Empty filter/playback IDs no longer
+  count as matching merge targets. Accepted changes still synchronize and update
+  the search index after navigation; initial artist lookup runs off the UI
+  thread.
+
+- Artist rename synchronization retains the original configured server set and
+  copied connections. Changed or removed sources cannot receive subsequent
+  renames or merge requests after delayed responses, and newly added servers do
+  not enter an accepted rename. Already admitted changes still complete when the
+  artist view is closed; merge survivor choices remain explicit.
+
+- Artist profile refresh retains its original displayed artist, source and
+  playback identity while the lookup dialog is open. Confirmations after
+  navigation, a newer profile or source changes cannot refresh a different
+  artist. Refresh keeps the existing unified album strip and no longer reloads
+  an obsolete artist detail after completion. Opening the dialog does not
+  abandon a running profile load.
+
+- Now Playing remote artist profiles retain their enclosing view and copied
+  server connection inside the metadata provider. Delayed source responses
+  cannot start further profile downloads/uploads or overwrite the artist-image
+  cache after playback, view or connection changes. Current cached profiles and
+  the standard metadata-provider interface remain supported.
+
+- Artist-profile synchronization retains its enclosing request and original
+  server sources between reads, writes and cache cleanup. Superseded work stops
+  further synchronization; manually selected images remain protected. Automatic
+  artist profiles reject replaced row bindings, language/identity changes and
+  obsolete background work; old completion retains newer loading markers and
+  rejected decoded images are disposed.
+
+- Remote-library and Now Playing artist profiles reject delayed results after
+  navigation, source changes or a newer playback identity. Obsolete images,
+  errors and refresh completion cannot overwrite the current profile. Nested
+  album and track loading retains the enclosing profile publication guard.
+
+- Local artist profiles reject obsolete database, image and row-refresh results
+  after navigation, hidden views, newer artist details or Back replacement.
+  Decoded images are discarded when publication is abandoned; old errors and
+  completion cannot change the current profile status or refresh button. Profile
+  admission and top-level cancellation retain replacements started by
+  cancellation callbacks.
+
+- Global Back now restores the opened Plex detail after switching views,
+  including selection, scroll, playback metadata, existing parent views and
+  library paging. Sectionless playback-history details retain their origin.
+  Saved source and encrypted credentials are revalidated before publication;
+  rejected snapshots fall back to Tracks and obsolete credential lookups cannot
+  overwrite newer navigation.
+
+- Plex child Back rejects saved rows after source, connection, credential,
+  section or navigation changes. It returns to the global origin when available,
+  with Tracks as the fallback for a removed Plex origin. Deferred scroll work
+  also rejects a changed source.
+
+- Plex child Back now retains the exact selected row and scroll position before
+  loading. Deferred layout and cancellation callbacks cannot overwrite a newer
+  navigation action or consume its saved history.
+
+- Plex page, child and lazy-folder loads now retain copied source, section,
+  token and navigation ownership. Obsolete results cannot replace rows, trees,
+  status or playback metadata. Paging captures its offset and existing rows;
+  child Back states capture rows/title before loading. Independent Plex actions
+  abandon root loading/fades, and Back restores root paging availability.
+  Sectionless playback-history links retain their source and Back base.
+
+- Genre Cloud foreground loads now reject obsolete rows and playback metadata
+  after navigation, catalog/source changes and overlapping Back restores. Branch
+  and mode actions replace root loading and fades while reusing shared snapshot
+  work. Background images also retain foreground and mode ownership; discarded
+  decoded images are disposed.
+
+- Genre Cloud deferred layout and staggered button animations now reject
+  replaced bindings, abandoned Back restores, navigation and catalog changes.
+
+- Back restores now retain their own execution and deferred selection/scroll
+  ownership. An older completion cannot end a newer restore or change its Back
+  button. Independent navigation resumes history capture immediately; nested
+  restore loaders still avoid duplicate entries. Remote artist restoration also
+  rejects superseded overview and filtered-list loads.
+
+- Extracted Back restore route decisions into a tested UI-independent helper,
+  preserving source identity and incomplete-state fallback.
+
+- Logical album detail now owns artwork and track publication across navigation
+  and configuration changes. Source parts and artist scope are captured before
+  awaiting; obsolete responses cannot register playback metadata or update
+  tracks, headers, fades or Back. Artwork writes require current admission and
+  invalidate caches after successful writes even when later work is abandoned.
+  Own artwork invalidation permits the current detail to continue loading.
+
+- Local album workers now retain copied album IDs and artist scope. Navigation,
+  configuration changes and same-album replacement reject obsolete rows,
+  headers, rating-refresh admission, fades and Back-button publication, while
+  releasing the counted loading contribution exactly once.
+
+- Remote album metadata lookups now retain request/source ownership before
+  starting detail loads. Both open routes capture artist scope and fallback
+  metadata, reject conflicting row sources, and cancel abandoned lookups. Back
+  restores retain the exact overview token and metadata request so newer
+  same-tag navigation cannot reopen obsolete detail or restore its scroll.
+
+- Provider album track loads now capture their server, artist scope and album
+  IDs before awaiting. Superseded requests reject rows, playback registration
+  and fades, release their loading contribution once, and receive cancellation
+  when navigation or catalog configuration changes.
+
+- Top-level loading and deferred fades now retain request ownership. Superseded
+  navigation releases its counted loading scope exactly once and cannot replay a
+  fade over the new view. Remote and outer loaders share an idempotent lease;
+  views without a loading scope no longer decrement another load's count.
+- Nested loading scopes preserve the overlay render generation until the final
+  release, preventing an invisible active loading overlay.
+
+- Remote view loads now retain explicit request ownership. Navigation and
+  catalog configuration changes abandon earlier loads; late rows, track facets,
+  errors and loading cleanup cannot overwrite a newer local or same-tag server
+  view.
+
+- Remote Back navigation uses typed server targets. Invalid or removed source
+  tags cannot borrow the currently active server; album capture repairs sidebar
+  tags belonging to a different server. Restoration rechecks the owning source
+  after lookups and before deferred selection/scroll updates.
+
+- Back navigation capture now uses a window-independent typed decision helper.
+  It preserves search/cloud precedence, logical album parts, and local/server
+  identity even when album or artist IDs collide. The window still owns history,
+  selection, scroll restoration and view loading.
+
+- Shared catalog server requests now use the common source batch scheduler,
+  retaining concurrent admission of every configured server, ordered outcomes
+  and independent 20-second budgets. Regression tests compose scheduling with
+  catalog invalidation and complete-only cache ownership.
+
+- Shared catalog load ownership and the three-entry complete-result cache now
+  belong to a standalone coordinator. Source outcomes retain their configured
+  order; obsolete loads cannot publish or overwrite cache entries. Window-free
+  tests cover overlapping requests, invalidation, cancellation and recovery.
+
+- Playback session ownership now also guards initial/resume seeks and
+  pause/resume readiness. System, slider and remote seeks participate in
+  complete output release. Window-free composition tests cover held factories,
+  seeks, readiness, reentrant backend callbacks and unique late retirement.
+
+- Active playback output and cancellation now share one standalone session
+  owner. Stale factory/seek handoffs cannot replace newer output; gapless
+  retries retain their token. Failing cancellation callbacks cannot strand
+  output outside background cleanup. Window-free lifecycle tests cover these
+  transitions.
+
+- Playback shutdown admission and its shared drain task now belong to a
+  standalone coordinator with window-free tests. Reentrant shutdown requests
+  share the same outcome before queue cancellation or UI hooks begin.
+
+- Full output release now uses a standalone preparation/retirement drain with
+  window-free tests. Late factory results remain included after cancelled
+  preparation finishes; ordinary transitions retain their bounded wait.
+
+- Gapless queue refresh coordination now lives in a standalone helper with
+  injected playback adapters and window-free tests for joining, repeated edits,
+  supersession, failures, and recovery. Queue and player ownership stay intact.
+
+- Asynchronous player disposal is owned by a standalone retirement helper with
+  controllable-clock regression tests. Detached gapless players no longer retain
+  their window event subscription.
+- Shared smart playlists load selected catalogs and similarity features with
+  bounded asynchronous requests and cancellation. Partial results offer retry;
+  incomplete counts show an unavailable preview in all seven interface
+  languages.
+- Regular mixed playlists resolve local metadata in batches and remote IDs in
+  bounded asynchronous requests. Navigation cancels pending loads and rejects
+  stale rows and playback metadata.
+
+### Fixed
+
+- Both Settings library-root cleanup paths now notify shared catalog caches
+  after indexed tracks were successfully removed. A cleanup that changes no rows
+  does not invalidate views. Library import preparation also clears catalog
+  snapshots and cancels pending shared loads, rejecting late pre-import results.
+
+- Background library watcher changes no longer cancel searches/playlists or
+  update their notices on a worker thread. Catalog snapshots invalidate
+  immediately; one coalesced dispatcher pass abandons only the captured request
+  versions, preserving searches and playlists started after the notification.
+
+- Saving changed Orynivo Server connections now invalidates shared catalog,
+  Dashboard, Genre Cloud and similarity snapshots before subsequent settings
+  work. Changes to server profile, streaming format or bitrate also count as
+  configuration changes, preventing reuse of rows with stale playback settings.
+
+- Shared catalog loads retain copied filter, favorite, artwork and
+  server/profile inputs throughout local background work and remote follow-up
+  requests. Settings or profile changes can no longer alter an already admitted
+  request's context.
+
+- A catalog reload triggered synchronously by cancelling an older reload keeps
+  its new request and cancellation ownership instead of being overwritten by the
+  interrupted caller.
+
+- A new playback start triggered synchronously by a cancellation or backend
+  pause/resume callback can no longer lose its transport/source state to the
+  older action. Obsolete slider seek failures no longer overwrite current
+  status, and superseded remote seeks cancel their acknowledgement.
+
+- The composite previous-feedback regression test no longer depends on shader
+  time budgets under host load. Keep its exact pixel assertions while testing
+  budget adaptation separately; production rendering budgets remain unchanged.
+
+- Mobile queue move/remove commands reject stale success and obsolete errors
+  after Clear, queue replacement, or shutdown during gapless preparation.
+  Ordinary playback changes preserve accepted edits.
+
+- Queue edits during a pending gapless start seek join the original preparation
+  instead of replacing its command. Reconcile changed snapshots after seek,
+  preserving resume position/pause and publishing only one history occurrence.
+
+- Gapless initial starts and queue replacements discard unpublished player
+  results whose ordered queue snapshot changed during creation. Retry within the
+  same start before readiness, retaining requested seek/pause and duplicates.
+
+- Concurrent queue edits share gapless preparation and rebuild again with the
+  latest queue before completion. Preserve duplicate entries, position and pause
+  state; obsolete preparation cannot restart a newer or stopped session.
+
+- Clear rejects pending queue-replacement and playlist-play lookup even while
+  ordinary output remains active. Append/Next and playlist append reject stale
+  acknowledgements after a destructive queue change during gapless preparation.
+
+- Clear rebuilds active gapless output with only the current track, retaining
+  position and pause state. Desktop, MCP and Mobile wait for preparation;
+  superseded MCP clears cancel instead of reporting success.
+
+- MCP and Mobile Remote append/next own resolution before lookup. Clear,
+  wholesale replacement and shutdown reject old entries and remote metadata.
+  Ordinary playback start/Stop preserves independent queue edits. MCP forwards
+  original references and reports unavailable resolution instead of success.
+
+- Gapless queue rebuilding completes after player preparation and preserves the
+  paused position before publication. Obsolete rebuild completion cannot pause a
+  newer player.
+
+- Radio metadata and cross-device resume responses reject obsolete playback
+  sessions, including restarts of the same station or remote track. Resume
+  lookup starts after current track metadata is assigned; Stop and gapless
+  transitions clear stale prompts. Resume seeks observe failures and full output
+  release waits for admitted seeks before reporting completion.
+
+- Radio and podcast actions complete after player preparation while later
+  playback errors remain observed. Obsolete preparation errors cannot stop a
+  replacement. A nonzero requested podcast position takes precedence over saved
+  episode progress, preserving explicit paused resume positions. Aborting a
+  pending resume no longer replaces saved progress with an unprepared position.
+
+- Infinite Mix rejects obsolete refill results after Stop, pause, replacement or
+  a newer mix. Late results cannot append tracks, register remote metadata or
+  clear a newer refill indicator. Full output release drains pending refills; an
+  initial mix start completes after player preparation.
+
+- MCP queue replacement and mobile playlist Play claim playback ownership before
+  asynchronous source resolution. A newer start or Stop rejects obsolete queue
+  changes and remote metadata registration; full output release includes pending
+  resolution. Replacement preserves duplicate entries and reports the actual
+  playable count; an entirely unresolved request retains the existing queue.
+
+- MCP single-track Play passes opaque remote references directly to the owning
+  playback preparation. Mobile single-track Play claims its start before local
+  or remote identity lookup. Newer starts and Stop cancel pending lookup;
+  obsolete results cannot register metadata or restart playback. Complete output
+  release also waits for pending mobile identity lookup.
+
+- Mobile Remote and MCP playback, queue replacement and skip commands complete
+  after player preparation instead of waiting for track completion. Abandoned
+  MCP starts are cancelled; unavailable mobile track starts return failure. The
+  UI bridge now awaits asynchronous actions and propagates their errors. The
+  remote smoke test uses the matching Avalonia headless runtime and covers HTTP
+  acknowledgement and asynchronous failure propagation.
+
+- Switching outputs or reacquiring a released output restores the saved position
+  and paused state as soon as the player is prepared. These actions no longer
+  wait for the track to finish. Superseded output selections and fade ramps
+  cannot change newer playback; failed reacquisition drains the player before
+  reporting a released device.
+
+- Complete output release waits for pending playback lookup, creation and
+  initial seek cleanup, then drains players returned after cancellation. Normal
+  window close keeps the dispatcher alive until this drain finishes. Update
+  installation and library import await the same drain before exiting. Transport
+  stop disposes players in the background. Obsolete release completion cannot
+  overwrite a newer playback request.
+- Overlapping playback starts reject obsolete lookup, creation and seek results.
+  Late players are retired, backend fallbacks retain the original cancellation
+  token, and obsolete failures cannot stop a newer player.
+- Complete output-device release also waits for older player disposals still
+  running after a timed-out track transition, including when no active player
+  remains. Ordinary transitions retain their two-second wait limit.
+- Remote similarity smart-playlist references now resolve correctly when server
+  track IDs overlap with local or other server IDs. Runtime identity projection
+  preserves stored criteria, source filters, and personal favorites.
+- Unresolved playlist entries remain visible with localized non-playable
+  placeholders and a removal action. Failed sources offer **Try again** while
+  usable rows, selected entry, and scroll position remain available. Playing a
+  duplicate track starts its selected playlist occurrence.
+
+## [0.46.1] - 2026-10-10
+
+### Changed
+
+- Separated repository working instructions from detailed project and visualizer
+  contracts, corrected outdated cache, rendering, AirPlay, and dependency
+  descriptions, and documented the current visualizer evidence limits.
+
+### Added
+
+- Shared Artists, Albums, and Tracks views show a localized incomplete-load
+  notice with **Try again**. Retry keeps usable rows visible, restores selection
+  and scroll position, and discards responses after navigation.
+- Added an embedded walkthrough video to the README, with a YouTube link as an
+  alternative for browsers without H.265 playback support.
+
+### Fixed
+
+- Global and server-scoped library searches distinguish unavailable sources from
+  genuine empty results and offer **Try again**. Independent servers load with
+  bounded concurrency; replaced queries and navigation cannot publish stale
+  rows, register remote playback metadata, or restore an abandoned position.
+- Shared Artists, Albums, and Tracks views keep results from available sources
+  when another source fails. Failed requests and timeouts no longer resemble a
+  successful empty catalog or enter the complete-library cache. Cancelled or
+  invalidated loads cannot replace the current view or repopulate its cache;
+  legacy remote catalog caches are refreshed once.
+- Removed runner-speed-dependent failures from the Skia shader fidelity tests by
+  raising both shader time budgets and reporting render errors directly.
+- Render timing unit tests verify blur output and recorded stage durations
+  without comparing individual frame speeds, avoiding intermittent failures on
+  busy CI runners.
+
+## [0.46.0] - 2026-09-26
+
+### Fixed
+
+- A preset's border colour channels are now truncated to a byte like Milkdrop's
+  `D3DCOLOR_RGBA_01` macro instead of being clamped to zero-to-one. A preset
+  such as `suksma - frust` computes `ib_a = 1 - mytime + bass`, which reaches
+  1.5 and is drawn by Milkdrop at 126/255; clamping it to one made Orynivo's
+  inner border roughly twice as opaque as the reference. In-range values keep
+  their exact value.
+- The visualizer could still show a deactivated preset at startup: the initial
+  selection was made against the built-ins only, and a preset deactivated after
+  the selection (or a user file that only appeared once the folder was
+  discovered) was not skipped. It now re-resolves to the first enabled preset
+  before every switch and once discovery finishes.
+- Fixed a preset texture being bound to the wrong OpenGL sampler.
+  `VisualizerGlPipeline` resolved a shader sampler before making its texture
+  unit active, and a lazily uploaded preset texture (`sampler sampler_seaweed;`
+  in `suksma - frust`) bound itself to the previously active unit. The unused
+  samplers are skipped, so that unit was `sampler_main`'s, and the comp shader
+  read the image as if it were the previous frame — the preset rendered a
+  full-frame image field instead of its feedback. The unit is now selected
+  before the texture is resolved.
+- Caught the visualizer's preset handling up to MilkDrop 2 in several reference
+  areas that were missing or wrong:
+  - The default waveform now applies the reference's per-mode alpha rules (mode
+    1 `*1.25`, modes 2 and 5 the resolution factor, mode 3 the resolution factor
+    then `*1.3*treble²`, mode 4 `*0.2`) and the
+    `bModWaveAlphaByVolume`/`fModWaveAlphaStart`/`fModWaveAlphaEnd` modulation,
+    plus `bMaximizeWaveColor` (`wave_brighten`), which normalises the wave
+    colour to full brightness.
+  - The legacy display filters `bBrighten` (`sqrt`), `bDarken` (square),
+    `bSolarize` and `bInvert` are applied after the hue tint and gamma on both
+    the CPU and OpenGL paths, matching `GenCompPShaderText`.
+  - The reference variable names `gamma`, `wrap`, and `wave_usedots` are
+    registered, so per-frame code that writes the MilkDrop spelling
+    (`gamma = 1.5;`, `wave_usedots = 1;`) now affects the display; the
+    `fGammaAdj`, `bTexWrap`, and `bWaveDots` keys alias onto them.
+  - Motion vectors use the reference variables:
+    `bMotionVectors`/`bMotionVectorsOn` alias onto `mv_a` (the arrow alpha), and
+    the arrows take their colour from `mv_r`/`mv_g`/`mv_b`. The recorded-field
+    model itself remains Orynivo's documented extension.
+  - The generated noise textures use MilkDrop's sizes: `noise_lq`, `noise_mq`,
+    and `noise_hq` are 256×256 and `noise_lq_lite` is 32×32 (previously
+    `noise_lq` was 32 and `noise_hq` 512), so `texsize_noise_*` and every shader
+    that scales its sampling by them agree with the reference.
+- Corrected the visualizer's default-waveform explosive-hash mode and smoothing.
+  The `wave_smoothing` variable was never registered, so a preset's
+  `fWaveSmoothing` (for example `suksma - frust`, which sets `0.9`) was ignored
+  and the hash stayed unsmoothed, and the mode-5 alpha was not reduced by the
+  reference's resolution factor (`milkdropfs.cpp` multiples it by `0.07` at 256
+  through `0.13` at 2048), which made the wave roughly an order of magnitude too
+  bright. `DrawDefaultWave` now reads the smoothing from the preset defaults and
+  applies `ExplosiveHashAlphaScale`. The default wave also draws the reference's
+  `NUM_WAVEFORM_SAMPLES` count of 480 vertices instead of 512, while its buffer
+  still keeps 512 samples for the modes that peek `i + 32` ahead.
+- Bound the shader sampler-size uniforms. MilkDrop exposes each generated
+  texture's size as `texsize_noise_lq`/`texsize_noise_mq`/`texsize_noise_hq` and
+  the volume pair, but Orynivo declared the GLSL spellings as a single `float4`
+  the scalar-only GL uniform setter could never fill, and the interpreter and
+  compiled shader paths never seeded them at all, so a shader that reads
+  `texsize_noise_lq.zw` (Royal Mashup (188) uses it for a dither coordinate) saw
+  zero and collapsed the coordinate to a constant. All three paths now declare
+  and seed the same values.
+- Fixed the CPU visualizer's warp shader reading a same-generation blur chain.
+  MilkDrop's `BlurPasses` runs after the warp and blurs the feedback the warp
+  just sampled, and the frame buffers then swap, so the next warp's
+  `sampler_main` is deliberately one frame newer than its
+  `sampler_blur1`-`sampler_blur3` (`milkdropfs.cpp`: "when sampling the blurred
+  textures in the warp shader, they are one frame old"). The OpenGL path
+  replicated that, but the CPU `SampleBlur` chain was rebuilt from the current
+  feedback, so a preset such as `GetBlur1(uv_orig) - GetPixel(uv_orig)` settled
+  on the CPU while the reference and the GPU oscillated. The CPU now builds the
+  chain once after the warp and retains it for the next warp, and the Skia warp
+  pass binds that retained chain instead of rebuilding it, so the CPU, GPU, and
+  a Winamp capture of the reference agree (verified with `PSVERSION_WARP=2`,
+  without which Winamp silently runs its default warp).
+- Corrected the MilkDrop preset variables `aspectx`/`aspecty`: the reference
+  binds them to the _inverse_ aspect factors (`var_pf_aspectx = m_fInvAspectX`,
+  so a landscape frame is `(1, width/height)`), while Orynivo bound the
+  non-inverse pair. Per-pixel code that multiplies its position delta by
+  `aspecty` (for example Royal Mashup (13)) therefore applied the aspect
+  correction twice. The shader `aspect` float4 keeps the reference layout
+  `(aspectX, aspectY, 1/aspectX, 1/aspectY)`.
+- Corrected MilkDrop `bDarkenCenter`: Winamp draws only a small, faint centre
+  fan, while Orynivo previously darkened almost the entire frame. Royal Mashup
+  (10)'s isolated wave brightness now closely matches the Winamp capture. Legacy
+  hue shading also respects `fShader`, so a zero value leaves colours untinted.
+- Custom MilkDrop wave lines now interpolate colour and opacity between
+  vertices, and thick custom-wave dots cover the reference's 2×2 pixels at
+  normal texture sizes. The GL comparison harness can also save the raw overlay
+  with `GLH_DUMP_OVERLAY=1` to separate waveform drawing from feedback and
+  composite differences.
+- Corrected MilkDrop's `lum` helper to the reference's `include.fx` weights,
+  `dot(x, float3(0.32, 0.49, 0.29))`, instead of the conventional Rec. 601 luma
+  the interpreter and both emitters used. A composite shader that derives its
+  blur gradient through `lum` (for example Royal Mashup (13)) sampled the wrong
+  value.
+- Separated the MilkDrop per-frame and per-pixel variable storage. A preset's
+  per-pixel block now writes to its own slot array, seeded from the per-frame
+  state each frame, instead of the per-frame array, matching the reference's
+  separate `m_pf_eel`/`m_pv_eel` variable universes. In Royal Mashup (13) the
+  per-pixel vortex points `x1`/`y1`/`x2`/`y2` previously overwrote the per-frame
+  spring state, so the spring (`q4`/`q5`/`q8`) diverged from Winamp.
+- Corrected the comp shader's `rad`/`ang` on the CPU interpreter path to
+  MilkDrop's `UvToMathSpace` (aspect scaled, `rad` one at the screen corners,
+  `ang` wrapped to `0..2π`). The interpreter previously disagreed with the GPU
+  emitter, so a comp shader such as Royal Mashup (13) that derives its picture
+  from them rendered differently on the two paths. `CompShaderPolarTests` pins
+  the interpreter convention.
+- Preset expression variables now use `double` like ns-eel2's `EEL_F`, so
+  long-running feedback keeps the reference's numeric precision instead of
+  accumulating `float` rounding.
+- Corrected MilkDrop's border bands. The outer and inner rings now use the
+  preset's `ob_size` and `ib_size` (default 0.01) as clip-space Chebyshev rings,
+  `[1 - ob_size, 1]` and `[1 - ob_size - ib_size, 1 - ob_size]`, consistently on
+  the CPU, Skia, and OpenGL paths. Both rings previously used fixed values (0.02
+  thick at insets 0 and 0.06) and ignored the preset keys, so a preset whose
+  border feeds the feedback (for example Royal Mashup (13)) rendered too dark.
+- Moved the custom MilkDrop waveforms onto the GPU. The CPU rasterized every
+  line segment and thick offset per pixel, which cost roughly 250 ms per frame
+  for a 512-sample wave at 1920x1080 — a few frames per second for a preset such
+  as Royal Mashup (180). `PresetRenderer` now expands the smoothed polyline into
+  triangles (`WaveGeometry`) instead of drawing it, and `VisualizerGlPipeline`
+  draws those triangles with the same premultiplied "over"/additive blend the
+  shape fills use. The CPU overlay for such a preset drops to a few milliseconds
+  and no longer scales with the render resolution; a preset whose overlay
+  program is unavailable still rasterizes on the CPU.
+- Added MilkDrop's `_qa`..`_qh` q-variable banks and `vol_att`. `include.fx`
+  packs `q1`..`q32` into the `float4` banks `_qa`..`_qh`; a shader that uses a
+  bank as a vector (for example `float2x2(_qb)` in Royal Mashup (151)) rendered
+  white because the unknown name became a zero scalar, so
+  `mus = 0.01/(sqrt(0) + 0.001)` exploded. The banks now reach the GLSL, SkSL,
+  and interpreter paths, and `vol_att` is bound as the attenuated overall level.
+  A scan of a 10,353-preset collection found the banks used by about 600 presets
+  and `vol_att` by 206.
+- Fixed the visualizer's reported frame timing. A warp shader's cost was added
+  to the shader stage even though it already runs inside the warp stage, so the
+  sum of the stages could exceed the measured frame and
+  `RenderTimingDiagnosticTests` failed. The shader stage now reports only the
+  comp pass, matching its documented meaning.
+- Fixed a GLSL compile failure for a preset that declares its own texture. A
+  shader such as Royal Mashup (142), which writes `sampler sampler_cells;`,
+  emitted `uniform shader sampler_cells;` on both back ends, but GLSL spells a
+  sampler `sampler2D` and rejected the whole warp shader. The declaration now
+  follows the dialect, so the shader compiles; the unknown texture falls back to
+  the previous feedback it already did on the SkSL path.
+- Corrected the vertical texture coordinate of MilkDrop's textured shapes. The
+  reference (`milkdropfs.cpp`, marked "DON'T TOUCH!") uses
+  `0.5 + 0.5 * sin(angle + tex_ang + pi/4)`, while Orynivo negated the sine and
+  therefore sampled the captured frame mirrored; the frames are top-down like
+  the reference's capture, so the OpenGL fragment stage's single bottom-up flip
+  is the only one needed.
+  `PresetShapeTests.RenderFrame_TexturedShapeUsesTheReferenceTextureCoordinate`
+  pins the sign.
+- Corrected the CPU blur chain's pass count. Each level is one long horizontal
+  and one short vertical pass from its downscaled source; the reference advances
+  the level only every second pass (`fscale_now = fscale[i/2]`), but Orynivo's
+  interpreter ran N pairs for level N. Levels two and three were therefore
+  over-blurred on the CPU while the OpenGL chain built the correct one pair, so
+  a comp shader sampling `GetBlur2`/`GetBlur3` rendered differently on the two
+  paths.
+- A preset whose per-pixel block writes the sample position now runs its warp on
+  the GPU without also costing the CPU the full warp and comp passes.
+  `PrepareMeshForGpu` refused to build a mesh for such a block, so the
+  expressions-only renderer never took its early return and computed the
+  complete frame while the presenter drew the GPU pipeline as well - the same
+  work twice. It now builds the mesh for `MeshForPixelWarp`, whose fragment
+  shader needs only the mesh's motion values, so the CPU stops at the overlay.
+  Measured on `$$$ Royal - Mashup (13)`: about 500 ms per frame before, with
+  `warpMs` 310 and `compShaderMs` 159 on the CPU.
+- The visualizer's label now follows the frame OpenGL actually drew. Previously
+  the new selection could be labeled while the presenter still consumed the old
+  frame; its shader fields could even be paired with the next preset's overlay.
+  Each published frame now carries its own index, name, and shader sources, and
+  switching presets clears the previous preset's GPU feedback. This also keeps
+  keyboard and mouse navigation in step with the displayed picture.
+- The preset audio bands `bass`, `mid`, and `treble` are alive again. The
+  reference's guard against dividing an empty band by its long-term average is
+  `0.001`, but it is written in the reference's own magnitude units — projectM
+  scales every sample by 128 and leaves its FFT unnormalized, while Orynivo's
+  magnitudes are normalized by the transform length. At that literal value the
+  quiet middle and treble sums of real music fell below the guard, so both bands
+  reported a constant 1.0: measured on a real track, projectM read
+  `bass 0.80 / mid 0.78 / treb 1.19` while Orynivo read `1.37 / 1.00 / 1.00`.
+  The guard is now scaled by the same factor, and every preset that reacts to
+  `mid` or `treble` sees a value that changes with the music again.
+- Shaders now receive the reference's animated hue shade as `hue_shader`.
+  Milkdrop defines `hue_shader` as the final composite quad's vertex diffuse
+  colour (`#define hue_shader _vDiffuse.xyz`) and always computes it, four
+  corners of `0.5 + 0.5*normalised sine`, "since we don't know if shader uses it
+  or not". Orynivo bound no such variable, so every shader read zero and
+  `$$$ Royal - Mashup (138)` — whose comp shader adds
+  `.2*(1-uv.y)*(hue_shader-.8)*4` — clamped its frame to black on both the CPU
+  and the GPU path. The four corners the legacy composite already computed are
+  now published to shaders, interpolated per pixel by the fragment's own
+  position exactly as the reference's vertex interpolation does.
+- Milkdrop shapes now use the reference's vertical orientation. Its shape space
+  is Direct3D's y-up space (`v[0].y = shape_y*-2+1`), so `shape_y` counts from
+  the top, while the overlay rasterizer paints rows top-down; every
+  `shapecode_*` shape was therefore drawn vertically mirrored. Measured against
+  projectM, a shape at `shapecode_0_y=0.75` now lands three quarters down the
+  frame instead of a quarter down, on both the CPU and the GPU path. The
+  waveform is unaffected: the reference measures `wave_y` the other way round
+  (top is one) and the waveform paths already converted for it, so only the
+  shape paths needed the conversion.
+- A preset whose `per_pixel` block cannot be translated to GLSL — one that reads
+  the shared `megabuf`/`gmegabuf`, for example, as `$$$ Royal - Mashup (397)`
+  does — no longer loses its shaders. In the mesh path the per-pixel block runs
+  on the mesh and is never emitted into the shader, so failing the whole
+  translation sent the complete frame back to the CPU; the block's failure now
+  only drops its uniforms, and the preset's warp and comp shaders stay on the
+  GPU. The mesh carries the motion the block wrote, and anything else the shader
+  reads keeps its frame value.
+- The visualizer now presents through OpenGL by default instead of uploading
+  every frame to a bitmap. The warp, the blur, the full-frame passes, and the
+  composite then run on the GPU for a preset that builds a mesh; a per-pixel
+  block that writes the sample position `x` or `y` keeps the CPU warp, because
+  an interpolated sample position has no meaning. A platform whose GL context
+  never arrives falls back to the bitmap presentation automatically, and setting
+  `ORYNIVO_VISUALIZER_OPENGL=0` forces the CPU presentation.
+- The visualizer's per-pixel warp is now parallel for presets that keep their
+  working value in a temporary of their own, which is what the built-in
+  **Plasma**, **Tunnel** and **Kaleidoscope** presets do. Measured at 960 x 540,
+  Plasma dropped from 85 ms to 29 ms per frame, Kaleidoscope from 82 ms to 31
+  ms, and Tunnel from 87 ms to 38 ms. A write to a standard Milkdrop variable
+  such as the shape alpha `a2` still keeps the warp sequential, because another
+  stage may read it, so the built-ins now use their own `spin`/`wedge`/`s`
+  temporary.
+- A per-pixel warp program that the interpreter can split across cores no longer
+  uses the Skia warp pass, which rasterises on a single thread: **Zoom Pulse**
+  dropped from 72 ms to 22 ms per frame at 960 x 540.
+  `RenderTimingDiagnosticTests` now measures both the interpreter and the Skia
+  path, so this regression cannot return unnoticed.
+- MilkDrop preset equations now receive bass, mid and treble from the
+  reference's separate eight-bit, 576-sample custom-sound FFT instead of the
+  display spectrum. A matched 440 Hz capture showed Orynivo's middle and treble
+  inputs staying near one while Winamp's rose substantially; the corrected
+  three-band response now closely matches Winamp's diagnostic preset. Royal
+  Mashup (10) and (121) render visible structures again, though their colour and
+  feedback still diverge from Winamp.
+- MilkDrop presets that write both `x`/`y` and mesh motion in their per-pixel
+  block now use the vertex mesh on OpenGL. The fullscreen pixel-warp path
+  discarded their `dx`/`dy` output, freezing motion in Royal Mashup (13).
+- Visualizer diagnostics now report the live relative audio bands and the motion
+  variables used by Royal Mashup (13), making a missing PCM feed distinguishable
+  from a shader mapping error.
+- Composite shaders now receive MilkDrop's aspect-corrected, corner-normalized
+  radius and 0–2π angle. The four animated hue colors use MilkDrop's actual
+  composite-vertex order; Royal Mashup (13) uses both contracts for its colored
+  whirl.
+- The visualizer now keeps a rolling audio-analysis window across render ticks
+  and reuses the last spectrum briefly between player writes. Short PCM blocks
+  no longer zero-pad most of the FFT input, and a render tick between writes no
+  longer substitutes silence.
+- Textured MilkDrop shapes now sample the previous feedback frame in both CPU
+  and OpenGL paths, matching Winamp's `VS[0]` binding. The OpenGL shape sampler
+  also uses repeat wrapping.
+- Preset diagnostics now record the exact external preset section given to the
+  parser/compiler, its SHA-256 digest, the first frame's wave mode and GPU/CPU
+  presentation path, and the shader digests the GL callback actually drew. The
+  OpenGL presenter also snapshots overlay, mesh, and shape data when a frame is
+  published, so the next render cannot overwrite data still being consumed by
+  Avalonia's GL callback.
+- Mouse navigation now accepts only the first left-button press of a click
+  sequence and excludes clicks whose source is itself a transport button,
+  preventing a double-click or button press from skipping a preset. Mouse and
+  key navigation events are logged with their current indices.
+- Kept the visualizer's relative audio analysis continuous across preset changes
+  and started a new analysis at neutral relative loudness. This prevents the
+  first frame of `$$$ Royal - Mashup (129)` from calculating an extreme warp and
+  erasing its feedback, including when switching between byte-identical copies
+  of the preset.
+- Preserved MilkDrop `fWaveScale` values above one instead of clamping them to
+  one. This corrects the oversized visible waveform in presets such as
+  `$$$ Royal - Mashup (129)`; further shader fidelity work is still needed to
+  reproduce its full Winamp image.
+- Fixed `GL_INVALID_OPERATION` when the Avalonia/ANGLE visualizer allocates
+  `RGBA16F` frame textures: the upload type is now `GL_HALF_FLOAT` instead of
+  `GL_UNSIGNED_BYTE`. Presets such as `$$$ Royal - Mashup (129)` can use the
+  sixteen-bit path without leaving a GL error and falling back to eight-bit
+  frames.
+- Corrected textured MilkDrop shapes on the GPU to multiply sampled RGB by the
+  shape colour and use the shape's interpolated alpha. The CPU fallback now
+  applies the same colour modulation. The Winamp comparison harness also
+  initializes its visualization window at the requested size, so MilkDrop
+  allocates a matching-aspect render texture before capture.
+- Custom MilkDrop waves now apply the original inverse-aspect coordinate
+  transform and draw `bDrawThick` lines at all four full-opacity offsets. This
+  corrects the geometry and feedback contribution of presets such as Royal
+  Mashup on non-square visualizer surfaces.
+- Corrected MilkDrop shader `GetPixel(uv)` to sample normalized coordinates,
+  broadcast scalar swizzles across colour channels in the CPU interpreter, and
+  bind the comp main and blur samplers to the preceding feedback frame (VS[0]),
+  as the MilkDrop source actually does. The GPU and CPU agree on the first frame
+  of the Royal Mashup preset. Off-screen custom-wave segments are clipped
+  instead of painted onto the frame border. The comparison harness also feeds
+  its reference tone through the real audio analyzer.
+- Corrected additional MilkDrop integration defects: real `shapecode_*`
+  parameters and compact equation keys, isolated custom-wave/shape state,
+  once-per-frame wave execution, 512-point stereo PCM scaling, live warp
+  speed/scale, independent OpenGL sampler filtering/wrapping, blur range
+  compression/decoding, and asymmetric comp sampling. Shapes now support
+  gradient fills and instances; overlay alpha correctly covers feedback. Legacy
+  gamma/echo run only on the display target. Added managed and real-GPU
+  regressions; the comparison oracle now uses explicit frame times and feeds
+  matching PCM to both engines. Full Winamp fidelity remains incomplete; see
+  `VISUALIZER-FIDELITY-RECHECK.md` for the remaining limits.
+- Fixed missing OpenGL warp uniform bindings that erased fixed-warp feedback and
+  left custom-warp radius, aspect and animation inputs unset. Fixed an
+  additional vertical reflection of fixed-warp feedback and removed the extra
+  legacy fade applied to custom warp shaders. Added GPU feedback regressions.
+- Fixed BMP row-padding handling in the local projectM comparison tool.
+- Fixed custom OpenGL warp shaders drawing into the last blur framebuffer
+  instead of the full-resolution warp target, losing their output from the
+  feedback image.
+- Fixed per-vertex motion equations accumulating the previous vertex's motion;
+  each vertex now starts from the per-frame motion values, matching projectM.
+- Fixed the GL presenter reading the render thread's shader-uniform dictionary
+  without copying it. The render thread fills that dictionary under its own lock
+  while the presenter read it under a different one, and a concurrent read of a
+  `Dictionary` is undefined: it can throw or spin forever, which is a frozen
+  visualizer after a few frames. The presenter now takes its own copy under its
+  frame lock.
+- Fixed the roam vectors being recomputed, with per-call array allocations, for
+  every pixel the shader interpreter binds. They only depend on the frame time,
+  so they are computed once per frame now.
+- Fixed the visualizer never binding the reference implementation's roam vectors
+  (`roam_cos`, `roam_sin`, `slow_roam_cos`, `slow_roam_sin`). The prelude did
+  not declare them, so the emitter treated them as unknown identifiers and gave
+  them a zero constant; a shader that computes `1 + normalize(slow_roam_cos)`
+  then normalised a zero vector, and the resulting infinity spread a white shape
+  across the frame. `Waltra - Horizon` uses exactly that, and its mean channel
+  difference against projectM fell from 0.12 to 0.04-0.06 once the four vectors
+  are seeded from the preset time as the reference does. The interpreter, the
+  SkSL path, and the OpenGL path all bind them.
+- Fixed the OpenGL pipeline not uploading the generated noise and volume
+  textures, so a shader that samples one (`tex3D` clouds, or a `tex2D` noise)
+  read the fallback texture unit, which is the frame. The pipeline now uploads
+  every generated texture `VisualizerTextureBank` resolves and binds each to its
+  own unit.
+- Fixed the visualizer's shader blur levels using full-resolution buffers. The
+  reference implementation halves each level: `GetBlur1` reads a quarter-size
+  copy of the frame, `GetBlur2` an eighth, and `GetBlur3` a sixteenth, so its
+  blurred picture is far smoother than a full-resolution blur. A preset that
+  feeds the blur into its own maths amplifies the difference:
+  `LuxXx - BadBallz Beta`'s `tan(4*ist*1.58)` turned Orynivo's sharper `ist`
+  into a hard white diamond where the reference draws a soft blob. The levels
+  are now downscaled and blurred at their own size, on both the CPU and the GL
+  path.
+- Fixed the OpenGL pipeline building the shader blur levels with the frame
+  pipeline's nine-tap box blur while the CPU path used the reference's weighted
+  filter, so a shader's `GetBlur1`-`GetBlur3` read a different picture depending
+  on the path. The GL pass now uses the same long horizontal and short vertical
+  weighted filter as the CPU path.
+- Fixed shader helper calls passing the argument unchanged instead of coercing
+  it to the helper's declared parameter type. HLSL truncates a `float3` handed
+  to a `float` parameter, so a real preset's `lavcol(float t)` called as
+  `lavcol(ret * 2)` was handed the whole vector; the SkSL emitter then emitted
+  an invalid call that Skia rejected (`expected 'float', but found 'float3'`),
+  which dropped the whole comp shader to the interpreter. `Jc - Crystal Shards`
+  now reports `shaderError=none` on the Skia path, and both the interpreter and
+  the emitter coerce call arguments, with
+  `Transpile_CoercesHelperArgumentsToTheParameterType` and
+  `HelperArgument_IsCoercedToTheParameterType` as the check.
+- Fixed the visualizer ignoring Milkdrop 2's `f`-prefixed scalar keys, which
+  made every preset that carries only that spelling render with the built-in
+  default instead of its own value. `fDecay`, `fWaveAlpha`, `fWaveScale`,
+  `fWaveSmoothing`, `fWaveParam`, and the `fWaveR/G/B/X/Y` colours now resolve
+  to the variables the engine reads, so a preset that sets `fWaveAlpha=0.001` no
+  longer draws a full waveform and spectrum over the picture and one that sets
+  `fDecay=0.925` no longer feeds back at 0.96. Measured against projectM with
+  the local reference oracle, `LuxXx - BadBallz Beta` went from a mean channel
+  difference of 0.5 and a correlation of 0.03 to 0.07-0.14 and 0.36-0.41,
+  because the bright overlay it never asked for was driving the feedback.
+  `wave_alpha` keeps working as the long spelling of `wave_a`.
+- Fixed the visualizer turning into a solid white screen on comp-shader presets
+  such as `LuxXx - BadBallz Beta`. The renderer fed the comp shader's output
+  back as the next frame's feedback, so a comp shader that amplifies its input
+  (the common `ret *= 10` gamma idiom) compounded every frame until the whole
+  frame saturated. The feedback is now the **pre-comp** composite and only the
+  display is the post-comp frame, matching the reference implementation
+  (`FinalComposite` writes the display into the previous frame buffer while the
+  next frame's `mainTexture` is the pre-comp frame). Measured on
+  `LuxXx - BadBallz Beta` at 640 x 360, the frame now settles around 0.85 mean
+  brightness instead of reaching 1.0 and 100 percent saturated by frame 6.
+  `CompFeedbackTests` pins the rule down.
+- Fixed the visualizer's `stageBrightness` diagnostic reporting the wrong frame.
+  It sampled `renderer.Output`, which was the previous frame until the
+  end-of-frame copy, so every stage reported the same stale value and a white
+  frame could not be attributed to a stage. The renderer now probes the buffer
+  each stage reads on every frame (`StageBrightnessLogger`), so the log shows
+  where the brightness jumps. The same investigation found that
+  `PresetRenderer.Output` had to become the post-comp frame; the presenter was
+  previously showing the feedback buffer.
+- Fixed the shader runtime rejecting the matrix types.
+  `Unknown shader function 'float2x2'` disabled a shader outright, and a scan of
+  the preset collection found 729 files that build a `float2x2` and 59 that
+  build a `float3x3`; a real preset such as `martin - neon space ps2 (ati fix)`
+  now renders with `shaderError=none` instead of losing its shader. The runtime
+  gained `float2x2`, `float3x3`, and `float4x4` construction from scalars or
+  vectors, and HLSL's `mul` for matrix-by-vector, vector-by-matrix, and
+  matrix-by-matrix. A matrix is stored row-major in a per-pixel pool the value
+  only refers to, because a nine- or sixteen-component value would make every
+  shader value four times larger and slow the per-pixel path for the presets
+  that never build one; measured on the comp-shader cost harness the pool leaves
+  the 640 x 360 frame within noise of its previous 26 ms, where an inline matrix
+  value took it to 47 ms. The SkSL emitter maps `floatNxN` onto SkSL's `matN`,
+  spreads a vector argument into scalars because `matN` has no four-component
+  constructor, and leaves a matrix argument alone instead of narrowing it.
+  `ShaderMatrixTests` and `ShaderCompilerTests` cover the values and the
+  interpreter/compiled-path agreement, `ShaderTranspilerTests` proves Skia
+  accepts the emitted SkSL, and the collection-wide translation harness reports
+  every sampled shader accepted.
+- Fixed the **Visualisierung** entry in Settings having no icon.
+  `IconVisualizer` is a stroke-only geometry (rising spectrum bars over a
+  baseline), while the Settings navigation style sets `Fill`, so the icon drew
+  nothing. It now strokes with the navigation item's foreground, exactly like
+  the transport button that already used the same geometry.
+- Fixed presets turning into a solid white screen a few seconds after the
+  sixteen-bit feedback landed. Eight-bit textures clamp every write to the
+  colour range, so a preset that amplifies its own feedback (`fGammaAdj` below
+  one against a decay near one) settled on a stable fixed point; a float texture
+  does not clamp, so the same frame diverged exponentially until it exceeded the
+  sixteen-bit range, became an infinity, and then a NaN that spread across the
+  frame. Every pass of the GPU pipeline now clamps its output to zero-to-one
+  exactly like the eight-bit texture it replaces, which restores the fixed point
+  and keeps the precision the float format was added for. Measured on a
+  blur-heavy synthetic preset: the sixteen-bit and eight-bit paths now agree to
+  0.01 percent in how much of the frame is saturated.
+- Fixed presets losing a block to Milkdrop's one-argument `while` form. A real
+  collection writes `while (exec2(statements, condition))`, where the condition
+  is re-evaluated until it turns false and the repeated work sits inside it, but
+  the expression parser required a statement list after the condition and
+  rejected the whole block. Both spellings are now accepted, so
+  `martin - castle in the air`, `martin - castle in the air more mbahlsce`, and
+  `EVET - Scanazoic --- Isosceles edit` compile every block again. Parsing the
+  2000-file sample collection now reports 0 whole-file, 0 expression-block, and
+  0 shader-slot failures, where it previously reported 4 expression-block
+  failures in 2 files.
+- Fixed the visualizer's OpenGL presentation showing a picture that jumped
+  forwards a few times and then back. The presenter only drew when the render
+  thread had published a new frame, and the GL surface is double buffered, so
+  every refresh that drew nothing swapped to the buffer that was two
+  presentations old. It now re-presents the texture it drew last on every
+  refresh, which keeps the newest picture on screen. The render loop publishes
+  at the configured frame rate while the control refreshes at the display rate,
+  so an undrawn refresh is the normal case and the artefact appeared as a steady
+  rubber band rather than an occasional hitch.
+- Fixed three bugs the first GL runs exposed. The per-vertex mesh is only built
+  when the preset's warp can be represented by one, but `ExpressionsOnly`
+  published an all-zero mesh otherwise, which clamped the zoom and rendered a
+  flat, blocky picture; the frame now falls through to the full CPU path when no
+  mesh is available, and the caller sees that through `TryCopyMeshMotion`. The
+  GL viewport used the control's logical bounds, so the picture was drawn into
+  the bottom-left quarter of the framebuffer on a scaled display; it now uses
+  the framebuffer size derived from the render scaling. A third bug was found by
+  the new harness: the presentation path uploaded the frame without reversing
+  its rows, so a texture's first row became its bottom in OpenGL and the picture
+  was mirrored vertically. `VisualizerGlPresenter` now reverses the rows like
+  the pipeline does.
+- Fixed a comp shader that reads more than one blur level costing seconds per
+  frame. The blur cache held a single level, so a shader that sampled `GetBlur1`
+  and `GetBlur3` in the same pixel invalidated it on every sample and rebuilt a
+  full-frame blur each time. Each level now keeps its own buffer and the levels
+  build on one another, which took one real preset from about 900 to about 45
+  milliseconds per frame on the interpreter.
+- Fixed the Skia comp pass stalling on a heavy shader. It ran at the full frame
+  with no budget, so a comp shader that samples the blur levels took about 2.1
+  seconds per frame and never degraded. It now runs on the same adaptive grid as
+  the interpreter, is scaled back up, and hands the preset to the interpreter
+  when the pass exceeds its budget; the same preset now runs at about 50
+  milliseconds per frame and settles at a reduced grid.
+- Recognized the Milkdrop 2 blur and edge keys. `b1n`/`b1x`/`b1ed` and the
+  `b2`/`b3` family are the Milkdrop 1 `blurN_min`, `blurN_max`, and
+  `blurN_edge_darken` parameters under their short names, so they now resolve to
+  those variables instead of being ignored. Their effect is deliberately not
+  applied: the reference's blur amount and edge falloff are not stored in a
+  preset, and a measured comparison against projectM showed that applying them
+  left the picture no closer than leaving them out, so guessing would only cost
+  a blur pass.
+- Parsed a fixed-size shader array such as `const float4 samples[5] = { ... }`
+  into its own node and stored it in the interpreter's array storage, so a
+  shader that indexes it renders instead of losing its block.
+- Made the preset expression parser accept the constructs a real collection uses
+  beyond the basic statement forms, so fewer expression blocks are dropped. An
+  assignment or a shared-memory-buffer write is now a valid `if(...)` argument
+  (`if(c, x = 1, y = 2)`), a semicolon continues such an argument as a statement
+  sequence (`if(a, x = 1; y = 2, b)`), `loop(...)` and `while(...)` are accepted
+  wherever a primary expression starts, and `exec2`/`exec3`/`exec4` evaluate
+  their arguments and yield the last one. A block's numbered parts are no longer
+  cut off at 64, which dropped the rest of a per-frame block and lost it to a
+  parse error, and a line comment is stripped before the parts are concatenated,
+  because a trailing `// ...` otherwise swallowed every part after it. A part
+  that ends with a function name and is followed by `(` is no longer split with
+  a semicolon, so a call split across parts keeps working. Against the 2000-file
+  diagnostic sample expression-block failures fell from 26 to 4 (two files)
+  while the shader slots stayed complete.
+- Made the shader parser stop after the top-level block that is the shader body.
+  Milkdrop stores a footer such as "written by ..." after the body's closing
+  brace, and the parser read it as code, so two real presets lost their shader
+  to `Expected ';' but found 'by'`.
+- Made the SkSL emitter pass a file-scope variable into a helper that reads it.
+  SkSL runtime effects have no mutable globals and the helper is emitted before
+  `main` declares them, so each helper now takes the globals it reads,
+  transitively through the helpers it calls, as parameters. Shader translation
+  reached 764 of 764 in the 500-file sample, that is every shader.
+- Made the SkSL emitter handle a comparison of vectors. SkSL rejects a bool
+  vector as a ternary condition and as a constructor argument, so a value
+  comparison is emitted component-wise with `step`/`sign` and a comparison used
+  as a condition compares the first components, which is what the engine's
+  `ShaderValue.IsTrue` and `ShaderRuntime.Compare` do. The emitter also reports
+  the type a narrowed intrinsic actually returns instead of the widest argument
+  type, which had skipped the conversion a later operation needed
+  (`float3 * float4`). Shader translation rose from 760 to 762 of 764.
+- Made the shader `aspect` variable a `float4` whose `zw` are the reciprocals of
+  `xy`, matching Milkdrop and projectM (whose first shader constant is
+  `(aspectX, aspectY, 1/aspectX, 1/aspectY)`). A preset that read `aspect.zw`
+  failed to translate before, so the share of shaders that translate and are
+  accepted by Skia rose from 748 to 760 of 764.
+- Made the GPU warp pass build `sampler_blur1`-`sampler_blur3` from the previous
+  frame instead of binding them to the unblurred picture, and aligned the CPU
+  blur with it: `PresetRenderer.SampleBlur` now blurs the same frame
+  `sampler_main` refers to (the previous frame during the warp and the
+  composited frame during the comp pass) and invalidates its cache once per
+  stage, because the buffer object is reused while its contents change every
+  frame.
+- Made the shader interpreter and compiler coerce a declaration's value to its
+  declared type, the way HLSL and the SkSL emitter do. A `float z = float4(...)`
+  kept all four components on the CPU but was narrowed to `.x` on the GPU, which
+  changed every later use of `z`. An assignment to an already-declared variable
+  is coerced the same way: the interpreter remembers each variable's declared
+  component count and the compiler applies the same conversion.
+- Made `GetPixel` read the same frame `sampler_main` refers to. It read the
+  warped frame, so a comp shader's `GetPixel` and its `tex2D(sampler_main, ...)`
+  saw different pictures on the CPU while the GPU's translation used
+  `sampler_main` for both.
+- Emitted `orynivoSafeDiv` for the shader's `/` and `/=` operators. The CPU
+  treats a zero divisor as zero, while SkSL's division produced an infinity that
+  then rendered white.
+- Added the missing Milkdrop shader functions to the CPU interpreter.
+  `ShaderRuntime` now carries `lum`, `asin`, `acos`, `atan`, `cross`, `rsqrt`,
+  `log2`, `exp2`, `degrees`, `radians`, `distance`, `reflect`, and `refract`,
+  which the SkSL emitter already supported. Without them a warp or comp shader
+  that used one was silently disabled on the CPU while the GPU rendered it;
+  `lum` alone appears in 3580 of 9795 presets in a real collection.
+- Made `fps` finite on the first frame. It was zero, so a preset that divides by
+  it (`movx = movx + .1/fps*q1`) produced an infinity that stuck in its
+  accumulators and then reached the sampler.
+- Seeded the shared `q1`-`q32` and `t1`-`t8` variables from the preset slots on
+  both CPU shader paths. Milkdrop keeps one variable universe for the expression
+  blocks and the shader, so a shader now reads the values the per-frame block
+  computed instead of zero; the GPU path already seeded them, so the two paths
+  agree. The compiled path seeds them once per frame and the interpreter path
+  per pixel, matching the GPU's once-per-draw seeding.
+- Matched the SkSL frame-sampler coordinate convention to the renderer's.
+  `PixelBuffer.SampleBilinear` maps a normalised coordinate to `zero..size-1`,
+  while the generated textures map it to `zero..size`, so a `tex2D`,
+  `GetBlur1`-`GetBlur3`, or `GetPixel` on a frame now scales by `texsize - 1`
+  (plus the half-texel shift, or the integer truncation for `GetPixel`) instead
+  of by `texsize`. The mismatch made the GPU read a texel next to the intended
+  one, which a constant test frame had hidden.
+- Made the SkSL emitter carry the whole Milkdrop variable and function
+  vocabulary. A call's return type is now inferred from its arguments instead of
+  staying unknown, which had left an intrinsic such as `saturate(...)` untyped
+  and let a later operation fail on mismatched component counts; `uv`,
+  `uv_orig`, `rad`, and `ang` are known from the start; a variable the shader
+  never declares reads as a zero constant, matching the interpreter; a sampler
+  the shader names is declared from its own `tex2D`/`tex3D` call instead of a
+  fixed list; a uniform the shader writes gets a writable copy in main; `lum`
+  converts its argument to float3 for its implicit weight vector; sampling
+  coordinates are narrowed to the float2 Skia's `eval` takes; vector element
+  reads use an integer index; compound assignments convert to the target's type;
+  `for` loops become a bounded counter; and a name SkSL reserves such as
+  `output` is renamed. Over a 500-file sample the share of shaders that
+  translate and are accepted by Skia rose from 484 to 748 of 764, that is from
+  63 to 98 percent.
+- Replaced the procedural sine hash behind `tex3D` with a real cubic volume
+  texture that both execution paths sample. `VisualizerTextureBank` now
+  generates the two 32³ volume noises
+  (`sampler_noisevol_lq`/`sampler_noisevol_hq`) from a fixed seed with three
+  dimensional smoothing and eight-bit quantisation, and lays them out as a two
+  dimensional slice atlas; the CPU interpreter reads the volume through the new
+  `IShaderSampler.SampleVolume`, and the SkSL emitter samples the same atlas
+  trilinearly in a generated helper instead of rejecting the shader. The sine
+  hash could never agree between SkSL and the interpreter because the GPU's
+  `sin` differs in its low bits and the `43758.5453` factor amplified the
+  difference, so it is replaced rather than ported. Compound assignments now
+  convert their value to the target's declared type, which a `tex3D` result
+  needs because it is a `float4`. Over a 500-file sample the share of shaders
+  that translate and are accepted by Skia rose from 395 to 484 of 764, that is
+  from 52 to 63 percent.
+- Added the samplers `sampler_pw_main`, `sampler_pw_noise_lq`, and
+  `sampler_worms`, which presets name frequently and the prelude did not
+  declare. Over a 500-file sample the share of shaders that translate and are
+  accepted by Skia rose from 374 to 377 of 764. The remaining sampler names are
+  long-tailed — `sampler_fw_main` appeared next — so enumerating them is the
+  wrong shape and the next step is to declare a sampler the shader mentions
+  instead of listing them.
+- Made the SkSL emitter's operand conversion assignment-aware: the target of an
+  assignment is never converted, only the value it is given. Converting both
+  sides turned `x = y` into `x.xy = y`, which Skia rejects with "cannot assign
+  to this expression". Over a 500-file sample the share of shaders that
+  translate and are accepted by Skia rose from 365 to 374 of 764, that is from
+  48 to 49 percent. Widening a smaller vector by padding it with zeros was tried
+  for the constructor failures and rejected: for a division it creates
+  `0.0 / 0.0`, which SkSL refuses at compile time, so that widening is left
+  alone and the shader falls back to the interpreter.
+- Converted the operands of a binary expression and the arguments of an
+  intrinsic to matching component counts in the SkSL emitter. Presets mix them
+  freely (`float3 * float2`, `max(float3, float4)`), which the engine's
+  component-wise arithmetic allows and SkSL rejects. Over a 500-file sample the
+  share of shaders that translate and are accepted by Skia rose from 332 to 365
+  of 764, that is from 43 to 48 percent.
+- Added the samplers and the random vector Milkdrop shaders expect but the
+  prelude did not declare: `sampler_fc_main`, `sampler_pc_main`,
+  `sampler_noisevol_lq`, `sampler_noisevol_hq`, and `rand_preset`. A shader that
+  named one of them failed on an unknown identifier. Over a 500-file sample the
+  share of shaders that translate and are accepted by Skia rose from 300 to 332
+  of 764, that is from 39 to 43 percent.
+- Extended the SkSL emitter's type handling from single variables to whole
+  expressions: a binary expression, an intrinsic call, a swizzle, an index, and
+  a ternary all report their type, so a declaration or assignment between a
+  scalar and a vector is converted instead of being rejected. Over a 500-file
+  sample the share of shaders that translate and are accepted by Skia rose from
+  272 to 300 of 764, that is from 36 to 39 percent.
+- Fixed `float1` and its `half1`, `double1`, `int1`, and `bool1` spellings not
+  mapping onto `float`.
+- Fixed `texsize` being declared as a `float2` in the generated SkSL. Milkdrop's
+  `texsize` is a `float4` whose `xy` is the frame size and whose `zw` is its
+  reciprocal, and shaders read both, so the wrong width made every `texsize.zw`
+  an invalid swizzle and every `texsize.xy` a vector where a scalar was
+  expected. Over a 500-file sample the share of shaders that translate and are
+  accepted by Skia rose from 191 to 272 of 764, that is from 25 to 36 percent.
+- Added a variable-type table to the SkSL emitter: the declared type of every
+  variable and of every prelude uniform is known, so an assignment between a
+  scalar and a vector is converted instead of being rejected by SkSL's strict
+  typing.
+- Fixed the visualizer freezing on a preset whose comp shader costs milliseconds
+  per pixel. The adaptive shader grid could only shrink once a frame had
+  finished, so a pass over a 10,000-pixel grid needed minutes and no frame ever
+  completed; a pass that exceeds `ShaderPassBudgetMilliseconds` (150 ms) is now
+  abandoned, the frame keeps its picture from before the pass, and the grid
+  shrinks to a quarter immediately. The same guard covers the warp shader.
+  Covered by a test.
+- Added `atan2` to the shader function set, which Milkdrop shaders use for their
+  polar coordinates.
+- Fixed the missing total loop budget of a preset program. The per-loop clamp
+  could not bound nesting, so a preset with `loop(20000, loop(20000, ...))` ran
+  hundreds of millions of iterations inside one frame and froze the window with
+  no exception to catch. One program execution now shares a
+  two-million-iteration budget across every nested loop. A preset program that
+  still throws is stopped once with its reason on `PresetError` instead of
+  failing every frame. Covered by a test.
+- Fixed the per-pixel suspension never being cleared, which left a preset's
+  per-pixel program out for good after a single slow frame.
+- Added visualizer logging for freezes: a preset switch logs how long loading
+  and constructing took, and a frame over 250 ms logs the preset and its
+  per-stage timings, so a freeze leaves the preset it happened in as the last
+  line of `logs/seek.log`. The overlay diagnostic line also carries
+  `presetError`.
+- Fixed the comp shader grid being scaled over the frame with nearest-neighbour.
+  For many presets that pass is the picture rather than a soft post-process, so
+  the grid's blocks were visible directly; it is scaled bilinearly now, like the
+  warp grid.
+- Fixed a shader whose body writes the output variable `ret` instead of
+  returning a value being applied as black, which left the preset without any
+  picture. Milkdrop's own shaders use that form, so a real preset such as
+  `Jc - Crystal Shards` rendered nothing at all; the interpreter now reports
+  whether the body returned a value and the renderer falls back to `ret`.
+  Covered by a test.
+- Fixed `GetPixel` rejecting the `float2` spelling. It required two scalars, so
+  a preset that wrote `GetPixel(float2(x, y))` failed with "sampled a texture
+  without a sampler", and a failed comp shader is disabled, which silently costs
+  that preset its picture.
+- Fixed the shader variable `aspect` missing. Milkdrop shaders use it as the
+  float2 pair, and binding only `aspectx`/`aspecty` made every shader that
+  swizzled it fail and get disabled. The reason a shader was disabled is now
+  readable through `ShaderError` instead of being swallowed.
+- Fixed the motion vector flag being merged into its length. `bMotionVectors`
+  (the enable flag, default off) was written into `mv_l` (the length, default
+  one), so every preset that only set a length got a grid of stray lines that
+  Milkdrop does not draw. Covered by a test.
+- Fixed the visualizer window hanging on a preset whose per-pixel program loops.
+  That program runs once per screen pixel, so a loop multiplied by 129,600
+  pixels made a single frame take seconds and froze the picture until the window
+  was closed. The warp stage now has its own ceiling
+  (`WarpStageBudgetMilliseconds`, 150 ms) and leaves the per-pixel program out
+  for the rest of that frame when it overruns, retrying shortly after, so the
+  frame still draws with the per-frame motion values instead of the window
+  becoming unresponsive. Covered by a test.
+- Fixed the warp shader grid being scaled over the frame with nearest-neighbour,
+  which showed the grid's blocks directly because that grid is the base picture.
+  It is scaled bilinearly now; the comp pass keeps nearest-neighbour because it
+  is a soft post-process result.
+- Fixed the visualizer dropping a preset's shaders whenever the frame exceeded
+  the time budget, which left most of a real collection showing nothing but the
+  shared overlay. A shader that costs too much now loses grid resolution instead
+  of being switched off: the warp shader runs on the same bounded grid as the
+  comp pass and is scaled back over the frame, and the grid size is adapted from
+  the measured shader cost, shrinking towards a floor when a shader overruns and
+  growing back while there is headroom. Measured on real presets at 480 x 270,
+  the warp stage fell from 83-218 ms to 7-27 ms and a frame from 106-233 ms to
+  19-35 ms, so the collection renders at roughly the configured frame rate with
+  its shaders intact. Covered by tests.
+- Fixed the visualizer frame throwing `IndexOutOfRangeException` as soon as a
+  preset carried a shader the compiler leaves to the interpreter, which is the
+  common case because branches and loops stay interpreted. The per-frame
+  variable seeding indexed every shader's frame-variable map, but an uncompiled
+  shader has none, so the render thread died on the first such preset. Covered
+  by a test.
+- Fixed the version preamble of a Milkdrop file being loaded as a preset of its
+  own. A file that opens with `MILKDROP_PRESET_VERSION`/`PSVERSION` before its
+  first `[presetNN]` header produced a second, empty preset that renders only
+  the shared overlay, so stepping through a collection showed an empty picture
+  every few presses. The splitter now keeps a section only when it declares
+  something besides the preamble. Covered by a test.
+- Fixed the preset expression language failing on compound assignments.
+  `PresetLexer` split `+=` into `+` and `=`, so every block containing `n += 1`
+  or `zoom -= 0.03` — which is most real presets — was reported as
+  `Unexpected '='` and dropped, silently losing that preset's motion. Compound
+  assignments now lex as one token and are applied by the compiler, including
+  for the `gmegabuf(i) += x` buffer form. Covered by 3 tests.
+- Fixed the shader parser rejecting five more forms real presets use: `while`
+  loops, the comma operator inside parentheses (`texsize.zx*(q3,q3)`) and at
+  statement level (`ret = a.x, ret = b;`), a declaration initialized with a
+  braced list (`float2x2 rot = { a, b, c, d };`) or a state block
+  (`sampler s = sampler_state { ... };`), vector element access (`retish[0]`),
+  and the integer and double vector types (`int2 k1 = ...`). Across a 2000-file
+  collection the skipped shader slots fell from 326 to 10 and the failed
+  expression blocks from 345 to 13. Covered by 5 tests.
+- Fixed a macro definition keeping its trailing line comment, so
+  `#define MyGet GetPixel //GetBlur1` expanded the comment into the middle of a
+  call, swallowed the rest of that line, and turned the next line into a syntax
+  error. Covered by a test.
+- Fixed the shader parser rejecting two forms real presets use: `float1`/`half1`
+  as a type name, and the `const`/`static`/`inline` qualifiers in front of a
+  declaration. Across a 2000-file collection the skipped shader slots fell from
+  697 to 326, and from the original 50,707 to 326 overall. What is left is array
+  indexing, multiple declarations without a separator, and a few statement forms
+  that need to be read case by case.
+- Fixed `rand_frame` not being bound. Milkdrop keeps a random four-component
+  vector per frame, and a shader that used it rendered black because the
+  variable did not exist; it is now seeded once per frame for both the compiled
+  and the interpreted shader path, and it changes between frames. Covered by 2
+  tests.
+- Fixed shaders sampling Milkdrop's noise and random textures getting the frame
+  instead. Unknown sampler names fell back to `sampler_main`, so
+  `sampler_noise_lq`, `sampler_noise_mq`, `sampler_noise_hq`, and
+  `sampler_rand00`-`sampler_rand15` rendered as if they sampled the picture;
+  they now resolve against the generated texture bank, which finally puts the
+  bank from phase 38c to use. Covered by 2 tests.
+- Fixed the per-pixel motion variables having no effect. Milkdrop treats `zoom`,
+  `zoomexp`, `rot`, `cx`, `cy`, `dx`, `dy`, `sx`, and `sy` as per-vertex values
+  that a per-pixel program may change, and the change carries into the following
+  pixel; the warp used to read them once per frame as constants, so a preset
+  that wrote one of them rendered as if it had not. The warp now reads them per
+  pixel for exactly those presets, so every other preset keeps the cheaper
+  per-frame path. Covered by 3 tests.
+- Added Milkdrop's eight general-purpose `t1`-`t8` variables to the preset
+  variable set. They sit next to the 32 `q` variables, and presets that keep
+  state in them now work.
+- Added the `progress`, `meshx`, and `meshy` variables as well: the mesh is our
+  sampling grid, and `progress` stays zero because there is no preset playlist
+  time here.
+- Fixed real preset collections loading no shader at all. Milkdrop 2 stores a
+  shader one source line per numbered key, each line carrying a backtick marker,
+  and the reader used to take the first key alone, which is only the
+  `` `shader_body `` marker; the lines are joined now, which took the skipped
+  shader slots in a 2,000-file collection from 50,707 to 1,020. The remainder
+  needs the HLSL preprocessor and the macro constants such as `M_INV_PI_2`.
+- Fixed the numbered expression parts of a preset being joined with a semicolon.
+  Milkdrop concatenates them, and presets split one expression across parts, so
+  a part may end with an operator and the next part continues it; a separator is
+  now inserted only when the previous part is not waiting for more input and the
+  next part does not bring its own. This removed the `Unexpected ';'` failures
+  entirely.
+- Added Milkdrop's shared memory buffers `megabuf` and `gmegabuf`, which presets
+  use for lookup tables, in both spellings presets use: `gmegabuf(index, value)`
+  and assigning to the call as in `gmegabuf(index) = value`. They are global
+  state, so the accesses are serialised against the parallel warp.
+- Added Milkdrop's `loop(count, statements)` construct, which presets use to
+  build their lookup tables, with the iteration count clamped so a preset cannot
+  stall a frame.
+- Measured against a real 2000-file collection, the skipped expression blocks
+  fell from 1267 to 19, which is what finally lets the older presets render
+  their own picture instead of the shared overlay. The remainder is a handful of
+  `Unexpected '='` and `Unexpected '*'` cases that need their parts read one by
+  one.
+
+- Fixed a skipped shader being invisible. When a preset's `warp_N` or `comp_N`
+  value cannot be parsed the shader is dropped, which used to leave a preset
+  that renders only the shared overlay looking like a rendering bug; the reason
+  is now recorded on `VisualizerPreset.FailedBlocks`, and the preset-folder
+  diagnostic reports it grouped. Measured against a real 2000-file collection,
+  this showed that 1706 presets (85 percent) declare their shaders as Milkdrop 2
+  template references such as `` `shader_body `` whose actual HLSL lives in
+  Milkdrop 2's built-in templates rather than in the file, which is recorded as
+  roadmap item 39i.
+- Recorded every declared variable's type before emitting anything, so a use
+  that stands before its declaration still knows what it is; the type table used
+  to be filled as declarations were written out, which made the conversion that
+  keeps the two execution paths identical impossible to choose. This changed no
+  measured coverage, and the remaining `float2 * float3` failures have a
+  different cause: the variable on the other side is still of unknown type.
+- Fixed the SkSL emitter widening a scalar as if it were a vector. A scalar
+  broadcasts, because `ShaderValue.Scalar` stores the same value in all four
+  components, while a vector's missing components read as zero; treating both
+  the same way turned `colour * 0.5` into `colour * float3(0.5, 0, 0)`. The
+  CPU/GPU comparison test rejected the padding three times before the cause was
+  found in the value type. A scalar now widens with the single-argument
+  constructor and a vector is padded with zeros. Over a 500-file sample the
+  share of shaders that translate and are accepted by Skia rose from 382 to 395
+  of 764, that is to 52 percent.
+- Fixed a declaration that names several variables, as in
+  `float3 ret1, neu, blur;`, keeping only the first name. Every other name
+  stayed undeclared, so the interpreter read it as zero and the SkSL emitter
+  failed on an unknown identifier — a survey found 57 warp shaders declaring
+  `float2 rs` this way. The parser keeps all names, the interpreter declares
+  them all, and the emitter writes them as one SkSL declaration. Over a 500-file
+  sample the share of shaders that translate and are accepted by Skia rose from
+  377 to 382 of 764, that is to 50 percent.
+- Emitted a shader's helper functions as SkSL functions before the entry point.
+  The emitter used to inline a definition, which ran its body at the wrong place
+  and referenced parameters that do not exist in that scope; a call now resolves
+  to the function, and its parameter types come from the parser. The entry point
+  is decided by the name `main`, the same rule the interpreter uses. A test
+  proves the GPU and the interpreter produce the same pixels for a shader that
+  calls its own helper. The share of shaders that translate did not change,
+  because the remaining `rs` and `hue_shader` failures use those names as
+  variables rather than as calls, which is a different shape.
+- Made a shader's helper functions callable in the interpreter. A definition
+  used to be executed where it stood, so a helper ran at the wrong time and
+  produced a wrong picture; the interpreter now registers every definition that
+  is not the entry point — Milkdrop names it `main`, and its bare `shader_body`
+  form has no definition at all — resolves a call against it, binds the
+  arguments, and restores the caller's values afterwards. Order cannot decide
+  the entry point, because a preset may declare its helpers before `main`.
+  Covered by a test. The SkSL emitter still inlines a helper, so the GPU path
+  diverges from the interpreter for such a shader until it emits them as
+  functions too.
+- Added the parameter list to the parsed function node. `ShaderParser` used to
+  skip a function's parameters, so a call could never be bound to them; the
+  names are now kept (the types are dropped because the engine stores every
+  value as a float) and a test pins them. This is the first step of making a
+  shader's helper functions callable instead of running their bodies where they
+  are declared, which is a wrong picture in both execution paths today.
+- Added `SkiaShaderRunner`, which runs a translated shader as a Skia runtime
+  effect and is the GPU counterpart of `ShaderInterpreter`. Three tests render
+  the same shader on the GPU and through the interpreter and assert that the
+  pixels agree within one byte, for a sampled shader, a looping shader that
+  writes `ret`, and the frame helpers. That agreement is what the GPU path is
+  built on: the CPU stays the reference, so the two cannot drift apart
+  unnoticed.
+- Added `ShaderTranspiler`, the first step of the GPU visualizer (roadmap phase
+  40a). It translates the shader tree that `ShaderParser` already produces into
+  SkSL, so the GPU path shares the front end with the CPU interpreter and only
+  the back end differs. Four tests prove that Skia compiles the result for a
+  sampled shader, a looping shader, and the frame helpers, and that an
+  unsupported construct is reported instead of being emitted wrongly.
+- Added `ShaderStatementFormTests`, which pin the statement forms real presets
+  use inside a shader body: an inline block after a condition, an `else` glued
+  to its block with a trailing semicolon, a block on the following line, a
+  `while` loop, the comma operator inside parentheses, a braced or state-block
+  declaration initializer, and element access on a vector. Control flow stays
+  with the interpreter, so those cases assert the parse; the `while` loop and
+  the comma operator are asserted through the interpreter's result.
+- Added `PresetCompoundAssignmentTests`, which cover `+=`, `-=`, `*=`, `/=`, and
+  `%=` in the preset expression language, a compound assignment that reads its
+  own target inside a loop, and the `gmegabuf(i) += x` buffer form.
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e. A shader call now dispatches on a
+  numeric opcode instead of comparing function names per pixel, a comp shader
+  runs on a grid bounded to 10,000 pixels, and that grid is scaled back with
+  nearest-neighbour sampling because the full-frame upscale cost more than the
+  shader it scaled. Measured, a comp shader fits the frame budget at 320 x 180
+  (8.6 ms) and 640 x 360 (18 ms), so preset shaders finally run at those render
+  resolutions; at 1280 x 720 the frame is still too slow on the CPU and the
+  shaders stay skipped. The default frame budget was raised from 20 to 30
+  milliseconds. recorded in the roadmap under phase 39e.
+- Added the Milkdrop functions real presets rely on: `above`, `below`, and
+  `equal` (which yield one or zero, not a boolean), `sqr`, `sigmoid`, and the
+  bitwise `band`, `bor`, and `bnot`. Function and constant names are matched
+  case-insensitively now, as in Milkdrop, and `sigmoid` tolerates the second
+  argument some presets pass. Across a 2000-file preset collection this took the
+  number of skipped expression blocks from 1267 to 96, which is what gives those
+  presets their motion back.
+- The visualizer's warp stage now runs on several threads. A pass may only be
+  parallelised when everything the per-pixel code writes is re-seeded for every
+  pixel, so `x = x + ...` and `rad = ...` run in parallel while a preset that
+  accumulates in `q1` stays on one thread; a warp shader or a motion-vector grid
+  also keeps it sequential. Each worker gets its own slot array, and a test
+  proves that both paths render byte-identical frames. Covered by 16 tests.
+- The visualizer's preset folder is now searched recursively, so a collection
+  that is sorted into subfolders (for example a downloaded preset pack) can be
+  used as it is. Presets are discovered eagerly but parsed only when they are
+  first shown, because compiling one preset costs milliseconds and a collection
+  of several hundred must not be compiled when the window opens. A preset that
+  fails to parse is reported on first use and replaced by the first built-in, so
+  a broken file can never stop the visualizer. Covered by 2 new and 9 updated
+  tests.
+- The visualizer's per-pixel path no longer does work the preset never asked
+  for. The compiled programs now report the variables they reference
+  (`PresetProgram.ReferencedVariables` and `Uses`), the warp stage resolves the
+  `x`, `y`, `rad`, and `ang` slots once instead of looking each name up in the
+  layout for every pixel, and it only computes the polar pair, the motion grid,
+  and the seeded sampling position when the preset's own code needs them. A
+  rendered frame is allocation-free, which is now asserted by a test. Covered by
+  5 tests.
+- The visualizer renders on its own thread now. A frame used to be produced from
+  a `DispatcherTimer`, so a heavy preset blocked the interface for its whole
+  duration; the loop now runs on a background thread, hands a finished copy of
+  the frame to the UI thread through a presentation buffer, and queues at most
+  one present at a time, so a busy interface can never build up a backlog of
+  frames. Preset switching, the reset key, and the overlay follow as thread-safe
+  requests, and the frame pacing lives in the tested `FramePacing` helper.
+  Covered by 5 tests.
+- The visualizer now measures where its frame time goes. `PresetRenderer`
+  reports a `RenderTimings` breakdown (warp, blur, post-processing, overlay,
+  composite, comp shaders, and the frame total) per frame and as an average over
+  a window, and the window's diagnostic line in `logs/seek.log` carries those
+  averages once per second, so the cost per stage can be read instead of
+  guessed. A warp shader runs inside the per-pixel loop, so its cost stays part
+  of `warp`; timing it per pixel would cost more than the measurement is worth.
+  The frame budget now compares the complete frame rather than only the shaders.
+  Covered by 8 tests.
+- Milkdrop `.milk` files are read as the multi-preset files they are:
+  `VisualizerPreset.ParseSections` splits the text at its `[presetNN]` headers
+  and the preset folder loads every section as its own preset instead of only
+  the last one surviving. The declared format version
+  (`MILKDROP_PRESET_VERSION`, `PSVERSION`, or `preset_version`) is reported on
+  `VisualizerPreset.Version`; every version is accepted. Skipped presets now
+  carry a reason through `VisualizerPresetLibrary.RejectedReasons`, naming the
+  file or section and the parse error. A hand-written corpus of presets in the
+  real format, including a multi-section file and shader source, guards the
+  format handling; third-party presets stay unbundled because they are licensed
+  by their authors. Covered by 13 tests.
+- The visualizer now runs preset shaders. The numbered `warp_N` and `comp_N`
+  keys are parsed together with their optional `_enabled`, `_per_frame`, and
+  `_per_pixel` companions, and the preset reader keeps the newlines inside a
+  shader's source, because Milkdrop stores the code as a multi-line value. A
+  shader that does not parse is skipped so one broken shader degrades a preset
+  instead of rejecting it. The renderer implements `IShaderSampler`, so shaders
+  can sample `sampler_main`, `sampler_pc_main`, `sampler_fc_main`,
+  `GetBlur1`-`GetBlur3`, and `GetPixel`, and it binds `uv`, `uv_orig`,
+  `texsize`, the audio bands, the smoothed bands, the frame counters, and the
+  aspect ratio. A per-frame time budget (20 ms by default) skips the shaders for
+  a while when they cost too much, so a heavy preset keeps a smooth picture
+  instead of stalling playback. Covered by 11 tests.
+- Added the HLSL interpreter for the shader runtime: `ShaderInterpreter`
+  evaluates the parsed `ps_2_0` tree with scalar and `float2`/`float3`/`float4`
+  values (`ShaderValue`), covering arithmetic with the C precedence, variables
+  and the assignment operators, swizzles read and written, vector constructors
+  with concatenation and broadcast, the ternary operator, `if`/`else`, `for`,
+  and the usual intrinsics (`abs`, `ceil`, `clamp`, `cos`, `dot`, `exp`,
+  `floor`, `frac`, `length`, `lerp`, `log`, `max`, `min`, `mul`, `normalize`,
+  `pow`, `saturate`, `sign`, `sin`, `smoothstep`, `sqrt`, `step`, `tan`).
+  Sampling goes through the `IShaderSampler` contract, so the interpreter
+  carries no render state, and division by zero yields zero instead of an
+  infinity. A loop budget of 4096 iterations and a call depth limit of 32 keep a
+  runaway shader from stalling a frame. Covered by 14 tests.
+- Added the HLSL parser and its syntax tree: `ShaderParser` and `ShaderNode`
+  turn the `ps_2_0` subset into a tagged-union tree covering declarations,
+  expression statements, `if`/`else`, `for`, `return`, swizzles, calls, the
+  ternary operator, and the C operator precedence. Function signatures and bare
+  statement bodies are both accepted, and a sampler declaration without a type
+  is tolerated. Covered by 10 tests.
+- Added the HLSL front end for the upcoming shader runtime: `ShaderLexer`
+  tokenizes the `ps_2_0` subset Milkdrop shaders use, covering identifiers and
+  keywords, numbers with their `f`/`h` suffixes, single- and multi-character
+  operators, swizzles, line and block comments, and source positions, and
+  reports an unexpected character with its offset. Covered by 10 tests.
+- Added the generated visualizer texture bank. The `noise_lq` (32 x 32),
+  `noise_mq` (256 x 256), and `noise_hq` (512 x 512) textures and the sixteen
+  `rand00`-`rand15` (32 x 32) textures are produced deterministically from fixed
+  seeds, so no third party image is bundled and every run yields the same
+  textures. Sampling is bilinear with repeat, clamp, and mirror wrap modes, and
+  generation is lazy so a session that never opens the visualizer allocates
+  nothing. Covered by 10 tests.
+- Milkdrop preset keys now act as the per-frame starting values: every numeric
+  key (including the `nWaveMode`, `bWaveDots`, `bWaveThick`, `bAdditiveWaves`,
+  `bDarkenCenter`, `bMotionVectors`, and `nMotionVectorsX/Y` spellings) seeds
+  the matching variable, so real presets that carry their settings as keys
+  instead of code work as written.
+- The visualizer draws the full Milkdrop wave and post-processing set: the
+  circular, doubled, and single-line wave modes with dots, thick, additive,
+  mystery, and colour/position keys, the four declared waveform slots, the outer
+  and inner borders, a motion-vector grid derived from the actual motion field,
+  and the video echo with its zoom, alpha, and orientation. Covered by 11 tests.
+- The preset engine now runs the full Milkdrop stage order. It parses the
+  `per_frame_init`, `per_pixel_init`, `wave_0`-`wave_3` and `shape_N_init`
+  blocks, registers the complete standard variable set
+  (`bass_att`/`mid_att`/`treb_att`, `aspectx`/`aspecty`, `pixelsx`/`pixelsy`,
+  `monitor`, `zoomexp`, `rot`, `cx`/`cy`, `dx`/`dy`, `sx`/`sy`, `blur1`-`blur3`,
+  `darken_center`, `fGammaAdj`, the wave, border, motion-vector and echo groups,
+  `q1`-`q32`, and `b1`-`b8`), and applies the motion parameters, the blur
+  passes, the centre darkening, and the gamma adjustment. The per-pixel block
+  now sees the already warped sampling position in `x`/`y`/`rad`/`ang`, so a
+  real preset can offset or replace it. Covered by 16 tests.
+- The **Visualisierung** settings section gained an **Always show text and
+  controls** toggle. When it is off, the title, hint, and playback buttons
+  appear only while the mouse moves over the visualizer and hide again after
+  three idle seconds; pointer movement is tracked through the window's own
+  events, so moving the mouse on another monitor never reveals them.
+- Added a **Visualisierung** settings section with the render resolution (320 x
+  180 up to 1280 x 720), the target frame rate (24, 30, 60, or 120), and the
+  user preset folder that previously lived under the output device. The window
+  renders at the configured size and lets the image control scale the frame up,
+  so a lower resolution keeps the CPU cost down.
+- Added custom shapes and a per-point waveform to the visualizer presets.
+  `shape_N_*` keys describe a regular polygon (`sides`, `x`, `y`, `rad`, `ang`,
+  fill and border colours, `additive`) with optional per-shape `per_frame` and
+  `per_point` programs, and a preset's `per_point` block may move every waveform
+  point. A sixth preset (`Orbit`) demonstrates both. Covered by 7 tests.
+- The visualizer now also loads user presets: `.oryvis` and `.milk` files from a
+  folder configured under **Preset folder** (default: a `visualizer-presets`
+  folder below the per-user data directory). Presets use the documented
+  expression subset and unknown keys are ignored, so third-party Milkdrop
+  presets degrade instead of failing; a file that cannot be parsed is skipped
+  and counted in the on-screen preset label.
+- Added the music visualizer window. The transport button **Visualisierung**
+  opens a fullscreen window that renders the playing audio through the preset
+  engine at 480 x 270 and scales the frame up; Escape closes it, a click or
+  Space switches the preset, the arrow keys step through them, and R resets the
+  picture. The **Reduce motion** preference draws a static spectrum instead of
+  animating. Five presets ship with it, and the audio players publish their
+  prepared PCM through the lock-free `VisualizerAudioHub`, which costs nothing
+  while the window is closed.
+- Added the visualizer render pipeline: `PixelBuffer` (float RGBA with bilinear
+  sampling, box blur, and a BGRA export), `VisualizerPreset` (INI parsing where
+  every expression block shares one variable layout, so `q1` carries from the
+  per-frame into the per-pixel stage), and `PresetRenderer` (per-frame init and
+  update, the per-pixel feedback warp, blur passes, decay, the waveform and
+  spectrum overlay, and the composite). The audio analyzer now also exposes a
+  decimated waveform for the overlay. Covered by 25 tests; the warp and the
+  per-frame decay override are asserted through deterministic frame statistics
+  rather than by eye.
+- Added the preset expression language for the upcoming music visualizer: a
+  lexer and a precedence parser that compiles Milkdrop-style expressions into
+  JIT-compiled statements over a plain slot array. Assignments, arithmetic,
+  C-like remainder, comparisons, logical operators, the ternary operator,
+  `if(...)`, the usual math functions, `pi`, `rand(n)`, and `//` comments are
+  supported, and malformed input or an unknown function reports the offending
+  position. Covered by 22 tests.
+- Added the audio-analysis foundation for the upcoming music visualizer: a
+  real-input radix-2 `Fft`, an `AudioSpectrumAnalyzer` that produces 64 smoothed
+  logarithmic bands plus bass, mid, treble, and volume, and the lock-free
+  `PcmVisualizationTap` that hands processed PCM from the audio pump to a
+  visualizer without ever blocking playback. 21 tests cover sine-frequency
+  detection, direct-current concentration, silence, band separation, decay and
+  reset, ring-buffer overflow, oversized blocks, and clearing.
+- Fixed every downloaded preset rendering the same picture. An expression block
+  that used a function the engine did not know was dropped together with the
+  whole preset, so those presets lost the per-frame and per-pixel code that
+  carries their movement and only the shared waveform and spectrum overlay was
+  left. A block that cannot compile is now skipped and recorded on the preset
+  (`FailedBlocks`) instead of rejecting it, and the missing functions are
+  implemented, so the preset renders its own picture.
+- Fixed the visualizer freezing the whole application when it was opened with a
+  large preset folder. The recursive discovery read every file while the window
+  was being constructed, which blocked the UI thread for as long as the
+  collection was large; a real collection holds thousands of files. The window
+  now opens with the built-in presets immediately and enumerates the folder in
+  the background, recording file paths without reading them; a file is read the
+  first time one of its presets is shown, and a multi-section file exposes its
+  remaining sections then. The discovery duration is reported in the visualizer
+  log line.
+- Fixed scalar preset values keeping the trailing newline of their section,
+  which made a preset's `name` end with a line break.
+- The visualizer writes one bounded diagnostic line per second to the seek log
+  (rendered frames, analysed audio frames, reduce-motion state, average
+  brightness, and the preset name). It contains only counts, so an empty window
+  can be told apart from a picture that never reaches the screen without
+  recording any media metadata.
+- Fixed the visualizer staying black when nothing was playing: it now renders
+  with a silent audio source, so a preset shows its picture before playback
+  starts and while paused.
+- Fixed the long coloured streaks some presets produced: the feedback warp
+  sampled outside the frame by clamping to the edge, which smeared the border
+  colour into a gradient. Out-of-frame samples are transparent now.
+- The visualizer overlay buttons are no longer focusable, so switching presets
+  with the arrow keys no longer leaves a focus ring on the previous-track
+  button.
+- Moved the visualizer from the sidebar to a fourth transport button next to the
+  equalizer, output, and output-lock buttons, with a new spectrum-bar icon in
+  the same stroke style.
+- Fixed the visualizer window staying black while audio played: writing the
+  frame into the bitmap is not enough on its own, the image now also invalidates
+  itself so the freshly written picture is actually painted.
+- The visualizer overlays the current title and artist at the top and previous,
+  play/pause, and next buttons at the bottom left, so playback can be driven
+  without leaving the window. The buttons reuse the normal transport methods and
+  the play/pause glyph follows the real playback state. They mirror the
+  transport bar: 36 px previous/next with the transport's own 16 px skip glyphs
+  and a 50 px play button with its 20 px glyph, so the icons sit centred and the
+  size relationship matches the player buttons.
+
+### Changed
+
+- Reformatted every repository markdown file to follow markdownlint rule MD032
+  (lists surrounded by blank lines) and to keep lines at or below 80 characters,
+  and recorded that requirement in the central `AGENTS.md`. Code blocks, tables,
+  and long URLs are the only exceptions.
+- Rebuilt the built-in visualizer presets as structured warp-shader effects
+  instead of a flat full-screen waveform smear: **Spiral**, **Kaleidoscope**,
+  **Fractal**, **Ripple**, **Vortex**, **Bloom**, **Spectrum Bars**,
+  **Starfield**, and **Orbit**. Each draws a bright waveform and shapes through
+  its own warp shader, so the picture has structure; the earlier presets read as
+  a "graphic glitch"/"carpet". **Spectrum Bars** keeps the additive spectrum
+  wave along the bottom as an equalizer over a faint procedural background, and
+  **Orbit** uses custom shapes. Every built-in is verified to light up by
+  `VisualizerBrightnessDiagnosticTests`.
+- The visualizer's audio analysis now uses the reference's geometry: a
+  1024-point transform over the most recent 480 samples of each channel,
+  windowed with a raised sine over that 480-sample window, and the loudness
+  bands read the average of the two channels' equalized magnitudes instead of
+  the transform of their mix, so a phase-inverted stereo pair is not cancelled
+  out of the bands. Orynivo's own 512-sample waveform and 256-point spectrum
+  contracts are unchanged. Measured on a real track the three bands now agree
+  with projectM's within about 0.4 — projectM `2.15/2.45/2.25`,
+  `1.30/1.11/1.23`, `0.80/0.78/1.19` against Orynivo's `2.10/2.63/2.24`,
+  `1.15/1.12/1.12`, `0.59/0.46/0.76` — where they had differed by up to a factor
+  of two.
+- The reference's logarithmic frequency equalization is now applied to the
+  magnitudes the Milkdrop loudness bands and the spectrum a custom waveform
+  reads use, matching projectM's own analyzer: the curve is
+  `-0.02 * ln((half - bin) / half)`, zero at DC and rising with frequency.
+  Orynivo's own normalized display bands stay un-equalized, because that is a
+  separate contract other consumers use. Measured on a real track this changes
+  the band _weighting_ only; a spectral shape change is what it is for, and it
+  neither fixed nor worsened the remaining `$$$ Royal - Mashup (138)` brightness
+  gap.
+- The visualizer draws a Milkdrop preset's shape fills on the GPU. The CPU
+  rasterizer scanned every fan triangle over its own bounding box, so the centre
+  of a 25-sided shape was tested by all 25 triangles: at 1920 x 1080 the overlay
+  cost 120 ms per frame for `$$$ Royal - Mashup (115)` and 475-500 ms for
+  `(135)`, against `warpMs` and `compShaderMs` of zero. The renderer now
+  publishes the fans as geometry and the GPU draws them with the same
+  premultiplied "over" blend `PaintPixel` applies, so overlapping shapes
+  accumulate identically and the picture is unchanged. Measured at 640 x 360 the
+  overlay falls from 54.8 ms to 0.8 ms. The polygon borders and the waves stay
+  on the CPU, because they cover few pixels; a preset whose fill cannot be drawn
+  keeps the CPU path.
+- The visualizer's audio analysis now follows the reference more closely: every
+  FFT input is damped with the reference's one-sample pre-emphasis, which
+  suppresses high-frequency noise, and the window is the reference's raised sine
+  over the complete transform length instead of the length-minus-one variant, so
+  the first and last samples are not both forced to zero. The stereo waveform is
+  now aligned to the previous frame with the reference's multi-octave
+  cross-correlation (`WaveformAligner`), so a custom waveform holds its shape
+  instead of sliding sideways. The reference's logarithmic frequency
+  equalization is still not adopted: it changes how much broadband content each
+  loudness band sums and needs the reference's unnormalized magnitude scale to
+  keep its guard meaningful. It is measured and recorded in
+  `VISUALIZER-FIDELITY-RECHECK.md`, and `the reference band measurement`
+  reproduces the reference's own band response.
+- The legacy final composite now applies the reference's animated hue shade:
+  before the gamma gain, the frame is multiplied by a four-corner colour whose
+  three channels are animated sines normalised so their maximum is one, blended
+  across the frame. The offsets are the reference's per-preset hue offsets,
+  seeded from the preset name so a preset keeps the same look across runs
+  instead of changing on every load. A comp shader still replaces the whole
+  legacy path, and the OpenGL display pass applies the same shade so the two
+  paths agree.
+- Textured custom shapes now sample the frame instead of drawing a flat
+  gradient. A shape whose `shapecode_N_textured` is set interpolates the
+  reference's texture coordinates across its triangle fan — the centre maps to
+  the texture centre and the rim to a circle of radius `0.5 / tex_zoom` rotated
+  by `tex_ang` — and reads the frame with repeat, so the presets that request
+  texturing draw their intended picture instead of the centre/edge gradient.
+- The default waveform now uses the reference's per-mode geometry instead of the
+  earlier line/circle approximation. `wave_mode` selects the reference's
+  `nWaveMode` modes — the single line is six, which the reference's idle preset
+  confirms — and `MilkdropWaveform` reproduces the ring, the XY spiral, the
+  centred spirograph, the derivative line, the explosive hash, the line, the
+  double line, and the spectrum line from the scaled PCM data, including the
+  edge clipping and the closed-loop modes. The geometry smooths the polyline
+  with the reference's four taps, honours
+  `wave_dots`/`wave_thick`/`wave_additive`, and still runs the legacy global
+  `per_point` block, whose `x`/`y` are now the vertex position in
+  minus-one-to-one space. The default `wave_scale` is now one and the default
+  `wave_mode` the single line, both matching the reference.
+- The visualizer's band variables now follow Milkdrop: `bass`, `mid`, `treble`,
+  `vol`, and their `_att` companions are relative to each band's long-term
+  average instead of being clamped to zero to one, so a value above one means
+  "louder than usual" and a preset condition such as `above(bass, 1.2)` can
+  fire. `AudioSpectrumAnalyzer` computes them from one sixth of the linear
+  spectrum with the reference's frame-rate-adjusted smoothing rates, and the
+  desktop hub measures the frame time they need. The analyzer also keeps left
+  and right separate, so a custom waveform's `value1` and `value2` are the two
+  channels and a spectrum-reading waveform can use
+  `SpectrumLeft`/`SpectrumRight`. The normalized `Bands`, `Bass`, `Mid`,
+  `Treble`, and `Volume` contract other consumers use is unchanged.
+  `ShaderTranspiler` now serializes its translation, because its static emitter
+  state let parallel translations emit broken shaders.
+- The visualizer's custom waveforms now follow the reference's semantics. Each
+  of the four `wavecode_N_*` waveforms has its own state (enabled, samples,
+  separation, spectrum, dots, thick, additive, scaling, smoothing, and colour)
+  and its own `wave_N_*` blocks, separate from the default waveform, which keeps
+  using the global `wave_*` settings and the global `per_point` block. The
+  per-point block receives the reference's `sample` (the normalized index),
+  `value1`, and `value2` contract and may move and colour the point, and the
+  trace is smoothed with the reference's four-tap polyline smoothing. The
+  unconditional spectrum bars are gone: spectrum geometry is drawn only by a
+  waveform whose `wavecode_N_bSpectrum` is set. `IVisualizerAudioSource` gained
+  a `Spectrum` member that `AudioSpectrumAnalyzer` fills from the FFT, so a
+  spectrum waveform has real data.
+- The visualizer's decay now belongs to the warp, as in the reference. The fixed
+  OpenGL warp fragment shader multiplies the sampled colour by it (the
+  reference's `frag_COLOR`), and the interpreter applies it right after the warp
+  and before its blur passes, so the blur passes see the faded frame. The comp
+  shader's blur levels are built from the same input frame the warp shader's
+  are, instead of being rebuilt from the composite the comp shader just
+  produced.
+- The visualizer's composite stage now follows the reference's final composite.
+  A preset with a comp shader no longer gets the legacy video echo and gamma
+  adjustment applied to the input the comp shader reads, because the reference
+  selects the custom composite shader **or** the legacy echo/gamma path, never
+  both. The shapes and waves are drawn before the centre darkening and the
+  border, so those later passes cover the overlay instead of the overlay
+  covering them, and the OpenGL post shader applies the same order.
+  `PresetRenderer.Composite` now adds the overlay into the warped frame and
+  `PresetRenderer.Publish` copies the finished frame into the display buffer.
+- The OpenGL custom warp now draws the prepared mesh instead of a full-screen
+  quad, so the per-pixel block reaches the geometry through the mesh (it runs
+  once per vertex, as the reference's per-vertex program does) and the warp
+  shader is a pure fragment stage over the interpolated coordinate.
+  `ShaderTranspiler.TranspileGlslWarpMesh` emits that fragment stage — the
+  per-pixel block is not emitted again, because the mesh already carries its
+  result — and the warp program links the same mesh vertex shader the fixed warp
+  uses. The emitted warp entry point therefore no longer computes the sampling
+  position before the block.
+- The visualizer's warp now transforms the texture coordinate at the mesh
+  vertices and interpolates the resulting coordinate, exactly as the reference
+  warp vertex shader does, instead of interpolating the motion values and
+  transforming per pixel. The OpenGL warp does it in its vertex shader (the mesh
+  now carries the tenth `warp` value as a vertex attribute and the
+  time-dependent displacement moved into the vertex stage), and the CPU mesh
+  warp interpolates a per-vertex coordinate mesh. For an affine transform the
+  two paths still agree to floating-point precision; the change is visible where
+  the radial zoom or the warp displacement makes the transform nonlinear. The
+  per-vertex block's `x`/`y`/`rad`/`ang` also use the reference aspect now, not
+  the preset's `aspectx`/`aspecty` variables.
+- The visualizer's shader samplers now follow Milkdrop's qualifier semantics:
+  `fc_`/`fw_`/`pc_`/`pw_` (and the swapped `cf_`/`wf_`/`cp_`/`wp_` spellings)
+  select a sampler's wrap and filter mode rather than a different moment in
+  time, so `sampler_main`, `sampler_pc_main`, and `sampler_fw_main` all read the
+  same frame. The prefix is stripped before the generated noise and random
+  textures are resolved, so `sampler_pw_noise_lq` now reads the noise texture
+  instead of the frame. `ShaderSamplerName` is the shared parser,
+  `PixelBuffer.SampleShader` performs the wrap and filter, and the interpreter,
+  the Skia passes, and the OpenGL pipeline all use them. The OpenGL frame
+  texture keeps its own filter and wrap (GL exposes no per-sampler state through
+  `GlInterface`), so a frame sampler's qualifier currently selects only the
+  texture it reads there.
+- The visualizer's warp now applies the reference implementation's
+  time-dependent displacement (the preset's `warp` value, which defaults to
+  one): four travelling sine/cosine waves whose phase depends on the vertex
+  position and whose amplitude is `warp * 0.0035`. It sits between the stretch
+  and the rotation, is computed by `WarpSampling.WarpDisplacement`, and is
+  carried as a tenth mesh value so the CPU warp, the Skia warp pass, and the
+  OpenGL warp shader stay identical. Because the displacement is active by
+  default, an identity warp is no longer exactly identity; this matches the
+  reference.
+- The visualizer's warp now uses the reference implementation's coordinate
+  contract instead of the engine's previous formula: the sample position is
+  scaled by the aspect, divided by the radial zoom, stretched, rotated,
+  translated, and scaled back by the inverse aspect, exactly as the reference
+  warp vertex shader does. The aspect keeps both factors at or below one
+  (`WarpSampling.GetAspect`), so a landscape frame scales the vertical axis by
+  `height/width` and a portrait frame the horizontal axis by `width/height`,
+  matching the reference. `WarpSampling.SamplePosition` stays the single
+  definition, so the CPU warp, the Skia warp pass, and the OpenGL warp fragment
+  shader cannot drift apart.
+- The visualizer's shader blur levels (`GetBlur1`-`GetBlur3`) now use the
+  reference implementation's weighted filter instead of a three-by-three box: a
+  long horizontal pass with eight weighted taps (about thirteen pixels wide)
+  followed by a short vertical pass with four, each level continuing from the
+  one below it. A single box blur is far too narrow, so a preset that feeds the
+  blurred frame into its own maths (the common `GetBlur1` then a `tan` term)
+  amplified the box's hard edges into visible steps. Against projectM the
+  `LuxXx - BadBallz Beta` correlation moved from 0.36-0.41 to 0.40-0.44;
+  `Jc - Crystal Shards` is within the noise, because its remaining difference is
+  the comp and video echo rather than the blur.
+- The visualizer's once-per-second diagnostic line now also reports the
+  brightness of the frame the presenter copied, sampled **before and after** the
+  copy under the presentation lock (`presentBrightness=source:…/destination:…`),
+  so a copy or bitmap fault is told apart from a genuinely white source frame
+  without another round trip. The line is bounded and carries no media names or
+  paths.
+- The visualizer's once-per-second diagnostic line now reports the frame's
+  brightness **per stage** (`stageBrightness=warp:…/blur:…/compShader:…/done:…`)
+  on **every** frame, each value sampled from the buffer that stage reads, so
+  the numbers follow the current frame instead of the first frame the stage
+  trace happens to cover. The saturated share alone says a frame went white; the
+  per-stage brightness says which stage turned it white, and a stale per-stage
+  value is worse than none because it looks authoritative while pointing at the
+  wrong stage. The renderer gained one small `StageBrightnessLogger` hook, and
+  `PixelBuffer.MeanBrightness`/`SaturatedShare` are the shared probes.
+- The visualizer's once-per-second diagnostic line now also reports the rendered
+  frame's **saturated share** and whether the per-pixel program is suspended. A
+  white window is either a genuinely saturated frame or a frame that never
+  reaches the screen, and the saturated share tells those apart because a
+  presentation fault leaves the rendered frame's brightness and saturation
+  untouched. The line already carried the mean brightness, the render size, the
+  shader grid state, the stage timings, and any shader, render, preset, or
+  presentation error.
+- The visualizer's resolution choices now run up to 3840 x 2160 and include 2560
+  x 1440 and 1920 x 1080; the window accepts up to 7680 x 4320 instead of 3840 x
+  2160, so the added choices are not silently clamped. A missing selection falls
+  back to 640 x 360 by value instead of by index, so adding a choice cannot move
+  the default.
+- Parallelized the full-frame visualizer passes and reused the blur scratch.
+  `PixelBuffer.Blur` no longer allocates a copy per pass, and the blur, decay,
+  gamma, centre darkening, video echo, and composite passes now split into row
+  ranges through `ParallelRows.For`, gated by
+  `PresetRenderer.ParallelismEnabled` like the warp; `ParallelWarpTests` proves
+  both paths render identical frames. The built-in presets fell from 39 ms per
+  frame to 12 ms at 480 x 270 and from 70 ms to 21 ms at 640 x 360, so the
+  visualizer now defaults to 640 x 360 at 60 frames per second instead of 480 x
+  270 at 30.
+- Made the compiled SkSL shader passes the visualizer's default.
+  `VisualizerWindow` now creates its `PresetRenderer` with `UseSkiaPasses`
+  enabled, so a comp shader and a warp shader run as Skia runtime effects; the
+  interpreter stays the fallback for anything the Skia path cannot handle. The
+  full-frame passes (the geometric warp, the video echo, the borders, and the
+  composite) stay on the interpreter: measured on the raster Skia surface they
+  were about 2.6 times slower than the interpreter's in-place float passes,
+  because each one converts the whole frame to an eight-bit bitmap and back, so
+  they are gated by the new `PresetRenderer.UseSkiaFramePasses` and off by
+  default. The frame passes' runtime effects are cached for the process, because
+  their SkSL is constant and Skia compiles an effect when it is created.
+  Measured with the built-in presets at the default 480 x 270, the shader-pass
+  cutover costs 39 ms per frame on average against 57 ms before.
+
+### Added
+
+- Settings > Playback > Visualizer now explains that Orynivo ships no
+  third-party presets and offers a **Download presets…** action that opens the
+  projectM `presets-cream-of-the-crop` collection, so a user can add MilkDrop 2
+  presets to the **Preset folder**.
+- Added MilkDrop-style preset blending to the visualizer. A preset switch now
+  cross-fades over a configurable **Preset switch cross-fade duration**
+  (Settings > Playback > Visualizer, default 0 = hard switch). The outgoing
+  preset keeps running and the reference's non-motion per-frame variables
+  (`decay`, the waveform colours and position, both border bands, the
+  motion-vector display, the video echo, `gamma`, and the blur range keys) are
+  eased into the incoming preset with MilkDrop's cosine curve, while the motion
+  variables that drive the warp stay on the incoming preset; a boolean or
+  ordinal switch such as `wrap` or `echo_orient` flips at the blend midpoint
+  instead of landing between two values. On the OpenGL path the warp's sampling
+  coordinate additionally morphs from the outgoing preset's captured mesh to the
+  incoming one, so the geometry eases over the blend too. The switch still
+  continues from the previous preset's feedback instead of restarting from
+  black.
+- Added preset texture files to the visualizer. A shader that declares its own
+  texture, such as `sampler sampler_seaweed;`, now resolves to
+  `textures/seaweed.jpg` (or `.png`, `.bmp`, `.gif`, `.webp`, `.tga`) beside the
+  presets, matching MilkDrop's convention; previously an unknown sampler fell
+  back to the frame, so a preset such as `suksma - frust` looked nothing like
+  MilkDrop. Both the CPU interpreter and the OpenGL pipeline load and bind the
+  same decoded image, and no third-party texture is bundled.
+- Added visualizer preset activation. Settings > Visualisierung gains a **Select
+  presets…** action that opens a themed dialog listing every available preset —
+  the nine built-ins and every `.oryvis` or `.milk` file in the preset folder —
+  each with a checkbox. Deactivated presets are persisted by a stable key
+  (built-in name or preset-relative file path) and skipped when the visualizer
+  opens, steps to the next or previous preset, advances automatically, or
+  responds to the mouse. The dialog carries **All**/**None** actions and an
+  active-count summary, and lists presets without reading the files so a large
+  collection opens instantly.
+- Added a seedable `rand_frame` diagnostic mode to the visualizer renderer. The
+  per-frame random vector still uses `Random.Shared` by default so a preset
+  looks different on every run like the reference, but
+  `PresetRenderer.RandomSeed` draws it from a private generator so successive
+  renders reproduce for A/B comparison; the GL harness exposes this as
+  `GLH_RANDOM_SEED`.
+- Added automatic preset advancement to the visualizer. Settings >
+  Visualisierung gains an enable toggle and a per-preset dwell time in seconds;
+  when enabled the window advances to the next preset after that time. It is off
+  by default and defaults to 15 seconds.
+- Preset switches in the visualizer no longer reset the frame. Like Milkdrop,
+  the new preset continues from the last frame of the previous one: the OpenGL
+  feedback is kept across a switch (cleared only when its size changes), and the
+  CPU path seeds the new renderer with the previous feedback through
+  `PresetRenderer.SeedFeedback`.
+- Added Milkdrop's twenty-four `rot_*` shader matrices. They are `float4x3`,
+  which neither the interpreter's square-matrix pool nor SkSL models, so the
+  engine rewrites the two constructs presets use, the component read
+  `rot_d1[1].y` and the product `mul(uv, rot_d1)`, onto three `float4` column
+  uniforms per matrix. The values follow the reference's row-vector composition
+  (`Rx * T * Rz * Ry`, randomised per preset load with the reference's speed
+  progression, the last four re-randomised every frame), so a preset that reads
+  them as a slowly moving rotation no longer sees a constant zero.
+  `ShaderRotationMatricesTests` pins the rewrite and the columns.
+- Added a Windows-only Winamp MilkDrop capture harness that runs the supplied
+  `vis_milk2.dll` inside an isolated copy of Winamp, plays the comparison tone,
+  records Direct3D frames with playback timestamps, and produces a side-by-side
+  Orynivo comparison. A 300-frame Royal Mashup run now provides a direct Winamp
+  reference instead of relying on projectM as a proxy.
+- Added matched-music comparison for the visualizer: a reference oracle converts
+  a track that FFmpeg can read into one raw 16-bit stereo PCM file both
+  renderers consume, so a comparison runs on the same music instead of a
+  synthetic signal. The converted WAV beside it is what a reference player such
+  as Winamp should play.
+- A per-pixel block that writes the sample position `x` or `y` now runs on the
+  GPU by default. Such a block used to keep the CPU warp, because the mesh
+  cannot interpolate a sample position; it is now emitted as a warp fragment
+  shader that computes the coordinate per pixel instead, and
+  `ORYNIVO_VISUALIZER_PIXELWARP=0` forces the CPU warp.
+  `the GL pixel-warp regression` verifies it: a whole-frame comparison cannot
+  see the warp, because the display frame is dominated by the overlay that both
+  renderers composite identically, so the probe draws the overlay only for the
+  first frames and follows the brightness centroid of the remaining warped
+  feedback. The GPU tracks the CPU reference within 0.08 px over a 23 px travel,
+  and a control preset without the block stays 26 px away, so the probe fails if
+  the block does not reach the GPU.
+- Added a reference-player comparison, which renders a preset — or every preset
+  below a folder — with Orynivo and the reference implementation under identical
+  resolution, frame count, frame time, mesh and audio, writes the frames and a
+  settings manifest, and generates `compare-tone.wav`. That tone is a
+  deterministic 440 Hz stereo signal both renderers synthesize, so a capture
+  from a reference player such as MilkDrop in Winamp can be compared with the
+  renders under the same audio state.
+- Added the GPU comp and warp shader pipeline for the visualizer (opt-in with
+  `ORYNIVO_VISUALIZER_OPENGL=1`). Shader presets now run their comp and warp
+  shaders as GLSL on the GPU at the full render resolution, instead of through
+  the CPU interpreter on a grid capped at 10,000 pixels and shrunk toward 1,024
+  when it overruns the 30 ms budget — which is why the Milk presets looked like
+  roughly 50-pixel pictures. `ShaderTranspiler` gained a GLSL dialect
+  (`TranspileGlsl`, `TranspileGlslComp`, `TranspileGlslWarp`);
+  `VisualizerGlPipeline` compiles it, runs the warp shader in place of the fixed
+  mesh warp, builds the three blur levels the shader's `GetBlur1`-`GetBlur3`
+  read, and runs the comp shader after the post pass into its own display target
+  so the feedback stays the pre-comp frame. The GLSL samples are normalised
+  (Skia's `eval` takes pixels), the vector uniforms are declared as scalars
+  because `GlInterface` only exposes scalar uniform setters, and a shader the
+  dialect cannot express falls back to the CPU path. Verified headlessly with
+  the local GL harness, which emits a real preset's shaders, compiles them in
+  the context, and compares the GPU frame against the CPU reference:
+  `LuxXx - BadBallz Beta` now renders 0.49 against the CPU's 0.53 instead of a
+  saturated white frame, and `martin - neon space ps2`,
+  `martin - lock and release`, and `Jc - Crystal Shards` all run with
+  `glError=0x0`.
+- Added `PresetBrightnessDiagnosticTests`, which renders one configured preset
+  file for a few frames and reports each frame's mean brightness and saturated
+  share, so a preset that turns white can be located to the frame it happens on.
+  Point `ORYNIVO_PRESET_BRIGHTNESS_FILE` at a preset to run it.
+- Added `CompFeedbackTests`, which pins down the comp stage's feedback rule: a
+  comp shader that writes white must paint the display white without whitening
+  the feedback, and an amplifying comp shader must settle instead of diverging.
+- Added `ShaderMatrixTests`, which verifies the two-by-two matrix constructor
+  and `mul` in both argument orders and for two matrices against hand-computed
+  values.
+- Added `PixelBuffer.MeanBrightness` and `PixelBuffer.SaturatedShare`, the
+  strided probes the visualizer diagnostics share.
+- Added `PresetRuntimeDiagnosticTests`, which renders every preset of the
+  configured folder for a few frames and reports the ones whose frame failed at
+  run time, separately counting the interpreter's loop budget. It is the harness
+  that decides whether a preset really loses its picture at run time, because a
+  block that fails to parse costs a preset its motion while a frame that throws
+  costs it the whole picture. Against the 2000-file sample collection it reports
+  0 runtime errors and 0 loop-budget errors, which retracts the roadmap's claim
+  that several presets lose their shaders to the loop budget: that claim had
+  counted a parse failure as a run-time loss.
+- Added the local development harness, a local development harness that renders
+  the visualizer's GPU pipeline without Avalonia. It compiles
+  `Orynivo/Controls/VisualizerGlPipeline.cs` unchanged and supplies its own
+  `Avalonia.OpenGL.GlInterface` over a hidden WGL context, so the real shaders
+  and pass order are verified headlessly and a change to the pipeline's GL calls
+  breaks that build instead of drifting. It writes the GPU and CPU frames side
+  by side and prints the pipeline's one-shot diagnostics.
+- Added the GPU frame pipeline for the visualizer, off by default. With
+  `ORYNIVO_VISUALIZER_OPENGL=1` a preset **without** shaders renders entirely
+  through `Orynivo.Controls.VisualizerGlPipeline`: the warp is a mesh draw whose
+  fragment shader is a translation of `WarpSampling.SamplePosition`, the blur is
+  the same nine-tap box filter, and decay, video echo, centre darkening, both
+  border bands, gamma, and the additive overlay composite share one pass. The
+  CPU supplies only the per-frame block, the per-vertex mesh, and the overlay,
+  which stays a vector drawing. `PresetRenderer.ExpressionsOnly` is the CPU half
+  of that split: it runs the expressions, builds the mesh, and draws the overlay
+  without any pixel pass. A preset with shaders keeps the CPU frame path,
+  because the GL shader dialect is a separate step, and the bitmap presentation
+  stays the fallback. A pipeline failure is logged once and hands the frame back
+  to the CPU.
+- The GPU pipeline's frame textures are sixteen-bit floats when the context
+  exposes `GL_EXT_color_buffer_float` or `GL_EXT_color_buffer_half_float`, and
+  eight-bit colour otherwise. An incomplete framebuffer falls back to eight-bit
+  colour rather than losing the pipeline. Repeated blur and feedback otherwise
+  rounds the frame to eight bits on every pass. On a blur-heavy synthetic preset
+  (five blur passes, 40 frames) the mean channel difference from the CPU
+  reference falls from 9.74 to 9.59 of 255; the remaining difference is
+  structural, not precision.
+- Completed the Core surface a GPU pipeline reads:
+  `PresetRenderer.ReadFrameParameters` publishes the clamped per-frame pass
+  values (decay, blur passes, centre darkening, gamma, video echo, and both
+  border bands) as `VisualizerFrameParameters`, and `RenderOverlayFrame` draws
+  the waveform, spectrum, motion vectors, and shapes into `OverlayFrame` without
+  touching the feedback buffers. A GPU path composites that overlay over its own
+  warped frame instead of re-drawing it.
+- Extracted the warp's sampling arithmetic into
+  `Orynivo.Visualization.WarpSampling`, which is now the single definition of
+  it: the CPU warp calls it per pixel and the GPU warp's fragment shader is its
+  translation, so a GPU warp cannot silently disagree with the reference.
+  `WarpSamplingTests` covers the identity, zoom, offset, rotation, stretch, and
+  radial-exponent cases. The extraction is behaviour-preserving; the mesh and
+  parallel tests still render byte-identical frames.
+- Added the Core-side interface a GPU warp needs. `PresetRenderer.MeshGridX`,
+  `MeshGridY`, and `MeshValues` are public, `MeshRequested` evaluates the
+  per-vertex mesh without switching the CPU picture over, and
+  `TryCopyMeshMotion` copies the per-vertex motion while `MeshSource` exposes
+  the frame the mesh samples. A GPU warp uploads the values as vertex
+  attributes; the CPU keeps evaluating the per-pixel program until the GPU warp
+  replaces it.
+- Added an OpenGL presentation path to the visualizer, off by default. With
+  `ORYNIVO_VISUALIZER_OPENGL=1` the visualizer shows
+  `Orynivo.Controls.VisualizerGlPresenter`, which uploads the finished frame as
+  a texture and draws it with a shader instead of writing a `WriteableBitmap`,
+  and logs the negotiated GL version once through the diagnostics log. The
+  preset pipeline still renders on the CPU; this is the first step of roadmap
+  40f and proves the context, the shader compilation, the vertex buffer, and the
+  texture upload. Avalonia 12 negotiates OpenGL ES 3.0 through ANGLE on Windows.
+  Nothing changes unless the variable is set, and the bitmap presentation stays
+  the fallback.
+- Added the per-vertex mesh warp as an opt-in.
+  `PresetRenderer.MeshPerPixelEnabled` makes the warp stage evaluate the
+  preset's per-pixel program once per 64 x 48 mesh vertex and interpolate the
+  motion it produced across the quad, which is what Milkdrop's per-vertex
+  program does, instead of running it for every screen pixel. The interpolation
+  is a lerp, so a program that writes a constant motion is byte-identical to the
+  per-pixel path; a program that writes `x` or `y`, records motion vectors, or
+  feeds a warp shader keeps the per-pixel path, because an interpolated sample
+  position has no meaning. It is off by default: the engine's per-pixel `x`/`y`
+  are the warped position in minus-one-to-one space rather than Milkdrop's
+  aspect-scaled zero-to-one vertex position, so a preset that derives an offset
+  from them renders visibly differently once that offset is interpolated, and
+  that has to be reconciled before the mesh can become the default.
+- Added the local development harness, a local development harness that renders
+  a preset with the reference implementation (projectM) and with Orynivo and
+  reports the per-frame mean channel difference and correlation. It links a
+  projectM checkout the developer builds separately; no projectM source is
+  copied into the repository and no Orynivo artifact contains or links it.
+- Added `PresetSkiaComparisonDiagnosticTests`, which renders a sample of a real
+  collection with and without `PresetRenderer.UseSkiaPasses` and reports how far
+  the two pictures drift, grouped by whether the preset has a warp shader, a
+  comp shader, a per-pixel block, or none. It is the validation harness the
+  cutover needs.
+- Moved the comp shader's own per-pixel expression block onto the GPU.
+  `ShaderTranspiler.TranspileComp` emits `comp_N_per_pixel` into the same
+  runtime effect as the comp shader, seeding its `x`, `y`, `rad`, and `ang` from
+  the pixel position, and `SkiaShaderRunner.CompPass` seeds the block's
+  uniforms. `PresetRenderer` no longer requires the block to be empty, so a comp
+  shader with a per-pixel block runs on the Skia path; a block that cannot be
+  emitted still keeps the interpreter. The block has no effect on a compiled
+  (straight-line) shader, which is the reference the Skia path uses, so the
+  picture is unchanged.
+- Emitted the preset per-pixel expression block as SkSL so the warp stage can
+  run on the GPU without the per-pixel-block condition. `PresetCompiler` now
+  parses a block once into a `PresetSyntaxNode` tree that both the LINQ
+  interpreter back end and the new `PresetExpressionTranspiler` consume, so the
+  two paths cannot disagree about a block. The emitter reports the uniforms the
+  caller has to seed, maps the engine-bound `x`, `y`, `rad`, and `ang` onto
+  locals, and refuses `megabuf`/`gmegabuf` and `rand`, which stay on the
+  interpreter. Against a 500-file sample all 315 global per-pixel blocks
+  translate. `ShaderTranspiler.TranspileWarp` composes the block with a warp
+  shader (or a direct frame sample) into a warped-`uv` entry point, and
+  `SkiaShaderRunner.WarpPass` runs it over the previous frame; the renderer uses
+  it for a preset with at most one warp shader, no per-shader per-frame block,
+  no motion recording, and a per-pixel program whose written values are assigned
+  before they are read, so the GPU never has to reproduce a value carried from
+  the previous pixel. Against the same sample 249 of the 315 global blocks
+  qualify and all 249 translate and are accepted by Skia. Anything else keeps
+  the interpreter, which stays the reference and the fallback, and the passes
+  remain opt-in through `PresetRenderer.UseSkiaPasses`. The two SkSL emitters
+  now share the naming and type helpers in `SkSL`.
+- Moved the geometric warp onto the GPU. `SkiaShaderRunner.Warp` applies the
+  Milkdrop motion transform (centre, stretch, rotate, zoom, zoom exponent, and
+  offset) and reads the previous frame bilinearly, leaving a sample outside the
+  frame black the way `PixelBuffer.SampleBilinear` does. The renderer uses it
+  for a preset whose per-pixel block and warp shader are empty; a preset that
+  evaluates expressions per pixel keeps the interpreter, which is the reference
+  for those.
+- Moved the borders onto the GPU. `SkiaShaderRunner.Borders` draws the outer and
+  inner Milkdrop border bands as a Skia runtime effect, computing each pixel's
+  distance to the inset rectangle the way `PresetRenderer.DrawBorderFrame` does,
+  and the renderer uses it when the pass flag is enabled.
+- Moved the composite onto the GPU. `SkiaShaderRunner.Composite` adds the warped
+  frame onto the overlay frame with the same clamp the CPU pass applies, and the
+  renderer uses it when the pass flag is enabled.
+- Moved the video echo onto the GPU. `SkiaShaderRunner.VideoEcho` reproduces the
+  zoom, the optional horizontal or vertical flip, the alpha blend, and the
+  leave-untouched rule of `PresetRenderer.ApplyVideoEcho` as a Skia runtime
+  effect, and the renderer uses it when the pass flag is enabled. The flag is
+  now the general `PresetRenderer.UseSkiaPasses` because it gates the comp
+  shader and the frame passes together.
+- Moved the blur pass onto the GPU. `SkiaShaderRunner.BlurFrame` reproduces
+  `PixelBuffer.Blur`'s nine-tap clamped box filter as a Skia runtime effect, and
+  the Skia comp pass now builds its blur levels as a chain of those passes over
+  the composited frame instead of pre-blurring on the CPU. The frame-helper
+  translation also scales the `GetBlur1`-`GetBlur3` coordinate by `texsize`,
+  which is what the interpreter's normalised sample expects; the missing scale
+  made the GPU read the wrong texels whenever the frame was not the same size as
+  the blur buffer.
+- Added the first GPU pass: a comp shader with no per-pixel block now runs as a
+  Skia runtime effect over the renderer's frames instead of the CPU interpreter.
+  `SkiaShaderRunner` binds one frame per sampler (the composited frame, its blur
+  levels, and the previous frame), the generated noise and volume textures, and
+  the scalar and vector uniforms, and each sampler is scaled by its own
+  `texsize_*` so the noise textures are sampled at their real size instead of
+  the frame size. It is opt-in through `PresetRenderer.UseSkiaPasses` because
+  the Skia path carries the frame through eight-bit textures and therefore
+  differs from the interpreter by up to one level; the interpreter stays the
+  fallback, and the CPU/GPU tests keep the two within a level.
+
+## [0.45.0] - 2026-09-20
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a **Maximum output sample rate** option under Playback. It caps the PCM
+  output rate for exclusive WASAPI and ASIO/cwASIO (Automatic keeps the previous
+  behaviour of using the highest rate the device offers). It is useful when a
+  driver advertises a rate it cannot reproduce cleanly - a Sound BlasterX AE-5
+  in Direct Mode reports 384 kHz that way. A cap only reorders the candidates,
+  so playback still falls back to an above-cap rate when the device supports
+  nothing at or below it.
+
+- Extracted `ContentRow` and `LogicalAlbumPart` from `MainWindow.xaml.cs` into
+  top-level types with complete English XML documentation (69 members gained a
+  summary). Every remaining `{ReflectionBinding}` in the views is now a
+  compile-time-checked `{Binding}` with `x:DataType="local:ContentRow"`, so no
+  reflection binding is left in the XAML.
+
+- Adopted Avalonia 12 compiled bindings for the whole desktop UI and removed
+  `AvaloniaUseCompiledBindingsByDefault=false`. Every template and item-binding
+  scope now carries an explicit `x:DataType`, which turned 232 previously
+  unchecked bindings into compile-time-checked ones. Ten view models moved out
+  of their window or view into top-level types because XAML cannot name a nested
+  type (`RadioStationViewModel`, `PodcastViewModel`, `PodcastEpisodeViewModel`,
+  `LyricLineViewModel`, `DailyHistoryRow`, `MetadataProblemRow`,
+  `MetadataRepairHeaderViewModel`, `MetadataRepairPreviewRow`, `TrackInfoEntry`,
+  and the three search-window result view models); the metadata review dialog
+  now uses a named header record instead of an anonymous type. The scopes that
+  bind the still-nested `ContentRow` keep explicit `{ReflectionBinding}` until
+  that type is extracted.
+
+- Hardened the profile-scoped test isolation. `AudioDatabase.ActiveProfileId` is
+  process-wide `AsyncLocal` state, so every test that changes it now saves and
+  restores the previous value; a leaked profile made profile-scoped queries
+  (playback history, year-in-review summary, cross-device positions) silently
+  return nothing, which looked like a query bug. `YearInReviewTests`
+  additionally pins the profile, proves that history rows written through a
+  separate SQLite connection are visible through the `AudioDatabase` connection
+  before the year query runs, and reports the active profile and visible row
+  count on failure. This addresses the intermittent failure of
+  `GetYearInReview_ExcludesOtherYears` that could not be reproduced on demand.
+
+- Migrated the desktop from Avalonia 11.3 to **Avalonia 12.1.2** and SkiaSharp
+  2.88.9 to **3.119.4** (`Avalonia.Skia` 12.1.2 depends on that line).
+  `Avalonia.Controls.DataGrid` moved with the other packages - the earlier "no
+  release beyond 11.3.13" note was wrong, DataGrid ships 12.1.2 again. The
+  unused Debug-only `Avalonia.Diagnostics` reference was dropped (it has no 12.x
+  release and the app never called `AttachDevTools`); its official successor is
+  `AvaloniaUI.DiagnosticsSupport`. SkiaSharp 3 moved the text and sampling APIs
+  off `SKPaint` onto `SKFont`/`SKSamplingOptions`, and the Avalonia 12
+  deprecations that fail the `--warnaserror` build were fixed:
+  `TextBox.Watermark` became `PlaceholderText` (8 sites),
+  `Window.SystemDecorations` became `WindowDecorations`,
+  `IClipboard.SetTextAsync` became `SetDataAsync(DataTransfer)`, and
+  `DragDrop.DoDragDropAsync` now needs the originating press event. Bindings
+  deliberately stay on the reflection mode
+  (`AvaloniaUseCompiledBindingsByDefault=false`) until each view is converted to
+  compiled bindings with an explicit `x:DataType`; that conversion is recorded
+  in `DEPENDENCY-MIGRATION.md`.
+
+- Added `DEPENDENCY-MIGRATION.md`, the decision record for every dependency line
+  held back by Dependabot. It records the current pins, the trigger that
+  unblocks each upgrade, the migration steps, and the checks required before
+  merging, and is referenced from `AGENTS.md` next to the Dependabot rules.
+
+- Corrected the dependency migration plan: the target is **.NET 10 LTS**, not
+  .NET 9. .NET 9 is already in security-only maintenance and reaches end of
+  support on 10 November 2026, the same day as the currently used .NET 8, so
+  moving to it would be a dead end. The record now carries the support-window
+  table, the .NET 10 migration steps, and the note that
+  `Avalonia.Controls.DataGrid` is in upstream maintenance mode, so the DataGrid
+  pin is resolved by evaluating a successor control (`TableView`/`TreeDataGrid`)
+  instead of waiting for an upstream release.
+
+- Migrated the complete solution to **.NET 10 LTS**. All six projects now target
+  `net10.0` (`net10.0-windows10.0.19041.0` for the Windows desktop and its
+  tests), `global.json` pins SDK `10.0.100` with `rollForward: latestFeature`,
+  every workflow pins `dotnet-version: 10.0.x`, and `Microsoft.Data.Sqlite`,
+  `Microsoft.AspNetCore.TestHost`, and `Microsoft.NET.Test.Sdk` moved to the
+  matching 10.0.12/10.0.12/18.10.1 lines. `net8.0` and .NET 9 both reach end of
+  support on 10 November 2026, so this replaces a line that was about to stop
+  receiving fixes. `Orynivo/Orynivo.csproj` also copies the Lucene `NOTICE.txt`
+  from the `4.8.0-beta00018` directory it actually references; the path still
+  named `beta00017`, so the license file was silently skipped.
+
+## [0.44.0] - 2026-09-20
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- The year-in-review summary can now also be exported as a single-page A4 PDF.
+  The on-screen card and the PDF share the new pure
+  `Orynivo.Controls.YearInReviewLayout` content model, so the two cannot drift
+  apart; the PDF is drawn offline through SkiaSharp and the export stays bounded
+  to one page. The dialog gained **Save as PDF** next to **Save as image**.-
+  Last.fm scrobbling now also mirrors the transport favourite button: toggling a
+  track as favourite loves or unloves it on Last.fm through
+  `LastFmClient.SetTrackLovedAsync`. The call is best effort, never blocks
+  playback, and is skipped for items without an artist and title. The existing
+  "now playing" notification now also skips untagged items instead of sending a
+  request Last.fm would reject.
+
+- The Infinite Mix profile editor now offers **Focus**, **Workout**, and **Wind
+  down** presets next to the mood selector. They pre-fill the mood, discovery
+  level, history period, and weighting through the pure, tested
+  `InfiniteMixPresets` mapping, which preserves the server selection, genre
+  filters, feedback, and exclusions, and never modifies the profile it is based
+  on.
+
+- The smart-playlist editor can now replace the similarity reference track.
+  **Choose reference track** opens a small search dialog over the local library
+  and every configured Orynivo Server and applies the selection together with
+  the minimum similarity score; the readable label and **Remove reference**
+  stay. Criteria building keeps using the pure `SmartPlaylistCriteriaEditing`
+  helper, which gained a picked-reference override.
+
+- Added five MCP and AI Chat tools. Read-only: `get_year_in_review` returns the
+  listening statistics for one calendar year (listened hours, active days, the
+  monthly breakdown, and the leading genres, albums, and artists), and
+  `get_track_key` returns a track's estimated musical key as a Camelot wheel
+  label. Acting on search results: `set_tracks_favorite` and `set_tracks_rating`
+  update several tracks in one step, and `create_similar_playlist` builds a
+  similarity smart playlist from a reference track. Every entry accepts a local
+  absolute path or an opaque `orynivo://` reference, so no credential ever
+  reaches the model, and all five respect the per-tool Settings toggles. The
+  tool count is now 37.
+- Added `scripts/verify-all.ps1`, which runs the same checks as CI on a local
+  checkout in one command: the managed builds with `--warnaserror`, all three
+  test projects, and both parity scripts. It stops at the first failure, prints
+  a compact summary, and supports `-Configuration`, `-SkipBuild`, and
+  `-SkipTests`.
+
+- The karaoke view now highlights the active word of enhanced-LRC lyrics.
+  `LyricsService.ParseLrc` extracts `<mm:ss.xx>` word timestamps into
+  `TimedLyricLine.Words`, and `KaraokeWindow` emphasizes the active word while
+  already-sung words keep the accent colour. Plain synchronized lines keep the
+  line-level highlight, so nothing changes for ordinary LRC files.
+- Fixed enhanced-LRC word markers leaking into the displayed lyrics text: they
+  are now stripped from the line text instead of appearing as literal
+  `<00:12.00>` fragments.
+- Added bulk genre editing for the shared Tracks table. The bulk action bar
+  gained a genre field that stores the value for every selected **local** track
+  through `AudioDatabase.SetTrackGenres`, which writes the library-only
+  `track_genre_overrides` table in one transaction and reapplies it on every
+  later scan. Source media files are never modified, and an empty value removes
+  the override so the next scan restores the embedded genre. Selected Orynivo
+  Server tracks are updated on their owning server through the new authenticated
+  `PUT /api/tracks/{id}/genre`, which records the same library-only override.
+- Podcast episodes can be downloaded for offline playback. Episode rows gained a
+  **Download episode** / **Delete download** context menu and a download marker
+  in the status column, playback prefers the cached file, and Settings > Library
+  sets the cache size limit in megabytes. Eviction removes the least recently
+  used downloads first through the pure
+  `PodcastDownloadCache.SelectForEviction`, and the most recently used episode
+  is always kept.
+
+- Added an optional automatic server-side library backup schedule. The
+  `Orynivo:BackupSchedule` configuration section (disabled by default) writes a
+  versioned library ZIP at most once per `IntervalDays` into its target folder
+  and removes archives beyond `RetentionCount`. It reuses the shared
+  `Orynivo.Library.BackupRetention` decisions, derives its last run from the
+  newest archive so no extra state is stored, holds no credentials, and never
+  includes audio files. Automatic archive naming moved into the shared
+  `Orynivo.Library.BackupNaming` helper, which the desktop now uses too.
+
+- Added an optional WebDAV upload target for completed library backups.
+  `AppSettings.BackupTarget` stores the enable flag, WebDAV URL, optional
+  sub-folder, and user name, while the password lives only in the encrypted
+  credential store and stays out of `settings.json`. Only plain `http`/`https`
+  URLs without embedded credentials are accepted, the upload is best effort and
+  never removes the local archive, and credentials never reach a URL, a log, or
+  an error message. The scheduled and **Back up now** paths share the upload,
+  and Settings gained the corresponding fields under the backup schedule.
+
+- Added a **Reduce motion** option under Appearance that disables the optional
+  Genre Cloud, Dashboard cover-stage, and karaoke animations. The decision lives
+  in the pure `Orynivo.Controls.MotionPreferences` helper. The album and artist
+  artwork grids can now be opened with Enter or Space in addition to a
+  double-click, and the transport controls (previous, play/pause, next, volume,
+  artist info, lyrics, favorite, shuffle, equalizer, and output) expose
+  accessible names.
+
+- Added cross-device resume for remote Orynivo Server tracks. The server stores
+  the last playback position per profile and track (`profile_track_position`)
+  through the new authenticated `GET`/`PUT /api/tracks/{id}/position` endpoints;
+  the client publishes its audible position at most every 20 seconds and offers
+  a **Resume** transport action when another device left off meaningfully later.
+  The decision lives in the pure `Orynivo.Library.CrossDeviceResume` helper,
+  only profile-scoped positions are stored, and no credential-bearing URL is
+  ever persisted.
+
+### Fixed
+
+- Fixed the Linux and macOS desktop builds, which failed with
+  `CS1501: No overload for CreateAsync takes 6 arguments`. The
+  maximum-output-rate option reached the Windows player but not the
+  `Compatibility/Linux` replacement that the non-Windows targets compile
+  instead, so only the CI Linux and macOS jobs saw the mismatch. That
+  compatibility player now accepts and honours the same cap.
+- `scripts/verify-all.ps1` compiles the non-Windows desktop variant as well, by
+  building `Orynivo/Orynivo.csproj` with `-p:OS=Unix`. A Windows-only local
+  build cannot see a broken Linux or macOS call site, which is why this failure
+  reached CI in the first place; the new step caught the same mismatch when it
+  was reintroduced deliberately.
+
+- Fixed DSD-to-PCM playback over exclusive WASAPI, which played nothing but very
+  loud crackling on a Sound BlasterX AE-5. The WASAPI format chooser handed the
+  raw DSD rate to its ordering (`Math.Max(source, hint)`), so a DSD source
+  preferred the highest rate the driver reported. On a Sound BlasterX AE-5 that
+  is 384 kHz, a fractional division of the DSD rate (5644800/384000 = 14.7 for
+  DSD128), and that driver reports its exclusive-format set inconsistently
+  between queries, so the same build can pick 192 kHz in one run and 384 kHz in
+  the next. It now prefers an exact division of the DSD rate that does not
+  exceed the conversion hint, matching what the ASIO path already did, and the
+  WASAPI probe reports the same 176400 Hz hint as the FFmpeg player. On that
+  device the conversion now runs at 88200 Hz (5644800/64 for DSD128). The probe
+  order is extracted into the pure `WasapiAudioPlayer.OrderCandidateSampleRates`
+  and covered by seven tests.
+
+- Similarity smart playlists now resolve on an Orynivo Server instead of
+  returning an empty list. `/api/playlists/{id}/resolve` and
+  `/api/playlists/resolve-count` go through the new
+  `Services/SmartPlaylistResolver`, which supplies the server's cached
+  similarity feature vectors whenever the criteria carries a reference. A
+  reference that points at another library (`server:<id>`) intentionally still
+  resolves to nothing, because vectors are provider-local.
+- Remote Orynivo Server tracks now really carry their estimated musical key.
+  `CamelotKey` had been added to the rating-mutation DTO instead of
+  `OrynivoTrackInfo`, so the remote catalog mapping never received it and the
+  Key column stayed empty for server rows. The track DTO now carries the field,
+  the catalog mapping forwards it, and a Core test guards the deserialization.
+- Hardened the Core test suite against intermittent failures. Every database
+  test now creates its own temporary library through `CoreTestDatabase` and
+  clears only that database's SQLite pool, instead of sharing one library file
+  and calling the process-wide `SqliteConnection.ClearAllPools()`.
+  `ArtistAttributionTests` no longer deletes a shared database between tests, so
+  no test can observe another test's rows while xUnit runs classes in parallel.
+- Fixed the failing Dependabot GitHub Actions update. `dotnet-desktop.yml` still
+  pinned `actions/checkout@v6`, `actions/setup-dotnet@v5`, and
+  `actions/upload-artifact@v6` while every other workflow used
+  `@v7`/`@v6`/`@v7`, which made Dependabot abort with
+  `Error processing actions/setup-dotnet (RuntimeError)` / `No files changed!`.
+  All 18 action references now use one version per action, and the new
+  `scripts/verify-github-actions-pins.ps1` (wired into `scripts/verify-all.ps1`
+  and the CI verify job) fails the build when a workflow reintroduces a mixed
+  major.
+
+## [0.43.1] - 2026-09-18
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Linux desktop builds now expose the full MPRIS 2 media player interface
+  (`org.mpris.MediaPlayer2.orynivo`) on the session bus, giving desktop media
+  keys, panels, and applets parity with the Windows System Media Transport
+  Controls integration. It supports Play/Pause/PlayPause/Stop/Next/Previous/
+  Seek/SetPosition, reports metadata, position, playback status, volume, and
+  navigation capabilities, and emits `PropertiesChanged` and `Seeked` signals.
+  Remote artwork URLs that carry credentials (Orynivo Server `?key=`, Plex
+  tokens) are never exposed; only local files and credential-free URLs are
+  published. macOS remains unaffected.
+
+### Fixed
+
+- Fixed a .NET 8 build break in `GenreCloudService` and
+  `SimilarityFeatureService`: collection-expression `string.Split([';', …], …)`
+  calls are ambiguous with the latest .NET 8 reference assemblies, which add
+  `Split(string?, StringSplitOptions)`. Both now use explicitly typed `char[]`
+  arguments.
+- Remote Orynivo Server tracks now show their cover art in the desktop media
+  integration. The now-playing metadata prefers the locally cached
+  `remote-artworks/track-art-<server>-<track>.img` file instead of the
+  credential-bearing server URL, so MPRIS and the Windows media overlay can
+  display the cover without the `?key=` API key ever reaching them, and the
+  media metadata is refreshed once an asynchronous artwork download completes.
+
+## [0.43.0] - 2026-09-18
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Migrated queue drag-and-drop to the modern Avalonia data-transfer API
+  (`DataTransfer`, `DataTransferItem`, `IDataTransfer`, `DataFormat<string>`,
+  and `DragDrop.DoDragDropAsync`) and raised Avalonia to the 11.3 line. The
+  queue tokens are carried as a JSON string under the application format
+  `orynivo.queue-paths`, so track, album, and folder drags behave exactly as
+  before. The format lives in `OrynivoDataFormats` with a regression test,
+  because Avalonia only accepts ASCII letters, digits, dots, and hyphens in an
+  application identifier and validates it eagerly. Dependabot may now propose
+  Avalonia 11.3 minor updates; major updates remain ignored because Avalonia 12
+  needs the .NET 9 SDK. Note that `Avalonia.Controls.DataGrid` has no 11.3
+  release beyond 11.3.13 and stays pinned there.
+- Added optional scheduled library backups. Settings > Library gained a
+  **Scheduled backups** section with an enable toggle, an interval in days, a
+  retention count, a backup folder picker, a **Back up now** action, and the
+  last successful run. Orynivo writes the same versioned ZIP as the manual
+  export into the chosen folder (default: a per-user `backups` folder) and
+  removes archives beyond the retention count. The schedule and retention
+  decisions live in the pure, tested `Orynivo.Library.BackupRetention`; audio
+  files and credentials are never included.
+- Added a fullscreen karaoke view for synchronized lyrics. The lyrics view
+  gained a **Karaoke** action that opens a fullscreen window with the active
+  line centered and emphasized while neighbouring lines fade out, using the
+  now-playing cover as a dimmed backdrop. It follows the transport position
+  through the existing timer, exits with Esc or a click, and reports when a
+  track only has plain lyrics. Lyric-line selection now lives in the pure,
+  tested `Orynivo.Library.LyricLineSelector`.
+- Added a **Year in review** summary, reachable from the Dashboard statistics.
+  It reuses the existing Dashboard aggregates — total listened hours, active
+  days, a monthly breakdown, and the leading genres, albums, and artists — for a
+  chosen calendar year with recorded history, and exports the rendered card as a
+  shareable PNG image. No additional data is collected. The top-genre, album,
+  and artist queries gained an optional exclusive upper time bound so a past
+  year never includes later listening.
+- The estimated musical key is now visible: an optional **Key** column (Camelot
+  wheel label) is available for the shared Tracks, Up Next, and playlist tables,
+  and **Show track information** lists it for local and Orynivo Server tracks.
+- Settings > Playback gained **Analyze audio features**, which runs the optional
+  acoustic-descriptor and musical-key analysis for the complete local library
+  and requests bounded batches from every configured Orynivo Server. The section
+  explains what the analysis produces and what it is used for, reports progress,
+  stays cancellable, never modifies source media, and leaves failed sources on
+  their normal seven-day retry cooldown.
+- Added harmonic mixing. The new pure `Orynivo.Library.CamelotKey` type maps
+  conventional key names and Camelot labels onto the wheel and exposes wheel
+  adjacency, and `AudioFeatureAnalysisService` estimates a musical key from a
+  bounded Goertzel chromagram correlated against Krumhansl-Schmuckler profiles.
+  The estimate is cached with the other acoustic descriptors (descriptor version
+  2, `track_audio_features.camelot_key`) and stays conservative: an ambiguous
+  chroma yields no key. Infinite Mix batches and similarity, mood, and activity
+  mixes are ordered with the new deterministic `HarmonicOrdering` greedy wheel
+  walk so consecutive tracks mix cleanly; tracks without an estimated key keep
+  their ranking order at the end of the batch.
+- Added transactional bulk updates in `Orynivo.Core`:
+  `AudioDatabase.SetTrackFavorites` and `SetTrackUserRatings` apply a favorite
+  state or a personal rating to several tracks in one transaction, with
+  de-duplicated identifiers and validated ratings.
+- Added curated mood/activity presets to the track context menu: a new **Play
+  activity mix** submenu offers **Focus**, **Workout**, and **Wind down** next
+  to the existing mood mix. They rank tracks through the new
+  `SimilarityFeatureService.RankPreset` using cached acoustic descriptors
+  (energy, brightness, dynamics) and tempo, fall back to explicit mood tags and
+  preference signals for tracks without descriptors, and reuse the existing
+  Infinite Mix similarity queue, persistence, and navigation path.
+- Added a similarity criterion to smart playlists. `SmartPlaylistCriteria` can
+  store a credential-free reference track (provider key plus provider-local
+  track id) and an optional inclusive minimum similarity score, and resolves to
+  that track's nearest neighbours through `SimilarityFeatureService`, still
+  applying every other criterion. The Tracks context menu offers **Save as smart
+  playlist: similar tracks** for local and Orynivo Server tracks; the reference
+  is stored without any server URL or credential, and remote neighbours are
+  resolved through the client's cached similarity vectors. Criteria persisted
+  before this change remain valid.
+- The smart-playlist editor now shows the similarity reference a playlist is
+  based on — resolved to the track title and artist for local references, or the
+  server name for remote ones — and lets its minimum similarity score be edited
+  or the reference be removed.
+- Added bulk editing for the shared local and Orynivo Server Tracks table:
+  selecting more than one track shows a bulk action bar with **Mark as
+  favorite**, **Remove favorite**, and a personal-rating selector. Local tracks
+  are written through the transactional bulk methods; remote tracks mirror their
+  favorite state into the client-side profile container and update their rating
+  through the server API. All seven interface languages are included.
+
+### Fixed
+
+- Editing a similarity smart playlist no longer drops its reference track. The
+  editor rebuilt the criteria from its own input fields and silently lost the
+  reference; it is now carried over explicitly and removed only when the user
+  chooses **Remove reference**.
+
+## [0.42.0] - 2026-09-17
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added `Orynivo.Library.QueuePathPolicy` in `Orynivo.Core` as the single,
+  unit-tested decision for whether a playback or queue path may be persisted
+  without credentials, plus a desktop-agnostic regression test suite covering
+  local, `cue://`, `orynivo://`, credential-free HTTP, and credential-bearing
+  URL cases.
+- Added the `Orynivo.Tests` unit-test project for pure desktop helpers with a
+  regression suite for the transport accent colour maths. `Orynivo.Core.Tests`
+  additionally covers ReplayGain decibel-to-linear conversion and its
+  track/album fallback. The Windows build workflow now runs all test projects.
+- Added the `Orynivo.Server.Tests` unit-test project covering the API key
+  middleware (health bypass, header/query key acceptance, missing/wrong/empty
+  key rejection, case-sensitive comparison) and the profile-context middleware
+  (profile scoping, standard default, query selection, unknown-profile 403).
+- Added a dedicated CI parity job that runs the MCP tool and localization
+  verification scripts on every push and pull request, Dependabot configuration
+  for NuGet and GitHub Actions updates, and a repository `.editorconfig`.
+- Expanded `Orynivo.Core.Tests` with regression coverage for artist display-name
+  normalization and identity comparison keys, the shared smart-playlist
+  filtering/ordering/limiting logic, CUE sheet parsing and virtual-path
+  detection, and M3U8 import/export including relative-path resolution and
+  credential-URL rejection.
+
+- Extracted the credential-free Orynivo Server track/album references into the
+  testable `Orynivo.PlaylistReferences`, the genre-cloud recommendation scoring
+  into `Orynivo.GenreRecommendationScore`, and the MusicBrainz rating-refresh
+  row partitioning into `Orynivo.MusicBrainzRatingGrouping`. `Orynivo.Tests` now
+  covers reference build/parse round-trips, malformed-value rejection, affinity
+  aggregation, favorite weighting, the tie-break variation, and case-insensitive
+  recording-MBID grouping.
+- Extracted the web-browsing SSRF address classification into the testable
+  `Orynivo.Web.PrivateNetworkPolicy`. `Orynivo.Core.Tests` now covers the IPv4,
+  IPv6, and IPv4-mapped loopback, private, link-local, CGNAT, multicast, and
+  reserved ranges.
+- Extracted the server health and info endpoints into
+  `Orynivo.Server.Endpoints.CoreEndpoints` and added in-memory `TestServer`
+  integration tests that exercise `/api/health` and `/api/info` through the real
+  API key and profile-context middleware pipeline (health bypass, header/query
+  key acceptance, missing key, unknown-profile 403).
+- Added `Orynivo.Core.Tests` coverage for the HTML-to-text/Markdown extractor
+  (script/style removal, entity decoding, headings, links, lists, plain-text
+  passthrough), for `SeekDiagnostics.SanitizeUrl` (secret query-parameter
+  redaction, user-info removal, non-HTTP passthrough), and for the genre
+  taxonomy (multi-parent ancestry queries, name/alias/delimiter normalization,
+  dynamic unmapped keys, and display-name resolution).
+
+- Added the cross-platform Last.fm scrobbling core in `Orynivo.Core`
+  (`LastFmSignature` MD5 request signing, `ScrobbleRules` eligibility, and a
+  `LastFmClient` for token/session authentication, now-playing updates, and
+  scrobble submission) with regression tests for the signature vector and the
+  scrobble thresholds.
+- Wired Last.fm scrobbling into the desktop client: a `LastFmScrobblingService`
+  with authorization, now-playing and eligible scrobble submission, a persisted
+  offline queue (`PendingScrobbleStore`, bounded to 500 entries), new
+  `LastFmScrobblingEnabled`/`LastFmUsername` settings, and
+  API-secret/session-key storage through the encrypted credential container.
+  Playback start and end now feed the scrobbler, and queued scrobbles are
+  flushed at startup.
+- Added the Last.fm scrobbling settings to **Artist information**: an enable
+  toggle, API key and API secret fields, a two-step Connect flow that opens the
+  Last.fm authorization page, Disconnect, and a localized connection status. All
+  new strings exist in German, English, French, Spanish, Russian, Simplified
+  Chinese, and Hindi.
+
+- Added a **Duplicate files** action to Settings > Review metadata: it opens a
+  review dialog listing Library Doctor duplicate groups with the first file of
+  each group kept by default, an explicit confirmation, and an optional "delete
+  the files from disk" step. Nothing is removed without confirmation.
+- Added `LibraryScanner.RemoveTracksByPaths` in `Orynivo.Core`: a confirmed
+  removal deletes the matching rows from SQLite, Lucene, and the waveform cache
+  together, includes virtual CUE/MKA tracks that share a removed physical
+  source, and can optionally delete the files from disk. It is never called
+  implicitly.
+- Added `LibraryMetadataRepairService.FindDuplicateGroups` in `Orynivo.Core`,
+  which reuses the Library Doctor AcoustID/SHA-256 evidence to return duplicate
+  file groups (exact byte-identical files and likely same-size matches). It is
+  read-only: nothing is removed or merged, and alternate recordings are never
+  reported as duplicates.
+- Added optional lossy remote transcoding to the server stream endpoint:
+  `GET /api/stream/{id}?format=opus|aac&bitrate=<64-320>` re-encodes through
+  FFmpeg for bandwidth-limited clients, with per-format defaults, validated
+  ranges, and a 400 for unsupported requests. Clients select a per-server
+  streaming quality (Original / Opus 128 / AAC 192) in the Orynivo Server
+  dialog; the parameters are optional so older clients are unaffected.
+- Added optional loudness normalization for radio and podcast streams: a slow,
+  bounded `StreamingLoudnessNormalizer` in `Orynivo.Core` that evens out their
+  loudness relative to the ReplayGain-normalized library. It runs only for
+  radio/podcast PCM (never library tracks or native DSD), is off by default, and
+  is configured in Settings with localized labels in all seven languages.
+- Added optional headphone crossfeed for PCM playback: a `CrossfeedProcessor` in
+  `Orynivo.Core` (Light/Medium/Strong, one-pole blend with a level-preserving
+  direct path) applied after ReplayGain and the equalizer in the ASIO and WASAPI
+  PCM paths. It is off by default, leaves native DSD bit-perfect, and is
+  configured in Settings with localized labels in all seven languages.
+
+### Changed
+
+- Split the monolithic `Orynivo/MainWindow.xaml.cs` (17,774 lines) into cohesive
+  domain partials without changing behavior; the root file now holds only
+  fields, nested types/records, and the constructor (about 1,200 lines). New
+  domain partials: `MainWindow.Queue.cs` (queue persistence and Up Next),
+  `MainWindow.AlphabetIndex.cs` (A-Z index and scrolling),
+  `MainWindow.Artwork.cs` (artwork loading/hydration), `MainWindow.Podcasts.cs`,
+  `MainWindow.Search.cs` (local/remote search), `MainWindow.TrackFilters.cs`
+  (facet filters and unified smart playlists), `MainWindow.Settings.cs`
+  (settings host, output/equalizer pickers, device lock, PCM volume/ReplayGain),
+  `MainWindow.FolderTree.cs` (local/remote/unified folder trees),
+  `MainWindow.AlbumDetail.cs` (album detail and album-track loading),
+  `MainWindow.ArtistInfo.cs` (artist detail and unified population),
+  `MainWindow.Sidebar.cs`, `MainWindow.Navigation.cs` (navigation stack and
+  back-navigation), `MainWindow.Playback.cs` (playback engine, gapless, shuffle,
+  transport, waveform, lyrics, now-playing, history),
+  `MainWindow.CoverSearch.cs` (cover/artist image search and artwork
+  synchronization), `MainWindow.Favorites.cs`, `MainWindow.Plex.cs`,
+  `MainWindow.RemoteOrynivo.cs` (remote server view and caches),
+  `MainWindow.LibraryViews.cs` (unified row loading/merging/conversion),
+  `MainWindow.TableRendering.cs` (shared column factories and row rendering),
+  `MainWindow.Startup.cs`, `MainWindow.ContentLoading.cs`,
+  `MainWindow.EntityFavorites.cs`, `MainWindow.NavigationLinks.cs`,
+  `MainWindow.OrynivoNavigation.cs`, `MainWindow.ContextMenus.cs`,
+  `MainWindow.Helpers.cs`, `MainWindow.RatingColumns.cs`,
+  `MainWindow.ArtistAlbums.cs`, and `MainWindow.AppShell.cs`. The
+  credential-free queue path check now delegates to the shared, tested
+  `QueuePathPolicy`, and the transport accent colour maths moved to the testable
+  `Orynivo.Controls.ArtworkAccentColor`.
+- Split the largest domain partials further without changing behavior:
+  `MainWindow.Dashboard.cs` into dashboard core, recommendations, media, and
+  stats partials; `MainWindow.Playback.cs` into the playback engine,
+  `MainWindow.PlaybackState.cs`, and `MainWindow.Transport.cs`; and
+  `MainWindow.ArtistInfo.cs` into the detail surface plus
+  `MainWindow.ArtistInfo.Rename.cs`, `MainWindow.ArtistInfo.Albums.cs`, and
+  `MainWindow.ArtistInfo.Profile.cs`.
+- Extracted queue drag-and-drop out of `MainWindow.Playlists.cs` into
+  `MainWindow.Playlists.DragDrop.cs` and moved the Dashboard listening-trend
+  chart geometry into the testable `Orynivo.Controls.ListeningTrendGeometry`.
+  The genre-cloud perceptual luminance fingerprint moved to
+  `Orynivo.Controls.GenreCloudImageFingerprint`. `Orynivo.Tests` now covers axis
+  rounding, invariant point formatting, the clamped-control-point smoothing
+  invariant, and the fingerprint's average-threshold bit selection.
+
+### Fixed
+
+- The genre-cloud recommendation tie-break is now deterministic. It previously
+  used `HashCode.Combine`, which is seeded randomly per process, so equal-score
+  candidates could be ordered differently on every start. It now uses a stable
+  FNV-1a hash over the server and track identifiers.
+- Release asset uploads now retry transient GitHub 5xx responses with bounded
+  backoff instead of failing the complete release; the signed update-manifest
+  upload retries the same way.
+- Dependabot no longer proposes NuGet upgrades that cannot build against the
+  pinned .NET 8 SDK and toolchain. Avalonia is held on the 11.2 line (11.3
+  deprecates the legacy drag-and-drop API and 12 requires Roslyn 4.14), and
+  major upgrades of Microsoft.Data.Sqlite and Microsoft.NET.Test.Sdk are ignored
+  because those lines target newer runtimes. Upgrades are migrated deliberately.
+- Stabilized `Orynivo.Core.Tests` in CI: the isolated test data root is now set
+  from a module initializer before any type caches `AppPaths.DataRoot`, so the
+  artist-attribution tests no longer run against the real user data directory
+  (or share leftover rows) depending on test ordering.
+
+## [0.41.8] - 2026-09-16
+
+### Fixed
+
+- Assigning local or remote album artwork now preserves the Dashboard's
+  recently-added Show all page and scroll position, updating the bound cover in
+  place instead of replacing the page with the Dashboard.
+- Clarified that the Dashboard's most-listened-albums values are minutes by
+  adding the unit to the heading in all seven interface languages.
+- Cover searches now progressively display bounded 250-pixel previews with at
+  most three concurrent downloads, time budgets, and one transient-error retry.
+  Failed candidates no longer discard successful results. Original artwork is
+  downloaded only after selection, preview decoding runs off the UI thread, and
+  superseded/closed searches are cancelled. Added metadata-free phase timing
+  diagnostics and regression checks for the shared Windows/Linux workflow.
+
+## [0.41.7] - 2026-09-11
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added Hindi (हिन्दी, hi-IN) as a complete built-in desktop language and a
+  static website locale with language selection, metadata, gallery and sitemap
+  support. The mobile remote also supports Hindi. Localization and runtime
+  checks now include the new language.
+- Artist biography requests now preserve Hindi, Russian and Chinese language
+  selection instead of silently replacing those language codes with English.
+
+## [0.41.6] - 2026-09-10
+
+### Fixed
+
+- Unified all six desktop languages as complete built-in resources (853 keys
+  each), removing Russian/Chinese JSON overlays and English inheritance.
+  Completed missing translations and repaired message format placeholders.
+- Unified website translation resources and corrected Russian/Chinese wording,
+  gallery titles and accessible labels. Added six-language coverage, placeholder
+  and gallery initialization checks.
+
+## [0.41.5] - 2026-09-09
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Extended the static product website with Russian and Simplified Chinese pages,
+  language-selector entries, localized metadata, hreflang links, and sitemap
+  URLs. README and wiki language references now list all six locales.
+- Added translator-maintained JSON override files for Russian and Simplified
+  Chinese under `Orynivo/Localization/Overrides`; missing entries continue to
+  use the reviewed built-in fallback.
+
+### Fixed
+
+- Fixed a runtime language-switch issue where the dynamically created local
+  Playlists navigation group could retain the Simplified Chinese label while
+  Russian was active. The navigation and open Dashboard are now refreshed when
+  the language changes.
+- Added Russian and Simplified Chinese translations for Own Radios, Own
+  Podcasts, Plex Servers, album recommendations, and recommendation filters.
+- Added Russian and Simplified Chinese translations for the Radio Browser,
+  Podcast, Artists, Albums, Tracks, Folders, Genre Cloud, metadata, and artist
+  action views.
+- Added a localization parity check so Russian and Simplified Chinese override
+  files cannot silently drift apart.
+- Completed Russian and Simplified Chinese coverage for update/window options,
+  Plex setup, metadata summaries, and DoP playback hints.
+
+## [0.41.4] - 2026-09-08
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added Russian and Simplified Chinese (`zh-CN`) as selectable interface
+  languages, including culture-aware formatting and artist-profile language
+  selection.
+- Expanded Russian and Simplified Chinese coverage across the Dashboard, Up
+  Next, Infinite Mix, player, table, and settings labels.
+- Added **Show track information** to track context menus, including **Up
+  Next**. The modal lists the physical file path first, followed by all metadata
+  represented by the selectable track columns.
+
+### Fixed
+
+- The **Up Next** table now offers the same selectable track columns as the
+  Tracks view, keeps its scroll position when playback advances, and renders
+  album and artist names as navigation links.
+- Restored **Up Next** entries from configured Orynivo Servers now survive
+  application restarts through credential-free server track references and are
+  hydrated asynchronously without delaying startup.
+- **Show track information** now displays the remote physical source path,
+  prefixed with the configured Orynivo Server name, instead of showing an
+  unknown value.
+- The full **Recently played** view now resolves missing legacy local history
+  IDs in one batch, so artist and album navigation remains available beyond the
+  first dashboard cards.
+
+## [0.41.3] - 2026-09-05
+
+### Fixed
+
+- Similar-title and mood-mix actions now navigate directly to **Up Next** after
+  rebuilding the queue, so the queued recommendations are immediately visible
+  while the current title continues playing.
+
+## [0.41.2] - 2026-09-05
+
+### Fixed
+
+- Similar-title and mood-mix ranking now runs on a background thread, keeping
+  the UI and playback controls responsive for large libraries.
+- Similarity vectors are preloaded in the background after startup, and the
+  similarity action reports its loading and ranking progress.
+- Fixed a UI freeze when starting similarity playback for remote `orynivo://`
+  tracks by avoiding synchronous server lookups when metadata is already cached.
+- Queue construction no longer performs any synchronous provider fallback at
+  all; missing remote metadata cannot block similarity playback.
+- Starting a similarity mix for the currently playing title now keeps that title
+  playing and rebuilds the queue behind it instead of stopping/restarting the
+  current song.
+
+## [0.41.1] - 2026-09-05
+
+### Fixed
+
+- Fixed startup failure on existing databases whose `play_history` table did not
+  yet contain the profile column. The profile history index is now created only
+  after the compatibility migration adds that column.
+
+## [0.41.0] - 2026-09-05
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Began the multi-user profile foundation with stable local profile identities
+  and per-server profile mappings. Existing installations automatically receive
+  a `Standard` profile; personal-state migration and server profile APIs follow
+  in the next implementation phases.
+- Profile creation now offers an explicit legacy-favourite migration choice.
+  Local smart-playlist resolution reads the active profile's track favourite
+  state, while legacy installations are migrated to `Standard` automatically.
+- Playback history, listening statistics and similarity history signals are now
+  filtered by the active profile so personal listening data stays separate.
+- Album and artist catalog views now overlay profile-specific favorite state
+  while keeping shared library metadata unchanged.
+- Orynivo Server now exposes a normalized authenticated profile registry and
+  scopes personal database operations per request with `X-Orynivo-Profile`.
+- Opting into profile migration now includes playback history and Infinite Mix
+  preferences in addition to favorites and personal ratings.
+- The desktop now sends the active profile's mapped server identity with remote
+  catalog, smart-playlist and rating requests.
+- On first start, Orynivo now asks for the initial profile name and whether
+  existing personal data should be migrated before continuing.
+- Added authenticated server profile management
+  (`GET/POST/PUT/DELETE /api/profiles`) with persistent names and protected
+  `standard` profile.
+- The desktop now discovers server profiles and automatically maps matching
+  profile names, falling back to the server's `standard` profile.
+- Every remote request now carries the selected server profile context; the
+  server accepts it as a header or non-secret `profile` query parameter.
+- Remote track favorite changes are mirrored to the server's profile-scoped
+  favorite endpoint while retaining the local profile cache.
+- Remote artist and album favorite changes are now mirrored through matching
+  profile-scoped server endpoints as well.
+- The Orynivo Server connection dialog now loads available server profiles and
+  lets the user select the profile used for this connection.
+- Recent playback history is synchronized in the background with the selected
+  server profile and merged back on other clients, keeping profile-based
+  recommendations consistent across devices.
+
+### Fixed
+
+- Dashboard album artwork now refreshes immediately after a cover search or
+  upload instead of requiring an application restart.
+
+## [0.40.2] - 2026-09-05
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Metadata review now explains the review/compare/confirm workflow,
+  distinguishes read-only server reports from local corrections, and shows phase
+  progress, elapsed time and measured phase-local remaining-time estimates.
+
+### Fixed
+
+- Opening metadata review uses a fast index-only analysis instead of opening
+  every audio file and hashing duplicates. Physical checks remain explicitly
+  available; completed local/server findings become usable independently.
+- Corrected stale MusicBrainz previews after repeated searches and unified
+  disc/track ordering between analysis, preview and correction. Current tracks
+  include physical file names and disc numbers; partial corrections are
+  rejected.
+- Metadata review cancels background work when Settings closes, preserves
+  selection as server results arrive, and invalidates library views after
+  repairs.
+
+## [0.40.1] - 2026-09-05
+
+### Fixed
+
+- Fixed smart playlists missing server tracks (including favorites) because the
+  client treated the server's capped 5,000-track page as the complete catalog.
+  All pages are now loaded, previously incomplete track caches are rebuilt
+  automatically, and cold smart-playlist loading allows more time per server.
+
+## [0.40.0] - 2026-09-05
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added LAN IPv4 address selection and an offline-generated QR code in mobile
+  remote settings. Scanning signs in with the dedicated token from a URL
+  fragment, which is removed immediately; manual visits retain the token prompt.
+- Redesigned the mobile remote with separate playback, library, playlists, and
+  queue sections, responsive cover/player layouts, touch-friendly navigation,
+  playback times, explicit request feedback, and sign-out. Shared regular and
+  smart playlists support track browsing, play-all, and append-all actions.
+  Browser tokens remain memory-only; no credentials go to a QR service. Desktop
+  remote tokens are stored in the encrypted credential container, with automatic
+  migration of existing plaintext settings.
+
+- Began the opt-in mobile web remote with a dedicated LAN port and independent
+  bearer token. Its responsive, dependency-free first screen provides live
+  now-playing and path-free queue state plus previous, play/pause, next, stop,
+  seek, and volume controls. Reconnecting server-sent updates transfer only a
+  compact player snapshot and never expose local paths or authenticated URLs.
+  Current artwork is delivered as a bounded 640-pixel JPEG with private cache
+  validators, and tapping a queue row starts that exact entry. The remote can
+  now search tracks across the local library and configured Orynivo Servers;
+  opaque results support play-now, play-next, and append actions without
+  exposing physical paths, server addresses, or API keys. Current-track
+  favourites, output-profile selection, and validated queue move, remove, and
+  clear operations are also available from the mobile surface. A provider-bound
+  library browser now navigates artists, their albums, and album tracks across
+  the local catalog and configured servers; tracks retain the same safe
+  play-now, play-next, and append actions.
+
+### Fixed
+
+- Allowed authenticated artwork blob URLs in the remote's content security
+  policy, avoided repeated queue rebuilding on position-only updates, and
+  prevented superseded library/search responses from replacing newer results.
+
+- Fixed albums added by a manual Settings library scan remaining absent from the
+  Albums view until Orynivo was restarted. Successful scan mutations now
+  invalidate the Dashboard, Genre Cloud, and unified Artists/Albums/Tracks
+  session caches through the same path as file-watcher changes.
+- Fixed the mobile remote returning to its token prompt even after successful
+  authentication. Live SSE snapshots now use the same camel-case JSON contract
+  as the remaining remote API. The remote also has its own Settings navigation
+  page, and opening its bare port redirects to `/remote`. Invalid and missing
+  tokens now produce localized inline feedback instead of an endless reconnect
+  loop. The responsive page has safe-area spacing, visible keyboard focus, and
+  accessible transport and slider labels; HTML is not cached across upgrades,
+  and oversized API request bodies are rejected.
+
+### Removed
+
+- Removed the completed Discovery and Remote implementation checklist after
+  successful iPhone verification of the mobile remote. Maintained feature
+  documentation remains in the README and project instructions.
+
+## [0.39.0] - 2026-09-04
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added the version-two provider-neutral similarity feature contract and a
+  compact local query that combines effective genres, BPM, explicit mood tags,
+  personal/community ratings, favourites, play count, and recency without audio
+  analysis. This is the shared foundation for local and remote similarity and
+  mood ranking. Core nearest-neighbour ranking combines genre overlap, explicit
+  mood, tempo proximity, preferences, and familiarity while enforcing
+  configurable artist and album diversity.
+- Added the authenticated paginated server similarity-feature endpoint and a
+  client that rebases returned vectors to the configured server's stable,
+  credential-free identity. Older servers return an empty feature page instead
+  of breaking local recommendations.
+- Added a localized **Play more like this** action to single-track context
+  menus. It loads local and available server vectors asynchronously, applies
+  artist/album diversity, resolves provider-local matches back to playable
+  tracks, and starts a newly prepared cross-library queue at the selected song.
+  The temporary similarity profile is connected to Infinite Mix and continues
+  adding distinct lower-ranked matches as playback approaches the queue end.
+- Added calm, balanced, and energetic **Mood mix** actions to the same track
+  context. Mood ranking combines explicit mood tags, normalized tempo,
+  preferences, community rating confidence, and familiarity while retaining the
+  same cross-library artist and album diversity limits.
+- Similarity vectors are retained in a five-minute in-memory cache for fast
+  repeated actions, coalesce concurrent loads, emit count/duration diagnostics,
+  and are invalidated with catalog or preference cache mutations.
+- Added optional versioned acoustic descriptors for similarity ranking. Orynivo
+  progressively caches energy, brightness/transient activity, and dynamics in
+  provider-local SQLite using a bounded 90-second, 8-kHz mono FFmpeg analysis.
+  Desktop and server warm only four missing tracks per cold similarity load,
+  sequentially with one FFmpeg thread, below-normal priority, and a cooperative
+  delay; failed sources wait seven days before another attempt.
+- Added an authenticated server endpoint that accepts a bounded opportunistic
+  acoustic-analysis batch without exposing source paths or blocking the
+  similarity response.
+
+  ## [0.38.0] - 2026-09-04
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added explicit cancellation and duplicate-start protection to Library Doctor
+  analysis; cancellation is checked between folders and physical source files.
+- Added a before/after preview to guided Library Doctor corrections. Selecting a
+  MusicBrainz release now shows the album identity plus every current and
+  proposed track title and artist before the explicit apply action is enabled.
+- Added authenticated, compact Library Doctor findings for Orynivo Servers.
+  Settings analyses local and configured server libraries concurrently, labels
+  each result with its source, tolerates older/unavailable servers, and keeps
+  remote findings read-only until a dedicated safe correction API is available.
+- Extended metadata review toward the Library Doctor by detecting and showing
+  missing per-track ReplayGain values and MusicBrainz recording identifiers in
+  otherwise consistent physical album folders. Findings now have typed
+  severities and repair capabilities, and the review shows folder priority plus
+  aggregate error, warning, and information counts. Declared per-disc track
+  totals now identify demonstrably incomplete albums without guessing when total
+  metadata is absent, and missing cached album artwork is reported without
+  reopening every audio file. Missing and stale album-artist image paths are
+  reported alongside cover findings. Missing and unreadable physical sources are
+  reported separately, with shared virtual-track sources checked only once per
+  folder. Cross-path AcoustID matches are separated into likely same-size file
+  duplicates and alternate-file or edition candidates; neither is modified
+  automatically. Same-fingerprint, same-size candidates are now streamed through
+  SHA-256 so byte-identical files are distinguished from different tags,
+  encodes, or editions without loading media into memory. Conservatively matched
+  artist-name spelling variants are now included as guided-review findings
+  without automatic merges.
+
+### Fixed
+
+- Fixed a Library Doctor database-column typo that closed Orynivo when metadata
+  analysis was refreshed. Analysis failures are now logged and shown in the
+  Settings view instead of escaping from the asynchronous UI event handler.
+
+## [0.37.4] - 2026-09-04
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added an explicit opt-in setting for exposing the embedded MCP endpoint to the
+  local network. Remote MCP requests require a generated 256-bit bearer token,
+  while the default remains loopback-only.
+- Extended the shared MCP and AI Chat library search with optional track/album/
+  artist selection, inclusive release-year ranges, exact library-added date
+  ranges, and relevance, title, year, or addition-date ordering across the local
+  library and updated Orynivo Servers.
+
+## [0.37.3] - 2026-09-02
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added automatic and manual AI model discovery plus a connection test in the AI
+  Chat settings. OpenAI-compatible and Ollama model-list responses populate a
+  selectable list while manual model identifiers remain supported.
+
+## [0.37.2] - 2026-08-27
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added nine individually permissioned MCP and AI-chat tools for current-track
+  favorites, Infinite Mix, output and equalizer profiles, cached lyrics, and
+  Orynivo Server discovery and library scans. A build-time parity check now
+  keeps the MCP surface, AI schema, dispatcher, and Settings checklist aligned.
+
+### Fixed
+
+- Fixed combined artist-and-title library searches so terms can match across
+  different indexed fields, including searches such as “A-Ha Take on Me” in both
+  local and connected Orynivo Server libraries.
+- AI chat now describes connected Orynivo Server libraries accurately and remote
+  search failures are distinguished from genuine empty results.
+
+## [0.37.1] - 2026-08-27
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a responsive, localized five-minute quick-start guide to the product
+  website, a wiki feature-status page that distinguishes everyday, experimental,
+  provider-dependent, and unavailable functionality, and structured GitHub forms
+  for bug reports and feature requests. The issue chooser routes setup questions
+  to Discussions and security reports to private security advisories.
+
+### Fixed
+
+## [0.37.0] - 2026-08-27
+
+### Changed
+
+- Changed AirPlay volume to a cubic perceptual curve, providing substantially
+  finer control at ordinary listening levels while preserving mute and the
+  unchanged 100-percent maximum.
+- Documented native AirPlay 2 output as experimental in the main README,
+  standalone bridge documentation, and project wiki, including its verified
+  Sonos scope and current receiver-interoperability limitations.
+
+- Reworked the silent Sonos AirPlay 2 probe around the PTP behavior established
+  by a complete working iPhone capture. The active compatibility path now uses
+  unicast gPTP, `SETPEERS`, realtime type-96 ALAC, a PTP/RTP synchronization
+  anchor, bounded retransmission, and receiver-selected UDP ports. The captured
+  buffered type-103 TCP framing remains implemented as an isolated transport
+  option for later AAC integration rather than being mislabelled as ALAC. Native
+  `shk` and payload encryption now use the first 32 bytes of the transient
+  pairing secret, independently from the event-channel HKDF keys.
+
+### Fixed
+
+- AirPlay 2 receiver controls now drive Orynivo's transport instead of only
+  silencing the receiver: authenticated Play, Pause, Next, and Previous events
+  from Sonos are decoded on the reverse event channel and dispatched through the
+  shared player controls, keeping Orynivo's state and UI synchronized.
+  Receiver-originated Play rebuilds a paused AirPlay session at its current
+  audible position because Sonos does not resume accepting media on the stream
+  it placed into the paused state.
+- Kept native AirPlay 2 music sessions alive beyond the receiver's initial
+  roughly two-second media window by sending authenticated `/feedback`
+  keepalives once per second. The worker is joined before teardown and its
+  successful requests are included in native media diagnostics.
+- Corrected the PTP/RTP synchronization timeline used after the initial AirPlay
+  2 sender buffer. Current-playback and earliest-render timestamps now use the
+  receiver-compatible 77,175- and 11,025-frame offsets, anchors follow a
+  sample-rate cadence and current grandmaster time, and PTP audio uses SSRC
+  zero. This prevents Sonos from discarding an otherwise valid stream after its
+  first one to two seconds.
+- Removed the duplicate 1.75-second fast sender prefill from realtime AirPlay 2
+  delivery. Packets now follow the 44.1-kHz media clock from the first frame;
+  buffering remains represented once by the PTP/RTP synchronization offset, so
+  the first periodic anchor no longer invalidates a working start or seek.
+- Fixed silent AirPlay 2 realtime playback by using the negotiated stream
+  connection ID as the RTP SSRC, allowing receivers such as Sonos to associate
+  incoming audio packets with the prepared stream. The bridge now also sends
+  initial volume and RTP-anchored DMAP track metadata because Sonos can retain
+  an otherwise valid native AirPlay 2 stream in a silent state without them. The
+  initial RTP/NTP timeline now starts at a deterministic 1.5-second receiver
+  latency instead of an unrelated random timestamp, and the probe reports the
+  receiver's own active-stream count from `/feedback`. Realtime packets now use
+  the receiver-negotiated ALAC profile (`audioFormat=0x40000`, `ct=2`) with the
+  uncompressed ALAC escape-frame representation used by the interoperable sender
+  reference, plus a dedicated zero-based audio nonce instead of coupling
+  encryption nonces to the randomized RTP sequence. Native realtime sessions
+  issue `RECORD` only after audio-stream SETUP and include the first packet's
+  sequence and RTP timestamp plus the playback range; they do not advertise a
+  sender `dataPort`, and the receiver-selected destination port is
+  authoritative. The probe uses a safe -20 dB receiver volume and a bounded test
+  tone, then reports sent RTP packets and observed retransmission traffic so
+  successful UDP submission is no longer mistaken for receiver playback. The
+  reverse event socket now uses its independent HAP event keys, decrypts
+  receiver requests, and returns encrypted RTSP success responses. Session SETUP
+  now advertises multi-select AirPlay capability so a Sonos stereo pair can
+  accept the stream through its advertised group endpoint. Event-channel keys
+  remain isolated from media encryption; native audio uses the first 32 bytes of
+  the pairing shared secret as both advertised `shk` and payload cipher key.
+- AirPlay discovery now reads the concrete DNS-SD SRV instance name instead of
+  displaying the generic `_raop._tcp.local.` PTR service type, so compatible
+  AirPlay 1 receivers appear under their advertised device name.
+- Documented that receivers advertising only `_airplay._tcp`, including AirPlay
+  2-only Sonos devices, require the planned Qt-free AirPlay 2 bridge and are not
+  exposed by the current classic RAOP backend.
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Native AirPlay 2 sessions now publish the current title, artist, album, and
+  optional bounded JPEG/PNG cover artwork to receiver displays instead of the
+  bridge's former diagnostic test-tone metadata.
+- Integrated the Sonos-verified native AirPlay 2 bridge into regular Orynivo
+  playback. AirPlay output profiles now feed FFmpeg-decoded 44.1 kHz stereo PCM
+  through the bundled bridge, including pause, seek, volume, ReplayGain, stop,
+  output release, and the existing classic `raop_play` fallback. The bridge's
+  probe-safe -20 dB default remains in the diagnostic tool, while desktop
+  playback selects 0 dB receiver gain and applies the user's volume to PCM.
+
+- Began the standalone, Qt-free `Native/AirPlay2Bridge` project with a stable C
+  ABI, portable Windows/POSIX socket ownership layer, CMake packaging boundary,
+  fail-closed HAP transient pairing, authenticated encrypted-control framing,
+  encrypted RTSP response parsing, binary-plist session SETUP, and native
+  transport/crypto tests. A portable NTP timing responder now permits RECORD and
+  realtime audio-stream SETUP. The bridge now buffers partial signed 16-bit
+  stereo PCM into 352-frame packets, encodes them through Apple's pinned
+  Apache-2.0 ALAC encoder, and emits ChaCha20-Poly1305-authenticated realtime
+  RTP datagrams. Pairing through negotiated RTP ports has been verified against
+  a real Sonos AirPlay 2 receiver. Realtime streams emit initial and periodic
+  PTP/RTP synchronization anchors, retain a bounded packet history for
+  receiver-requested retransmission, and send a best-effort encrypted `TEARDOWN`
+  when the session closes. PCM delivery follows the exact media sample clock
+  while the synchronization timeline declares the receiver buffer. Continuous
+  playback remains explicitly experimental outside the verified Sonos
+  stereo-pair configuration.
+- Output profiles can now select classic AirPlay (RAOP) receivers discovered
+  through mDNS on Windows, Linux, and macOS. Orynivo resolves the selected
+  receiver again before playback and streams FFmpeg-decoded PCM through a
+  separately installed compatible `raop_play` sender.
+
+## [0.36.7] - 2026-08-25
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Unified artist and album details now reconcile missing artwork between the
+  local library and matching reachable Orynivo Server identities. Existing
+  images are copied only to sources without artwork, and manually protected
+  artist images are never overwritten.
+
+### Fixed
+
+- Artist and album artwork changes now invalidate the unified library view
+  cache, so returning to Artists or Albums immediately shows newly assigned or
+  removed images instead of a stale cached row.
+
+## [0.36.6] - 2026-08-25
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Dashboard loading now records sanitized per-phase performance timings in a
+  bounded rolling diagnostic log, separating local data, remote rounds,
+  statistics, recommendations, and UI construction without exposing library
+  paths, media names, server URLs, or credentials.
+
+### Changed
+
+- Repeated Artists, Albums, and Tracks navigation now reuses a bounded,
+  versioned three-view cache. Remote Orynivo Server catalogs load concurrently,
+  local catalog work runs away from the UI thread, and artwork, favorite,
+  watcher, and server-version changes invalidate affected snapshots.
+- SQLite schema migration is now performed once per database file and process,
+  while track pages use SQL `LIMIT`/`OFFSET` instead of materializing the full
+  library. Remote album drill-down uses a dedicated single-album endpoint.
+- Dashboard catalog snapshots remain valid until library/history invalidation
+  instead of expiring after one minute, and cached Genre Cloud levels skip the
+  artificial branch-transition delay.
+- Genre Cloud levels now keep a bounded, versioned in-memory session cache of
+  their merged taxonomy nodes and resolved local/server track and album
+  recommendations. Reopening the root or a recently visited branch no longer
+  repeats facet queries, remote ID resolution, or complete album-catalog loads;
+  local watcher changes and changed remote server library versions invalidate
+  the cache immediately.
+- Dashboard data sources now load concurrently instead of serially, and local
+  recent-album and recommendation queries aggregate tracks before joining album
+  metadata. This removes repeated full-library join work and prevents
+  independent remote requests from extending navigation time additively.
+- Repeated Dashboard navigation now reuses a versioned in-memory catalog
+  snapshot and coalesces overlapping loads. Local watcher changes and changed
+  remote server library versions invalidate it immediately, while listening
+  statistics and recently played rows remain freshly queried.
+
+### Fixed
+
+- Restarting Orynivo now restores every selectable sidebar content view rather
+  than only a hard-coded subset. This includes Dashboard, Genre Cloud, AI Chat,
+  playlists, saved radio/podcast entries, Orynivo Server views, and
+  asynchronously loaded Plex libraries; removed entries still fall back safely
+  to Tracks.
+- Starting a local title from the calendar's daily listening-history dialog no
+  longer builds and scrolls the complete unified Tracks table first. It now
+  starts the selected history entry directly, avoiding a long Avalonia UI-thread
+  hang that Windows could terminate as `AppHangB1` on large libraries.
+
+## [0.36.5] - 2026-08-12
+
+### Fixed
+
+- Infinite Mix no longer stalls after exhausting its first two 20-track batches.
+  Refills rotate through the stable genre candidate order in local and remote
+  libraries, and active playback performs a throttled lightweight refill check
+  continuously instead of relying only on queue-navigation updates.
+
+## [0.36.4] - 2026-08-12
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Genre Cloud now starts Infinite Mix directly from the genres represented by
+  its current level. A selected node contributes its complete taxonomy subtree,
+  including tracks tagged directly with the parent and every recursive subgenre.
+  The normal profile dialog opens with the branch preselected, and generation
+  queries it and its descendants directly so narrow genres are not lost in a
+  root-level candidate sample.
+- All desktop data tables now support column-header sorting. Linked entity,
+  favorite, source, rating, artwork, date, duration, track-number, and formatted
+  technical columns use explicit semantic sort keys instead of display-text
+  ordering; action-only columns remain unsortable. The artist-detail track table
+  now also exposes the complete shared track-column chooser from its header
+  context menu and persists its own visibility, order, and widths.
+
+### Fixed
+
+- Orynivo Server ReplayGain maintenance now runs FFmpeg with one worker thread,
+  below-normal process/CPU priority, low I/O priority, and a short cancellable
+  pause between tracks by default. The thread and pacing limits are configurable
+  so long analyses no longer starve SSH and normal server API traffic. The
+  maintenance pass now retains only album IDs instead of every full track record
+  and updates Lucene in bounded batches, preventing multi-gigabyte server memory
+  growth on large libraries.
+- Unresolved MusicBrainz rating cells now show a localized **Load rating**
+  action instead of a narrow dash. Album-detail enrichment retries temporary
+  lookup failures up to three times, exposes **Try again** afterward, and keeps
+  a confirmed recording without community votes in the distinct **Not rated**
+  state.
+- Infinite Mix no longer stops initial genre-based generation after finding only
+  one track per artist or album. It now applies diversity in stages and fills
+  the requested batch with additional eligible tracks when a narrow genre spans
+  only a few albums.
+
+## [0.36.3] - 2026-08-11
+
+### Fixed
+
+- Fixed server scans with multiple library roots occasionally appearing stuck or
+  unavailable because a periodic watcher reconciliation could interleave between
+  roots and run a second expensive scan first.
+
+## [0.36.2] - 2026-08-10
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- The explicit **Calculate missing ReplayGain** action now processes the local
+  library and every configured Orynivo Server. Servers expose a separate
+  authenticated maintenance endpoint with progress reporting; existing track and
+  album ReplayGain values remain untouched.
+- Orynivo Server connections now load and persist their own **calculate missing
+  ReplayGain during server scans** preference in the server dialog. The desktop
+  scan checkbox is explicitly local, while updated servers apply remote changes
+  immediately and retain them in their editable configuration.
+- Each configured Orynivo Server row now separates **Scan library** from
+  **Calculate ReplayGain**. Both target only that server and provide
+  server-specific progress and completion status without opening the editor; the
+  normal scan action is named consistently in the server dialog as well.
+
+## [0.36.1] - 2026-08-10
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a transport output-lock button beside the Equalizer and Output
+  quick-pickers. It closes the active exclusive audio player to release the
+  device for other applications, preserves the current source and position, and
+  can reacquire the device and resume from that position without restarting
+  Orynivo.
+
+### Fixed
+
+- Fixed the embedded Settings view at constrained window heights: long sections
+  now scroll within the available content area while the Save and Cancel actions
+  remain reachable.
+
+## [0.36.0] - 2026-08-10
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- MusicBrainz recording refreshes now retrieve curated genres and positively
+  confirmed community tags alongside ratings. Supplemental values are stored
+  separately from embedded file genres, enrich Lucene search, Genre Cloud,
+  filters, and recommendation inputs, and never rewrite audio-file metadata.
+  Existing rated recordings receive one automatic enrichment refresh.
+
+- Added persistent personal zero-to-five-star track ratings for local and
+  Orynivo Server libraries. Shared track tables expose interactive stars, while
+  cached MusicBrainz recording ratings and vote counts can be shown as a
+  selectable column. MusicBrainz lookup prefers embedded recording MBIDs and
+  only accepts an unambiguous artist/title/duration fallback; resolved MBIDs
+  survive later scans. Personal ratings strongly influence Infinite Mix and
+  community ratings provide a smaller secondary signal. Opening an album now
+  refreshes missing or older-than-30-days MusicBrainz ratings for its tracks in
+  the background without delaying the album view or player. Metadata fallback
+  stores each newly resolved MBID. Rating refreshes use the reliable direct
+  recording lookup because MusicBrainz search responses do not consistently
+  include community ratings; empty values written by the earlier batched-search
+  implementation are invalidated once and refreshed automatically. Duplicate
+  local/server rows sharing one MBID reuse the same direct lookup result. While
+  music is playing, a single low-priority worker now continues enriching stale
+  tracks from the local library and every configured Orynivo Server.
+  Album-detail and explicit user requests pause that worker between requests and
+  take priority. Unresolved metadata matches are retried after 90 days instead
+  of being requested repeatedly.
+
+### Fixed
+
+- Distinguished a completed MusicBrainz lookup with no community votes from a
+  track that has not been queried yet, instead of showing the same dash for both
+  states.
+
+## [0.35.4] - 2026-08-10
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added album names to Dashboard Recently Played cards, with direct album
+  navigation for local, Orynivo Server, and Plex history entries.
+- Extended the unified artist detail page with source-aware tracks from the
+  local library and matching Orynivo Servers, ordered by album, disc, and track
+  number. Album cards on that page now also offer the existing direct cover
+  search action when artwork is missing, plus the same favorite control and
+  local/Orynivo Server source badge as the main Albums artwork view.
+
+### Fixed
+
+- Removed the Fluent DataGrid header's permanent empty sort-icon reservation,
+  preventing it from covering or truncating labels in narrow columns such as the
+  source column while preserving sorting and column resizing.
+
+## [0.35.3] - 2026-08-08
+
+### Changed
+
+- Added direct primary-name links to every double-clickable artwork card,
+  including albums shown on artist detail pages, while retaining double-click
+  navigation. Artist-detail album links render their title text directly rather
+  than exposing the Avalonia content control's type name.
+
+## [0.35.2] - 2026-08-03
+
+### Fixed
+
+- Fixed unified artist details clearing their already rendered albums when the
+  biography loader started. Local albums now render first, remote album queries
+  run concurrently, and only then does the cancellable profile/image phase
+  begin. Local catalog reads and artwork decoding run off the UI thread so the
+  player remains responsive. Spanish artist-profile requests now correctly use
+  `es` instead of silently falling back to English.
+
+## [0.35.1] - 2026-08-03
+
+### Fixed
+
+- Reworked the unified artist detail hero to match the album-detail layout: the
+  artist image now stays in a fixed left column instead of overlapping the
+  biography, while title, biography, source, and actions remain on the right.
+  The hero also exposes a favorite button that synchronizes matching local and
+  Orynivo Server artist identities.
+- Fixed artist-detail album navigation so cards open only on double-click,
+  initially filter the album tracks to the selected artist with the existing
+  show-all checkbox, remain on the artist detail while loading, and return to
+  that same artist detail and selection through Back.
+- Fixed the artwork-card info button for unified artists so it passes the
+  clicked artist name instead of an empty track-style artist field. Artist
+  details now clear every previous title, image, biography, source, and action
+  target before resolving the new profile, preventing stale information from a
+  previously opened artist. Manual profile refresh again offers an editable
+  Wikipedia/Last.fm lookup name without renaming the library artist.
+- Moved artist-profile loading and not-found feedback into the artist hero
+  beneath its actions. Unified albums now render incrementally before profile
+  lookup completes, and the redundant info buttons were removed from artist
+  table and artwork views because double-click opens the same detail page.
+- Increased the artist-detail hero height by roughly fifty percent, including a
+  proportionally larger artist image and biography viewport.
+
+## [0.35.0] - 2026-08-03
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a unified artist detail page for every non-Plex artist navigation path.
+  Its album-style hero shows the artist image, biography/source, rename and
+  image-management actions, and an explicit profile refresh, followed by the
+  artist's de-duplicated albums from the local library and all matching Orynivo
+  Server identities.
+
+- Added a muted grayscale artist-image mosaic behind each Genre Cloud level.
+  Images follow the selected genre's recommendations across local and Orynivo
+  Server libraries, while rendered mosaics are cached for 24 hours without
+  persisting authenticated server URLs. Images remain proportionally complete at
+  both tile and surface level, and Settings can clear the generated background
+  cache independently of the original artist artwork. Appearance settings can
+  disable backgrounds for lower system load or select album covers instead of
+  artist images. The mosaic derives its column and image count from the current
+  cloud width, centers sparse sets, and uses perceptual fingerprints to suppress
+  visually identical local/server image copies. Sparse rows expand to the
+  available mosaic height and divide its width by their actual column count,
+  making a lone or small image set substantially larger without cropping. The
+  Appearance section now keeps the cache-clear action beside the background
+  selector and persists a 0–100% tile-visibility slider, defaulting to 50%.
+
+### Fixed
+
+- Fixed Windows identifying Orynivo as an unknown application in the system
+  media flyout by assigning the installed Start menu and optional desktop
+  shortcuts the same explicit application user model ID as the running player.
+
+- Fixed full and forced-metadata scans overwriting valid track tags with empty
+  values when TagLib temporarily failed to read a file. Metadata reads now use
+  bounded retries, retain the existing database row after a final failure, and
+  count that file as failed instead of updated.
+
+## [0.34.1] - 2026-08-02
+
+### Fixed
+
+- Fixed server-library backup downloads failing on Windows because the completed
+  temporary ZIP was renamed before its output stream had been closed.
+
+## [0.34.0] - 2026-08-02
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added authenticated Orynivo Server library backup download and restore. The
+  versioned ZIP contains a consistent SQLite snapshot, playlists, playback
+  history, album artwork, artist images, and configured server library paths,
+  but excludes audio files and credentials. Restore validates and stages the
+  archive, rolls back partial replacements, rebuilds the search index, refreshes
+  watchers, and invalidates connected-client caches.
+
+- Added an explicit full metadata refresh for local library directories and
+  Orynivo Servers. Unlike a normal incremental scan, it re-reads unchanged files
+  with TagLib, reapplies persistent library-only overrides, rebuilds affected
+  album/artist assignments, and refreshes the search index. Remote refreshes use
+  the authenticated `POST /api/scan/metadata` endpoint so older servers reject
+  the unsupported operation instead of silently running a normal scan.
+
+### Fixed
+
+- Preserved an album's downloaded artwork and favorite flag when a full metadata
+  refresh corrects its title or album-artist identity within the same physical
+  album directory. Existing artwork on the corrected target album continues to
+  take precedence.
+
+## [0.33.2] - 2026-08-02
+
+### Fixed
+
+- Added the complete album title as a tooltip on shared artwork cards so
+  truncated local, unified, Dashboard, Genre Cloud, and Orynivo Server album
+  names remain readable.
+- Combined local and Orynivo Server album entries with the same normalized
+  artist and album title into one source-aware logical album with an `L+OS`
+  badge in album views, Dashboard recommendations, and Recently Added carousels.
+  Opening that album now loads every underlying physical album record and
+  separates tracks into clearly labelled directory/edition groups without
+  discarding duplicate titles or different masterings.
+- Hid untitled and explicitly unknown album records from album catalogs,
+  Dashboard album sections, Genre Cloud album suggestions, and album search
+  results while keeping their tracks available in track views and searches.
+- Hid orphaned album and album-artist records with no remaining indexed tracks
+  from local and Orynivo Server catalogs, detail lookup, recent albums, and
+  Dashboard totals. Versioned client album caches prevent stale server rows from
+  remaining visible after the fix.
+
+## [0.33.1] - 2026-08-01
+
+### Fixed
+
+- Prevented concurrent platform release jobs from creating duplicate GitHub
+  draft releases for the same version; one canonical draft now owns every
+  Windows, Linux, macOS, and server asset upload.
+- Fixed starting Infinite Mix while a track is already playing leaving its
+  preparation overlay visible and restarting the audible track from the
+  beginning. The current item now remains at queue position one, recommendations
+  are appended behind it, and a required gapless-session refresh resumes at the
+  exact audible position only after the overlay has closed.
+
+## [0.33.0] - 2026-08-01
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added an Infinite Mix that builds a source-aware queue from configurable
+  recent listening affinities, favorites, local tracks, and selected reachable
+  Orynivo Servers. Its profile covers mood, discovery level, 3/7/30/90-day
+  history, source selection, favorite/rare-track weighting, and included or
+  excluded genres. It avoids queued tracks and immediate artist/album
+  repetition, appends 20 recommendations at a time, and automatically refills
+  when five tracks remain. Up Next exposes active/paused status, profile
+  adjustment, next-suggestion replacement, more/less-like-this feedback, and
+  persistent credential-free track exclusion.
+- Starting Infinite Mix now immediately shows a localized blocking preparation
+  overlay with staged percentage progress while libraries, listening affinity,
+  candidates, and the initial queue are calculated.
+
+### Changed
+
+- Replaced the product website screenshots with a consistent fictional demo
+  library so published imagery no longer exposes real artists, albums, playback
+  history, server names, folder paths, or now-playing metadata. The fictional
+  Genre Cloud capture is available as a dedicated gallery tab in all four
+  website languages.
+- Replaced the Infinite Mix comma-separated genre fields with removable chips
+  and type-ahead suggestions sourced from the currently enabled local and
+  Orynivo Server libraries, while retaining support for custom genre values.
+- Expanded the main README, multilingual product website, and GitHub Wiki with
+  current Genre Cloud and Infinite Mix behavior, usage, server integration, and
+  local cache/data-location documentation.
+
+### Fixed
+
+- Enlarged the Infinite Mix profile dialog, made it resizable, and reserved a
+  dedicated right-side gutter so its vertical scrollbar no longer covers labels
+  or input content.
+- Fixed remote Orynivo Server tracks appearing with the local `L` source badge
+  in **Up Next**. Queue rows now retain the registered server context used by
+  the source-aware list that created the queue.
+- Fixed newly assigned Orynivo Server album covers disappearing after reopening
+  the Genre Cloud or another album list. Remote cover upload, reassignment, and
+  deletion now invalidate the scan-timestamp-based remote album-list cache.
+- Fixed intermittent 10–30 second UI stalls after assigning local album covers.
+  Artwork hashing, file/thumbnail generation, and SQLite attachment now run off
+  the UI thread, and the already-updated card no longer triggers a complete
+  local-plus-remote Albums view rebuild.
+
+## [0.32.0] - 2026-08-01
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added an interactive, count-scaled genre cloud with hierarchical drill-down
+  and listening-history-based track recommendations. It merges the local library
+  with every configured Orynivo Server and preserves each recommended track's
+  source for playback, favorites, and navigation.
+- Replaced the fixed single-parent genre tree with a curated, embedded JSON
+  genre graph inspired by RYM-style navigation. Genres can be top-level while
+  also belonging to multiple parents, and counts remain deduplicated per node.
+- Replaced the catch-all Other bucket with a localized **More genres** branch
+  that preserves and exposes the library's actual unmapped genre names.
+- Added the compact authenticated Orynivo Server endpoint
+  `GET /api/genres/cloud`; clients fall back to track facets when connected to
+  an older server.
+- Expanded the genre hierarchy with a dedicated Electronic → Dance/EDM branch,
+  major dance, pop, jazz, classical, hip-hop, soul, country, folk, reggae,
+  world, soundtrack, spoken-word, New Age, easy-listening, and experimental
+  subgenres. Compound genre tags now resolve to their most specific recognized
+  category instead of falling into Other.
+- Split the Genre Cloud presentation into a compact explanatory hero and a
+  separate elliptical cloud surface. Drill-downs now cross-fade and reveal the
+  newly arranged genre nodes with a staggered scale animation.
+- Enlarged the cloud surface and added collision-aware spacing so genre labels
+  remain readable. Genre recommendations can now switch between the playable
+  track table and a source-aware album artwork grid.
+
+### Fixed
+
+- Fixed Genre Cloud drill-downs reverting to all root genres when a connected
+  server recognizes the endpoint but has an older taxonomy. The client now
+  validates the returned level and rebuilds it from remote facets when needed.
+- Leaf genres now remain visibly selected as a large centered label instead of
+  showing the misleading no-genres empty state.
+- Fixed overlapping genre labels by replacing bounded spiral retries with
+  centered, measured, collision-free rows and a vertically scrollable cloud when
+  all rows exceed the viewport.
+- Fixed the Track/Album recommendation switch by using the same segmented
+  `ViewModeRadioTheme` controls as the Artists/Albums table/artwork selector.
+- Fixed the Genre Cloud surface covering recommendation rows by giving it a
+  dedicated Auto-sized content-grid row instead of overlaying the shared result
+  row with `ZIndex` and compensating margins. Track/Album mode clicks now
+  explicitly switch the visible result host.
+- Fixed Genre Cloud album recommendations opening beneath the still-visible
+  cloud. Double-clicking an album now opens the normal full-height album detail,
+  and Back restores the selected genre, recommendation mode, selection, and
+  scroll position.
+- Genre Cloud labels and their relative sizes now switch from matching-track
+  counts to distinct matching-album counts while Album recommendations are
+  selected.
+
+## [0.31.0] - 2026-08-01
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a complete responsive multilingual product website under `html/`,
+  including current in-app screenshots, feature and privacy information,
+  installation guides, prominent Wiki documentation links, and release downloads
+  that resolve against GitHub's latest release.
+- Added complete English, German, French, and Spanish language switching to the
+  product website, with English as the default and the visitor's explicit
+  selection retained locally. The site now also prominently communicates that
+  the complete Orynivo desktop app is available in the same four languages.
+- Added preliminary operator contact details and expanded the product website's
+  privacy notice to cover hosting connection data, local language preferences,
+  the self-hosted origin, Cloudflare reverse proxy, the GitHub Releases API,
+  GDPR data-subject rights, and the nginx log retention period.
+- Added international SEO for the product website with static localized URLs,
+  canonical and hreflang metadata, an XML sitemap, complete social metadata,
+  SoftwareApplication structured data, and optimized screenshot assets.
+
+### Fixed
+
+- Fixed SEO image dimensions stretching the product screenshots and brand
+  artwork vertically when CSS constrained their displayed width.
+- Fixed the screenshot gallery cropping the left and right edges at narrow CSS
+  viewport widths by preserving each screenshot's natural aspect ratio.
+- Fixed the product website's **Set up server** link so it activates the Server
+  installation tab before scrolling to its instructions, including direct
+  `#server-install` links.
+- Fixed Arch-family desktop updates (including CachyOS) closing Orynivo
+  immediately after starting PolicyKit. Orynivo now remains open while
+  `pacman -U` runs, closes only after a successful installer exit, and reports
+  and logs authentication or package-manager failures.
+- Fixed unified artist renaming so renaming either its local or remote identity
+  also renames matching identities in the local library and on configured
+  Orynivo Servers. A local merge decision now selects the equivalent surviving
+  identity for matching server-side merge collisions.
+
+## [0.30.3] - 2026-07-30
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- The review dialog for missing artist images can cancel the complete assignment
+  run.
+- Extended manual artist-image search with an editable artist query and the same
+  provider order as batch discovery: Fanart.tv first when a key is configured,
+  then Wikimedia Commons when Fanart.tv has no usable result.
+
+### Fixed
+
+- Masked the Last.fm API key in Settings so it is no longer displayed as
+  readable text, matching the Fanart.tv credential field.
+
+## [0.30.2] - 2026-07-29
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a cancellable Settings action that searches sequentially for missing
+  artist images in the local library and every configured Orynivo Server. It
+  tries Fanart.tv first when an API key is configured, then falls back to
+  Wikimedia Commons, shows progress and an estimated remaining time, and offers
+  an API-key-gated option to accept Fanart.tv results automatically. Wikimedia
+  candidates always require explicit acceptance or rejection before storing them
+  in their owning library.
+- Added one cross-platform encrypted credential container for Last.fm,
+  Fanart.tv, AI Chat, Orynivo Server, Plex, and streaming-provider secrets.
+  Windows uses current-user DPAPI; Linux and macOS use AES-GCM with a separate
+  random key file restricted to the current OS user. Existing plaintext
+  `settings.json` secrets and older Windows credential files are migrated
+  automatically, and remote track caches no longer persist authenticated URLs.
+
+## [0.30.1] - 2026-07-28
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added **Library > Review metadata** to Settings. It detects physically grouped
+  folders split by inconsistent album titles or album artists, missing titles or
+  track numbers, and duplicate track numbers. A folder can also be identified
+  directly from the Folder structure context menu. Orynivo performs a fuzzy
+  MusicBrainz CD-TOC lookup from track count and durations, presents ranked
+  releases for confirmation. Album and artist search terms are editable before
+  every lookup, allowing tag wording such as `Bravo Hits Vol. 42` to be
+  simplified to `Bravo Hits 42` while track count and durations still validate
+  the result. Orynivo stores the selected titles, artists, album, numbering, and
+  MusicBrainz IDs as library-only overrides that survive scans without modifying
+  audio-file tags.
+
+### Fixed
+
+- Fixed Linux desktop updates being unavailable or attempting to treat the
+  downloaded package as an executable file. Orynivo now selects the signed DEB,
+  RPM, or Arch package for the current distribution and requests the required
+  package-manager privileges through PolicyKit; CachyOS uses the verified Arch
+  package with `pacman`.
+- Fixed metadata correction returning no candidates whenever one local or
+  MusicBrainz track duration was unavailable. Release lookup now combines exact
+  and relaxed title searches, ranks candidates using title similarity plus all
+  available duration evidence, and includes non-CD MusicBrainz media in fuzzy
+  TOC matching.
+- Fixed Back navigation restoring Artists or Albums from the local database
+  alone. Restored mixed-library views now run through the normal unified
+  local/server loader, retain the selected source when numeric IDs collide, and
+  restore the selected search result plus the search page's scroll position.
+- Fixed album-cover and artist-profile refreshes collapsing an already unified
+  Artists or Albums view back to local-only rows.
+
+## [0.30.0] - 2026-07-28
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- The Dashboard now suggests albums from local and Orynivo Server libraries by
+  matching album genres against the selected listening-history period. Users can
+  choose the last week, last month, or all history and bias the ranking toward a
+  relaxed, energetic, happy, or melancholic mood. Recommendations default to a
+  tall animated cover stage with perspective-angled neighboring albums and
+  circular navigation; a persisted List/Stage switch restores the user's choice.
+- Album and artist detail views can now upload local image files directly into
+  Orynivo's artwork caches. Adjacent trash actions delete album covers or artist
+  images for local and Orynivo Server libraries, with unified artist-image
+  changes synchronized across matching sources.
+
+## [0.29.4] - 2026-07-28
+
+### Changed
+
+- GitHub release workflows now use the Node.js 24 action generations:
+  `actions/checkout@v6`, `actions/setup-dotnet@v5`, and
+  `softprops/action-gh-release@v3`.
+
+### Fixed
+
+- Linux server release builds now normalize and validate packaged maintainer
+  scripts before upload, preventing CRLF shebang failures during DEB upgrades.
+
+## [0.29.3] - 2026-07-28
+
+### Fixed
+
+- Managed DEB server updates now retain the administrator's existing
+  `/etc/orynivo-server/appsettings.json` non-interactively instead of failing at
+  a conffile prompt and leaving the updater service incomplete.
+
+## [0.29.2] - 2026-07-27
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added optional Fanart.tv artist thumbnails. Orynivo uses embedded MusicBrainz
+  artist IDs when available, otherwise accepts only an unambiguous exact
+  MusicBrainz match, and selects the highest-rated HTTPS `artistthumb`. Manually
+  selected images remain protected. The personal API key is session-only in
+  Settings or can be supplied through `FANART_TV_API_KEY`; it is never written
+  to `settings.json`, logs, server requests, or model context.
+
+### Changed
+
+- Artist browsing is now album-artist-centered: explicit `ALBUMARTIST` tags take
+  precedence, untagged albums are reconciled across all of their tracks, and
+  compilations or albums with differing inferred track artists are grouped under
+  `Various Artists`. Primary track artists remain attached to their tracks
+  without automatically cluttering the Artists view.
+- MusicBrainz artist IDs now participate in local artist identity matching, so
+  differently spelled tags carrying the same stable ID resolve to one artist.
+  Existing libraries receive a one-time attribution metadata refresh during
+  their next scan.
+
+### Fixed
+
+- Opening a local or Orynivo Server album from a unified artist view once again
+  initially filters the album to that artist and shows the option to display all
+  tracks on the album.
+
+## [0.29.1] - 2026-07-26
+
+### Fixed
+
+- macOS now finds FFmpeg and FFprobe installed in common Homebrew, MacPorts,
+  pkgsrc, Fink, and per-user locations even when Finder launches Orynivo with a
+  minimal `PATH`. When neither tool is installed, Orynivo downloads matching
+  Intel or Apple Silicon builds into its per-user cache.
+- macOS application bundles now include an `Orynivo.icns` application icon and
+  declare it in `Info.plist`, so Finder, the Dock, and Launchpad can display the
+  Orynivo icon.
+- The shared Folder structure navigation item now remains available when no
+  local library directory is configured but at least one Orynivo Server is
+  present, allowing server folders to be browsed as the only library source.
+
+## [0.29.0] - 2026-07-26
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added macOS desktop support for Intel (`osx-x64`) and Apple Silicon
+  (`osx-arm64`). The Avalonia player now uses the macOS system OpenAL framework
+  for PCM playback and publishes self-contained `Orynivo.app` bundles as
+  installable PKG packages, portable ZIPs, and tar archives. Every
+  architecture-specific package is included in the signed release manifest.
+- Added signed automatic desktop updates on macOS. Startup and About-window
+  checks now select the architecture-matching `osx-arm64` or `osx-x64` PKG,
+  verify the manifest signature and package SHA-256 digest, and open the
+  verified package in the macOS Installer.
+
+### Fixed
+
+- Hidden the Steinberg ASIO and cwASIO subsystem badges on macOS and Linux,
+  where those Windows-only bridges cannot be used.
+- Added the missing Appearance setting for hiding or showing the AI Chat sidebar
+  item. The choice is persisted and applied immediately with the other sidebar
+  visibility options.
+- Avoided repeated macOS Skia/Metal shader-compilation timeouts on gradients and
+  rounded surfaces by selecting Avalonia's OpenGL renderer with a software
+  fallback on macOS. Windows and Linux renderer selection is unchanged.
+- Settings now shows Steinberg ASIO and cwASIO availability only on Windows.
+  Linux direct-ALSA device information probes and reports native `DSD_U32_BE`
+  and DoP support for each DSD level, and explicitly reports when the device is
+  busy or its DSD capabilities cannot be queried. OpenAL profiles are identified
+  as PCM-only and point users to direct ALSA for DSD playback. The enlarged
+  capability window performs read-only ALSA hardware-parameter checks, avoiding
+  console errors for unsupported high sample rates.
+- Prevented Orynivo Server library scans from appearing stuck on large or
+  chaptered media by disabling missing-ReplayGain FFmpeg analysis by default;
+  deployments can opt back in through configuration.
+- Bounded Matroska chapter probing to 30 seconds per file and limited FFprobe's
+  analysis window so a malformed or slow network-hosted MKA cannot stall the
+  complete server scan indefinitely.
+
+## [0.28.1] - 2026-07-25
+
+### Fixed
+
+- Fixed the Arch Linux player package layout so `.PKGINFO` is stored at the
+  archive root where `pacman -U` expects it. Release builds now validate the
+  package metadata before uploading the `.pkg.tar.zst` artifact.
+
+## [0.28.0] - 2026-07-25
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added bit-perfect DSF playback over DoP through direct ALSA on Linux. Orynivo
+  bypasses FFmpeg and PCM processing, adds alternating standard DoP markers to
+  the unchanged DSD payload, and opens the device at the derived carrier rate
+  (for example 176.4 kHz for DSD64). The persisted, localized DoP preference and
+  forced DSD-to-PCM conversion are mutually exclusive. Local files and
+  authenticated Orynivo Server streams both use this path; remote DSF data is
+  read incrementally through HTTP byte ranges.
+- Fixed Linux DoP seeking so an ALSA reset cannot race with an in-flight output
+  write; buffered pre-seek DSD blocks are discarded and marker framing restarts
+  cleanly at the selected position.
+- Corrected Linux DoP framing for ALSA `S32_LE`: the padding byte is now least
+  significant, followed by the 16-bit DSD payload and the `0x05`/`0xFA` marker
+  in the most-significant byte, allowing 32-bit USB DACs to detect DSD mode.
+- Linux direct ALSA DSD output now prefers the hardware-advertised `DSD_U32_BE`
+  native format and uses DoP as a fallback. DACs such as the Topping D70 Pro
+  SABRE therefore switch through their kernel-supported native DSD endpoint
+  instead of remaining in silent PCM mode.
+- Fixed noise during Linux DSF playback by honoring the DSF format chunk's bit
+  order. Common LSB-first DSF payload bytes are now bit-reversed before native
+  ALSA DSD or DoP output, whose chronological DSD bits are MSB-first.
+- Added direct ALSA playback for local and Orynivo-Server-streamed uncompressed
+  stereo DFF/DSDIFF on Linux. It prefers native `DSD_U32_BE`, falls back to DoP,
+  supports seeking, and preserves DFF's already MSB-first payload order.
+- Updated the project documentation to present Linux as a packaged desktop
+  player with bridge-free native DSF/DFF output through ALSA, including its
+  runtime requirements and portable, DEB, RPM, and Arch Linux downloads.
+- Added tagged Linux desktop release artifacts for `linux-x64` and
+  `linux-arm64`: self-contained portable tarballs, DEB and RPM packages, plus an
+  `x86_64` Arch Linux package. The signed release manifest now waits for and
+  hashes every Linux player artifact.
+- Added Linux PCM audio playback through OpenAL. FFmpeg-backed local files,
+  remote streams, CUE/MKA segments, pause, seeking, gapless queue transitions,
+  volume, ReplayGain, PCM boost, and the parametric equalizer now use the
+  system's PipeWire, PulseAudio, or ALSA-backed output. Linux output profiles
+  enumerate OpenAL devices so users can switch between DACs and sound cards.
+- Added selectable direct ALSA hardware profiles on Linux. They open stereo
+  32-bit PCM at the track's exact sample rate with ALSA software resampling
+  disabled, so a 96 kHz source reaches a compatible DAC at 96 kHz instead of
+  being silently mixed to 48 kHz.
+
+- Added a `net8.0` Linux desktop build and a self-contained `linux-x64` CI
+  artifact. The Avalonia library, remote-server, playlist, radio, podcast,
+  AI-chat, and MCP surfaces now compile for Linux; Windows-only audio output and
+  system-media integration are explicitly isolated behind Linux compatibility
+  services.
+- Added non-persisting Linux credential-store compatibility so Plex and
+  streaming secrets remain process-local instead of being written without
+  Windows DPAPI protection.
+
+### Fixed
+
+- Linux now detects the extensionless `ffmpeg` and `ffprobe` executables for the
+  Settings availability badge instead of looking only for Windows `.exe` files.
+  Direct ALSA ownership conflicts now explain that redirecting the desktop
+  output does not release hardware still held by PipeWire.
+- Linux output-profile editing now separates OpenAL/PipeWire devices from direct
+  exclusive ALSA hardware. Existing `alsa:hw:` profiles are identified as direct
+  ALSA instead of being misleadingly displayed as OpenAL.
+- Linux device information now identifies direct ALSA and OpenAL output paths
+  with their actual routing semantics instead of displaying WASAPI endpoint,
+  exclusive-format, and DSD wording.
+- Linux playback now reports and decodes at the actual OpenAL mixer rate instead
+  of displaying the source rate when OpenAL or PipeWire resamples the stream.
+- Prevented a Linux desktop shutdown crash in Avalonia's D-Bus cleanup by using
+  the non-blocking observer dispatch from Tmds.DBus.Protocol 0.92.0.
+
+## [0.27.0] - 2026-07-15
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added Matroska Audio (`.mka`) files to library scanning, desktop file
+  recognition, and Orynivo Server streaming. Chaptered MKA albums are expanded
+  into individually searchable and playable tracks with embedded chapter tags
+  and boundaries. Library-only chapter-title corrections persist across scans
+  without modifying the MKA file.
+
+### Fixed
+
+- Improved the startup update dialog's primary action contrast, spacing, and
+  text alignment.
+
+## [0.26.6] - 2026-07-15
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added the authenticated Orynivo Server `/api/library/summary` endpoint and
+  client method for compact aggregate Dashboard counts without transferring
+  complete track or album rows.
+
+### Fixed
+
+- Corrected Dashboard library totals to include tracks and albums from all
+  configured Orynivo Servers and to unify artist identities consistently with
+  the shared Artists view, with lightweight fallbacks for older servers.
+- Unified artist rows now use available profile images and biographies from
+  either their local or Orynivo Server identity; newly downloaded profile data
+  and manually selected images are synchronized to every matching source.
+
+## [0.26.5] - 2026-07-15
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added an Appearance option for maximized startup; when disabled, Orynivo
+  restores the last normal main-window size and on-screen position.
+- Added the connected Orynivo Server version to each server row and allowed the
+  startup update notification to launch the existing verified update flow
+  directly.
+
+### Fixed
+
+- Placed Settings on/off switches immediately before their labels and aligned
+  the complete remote-cache action with the Add Server button styling without
+  clipping its localized label.
+
+## [0.26.4] - 2026-07-15
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a Playback setting to make automatic FFmpeg calculation of missing
+  ReplayGain values during library scans optional and disabled by default;
+  embedded ReplayGain tags are still imported and manual calculation remains
+  available.
+
+### Fixed
+
+- Removed the standalone cyan scan-activity dot from the sidebar while retaining
+  the textual scan-progress indicator.
+
+## [0.26.3] - 2026-07-15
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Desktop updates now relay the same signed release to every reachable,
+  update-enabled Orynivo Server before launching the Windows installer; failed
+  servers are named and the user can explicitly continue the desktop update.
+
+### Fixed
+
+- Allowed signed server-update bundles up to the endpoint's verified one-GiB
+  safety limit instead of Kestrel's default request limit rejecting current
+  packages, and surfaced HTTP rejection codes in Settings.
+- Applied Kestrel's global request-body limit again after layering the editable
+  Linux configuration, so `Kestrel:Limits:MaxRequestBodySize` from
+  `/etc/orynivo-server/appsettings.json` is actually honoured.
+
+## [0.26.2] - 2026-07-15
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added an Appearance setting that optionally checks the signed GitHub Release
+  manifest in the background at application startup and notifies the user when a
+  newer Windows version is available.
+
+### Fixed
+
+- Prevented publication of incomplete signed update manifests by waiting for the
+  Windows installer and every supported DEB/RPM server package. The manifest
+  workflow can also be rerun manually for an existing release tag.
+
+## [0.26.1] - 2026-07-15
+
+### Changed
+
+- Replaced the Dashboard hero summary glyphs with the same album, track, artist,
+  and favorite vector icons used by navigation, while retaining each tile's
+  colored circular badge.
+
+### Fixed
+
+- Enlarged the About window, placed its proportionally filled logo in a compact
+  vertically cropped header, and reserved a readable minimum height for the
+  scrollable license list after adding version and update controls.
+- Restored mixed-playlist actions for Orynivo Server file and directory nodes in
+  the Folder structure view. Remote folder selections now resolve their
+  registered server track IDs to stable `orynivo://` references and use the
+  shared local playlist list instead of obsolete hidden server playlists,
+  without persisting authenticated stream URLs.
+
+## [0.26.0] - 2026-07-15
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added build-time desktop/server version reporting and signed GitHub Release
+  updates. The About window can check, verify, download, and launch a newer
+  Windows installer; Orynivo can relay matching DEB/RPM packages to explicitly
+  update-enabled Linux servers without requiring server internet access.
+- Added a privileged, fixed-command Linux server updater that independently
+  verifies the signed release manifest and package digest before invoking the
+  package manager and restarting the service. Remote server updates default to
+  disabled.
+
+### Changed
+
+- Release workflows now accept only semantic `v*` tags contained in `main`,
+  embed that tag version in desktop and server builds, and publish a signed
+  per-asset SHA-256 update manifest after the GitHub Release is published.
+  Development builds derive the same base version exclusively from the newest
+  semantic tag contained in `origin/main` and append the development commit.
+
+- Restyled every non-Dashboard hero and intro surface with the normal card
+  background, the shared cyan-violet highlight gradient border, and a consistent
+  14-pixel radius on all four corners. Compact hero icons now reuse the matching
+  sidebar vectors inside accent-tinted circular badges.
+
+## [0.25.0] - 2026-07-15
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added vector previous/next controls directly beside Show all in the
+  Dashboard's 20-item Recently Played and Recently Added headers. Scrolling uses
+  a short, eased animation; both controls retain their position and become
+  muted/disabled at the respective end so the header never shifts. The
+  vertically centered Show all action aligns with the arrow controls and exposes
+  up to 100 entries.
+- Added source-appropriate vector icons to the main sidebar navigation and its
+  dynamic radio, podcast, regular-playlist, Plex, and server entries; smart
+  playlists retain their orange emphasis through a new size- and spacing-matched
+  vector lightning icon.
+- Redesigned the Dashboard around a large artwork-backed greeting hero using the
+  Orynivo wordmark and bundled light-wave background. The hero exposes live,
+  lightweight album/track/artist/favorite counters plus working random-play and
+  Up Next actions.
+- Added efficient SQLite dashboard summary and listening-trend queries. The
+  listening card now plots the selected period as a cyan area chart and, when a
+  preceding period exists, shows the percentage change from that period.
+- Library scans now calculate missing ReplayGain track and album values with
+  FFmpeg when files do not provide ReplayGain tags. Settings > Playback also has
+  a manual "Calculate missing ReplayGain" action to backfill existing local
+  tracks without overwriting existing metadata.
+
+### Changed
+
+- Aligned the four Dashboard overview cards to one edge-to-edge equal-width and
+  equal-height grid, optically centered Show all beside its carousel controls,
+  and gave the listening chart headroom through a rounded Y-axis maximum above
+  the actual peak. Listening trends now use daily points for 7-/30-day and
+  current-month periods and monthly points for the current year instead of
+  always compressing every period into seven points.
+- Left-aligned the Dashboard hero description with the greeting content and
+  added per-point hover tooltips to the listening chart, showing the date and
+  listened minutes for the day/bucket under the pointer.
+- Interactive artwork cards now use a diagonal cyan-violet-purple gradient hover
+  outline instead of a flat single-color accent border.
+- Reorganized contributor instructions around a mandatory completion checklist
+  and scoped `AGENTS.md` files for the Windows client, Core, Server, and native
+  bridges, keeping subsystem invariants close to the code they govern.
+- Unified matching local and Orynivo Server artists in the shared Artists view
+  and global search. A combined `L+OS` artist opens one mixed album view across
+  every matching library; every non-Plex artist link—including Recently Played,
+  Dashboard analytics, search, artist info, and now playing—uses the same
+  cross-library drill-down, and Back navigation preserves that combined view.
+- Toggling the favorite state of a combined artist now applies the change to
+  every matching local and Orynivo Server artist identity.
+- Rebuilt the Dashboard layout to match the new visual direction: Recently
+  Played and Recently Added sit in parallel surface cards; Recently Played uses
+  the same large artwork-card proportions as albums and now includes a
+  toggleable favorite heart plus `L`, `OS`, or `P` source badges. The redundant
+  Dashboard intro card was removed.
+- Restyled listening statistics, top genres, quick access, most-listened albums,
+  and most-listened artists as compact analytics cards. Genre, album, and artist
+  rows use proportional cyan bars and minute totals; album rankings retain their
+  local or remote artwork. The period selector now lives inside the listening
+  card and defaults to the last 30 days.
+- Refined the analytics geometry: album and artist bars now use a wider plotting
+  area, genre bars use the same full-width background track, and the listening
+  chart uses seven labeled time buckets with minute/date legends and a smoothed
+  cubic curve instead of straight point-to-point segments.
+- Added a vertical cyan-to-transparent gradient below the listening curve and
+  balanced the analytics-card bodies: genre rows now fill their card height,
+  artist rows match album-row height, and quick-access actions stretch across
+  the complete available card width.
+- Replaced the Dashboard hero's cyan-to-blue gradient outline with a rounded
+  3-pixel rim that brightens the underlying hero artwork. The selected sidebar
+  navigation item retains its gradient outline and translucent selected-row
+  fill.
+- Tightened the four hero counter tiles to compact fixed-width cards and aligned
+  their icon badges to the left like the reference layout.
+
+### Fixed
+
+- Fixed the listening chart's Y-axis rendering: the filled path now includes an
+  invisible origin anchor, preventing Avalonia `Stretch.Fill` from stretching
+  the curve's own peak to the chart ceiling. Its cubic Bézier control points are
+  also clamped to each segment's real endpoint range, preventing Catmull-Rom
+  overshoot from visually inventing peaks above the actual daily values.
+- Recently Played cards now receive normal and gradient hover borders solely
+  from the shared `motionCard` style instead of overriding it with local
+  single-color pointer handlers.
+- Dashboard and Quick Access favorite counts now validate client-side Orynivo
+  Server favorite IDs against current server facets and resolvable track rows,
+  matching the actual unified Favorites view instead of counting stale IDs from
+  settings.
+- Dashboard Quick Access now clears stale genre, format, bitrate, and source
+  facets before opening favorite tracks; Dashboard genre links likewise clear
+  every unrelated track facet before applying the selected genre.
+- The Dashboard favorite counter and Quick Access summary now combine local
+  favorite tracks with client-side favorites from every configured Orynivo
+  Server instead of reporting only the local SQLite count.
+- Plex and Orynivo Server "Test connection" buttons now size to their localized
+  text instead of clipping longer labels.
+
+## [0.24.0] - 2026-07-08
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Smart-playlist editor live preview: while editing a smart playlist's criteria,
+  a debounced preview line shows how many tracks currently match, resolved the
+  same way the playlist actually opens. A locally stored smart playlist counts
+  across the unified library (local plus every configured Orynivo Server), so
+  server-sourced criteria are no longer counted as zero; a server-stored one is
+  resolved on that server via a new `/api/playlists/resolve-count` endpoint
+  (older servers simply show no preview).
+- "Restore last queue": when the queue is replaced by a completely different
+  selection, the outgoing queue is remembered and can be restored from a header
+  button in the Up Next view (the restore is reversible).
+- Added an Up Next header button for clearing the complete queue without
+  stopping the currently playing track.
+- Drag & drop into the queue: track rows, album rows, and folder nodes — local
+  and remote Orynivo Server alike — can be dragged onto the "Up Next" sidebar
+  item to append them (remote albums/folders resolve to their tracks on drop);
+  album artwork cards can now be dragged as well.
+- Added an optional fade transition for queue advances that are not handled by
+  the gapless PCM engine, plus a small transport badge when ReplayGain is active
+  for the current PCM track.
+- Radio playback now refreshes Windows media-overlay metadata after ICY title
+  changes and after the station logo has been downloaded into a local SMTC-safe
+  cache file.
+- Remote Orynivo Server compatibility display: each server row in Settings now
+  probes the newer feature endpoints and concretely reports what an older server
+  is missing ("Server does not support: Track facets, Recent albums,
+  Waveforms").
+- Remote cache management in Settings: shows the combined remote-cache size and
+  offers clearing per server or the entire cache (artwork, track, and
+  folder-tree caches).
+- Server-side scan progress is shown in the sidebar activity line: configured
+  servers are polled and an in-progress scan appears as an "Updating … N / M
+  files" status without reloading or blocking the current view.
+- MCP tools and the built-in AI chat can now reach remote Orynivo Server tracks:
+  `search_library` returns results from the local library **and** every
+  configured Orynivo Server, and the `play`, `queue_append`, `queue_play_next`,
+  and `replace_queue` tools accept the `orynivo://serverId/track/trackId`
+  references those results provide. References resolve to the real stream and
+  register full track metadata, so remote playback shows correct
+  transport/history/lyrics. API keys are never exposed to the model (opaque
+  references; keys redacted in output).
+
+- Added "Most listened albums" and "Most listened artists" analytics cards to
+  the dashboard alongside Top Genres, merging local, remote Orynivo Server, and
+  Plex playback. A shared period selector (All time / This year / This month /
+  Last 30 days / Last 7 days) governs all three cards. Album and artist entries
+  link into their own library (local, remote, or Plex).
+- Added a source filter (Tracks / Radio / Podcasts / Remote / Plex) to the daily
+  playback-history dialog; only the categories present that day are shown.
+- AI chat messages are now copyable: text is selectable (Ctrl+C) and each user
+  and assistant bubble has a copy button that copies the whole message.
+- Added a mini context menu to the now-playing cover for opening the current
+  album or artist, searching album artwork, and toggling the current favorite.
+- Playback history now stores a stable Plex context (server plus track, album,
+  and artist rating keys) so Plex history entries stay identifiable and their
+  albums and artists are clickable throughout the history and dashboard
+  statistics.
+
+### Changed
+
+- Background library scans no longer auto-reload the visible view. A subtle
+  sidebar status ("Updating library… N / M files") shows scan/index activity,
+  and reloadable views offer a controlled "New library data available" refresh
+  button instead of navigating on their own.
+- Remote server rows in Settings now show a clear "Unreachable" status with the
+  last successful connection time (persisted per server in `server-status.json`)
+  when a server cannot be reached.
+- Split several `MainWindow` domains into dedicated partial files for dashboard,
+  history, playlists, internet radio, and Orynivo Server navigation code.
+- Replaced several small text/emoji glyph buttons, including transport actions,
+  with shared vector icon geometries and expanded empty-state text for missing
+  library, radio, and podcast sources.
+- Updated the README to reflect current queue, smart-playlist, dashboard, MCP,
+  remote Orynivo Server, and cwASIO/native-DSD capabilities.
+
+### Fixed
+
+- Fixed dragging albums onto the "Up Next" sidebar item restarting the current
+  gapless playback session and potentially surfacing a cancellation exception
+  instead of visibly updating the queue.
+- AI chat: assistant messages now render inline Markdown (bold, italic, inline
+  code, and links) as styled text instead of showing raw `**markers**`,
+  including inside numbered and bulleted lists and block quotes.
+- AI chat: the last lines of a streamed reply are no longer left clipped at the
+  input edge. The chat view sits in the bounded content row (it no longer spans
+  the Auto intro-card row), and auto-scroll re-pins to the true bottom whenever
+  the message list's extent grows (via the `ScrollChanged` event, which — unlike
+  `LayoutUpdated` on the `ScrollViewer` — reliably fires as the streamed reply
+  grows). The "stick to bottom" state is released only by a real mouse-wheel
+  gesture, so the constant re-layout of the streamed Markdown no longer disables
+  auto-scroll; scrolling up still pauses it so earlier messages stay readable. A
+  dedicated bottom anchor and explicit Markdown renderer measure invalidation
+  keep the final rendered lines visible after formatted content settles.
+
+## [0.23.3] - 2026-07-05
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added an artist-info button beside the artist name in album/track detail
+  headers, opening the same biography, image, and rename/merge view used by the
+  artist list.
+- Restyled the favorite heart with a warmer Orynivo-specific color and adjusted
+  glyph across tables, artwork cards, album headers, and the transport bar.
+
+### Fixed
+
+- Reduced local and Orynivo Server artist rename work by updating only the
+  affected Lucene search-index documents instead of rebuilding the whole index;
+  remote renames now also advance the server library-change timestamp so client
+  caches do not keep stale artist metadata.
+- Fixed saved internet-radio sidebar entries leaving the main content loading
+  skeleton visible while the stream was already playing.
+- Fixed the daily listening-history dialog so album titles are captured and
+  shown for playback-history rows even when they cannot be recovered through the
+  local track join, including remote and Plex tracks.
+- Made daily listening-history album cells open the corresponding album track
+  view for local and Orynivo Server history entries.
+- Prevented background library watcher refreshes from replacing playlist,
+  dashboard, drill-down, search, or detail views; sidebar rebuilds now preserve
+  the selected navigation item without firing an unintended navigation change.
+
+## [0.23.2] - 2026-07-05
+
+### Fixed
+
+- Fixed remote Orynivo Server artist information from the shared Artists view so
+  the info, refresh, rename, and image actions use the clicked row's server
+  instead of the previously active server context.
+- Fixed manually selected remote Orynivo Server artist images disappearing when
+  reopening artist information by assigning stable artist-artwork URLs to the
+  updated row before caching the uploaded image bytes.
+- Restored the small thumbnail column in the Artists and Albums table views,
+  including for existing saved column masks unless the thumbnail is hidden again
+  through the column chooser.
+- Invalidated the client-side remote artist-list cache after remote artist
+  profile or image updates, and hydrated remote artist information from the
+  server's cached profile before falling back to a fresh external lookup.
+- Made playback-history artists clickable for both local and Orynivo Server
+  entries, including the calendar day dialog and the Dashboard's recently played
+  cards/full view.
+
+## [0.23.1] - 2026-07-05
+
+### Fixed
+
+- Reduced the Artist artwork-card height after adding the source badge so the
+  grid no longer leaves oversized vertical gaps between rows.
+- Prevented the content loading overlay from intercepting mouse wheel and card
+  clicks after artwork views finish loading, and synchronized the Artist artwork
+  scroll calculations with the updated card height.
+- Fixed full-library search so artist-name queries also populate the Albums and
+  Artists result sections when the match comes from album-artist metadata; the
+  Orynivo Server full-search endpoint now correctly maps Lucene track hits to
+  album and artist rows instead of treating track IDs as entity IDs.
+
+## [0.23.0] - 2026-07-05
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- The Tracks search now honours the active facet filters. The **source** facet
+  restricts which sources are searched at all (e.g. with only an Orynivo Server
+  selected, typing in the search box searches just that server and hides local
+  results), while the favourite, genre, format, and bitrate facets additionally
+  filter the track results. Saving the search as a smart playlist now also
+  stores the search text (new `SearchText` criterion, matched case-insensitively
+  against title, artist, and album), and the smart-playlist editor exposes it as
+  a **Search text contains** field. The **Save smart playlist** action is
+  available whenever a search query or a facet filter is active.
+- The Folder structure view now groups its content by source: a top-level
+  **Local** node (shown only when a local library directory is configured) and
+  one node per configured Orynivo Server (shown only when the server reports
+  folder tracks), each expanding into its own folder tree. With a single source
+  the group expands automatically; with several sources the groups stay
+  collapsed so every source stays visible at the top. Remote folder file nodes
+  play through the authenticated stream URL and carry the same transport
+  metadata as remote track rows.
+- Prepared shared local/Orynivo Server row metadata for common Artists, Albums,
+  Tracks, and search-result library views, including an optional `OS` source
+  column with the server name as tooltip when remote rows are shown.
+- Local playlists can now contain mixed local and Orynivo Server tracks. Server
+  tracks are persisted as `orynivo://` references so authenticated `?key=`
+  stream URLs are still not stored in SQLite.
+- Search result rows for tracks, albums, and artists now expose the same leading
+  favorite heart action as the main library tables.
+- Smart playlists opened from the local playlist group now resolve against the
+  combined local and configured Orynivo Server track set.
+- Shared Artists, Albums, and Tracks views now load configured Orynivo Server
+  rows into the combined row set before the first table bind, avoiding a
+  post-startup table replacement while preserving mixed local/server results.
+- Added a source facet to the Tracks filter with **Local** and configured
+  Orynivo Server entries. Smart playlists can persist the same source
+  restriction through stable source keys.
+- Playlist tables now expose the favorite heart as the first column and the
+  source column directly beside it. Source tooltips use theme-aware foreground
+  and background colors.
+
+### Fixed
+
+- The content loading skeleton now fully covers the content area (it spans the
+  intro-card and table rows edge to edge) instead of leaving a margin band where
+  part of the table stayed visible during loading, most noticeable when opening
+  playlists.
+- Opening the Folder structure view is dramatically faster on large merged
+  libraries. The folder tree now materializes lazily — only the expanded nodes
+  are built — instead of eagerly creating a tree node for every one of ~150k
+  tracks, which froze the UI thread for ~9 seconds. Children are populated
+  before the node expands (the proven Plex lazy-folder pattern) so they render
+  reliably. The already-cached server folder-track list (keyed by the server's
+  `LibraryChangedAt`, re-downloaded only when it changes) is now read and
+  deserialized off the UI thread, and a remote directory's descendant paths are
+  collected from the in-memory folder tree so context-menu actions still see
+  not-yet-expanded folders.
+- The source-badge tooltip in the shared tables now renders its text in the
+  theme foreground instead of black on the dark surface. The tooltip content is
+  an explicit `TextBlock` with a local theme foreground, because a string
+  tooltip does not inherit `ToolTip.Foreground` under the default tooltip theme.
+- The Albums table no longer freezes on startup once a remote Orynivo Server is
+  merged into the library. Building a remote album row's right-click playlist
+  menu resolved the album's track list through a **synchronous** server request
+  on the UI thread while the row was being realized inside the `DataGrid` layout
+  pass, blocking the whole table (thread dump: `GetPathsForRow` →
+  `TaskAwaiter.GetResult` under `DataGrid.MeasureOverride`). The remote album
+  playlist targets are now resolved off the UI thread and only when the flyout
+  is actually opened. Local-only libraries were unaffected because local album
+  rows never triggered that server round-trip.
+- The Artists table no longer risks a UI-thread stall with a large merged
+  library. Lazy per-row artist profile lookups now open the SQLite database,
+  write the cached profile, and decode the artist image on a background thread
+  instead of on the UI thread, and each visible row is marked as fetched for the
+  session so a failed download (offline, or a concurrent library scan holding
+  the write lock) no longer re-triggers a network request and database open on
+  every scroll pass.
+- Artist and album table thumbnail columns are now optional and hidden by
+  default in large mixed local/server tables to avoid the album-table UI stall
+  seen when many remote artwork-capable rows were bound at once.
+- Removed the obsolete Local child node from the Library sidebar now that local
+  and Orynivo Server sources share one library.
+- Existing saved table column masks now show the new `OS` source column by
+  default while still allowing it to be hidden from the column chooser.
+- Added per-server background timeouts while loading the shared Artists, Albums,
+  Tracks, and smart-playlist views so an unavailable server cannot leave the UI
+  stuck on startup.
+- Removed the post-bind Orynivo Server row append from the active Artists,
+  Albums, and Tracks tables after diagnostics showed that replacing a large
+  already-visible DataGrid could freeze the UI shortly after startup.
+- Reduced scroll-time work in the shared Artists, Albums, and Tracks tables so
+  the A-Z index follows the visible row without walking the complete visual tree
+  on every scroll event.
+
+## [0.22.1] - 2026-07-04
+
+### Changed
+
+- Updated the Windows application icon with a transparent background and updated
+  the logo shown in the splash screen and About dialog.
+- Updated the program wordmark shown at the top of the main sidebar.
+- Removed the gradient logo containers and let the sidebar, splash screen, and
+  About logos use the available width directly.
+- Widened the main sidebar and reserved scrollbar space in the navigation list
+  so selected-item highlights remain fully visible when the menu scrolls.
+- Added light-theme variants for the splash/About logo and the main-sidebar
+  program wordmark.
+
+## [0.22.0] - 2026-07-04
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Reworked the Dashboard into a more personal "music hub": a time-of-day
+  greeting with a short tagline now opens the page, followed by a new **Recently
+  played** strip of compact cards (local album artwork or an initials
+  placeholder, with a hover play affordance) that play the track in place
+  without leaving the view. **Recently added** albums now use the same artwork
+  cards as the normal Albums view, so their covers can be changed (search /
+  reassign / delete) and albums can be toggled as favorites directly from the
+  dashboard — for local and remote Orynivo Server albums alike. The **Calendar**
+  and **Top genres** blocks are now visually separated and shown side by side on
+  wide windows (stacking on narrow ones), and Top genres is a modern analytics
+  card with numbered colour-coded rank chips and thin proportional bars.
+- Added a **Show all** link to the Dashboard's **Recently played** and
+  **Recently added** sections. It opens a full-page view of up to 200 entries
+  with the same cards and actions as the dashboard strips, and integrates with
+  the Back button: returning from an opened album lands back on the full-page
+  view, and Back again returns to the dashboard.
+- Added subtle UI motion for main navigation: album/artist artwork cards now
+  show a lightweight hover overlay, Dashboard album cards react on hover,
+  sidebar accordion rows fade/collapse instead of disappearing abruptly, and
+  Dashboard, library, remote-library, and album-detail view changes use short
+  fade-ins with a compact skeleton/progress loading overlay.
+- Added an optional +6 dB PCM output boost in Settings > Playback. It applies to
+  every PCM playback path, including local files, remote/Plex streams, radio,
+  podcasts, and DSD sources when they are converted to PCM; native DSD output
+  remains bit-perfect and unchanged.
+
+### Fixed
+
+- Fixed manual MusicBrainz cover search failing on stylized album titles with
+  punctuation such as `M!ssundaztood`. The primary release/artist query now
+  preserves punctuation and URL-encodes the complete query, with compacted and
+  spaced punctuation fallbacks when the exact query finds no cover results.
+- Fixed the Dashboard being rendered twice below itself when Orynivo started
+  with Dashboard as the restored last view. Dashboard rebuilds are now versioned
+  and applied atomically, so a startup layout reflow cannot append stale content
+  from an earlier asynchronous build.
+- Added roomier row and column spacing to the Dashboard's full-page **Recently
+  played** view so the 200-card grid no longer feels vertically cramped.
+- Restyled Dashboard **Recently played** cards to match the shared artwork-card
+  language: they now use the app surface background, a separating gridline
+  border, asymmetric card/cover corners, and the same accent border on hover as
+  the Recently added album cards.
+- Fixed old remote **Recently played** entries showing the selected output
+  device (for example "Topping USB Audio") as the artist. Remote history cards
+  now refresh their title/artist from the configured Orynivo Server metadata,
+  and their hover border explicitly uses the current theme accent brush.
+- Added manual artist-image search to the artist-info view opened from a
+  currently playing remote Orynivo Server track. The shared artist-image search
+  dialog now focuses and selects its editable query on open and starts a new
+  search with Enter, making it easier to change the search text and retry from
+  both track and artist artist-info views.
+- Added an editable artist field to manual album-cover search. Album cover
+  lookups now prefill the known album/display artist and send both
+  `release:"album"` and `artist:"artist"` to MusicBrainz when the field is set,
+  improving broad titles such as "Greatest Hits"; clearing the artist field
+  keeps the previous album-only search behaviour.
+- Aligned the manual cover-search and artist-image-search dialogs by placing the
+  **Search again** action beside the active query field and adding a search icon
+  to the button in both dialogs.
+- Fixed Dashboard **Recently played** cards for Orynivo Server tracks not
+  showing cover art and replaying with only a bare stream URL. Remote history
+  entries now resolve back to their configured server track, load the
+  server-side track artwork, and register the full remote row before playback so
+  the transport shows cover/title/artist and keeps remote artist info, lyrics,
+  favourites, and waveform behaviour available. New remote history entries also
+  store a stable server/track identifier while older entries still resolve from
+  their stream URL.
+- Fixed the Dashboard **Recently played** hover play button not appearing on
+  many cards (typically the cover-less ones): those were remote server / Plex
+  tracks that were treated as not playable. Music-track history entries are now
+  playable whenever they are a locally available file **or** a playable stream
+  URL, so their cards show the hover play button and play the track in place
+  (replacing the queue with just that track) instead of switching to the Tracks
+  view. Radio and podcast history entries keep their dedicated views. The play
+  overlay also now has an explicit size so it fills avatar-only cards.
+- Fixed the Dashboard **Recently added** album cards having no hover effect: the
+  card hover/cover-reveal styles were scoped to `ListBoxItem` and now also react
+  to the card border being hovered, so the shared artwork card animates in the
+  dashboard strip and full view too.
+- Fixed the **Up next** queue order when starting a remote Orynivo Server album
+  whose tracks span two directories (for example a multi-disc release without
+  disc-number tags). Double-clicking a remote track now builds the queue from
+  the actually clicked directory group in its displayed order, matching local
+  albums, instead of rebuilding it from the raw, ungrouped album track list.
+- Improved remote Orynivo Server playback start latency on ASIO/cwASIO. A remote
+  PCM track (FLAC, MP3, etc.) is no longer treated as a possible native DSD
+  stream when the server metadata already identifies its format, so it skips the
+  two native DSF/DFF header probes (each a wasted HTTP round-trip) and starts
+  through the FFmpeg PCM path directly. This also restores gapless playback for
+  consecutive remote PCM tracks on ASIO/cwASIO, which previously played
+  track-by-track. Tracks with no usable format metadata still fall back to the
+  conservative native-DSD probe.
+- Further reduced remote Orynivo Server playback start latency on all backends
+  by skipping the separate FFmpeg probe when the server already reports the
+  track's sample rate. The player now builds its technical info from the cached
+  server metadata and only starts the decoder, removing one HTTP round-trip per
+  track (initial start and gapless prefetch); DSD sources and tracks without a
+  reported sample rate still probe as before.
+- Fixed remote Orynivo Server DSF playback using the FFmpeg PCM path while the
+  transport claimed native DSD output. Remote DSF files now stream natively over
+  HTTP byte ranges to ASIO/cwASIO, and the transport shows **DSD nativ** only
+  after the native DSF player has actually started; malformed or unsupported
+  remote DSF streams fall back to DSD-to-PCM and are labelled accordingly. The
+  remote native path now validates the actual DSF header instead of trusting
+  server metadata, retries transient ASIO driver-load failures while switching
+  from PCM playback, and accepts DSF headers that report 8-bit stored DSD bytes.
+- Added native DFF/DSDIFF playback for remote Orynivo Server streams. The client
+  now parses the remote DFF chunk structure through HTTP byte-range reads and
+  streams uncompressed DSD data directly to ASIO/cwASIO without downloading the
+  complete file first; DST-compressed DFF remains unsupported and falls back to
+  DSD-to-PCM.
+- Fixed missing transport waveforms for remote Orynivo Server tracks when the
+  server cannot generate waveform peaks for a format such as DFF. The client now
+  falls back to locally analysing the authenticated stream URL with FFmpeg and
+  caches the resulting compact peaks.
+- Fixed track context menus staying stale after creating a new playlist from a
+  track. Data-grid row playlist flyouts are now rebuilt immediately before they
+  open, so the new playlist is available for the next add action without leaving
+  the current list.
+- Fixed table double-click actions requiring the pointer to land on visible text
+  in some views. Track, search, radio, and podcast tables now resolve the
+  clicked data-grid row before starting playback or opening the row target.
+- Fixed the new content loading skeleton occasionally remaining over already
+  loaded album detail views when a fast load completed before the deferred
+  fade-in callback ran.
+- Fixed the Dashboard album hover effect drawing only around the text area or
+  getting clipped. Dashboard cards now keep the accent outline inside the card
+  bounds and use a subtle surface change instead of scaling.
+
+## [0.21.0] - 2026-07-04
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a waveform-style transport progress view that keeps the existing seek
+  behaviour while showing local-file peak data with the active transport accent
+  as the played overlay.
+- Added cached waveform peak generation for local Orynivo tracks and remote
+  Orynivo Server tracks. The server now exposes per-track waveform data through
+  `GET /api/tracks/{id}/waveform` and stores generated peaks in its data
+  directory.
+- Added sanitized seek diagnostics in `logs/seek.log` for transport clicks, PCM
+  decoder replacement, FFmpeg decoder startup, and Orynivo Server server-side
+  seek transcodes so intermittent remote seek failures can be diagnosed without
+  writing API keys or Plex tokens to the log.
+- Added an album link to the now-playing transport metadata between title and
+  artist. Local and Orynivo Server tracks open their normal album track detail
+  view from that link.
+- Added controlled web-browsing tools for the AI chat and external MCP clients:
+  `search_web` (via a configurable SearXNG instance), `fetch_page` (readable
+  plain text), and `fetch_page_as_markdown`. The MCP server — not the model —
+  performs the network access through a new `WebBrowsingService` with a strong
+  safety model: http/https only, private/loopback/link-local/reserved addresses
+  are refused at connect time (SSRF protection, closing the DNS-rebinding
+  window), redirects are limited and followed manually, responses are size- and
+  timeout-capped, non-text content is refused (no arbitrary downloads), an
+  optional domain allowlist is supported, and every request is logged to
+  `%LOCALAPPDATA%\Orynivo\logs\web-browsing.log`. The trusted SearXNG endpoint
+  is exempt from the private-network guard so a LAN/Docker instance works. The
+  SearXNG URL and limits are configurable under Settings → Integration → MCP
+  Server → Web browsing, and each web tool has its own enable/disable toggle
+  (bringing the tool count to 23).
+- Added a `get_current_time` tool that returns the current local and UTC date,
+  time, day of week, and time-zone name. It is available both to the embedded AI
+  chat and to external MCP clients, and has its own enable/disable toggle in
+  Settings → Integration → MCP Server (bringing the tool count to 20).
+
+### Fixed
+
+- Fixed waveform transport seeking so pointer release is captured reliably, the
+  full progress-control height is clickable for remote tracks without waveform
+  data, and a cancelled seek during track changes no longer crashes the UI
+  thread.
+- Fixed the waveform progress indicator getting stuck at an old preview position
+  when Avalonia missed the pointer-release path; capture loss, released buttons
+  during move, and a short timeout now leave preview mode.
+- Fixed remote waveform seeking visually jumping back to the old position while
+  the server-side seek starts. The transport now keeps the clicked target
+  position visible while the seek is pending, and PCM players discard the old
+  decoder/output buffer immediately instead of playing stale buffered audio
+  until the new decoder is ready.
+- Fixed intermittent remote seeks falling back to the old playback position
+  after the new FFmpeg/server-side decoder failed to start quickly. PCM players
+  now close the old decoder and clear queued output immediately so the server
+  releases the previous stream and playback never silently resumes from the old
+  position.
+- Fixed repeated remote seeks being blocked behind a hung earlier seek. New PCM
+  seeks now cancel any still-starting replacement decoder, and the Orynivo
+  Server seek transcode maps only the first audio stream so embedded artwork or
+  other non-audio streams cannot stall the FLAC pipe startup.
+- Fixed Back navigation after opening an artist from the now-playing transport
+  and then drilling into an album. The history now captures local and remote
+  artist-album drill-down states explicitly instead of inferring them from the
+  visible title text, so Back returns to the artist's album list.
+- Fixed the same Back path for remote Orynivo Server tracks by marking
+  now-playing remote artist drill-downs as server album views before capturing
+  history, preventing remote artist IDs from being restored through the local
+  album query path.
+- Removed tracks from SQLite, Lucene, and cached waveform data when a local or
+  server library root is removed from configuration.
+- Fixed embedded AI chat answers rendering Markdown syntax literally. Assistant
+  messages now display common Markdown structure such as headings, lists,
+  quotes, dividers, and fenced code blocks in the chat bubble.
+- Fixed Markdown-rendered AI chat answers becoming invisible when the renderer
+  could not resolve theme brushes inside the chat message template.
+- Fixed the embedded AI chat showing an empty assistant bubble when a model
+  streamed only whitespace before a tool call or returned no final answer after
+  executing a tool. Empty leading tokens are ignored, and the chat now shows the
+  tool result as a fallback when the model does not produce answer text.
+- Removed the bundled default SearXNG URL from the web-browsing settings so new
+  installations start with an empty endpoint and require the user to enter their
+  own instance.
+- Fixed Back navigation opening the wrong album after viewing a remote Orynivo
+  Server album that was opened from the dashboard and then drilling into its
+  artist. Such a remote album was captured as a local album-tracks state and
+  restored through the local path, reopening a local album that merely shared
+  the numeric id. Remote albums are now detected by their catalog source and
+  restored through the remote path regardless of how they were opened.
+- Fixed the manual lyrics search/download dialog not appearing while a remote
+  Orynivo Server track is playing. The handler required a local database row
+  (looked up by file path), which never matches a remote stream URL, so it
+  returned before showing the dialog. It now seeds the search from the current
+  track's metadata and stores the chosen lyrics on the remote server for remote
+  tracks (and in the local database for local tracks).
+
+## [0.20.5] - 2026-07-01
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Introduced a shared typography scale as application resources (`FontSizeMeta`,
+  `FontSizeCaption`, `FontSizeBody`, `FontSizeBodyStrong`, `FontSizeSubtitle`,
+  `FontSizeTitle`, `FontSizeTitleLarge`, `FontSizeHeadline`, `FontSizeDisplay`,
+  `FontSizeDisplayLarge`, `FontSizeHero`). All views, the Settings view, and
+  every dialog/window now reference these tokens instead of ad-hoc pixel sizes,
+  giving consistent text sizing across sidebar, headers, section titles, tables,
+  and meta text.
+
+### Changed
+
+- Album, artist, and podcast detail views now use larger, more prominent titles
+  (`FontSizeDisplay`) for a more immersive header, while small meta text stays
+  compact and muted.
+- Missing album and artist artwork now shows an elegant typographic placeholder
+  (one or two initials over a deterministic accent-tinted gradient) instead of a
+  flat grey rectangle, via the new reusable `InitialsAvatar` control. It is used
+  in the album detail header, album/artist artwork cards, and the artist-info
+  image, and looks identical for local and remote (Orynivo Server) entities. The
+  cover-search action now sits on a subtle scrim at the bottom of empty album
+  covers so it stays readable over the gradient.
+- The artist-info view now shows the artist's albums as a wrapped strip of
+  clickable cover cards below the biography, so the view reads like a proper
+  artist page instead of image-plus-text only. Album covers reuse the initials
+  gradient placeholder when artwork is missing, and clicking a card opens that
+  album's tracks. Works identically for local, remote-library, and now-playing
+  remote artists.
+- Modernized the Settings view: the left navigation items now carry section
+  icons that recolour with selection/hover; genuine on/off options (DSD-to-PCM,
+  equalizer, MCP server, AI chat, and the Appearance sidebar-visibility options)
+  use pill toggle switches instead of checkboxes; interactive inputs share a
+  consistent height; and the Output and MCP sections show small status badges
+  for FFmpeg, Steinberg ASIO, cwASIO, and the MCP server. The MCP per-tool list
+  keeps its checkboxes as a permission checklist.
+- Each configured Orynivo Server and Plex server row in Settings now shows a
+  live connection status badge (checking → available/unavailable). The
+  reachability check runs asynchronously per server, so it never blocks opening
+  Settings, and pending checks are cancelled when the list is rebuilt or
+  Settings is closed.
+
+### Fixed
+
+- Fixed checkbox borders appearing near-black on the dark background: the app
+  now aligns the built-in Fluent theme variant with the selected light/dark
+  scheme (`ThemeManager` sets `Application.RequestedThemeVariant`), so any
+  control still using default Fluent resources resolves theme-appropriate
+  colours. The code-created radio-genre and podcast filter checkboxes were also
+  given the themed checkbox style, and a duplicate `IsCheckedChanged`
+  subscription on those checkboxes was removed.
+
+## [0.20.4] - 2026-07-01
+
+### Changed
+
+- Refreshed the main Orynivo visual theme with a more neutral dark/light
+  palette, a central accent brush, softer sidebar selection pills, larger
+  transport controls, subtler table rows, and updated Dashboard album, calendar,
+  and genre-stat cards.
+- Refined the modernized shell with calmer dark-mode accent tones, pill-shaped
+  header action buttons, bordered segmented view switches, rounded search/input
+  fields, and cleaner DataGrid spacing without visible grid lines.
+- Album and artist artwork cards now use theme-aware placeholder backgrounds,
+  subtle borders, clipped covers, and a calmer asymmetric card shape.
+
+### Fixed
+
+- Library watcher rescans now honour cancellation while waiting between locked
+  file retry attempts instead of blocking through fixed sleeps.
+- The bottom transport bar's position-slider progress, slider thumb, and
+  play/pause button are now tinted with an accent colour extracted from the
+  current cover art (falling back to the app accent when no artwork is
+  available), and the album artwork is slightly larger (72 px, rounded). The bar
+  keeps its full-width, flush layout.
+- Startup no longer keeps the splash screen open while checking or rebuilding a
+  Lucene search index for large libraries. The main window opens after database
+  preparation, and search-index checking/rebuild continues in the background
+  with progress shown in the sidebar status line.
+- Startup no longer validates every restored playback-queue path synchronously,
+  so very large persisted queues on slow or sleeping drives no longer keep the
+  splash screen open for minutes.
+- The editable playback queue is now persisted in the SQLite library database
+  instead of `settings.json`. Existing JSON queues are imported once and then
+  cleared from settings, avoiding oversized settings files and expensive JSON
+  saves for large queues.
+- Double-clicking a track in the unfiltered top-level Tracks view now queues
+  only that track instead of persisting the entire local library as the editable
+  playback queue. Filtered, album, folder, playlist, and search-result playback
+  still keeps the visible context as the queue.
+- Startup now writes detailed timing diagnostics to
+  `%LOCALAPPDATA%\Orynivo\logs\startup-timing-latest.log`, including FFmpeg, the
+  initial database open, schema/migration substeps, main-window construction,
+  and background search-index work. The detailed database hook is disabled
+  before the main window opens so normal UI database reads do not flood the log
+  or slow the app down.
+- Sidebar accordion chevrons now share one alignment and colour across static
+  and dynamically generated navigation groups, and Plex library children use the
+  same nav text styling as the other submenu rows.
+- Accent-filled controls such as the artwork/table switch, active A-Z index
+  buttons, cover-search buttons, and the transport play button now use
+  contrast-safe foreground colours instead of assuming white text on every
+  accent background.
+
+## [0.20.3] - 2026-06-30
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- The Dashboard's "Recently added albums" strip now also includes albums from
+  every configured remote Orynivo Server, merged with the local library and
+  sorted by when each album was last added. Remote cards load their artwork from
+  the server (cached locally) and navigate within the remote library. A new
+  server endpoint `GET /api/albums/recent` backs this; older servers without it
+  are simply skipped.
+- Searching within a remote Orynivo Server Tracks view now shows the same
+  three-section result (Tracks, Albums, Artists) as the local library search,
+  backed by the server's `/api/search/full` endpoint. Result rows navigate
+  within the remote library (album/artist links and double-click) and remote
+  tracks play directly from the result list.
+
+### Changed
+
+- The three search-result sections (Tracks, Albums, Artists) now use the same
+  accent-bordered card style (`#6C63FF`, `CornerRadius="0,24,0,24"`) as the
+  library headline/intro card, for both local and remote search results.
+
+### Fixed
+
+- The Dashboard genre statistics (Top genres and the per-day calendar genres)
+  now include remote Orynivo Server and Plex tracks. Their genre is captured at
+  playback time in a new `play_history.genre` column, so genre stats no longer
+  require a local library row. The calendar's daily total playback time already
+  counted these tracks.
+- The now-playing artist button is now enabled while a remote Orynivo Server
+  track plays and opens that artist within the track's server library (instead
+  of staying disabled to avoid opening an unrelated local artist).
+- Clicking the artist link on a dashboard recent-album card no longer also opens
+  the album, and dashboard/search remote albums now clear any leftover artist
+  filter so they show all of their tracks instead of appearing empty.
+- Opening a remote Orynivo Server view (e.g. an artist's albums) from a
+  dashboard recent-album card now hides the dashboard, internet-radio, podcast,
+  lyrics, and artist-info views, so the loaded remote content is actually shown
+  instead of staying hidden behind the previous view (which made the album view
+  appear empty).
+
+## [0.20.2] - 2026-06-29
+
+### Fixed
+
+- The Linux Orynivo Server now reads and writes its editable configuration at
+  `/etc/orynivo-server/appsettings.json`. It is layered on top of the bundled
+  defaults at startup, and runtime changes (such as adding a library directory
+  through the client) are persisted there instead of to the read-only,
+  root-owned content-root copy under `/usr/lib/orynivo-server`, which previously
+  failed with `UnauthorizedAccessException` and is also overwritten on package
+  upgrades.
+
+## [0.20.1] - 2026-06-29
+
+### Fixed
+
+- The Linux Orynivo Server package no longer crashes on startup
+  (`UnauthorizedAccessException` / `SIGABRT`) when run as the `orynivo-server`
+  systemd service. The service user has no writable home, so resolving the data
+  directory via `$HOME/.local/share` failed. The data directory can now be
+  overridden with the `ORYNIVO_DATA_DIR` environment variable; the systemd unit
+  sets it to `/var/lib/orynivo-server` (created via `StateDirectory` and the
+  package post-install) so the database, caches, and artwork are stored in a
+  dedicated service-owned directory.
+- Plex folder browsing now shows tracks whose files have no title tag. Such
+  tracks are returned by Plex with an empty title (common for audio-book folders
+  containing files like `001.mp3`) and were dropped by the empty-title filter,
+  making those folders appear empty when expanded. The track now falls back to
+  its source file name.
+
+## [0.20.0] - 2026-06-29
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Remote Orynivo Server Tracks now caches the downloaded full track list under
+  `%LOCALAPPDATA%\Orynivo\remote-track-cache\` and reuses it while the server's
+  `LibraryChangedAt` scan timestamp is unchanged, so revisiting the Tracks view
+  no longer re-downloads the whole library. The cache key includes the API key
+  (cached playback URLs embed it) and client-side favourites are re-applied
+  after loading so toggling a favourite is never masked by stale cached flags.
+
+### Fixed
+
+- Remote Orynivo Server folder view loading placeholder now uses the themed
+  muted text brush, so the "loading" message is readable on the dark background
+  instead of rendering as black text.
+- Remote Orynivo Server Tracks now loads the unfiltered track list with a large
+  page size instead of 500 rows per request. On a large library (~75k tracks)
+  the old paging issued ~150 sequential HTTP requests and took over a minute, so
+  the Tracks view appeared empty unless the favourites filter (a single request)
+  was active; it now loads the whole library in one or two requests within a
+  couple of seconds.
+- Remote Orynivo Server Tracks now applies its table columns immediately before
+  binding the loaded rows (matching the local Tracks view) instead of before the
+  async server load, so the DataGrid reliably realizes the rows.
+- Remote Orynivo Server folder playback now registers full track metadata before
+  queuing streams, so the transport shows title/artist/artwork and enables
+  lyrics, artist info, favourites, and playlist actions like the local folder
+  view.
+- Remote Orynivo Server folder context menus now route credential-bearing stream
+  URLs through the server playlist provider instead of falling back to
+  queue-only actions, so files and folders can be saved to playlists on that
+  server.
+- Remote Orynivo Server Tracks now explicitly refreshes the table layout after
+  async row binding so the view appears immediately without requiring an
+  unrelated sidebar interaction.
+- Remote Orynivo Server Tracks now binds rows immediately instead of leaving the
+  table source empty until a deferred layout pass, fixing an initially blank
+  Tracks view.
+- Remote Orynivo Server folder views now clear stale local folder nodes before
+  loading, show a server-loading placeholder, and cache the server folder-track
+  list under `%LOCALAPPDATA%\Orynivo\remote-folder-cache\`. The cache is reused
+  until the server reports a newer library-change timestamp.
+- Library accordion headers are no longer treated as navigable views, preventing
+  raw `LibraryGroup:...` tags from replacing the content title.
+- Orynivo Server scan status now exposes `LibraryChangedAt`, a persisted Unix
+  timestamp updated when a scan or file watcher run adds, updates, or removes
+  indexed tracks, so clients can invalidate remote caches without downloading
+  the full list first.
+
+## [0.19.0] - 2026-06-28
+
+### Fixed
+
+- Windows FFmpeg auto-download now resolves the current BtbN release asset via
+  the GitHub API instead of relying on the removed `essentials_build` ZIP name.
+
+## [0.18.0] - 2026-06-28
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a shared playlist provider layer for local and remote Orynivo Server
+  libraries so track/album/folder context menus use the same playlist actions
+  while persisting entries to the correct local database or remote server.
+
+### Fixed
+
+- FFmpeg and FFprobe child processes now always receive a valid working
+  directory, and startup repairs a missing current directory left by stale
+  shortcuts or installer paths, avoiding launch failures that referenced an old
+  `%LOCALAPPDATA%\Programs\Orynivo` path.
+
+## [0.17.0] - 2026-06-28
+
+### Fixed
+
+- Automatic FFmpeg download on Windows now stores downloaded binaries in
+  `%LOCALAPPDATA%\Orynivo\ffmpeg` instead of the application install directory,
+  so setup installations under `Program Files` work without elevation.
+- On first start or after a missing/corrupt output configuration, Orynivo now
+  creates and selects a `Default` WASAPI output profile using the Windows
+  default multimedia output device so playback can work without manual device
+  setup.
+
+## [0.16.0] - 2026-06-28
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- The transport favourite (heart) button now works while playing a remote
+  Orynivo Server track and toggles the client-side favourite for that track
+  (stored in `settings.json`), mirroring the change in any visible remote track
+  rows. Previously the button was only active for local tracks.
+- When no local library directory and no Orynivo Server are configured, the
+  Library sidebar now shows a hint pointing to Settings to add local directories
+  or one or more Orynivo Servers. The complete Local node is hidden until a
+  library directory exists, and the hint disappears immediately once a directory
+  or server is added.
+- The transport lyrics and artist-info buttons now work while playing a track
+  from a remote Orynivo Server. Lyrics are fetched from LRCLIB and the artist
+  biography/image from Wikipedia or Last.fm on the client, then cached on the
+  server (consistent with the existing artwork/biography upload pattern). A new
+  `INowPlayingMetadataProvider` abstraction with local and Orynivo Server
+  implementations (`Orynivo/NowPlayingMetadataProviders.cs`) drives both flows.
+- New server endpoints `GET`/`PUT /api/tracks/{id}/lyrics` cache per-track
+  lyrics; the remote track DTO now also carries the primary `ArtistId` so the
+  client can resolve and cache the playing track's artist profile.
+- The transport cover (bottom-left) and the lyrics background now display for
+  remote Orynivo Server tracks. Cover loading is unified for local and remote
+  tracks through `INowPlayingMetadataProvider.GetArtworkAsync`, backed by a new
+  `GET /api/artwork/track/{id}` server endpoint.
+- The Windows System Media Transport Controls (lock screen / media overlay) now
+  show album artwork for remote Orynivo Server tracks via the authenticated
+  track-artwork URL.
+- The remote Orynivo Server Artists, Albums, and Tracks views now match the
+  local library views: the same column masks with clickable artist/album links,
+  the artist-info button, thumbnails, the full set of optional track columns,
+  the intro card, and the per-entity Favorites-only toggle. Clicking an
+  artist/album link or double-clicking navigates within the remote library.
+- The remote Tracks view gained the same Genre/Audio-Type/Bitrate facet filters
+  as the local Tracks view, backed by new server aggregation endpoints
+  `GET /api/tracks/facets` and `POST /api/tracks/by-ids`. The remote track DTO
+  now also carries `AlbumId`, and the album DTO carries `ArtistId`, to drive
+  in-library navigation.
+
+- Added a shared local/remote library catalog provider layer in the Windows
+  client. Local `AudioDatabase` rows and remote Orynivo Server responses now map
+  into common artist, album, and track models before reaching the reusable UI
+  masks.
+- Remote Orynivo Server album drill-downs now use the shared album-track detail
+  surface with the local-style album header, cover actions, favorite toggle, and
+  grouped track tables.
+- Remote Orynivo Server album drill-downs opened from a selected artist now
+  initially show only that artist's tracks and expose the same "show all album
+  tracks" checkbox as local albums.
+- Back navigation from remote Orynivo Server album details now preserves the
+  remote server context instead of restoring the same numeric album ID against
+  the local library.
+- Remote Orynivo Server albums and artists now support artwork management from
+  the Windows client. The client runs the existing cover/artist-image searches,
+  uploads the selected image bytes to the server, and the server stores them in
+  its local artwork caches without performing external artwork lookups itself.
+- Remote Orynivo Server artist biographies can now be refreshed from the Windows
+  client. Last.fm or Wikipedia requests run on the client, then the server
+  stores only the resulting cached biography, source URL, language, and optional
+  image bytes.
+- Remote Orynivo Server artist-info views now expose the same rename/merge and
+  Wikimedia image-search actions as local artists. Renames and merges are
+  committed through the server and rebuild the server Lucene index.
+- Local playlists now appear under the Local node in the Library sidebar. Each
+  configured Orynivo Server now exposes server-side playlists under its own
+  Playlists node; regular remote playlists can be created, deleted, filled with
+  server tracks, opened, played, and edited by removing entries.
+- Smart playlists now work for remote Orynivo Servers exactly like for local
+  media. The remote Tracks view gained the **Save smart playlist** action (when
+  facet filters are active), and remote smart playlists expose **Edit smart
+  playlist** in the sidebar context menu. Criteria are persisted on the server
+  through new `POST /api/playlists/smart` and `PUT /api/playlists/{id}/smart`
+  endpoints and resolved live server-side. The local and remote save paths share
+  the same `SmartPlaylistCriteria` model, `SmartPlaylistDialog`, and a shared
+  criteria-builder helper. Because remote favourites are stored client-side,
+  opening a remote smart playlist resolves it through a new
+  `POST /api/playlists/{id}/resolve` endpoint that receives the client's
+  favourite track IDs, so a Favourites-only remote smart playlist correctly
+  returns the client's favourited tracks instead of an empty list.
+- Remote Orynivo Server entries now expand into Artists, Albums, Tracks, and
+  Folder structure in the sidebar. Remote Artists and Albums reuse the local
+  table/artwork masks with lazy authenticated artwork loading and a local client
+  artwork cache, Remote Tracks uses the normal header search box through the
+  server's Lucene index, and remote artists, albums, and tracks support
+  client-side favorites stored in `settings.json`.
+
+### Changed
+
+- Renamed the main sidebar's local-library section to Library. Local media now
+  appear under a "Local" node, and configured Orynivo Servers with their
+  Artists, Albums, Tracks, and Folder structure entries are listed in the same
+  Library section instead of in a separate Orynivo Server section.
+- The Local media node and each configured Orynivo Server node inside the
+  Library sidebar section are now individually collapsible.
+- Settings no longer exposes a separate Orynivo Server sidebar visibility
+  toggle; the Library sidebar toggle controls both local media and configured
+  Orynivo Server entries.
+- Removed the now-defunct Playlists toggle from Settings > Appearance > sidebar
+  sections. Playlists are a child group of the Local node and follow the Library
+  section visibility; the legacy `ShowPlaylistsSection` setting is retained for
+  compatibility but has no UI control.
+- Orynivo Server track DTOs now include the extended metadata needed by the
+  shared track tables, including genre, totals, composer, BPM, file size, added
+  date, and ReplayGain values when available.
+- Settings navigation group headings are now consistently uppercase in every
+  supported language.
+- Settings navigation child items now keep normal title casing even when their
+  parent group heading is uppercase.
+- Orynivo Server connection settings now live under their own Settings >
+  Library > Orynivo Server entry instead of Settings > Streaming services or the
+  local directories page.
+
+### Fixed
+
+- Remote Orynivo Server (and other HTTP-streamed) tracks now start much faster.
+  FFmpeg/ffprobe were blocking on their default 5-second / 5 MB stream-analysis
+  window on every decoder start over HTTP, which made the first play of a remote
+  track stall for ~5 seconds. The probe window is now capped (with HTTP
+  reconnect resilience) for `http(s)` inputs in the decoder and both PCM probe
+  paths.
+- Seeking within a remote Orynivo Server track is now near-instant. Previously
+  the client seeked the HTTP stream itself, which for seektable-less files means
+  FFmpeg binary-searches via many range round-trips (~5 seconds). The client now
+  requests the stream with `?ss=<seconds>` and the server seeks the local file
+  and transcodes from that offset (fast local seek), so the client decodes the
+  offset stream from position 0. Plex and other HTTP sources keep client-side
+  seeking. The server stream/transcode is also now stopped promptly when the
+  client disconnects (e.g. on a rapid re-seek).
+- The Library/sidebar sections again collapse and expand reliably. The sidebar
+  navigation list is now backed by a non-virtualizing panel; the previous
+  virtualizing panel recycled item containers and lost the per-item visibility
+  set in code (made worse by the variable-height empty-library hint row), which
+  made section toggles need two clicks and could re-expand collapsed groups.
+  This also fixes the empty-library hint occasionally showing even when local
+  directories or a server were configured.
+- The local and per-server Playlists groups in the Library sidebar are now
+  correctly indented as children of their Local/server node (aligned with the
+  Artists/Albums/Tracks/Folder rows) instead of protruding to the section edge;
+  their playlist entries are indented one level deeper. Local and remote server
+  library rows now share the same margin-based indentation. Each Orynivo
+  Server's Playlists node is now an independently collapsible group like the
+  local one, persisted in `CollapsedOrynivoServerPlaylistGroups`.
+- The Playlists sidebar group label is now title-cased ("Playlists"/"Listas")
+  instead of the all-caps section-header form, matching the other library child
+  rows.
+- The sidebar accordion collapse chevrons now line up vertically across section
+  headers and collapsible library groups; the section-header right padding was
+  matched to the navigation-item padding so the arrows are flush.
+- Double-clicking a track in a remote Orynivo Server album now plays the track
+  instead of navigating to an unrelated local album. The remote track list no
+  longer leaves the album view-mode toggle visible, and the album drill-down no
+  longer mistakes a remote track row's ID for a local album ID.
+- Remote Orynivo Server artist-info buttons now open the selected server artist
+  instead of treating the server artist ID as a local library artist ID.
+- Remote Orynivo Server album and artist artwork grids now load existing artwork
+  on initial navigation instead of showing placeholders until a later artwork
+  assignment refreshes the rows.
+- The remote Orynivo Server album artwork button and cover context menu now use
+  the remote server artwork upload path instead of accidentally switching the
+  view to the local album library.
+- Adding the first Orynivo Server now expands and rebuilds the sidebar section
+  so the configured server appears under the Orynivo Server header after saving.
+- Orynivo Server scans now run a missing-album-artwork repair pass after full
+  scans and use physical source paths for CUE albums, allowing existing embedded
+  covers to populate server-side album artwork even when tracks were otherwise
+  unchanged.
+- Orynivo Server album artwork requests now fall back to an on-demand embedded
+  artwork repair for the requested album, so existing file covers can appear
+  without a manual client-side cover assignment.
+- Artwork file caches are now verified against the current application data
+  root. If a server database contains artwork rows whose cached image files are
+  missing or point to another environment, the original and thumbnail files are
+  recreated from the SQLite artwork payload and the stored paths are updated.
+- Album artwork endpoints now repair missing cached image files for the
+  requested album on demand and fall back to the original artwork file when a
+  requested thumbnail file is unavailable.
+- The Linux Orynivo Server project now references the SkiaSharp native Linux
+  assets so album-artwork thumbnail generation works in headless deployments
+  without requiring an external image conversion tool.
+- Orynivo Server folder browsing now materializes `/api/folders/tracks` before
+  disposing SQLite, fixing the closed-connection exception that prevented the
+  remote folder structure from loading.
+
+## [0.15.0] - 2026-06-27
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- **Orynivo.Core** — extracted the cross-platform library layer from the Windows
+  player into a standalone `net8.0` class library. `Orynivo.Core` contains
+  `AudioDatabase`, `LibraryScanner`, `LibraryWatcherService`,
+  `TrackSearchIndex`, `FfmpegLocator` (cross-platform; auto-downloads FFmpeg on
+  Windows, expects system FFmpeg on Linux/macOS), `FfmpegPcmDecoder`,
+  `ParametricEqualizer`, `EqualizerProfile`, `SmartPlaylistCriteria` (now
+  includes a `Resolve()` method that applies filtering and ordering without UI
+  code), and all library model records. The existing Orynivo Windows player
+  references `Orynivo.Core` and retains `InternalsVisibleTo` access for
+  audio-processing internals.
+- **Orynivo.Server** — new cross-platform headless music server (`net8.0`,
+  ASP.NET Core Minimal API) that exposes the local library over the network via
+  a REST API secured with a pre-shared API key (`X-Api-Key` header or `?key=`
+  query parameter):
+  - `GET /api/health` — unauthenticated status check
+  - `GET /api/info` — server name, version, and library paths
+  - `GET`/`PUT /api/settings/library-paths` — read and replace server library
+    roots, persist them to `appsettings.json`, refresh watchers, and start a
+    scan
+  - `GET /api/files/directories?path=` — browse the server filesystem for remote
+    directory selection
+  - `POST /api/scan` / `GET /api/scan` — trigger or monitor a library scan
+  - `GET /api/artists`, `/api/artists/{id}/albums`
+  - `GET /api/albums`, `/api/albums/{id}/tracks`
+  - `GET /api/tracks`, `/api/tracks/{id}`
+  - `GET /api/playlists`, `/api/playlists/{id}/tracks` (smart playlists are
+    resolved live against stored criteria)
+  - `GET /api/search?q=`, `/api/search/full?q=` (full-text Lucene search across
+    tracks, albums, and artists)
+  - `GET /api/stream/{trackId}` — byte-range HTTP streaming for regular audio
+    files; on-the-fly FLAC transcode via FFmpeg for CUE virtual tracks
+  - `GET /api/stream/path?p=` — stream by absolute file path
+  - `GET /api/artwork/album/{albumId}?size=` — serve album artwork
+  - `GET /api/artwork/track?p=` — serve track artwork by file path
+  - Configured via `appsettings.json` (`Orynivo:ApiKey`, `Orynivo:LibraryPaths`,
+    `Orynivo:ScanOnStartup`, `Orynivo:ServerName`)
+  - Binds to `http://0.0.0.0:5280` by default
+- **Linux server packages** — pushing a version tag also triggers
+  `.github/workflows/server-release.yml`, which builds self-contained
+  `Orynivo.Server` binaries for `linux-x64` and `linux-arm64` and adds four
+  packages to the same draft GitHub Release:
+  `orynivo-server_{version}_amd64.deb`, `orynivo-server_{version}_arm64.deb`,
+  `orynivo-server-{version}-1.x86_64.rpm`,
+  `orynivo-server-{version}-1.aarch64.rpm`. Each package installs to
+  `/usr/lib/orynivo-server/`, places a `/usr/bin/orynivo-server` symlink, ships
+  a default config at `/etc/orynivo-server/appsettings.json` (marked as a
+  conffile so upgrades do not overwrite user edits), and registers a systemd
+  unit `orynivo-server.service` running as a dedicated `orynivo-server` system
+  user. No .NET runtime is required on the target machine.
+
+- **Orynivo Server client** — the Windows player can now connect to remote
+  Orynivo Server instances running on the local network. Add one or more servers
+  in Settings → Integration (name, URL, API key); each appears as an accordion
+  section in the sidebar. Selecting a server opens an Artists / Albums / Tracks
+  view backed by the server's REST API; double- clicking an artist or album
+  drills down, and double-clicking a track starts playback of that server's
+  audio stream (authenticated HTTP URL passed directly to FFmpeg — no file
+  download required). Album thumbnails are fetched from the server's
+  `/api/artwork/album/{id}?size=96` endpoint. The server editor can also load,
+  add, remove, and save the remote server's music directories through a
+  server-side directory browser, start a server scan, and show live scan
+  progress for large directories. The Orynivo Server section visibility can be
+  toggled from Settings → Appearance. API keys are stored in `settings.json`
+  (the same policy as the embedded AI chat key).
+
+### Fixed
+
+- The Orynivo Server settings and remote directory browser dialogs now use
+  themed button and list-item templates for normal, hover, pressed, selected,
+  and disabled states, avoiding unreadable dark controls on dark backgrounds.
+- Server and local library scans now skip inaccessible subdirectories such as
+  Linux `lost+found` folders instead of aborting the complete scan with
+  `UnauthorizedAccessException`.
+- Orynivo Server stream URLs are no longer used as display titles in the
+  transport, Up Next view, play history, or media metadata. Remote server queue
+  entries now carry the track title, artist, album, duration, and format, and
+  authenticated `?key=` stream URLs are not persisted in the playback queue.
+- Settings now uses title-case labels for Plex and Orynivo Server sections in
+  the server configuration area, while sidebar and visibility-toggle labels keep
+  their all-caps section headings.
+- The Orynivo Server directory browser now shows the current server path in a
+  read-only field, uses a `..` list entry for parent navigation, and widens the
+  add-directory action so its text is not clipped.
+- On Unix-like Orynivo Server hosts, the remote directory browser now opens `/`
+  directly instead of showing a Windows-style drive-root view.
+
+## [0.14.0] - 2026-06-26
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a Windows installer and portable ZIP built via GitHub Actions. Pushing a
+  version tag (e.g. `v0.14.0`) triggers the release workflow
+  (`.github/workflows/release.yml`), which publishes two self-contained packages
+  as a draft GitHub Release: `Orynivo-{version}-win-x64-Setup.exe` (installer
+  with Start Menu entry and uninstaller) and
+  `Orynivo-{version}-win-x64-Portable.zip` (extract anywhere and run). No .NET
+  installation is required on the target machine. Library data under
+  `%LOCALAPPDATA%\Orynivo\` is preserved on uninstall.
+
+## [0.13.0] - 2026-06-26
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- **Embedded AI Chat** — a new **AI Chat** sidebar view that sends
+  natural-language questions about the music library to any OpenAI-compatible
+  LLM endpoint (LM Studio, Ollama, OpenAI, Anthropic compatibility layer, or any
+  `/v1/chat/completions` provider). The model has access to all 19 Orynivo
+  player tools via function calling and executes them directly against the
+  player bridge and library database — no external MCP server required.
+  Responses stream token-by-token. Configuration (endpoint URL, optional API
+  key, model name, max tokens) lives under Settings > Integration > AI Chat.
+  (`AppSettings.AiChat`, `Orynivo/AI/AiChatSettings.cs`, `AiChatService.cs`,
+  `AiToolDefinitions.cs`, `AiToolExecutor.cs`, `AiChatView.axaml`)
+- Added `clear_queue` MCP/AI tool: empties the playback queue without stopping
+  the current track.
+- Added `replace_queue` MCP/AI tool: atomically replaces the entire playback
+  queue with a given list of tracks and starts playing from the first one. The
+  AI uses this automatically when the user asks to fill the queue with new
+  content, avoiding stale entries from a previous session. Per-tool
+  enable/disable checkboxes are available in Settings > Integration > MCP
+  Server.
+
+## [0.12.0] - 2026-06-26
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Internet Radio, Podcasts, and **Up Next** sidebar items can now be hidden
+  individually in Settings > Appearance, consistent with the existing
+  accordion-section toggles. (`AppSettings.ShowInternetRadioItem`,
+  `ShowPodcastsItem`, `ShowQueueItem`)
+- Added an embedded **MCP server** (Model Context Protocol) under Settings >
+  Integration. When enabled, the player starts an HTTP/SSE server on a
+  configurable local port (default 49200) that exposes 17 tools to any
+  MCP-compatible AI assistant (e.g. Claude Desktop): `get_now_playing`,
+  `get_queue`, `play`, `pause_resume`, `next_track`, `previous_track`, `stop`,
+  `seek`, `set_volume`, `queue_append`, `queue_play_next`, `search_library`,
+  `list_playlists`, `get_playlist_tracks`, `create_playlist`,
+  `create_smart_playlist`, and `get_play_history`. The server is started and
+  stopped immediately when Settings are saved; it only binds to `localhost`.
+  (`AppSettings.McpServerEnabled`, `AppSettings.McpServerPort`,
+  `Orynivo/Mcp/McpPlayerBridge.cs`, `McpTools.cs`, `McpServerService.cs`)
+- MCP tools can now be individually enabled or disabled under Settings >
+  Integration. Disabled tools respond with `"Tool is disabled."` so the AI
+  assistant knows the capability is unavailable; the active set is persisted in
+  `AppSettings.DisabledMcpTools`.
+
+### Fixed
+
+- Fixed numbered circle labels on the equalizer frequency-response graph being
+  near-black in light theme. The circles are always filled with the accent
+  color, so the label text is now always white regardless of theme.
+- Fixed the right-click context menu of text inputs (e.g. the MCP server port
+  field) showing a white Fluent-theme popup regardless of the active theme. The
+  global `ContextMenu` `ControlTheme` in `App.axaml` now provides a complete
+  `Template` that binds `Background`, `BorderBrush`, `BorderThickness`, and
+  `CornerRadius` to theme resources, so all context menus render with
+  `AppSurfaceBrush` and `AppInputBorderBrush` in both light and dark mode.
+
+## [0.11.0] - 2026-06-25
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added **EQ** and **Output** quick-pick buttons to the right side of the
+  transport bar (below the volume control). The EQ button opens a popup with an
+  equalizer-profile ComboBox, a ⚙ button that navigates to Settings > Equalizer,
+  and a themed enable/disable checkbox. The Output button opens a popup with an
+  output-profile ComboBox and a ⚙ button that navigates to Settings > Audio
+  Device. Both buttons use vector path icons, tooltips, and respect the active
+  light/dark theme. (`EqPickerButton`, `OutputPickerButton`, `EqPickerPopup`,
+  `OutputPickerPopup`, `PopupCheckBoxTheme`)
+- The output-profile dropdown in Settings now shows a compact summary line (e.g.
+  `WASAPI  ·  Realtek HD Audio`) beneath it when a profile is selected.
+- Increased the transport album artwork from 42 × 42 px to 58 × 58 px to better
+  fill the taller transport bar.
+- Added named **output profiles** to Settings. The output device section is
+  replaced by a dropdown listing saved profiles and three buttons: **Create
+  output** opens a dialog to pick a name, backend (WASAPI, Steinberg ASIO, or
+  cwASIO), and device, then saves and immediately selects the new profile;
+  **Configure output** re-opens the dialog for the selected profile; **Delete
+  output** removes it after confirmation. Both action buttons are disabled when
+  no profile is selected. An existing single-device configuration is
+  automatically migrated to a profile named "Standard" on first launch.
+  (`OutputProfile`, `OutputProfileDialog`, `AppSettings.OutputProfiles`,
+  `AppSettings.SelectedOutputProfileName`,
+  `SettingsStore.NormalizeOutputProfiles`)
+
+### Fixed
+
+- Switching the output profile via the transport quick-pick popup now resumes
+  playback at the exact position the track was at before the device change.
+  `StartPlaybackAsync` accepts an `initialPosition` parameter that seeks the new
+  player immediately after creation, before any UI updates or timer ticks.
+- Sanitized manual MusicBrainz cover-search queries to contain only letters,
+  numbers, and separating spaces, preventing punctuation such as hyphens from
+  interfering with album matches.
+- Fixed artist-filtered compilation albums hiding the full album header when
+  opened from an artist drill-down. The cover, album metadata, actions, and
+  **Show all album tracks** option now remain visible above the filtered tracks.
+  CD/directory headings are shown only when the current result contains multiple
+  physical groups; enabling the option shows every assigned disc and track,
+  while disabling it returns to the artist-filtered result.
+- Fixed selecting a track in a multi-disc album scrolling the complete grouped
+  album view upward before a double-click could complete. The outer album
+  scroller and nested disc tables no longer request ancestor bring-into-view
+  movement when row focus changes.
+- Removed redundant horizontal and vertical scrollbars from each nested
+  directory/disc track table. Every table now stretches to the album viewport
+  and expands to its complete header-plus-row height, leaving scrolling solely
+  to the outer album view.
+- Fixed Back navigation from album-track and artist drill-down views returning
+  to an unrelated position. Navigation history now preserves the selected row
+  and exact vertical offset for album and artist table/artwork modes, restores
+  paged artwork rows before applying the offset, and waits until layout has
+  completed so the normal rebind reset cannot overwrite the restored position.
+- Preserved the selected album and exact table/artwork scroll position after
+  assigning, replacing, or deleting a cover. Artist-list reloads after a rename
+  use the same restoration path, while manual artist-image replacement updates
+  the visible row in place without rebinding the list.
+- Fixed the cover-search confirmation button clipping the end of its localized
+  label. The button now sizes to its complete text while retaining a consistent
+  minimum size.
+- Fixed duplicate album copies appearing as one interleaved track list. Each
+  physical album directory now resolves to its own album entry, full cover
+  header, track list, and playback queue. The detail view retains a grouped
+  fallback for inconsistent legacy assignments and derives those headings from
+  the actual track metadata.
+- Changed normalized album identity from title-only to album title plus physical
+  album root. Equal titles stored in different album folders appear
+  independently, while compilations remain together. Conventional multi-disc
+  subfolders such as `CD1`, `CD 2`, `Disc 1`, and `Disk-2` now resolve to their
+  common parent album and are shown as separate disc groups inside one full
+  album detail view. Existing libraries migrate automatically.
+
+## [0.10.0] - 2026-06-22
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a persisted **Always convert DSD files to PCM** option. When enabled,
+  DSF and DFF playback uses the FFmpeg PCM path with ASIO/cwASIO as well as
+  WASAPI, allowing volume, ReplayGain, and the parametric equalizer to apply.
+  When disabled, ASIO/cwASIO retains native bit-perfect DSD playback.
+- Added a persisted parametric equalizer for ASIO/cwASIO PCM, exclusive WASAPI
+  PCM, and WASAPI DSD-to-PCM playback. Settings can import Equalizer APO and
+  AutoEQ profiles containing preamp, peak, low/high shelf, low/high pass, and
+  `GraphicEQ` definitions. Profile changes crossfade without clicks, seeks reset
+  filter history, and native ASIO DSD remains bit-perfect.
+- Added a graphical parametric-EQ editor with a live combined frequency
+  response, editable preamp, and a dynamic filter list. Peak, shelf, and
+  low/high-pass entries can be added, removed, or adjusted while playback
+  previews changes through the existing debounced DSP update path.
+- Moved the complete settings experience into the main window. Output, library,
+  streaming, appearance, artist-information, and equalizer settings now share
+  the main content area instead of opening a separate window.
+- Added multiple named equalizer profiles with one selected profile at a time.
+  Settings provides an empty-capable profile dropdown, a themed name dialog,
+  per-profile import and editing, and confirmed deletion. Existing single-EQ
+  settings migrate automatically into the profile list.
+
+### Fixed
+
+- Enabled the A–Z index in the Plex folder view. Available letters now come from
+  the currently displayed top-level directories, jump directly to the first
+  matching root folder, and follow manual tree scrolling.
+- Fixed double-clicking a Plex folder name expanding only its lazy placeholder.
+  The second pointer press is now intercepted before Avalonia's internal
+  TreeView gesture can expose the placeholder; it uses the same asynchronous
+  child-loading path as the chevron and then toggles the populated folder.
+- Fixed Plex tracks composed of multiple media parts advancing to the next queue
+  item after only the first part. Orynivo now preserves all ordered Plex part
+  URLs and decodes them as one logical gapless track with the authoritative Plex
+  duration.
+- Fixed Plex playback advancing when FFmpeg reports an unexpected end of the
+  HTTP stream before the duration supplied by Plex. PCM playback now reopens the
+  same logical track at its last decoded position with bounded retries.
+- Improved the embedded equalizer editor layout with a wider preamp input,
+  consistently full-width filter-type selectors, and equally wide adjacent
+  frequency, gain, and Q fields sized to keep their numeric values readable.
+- Added numbered dashed frequency markers to the graphical equalizer response.
+  Each marker matches the corresponding dynamic filter-row number, with
+  staggered labels when nearby frequencies would otherwise overlap.
+- Added a logarithmic frequency scale below the equalizer response from 20 Hz
+  through 20 kHz.
+- Equalizer marker numbers now remain aligned along the bottom of the graph.
+  Markers at identical or nearby frequencies move sideways with a short leader
+  instead of jumping upward into the response curve.
+- Moved the numbered equalizer marker bubbles below the frequency scale. Their
+  dashed lines continue through the scale at the exact selected frequency, so
+  the relationship between each row and its frequency remains unambiguous.
+- Fixed the application becoming unresponsive after saving an imported Equalizer
+  APO/AutoEQ profile during active playback. UI updates no longer wait for the
+  audio thread's DSP work; profile changes and seek resets are handed to that
+  thread atomically. Profile file parsing also runs off the UI thread with
+  visible progress and bounded file/filter counts.
+- Equalizer enable/disable now previews immediately during playback without
+  closing Settings; cancel restores the previous profile state. Saving an EQ
+  change no longer reopens the unchanged WASAPI endpoint. Actual backend or
+  device changes stop and dispose the old player off the UI thread, while
+  endpoint synchronization and ASIO/WASAPI device enumeration also run in the
+  background to prevent driver calls from freezing the application.
+- Fixed another live-EQ AppHang caused by competing settings activity. EQ
+  preview requests are now debounced and executed entirely away from the UI
+  event handler. Initial output-device enumeration no longer starts twice, and
+  later backend enumeration requests are serialized so native driver discovery
+  cannot overlap within the settings view.
+- Fixed leaked WASAPI endpoint COM objects during device enumeration and device
+  opening. Repeatedly opening Settings no longer accumulates undisposed
+  `MMDevice` and `MMDeviceEnumerator` instances while playback is active.
+- Saving an EQ-only settings change no longer performs unrelated synchronous
+  work on the UI thread. Settings persistence and credential protection run in
+  the background, while theme, language, sidebar, artist-provider, ReplayGain,
+  Plex navigation, and output-device refreshes execute only when their
+  corresponding values actually changed.
+- High-resolution PCM and WASAPI-converted DSD now fall back to the highest
+  sample rate and output precision supported by the selected device instead of
+  failing when the source rate or bit depth exceeds the endpoint capability. The
+  transport shows both source and converted PCM rates when they differ.
+
+## [0.9.0] - 2026-06-21
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added CUE-sheet support for large FLAC/WAV images. Library scans expose CUE
+  entries as independently searchable virtual tracks with their own metadata,
+  queue identity, playback-history records, and persisted queue positions. ASIO
+  PCM and exclusive WASAPI playback seek into the shared source file and stop at
+  each track's CUE boundary without creating split files.
+
+### Fixed
+
+## [0.8.0] - 2026-06-21
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Added a localized, editable **Up next** view backed by the active playback
+  queue. Tracks, albums, folders, search results, playlist entries, and Plex
+  tracks can be played next or appended through themed context flyouts. Queue
+  entries can be removed or moved up/down, the full queue can be saved as a
+  regular playlist, and safe queue entries plus the current index persist across
+  restarts. Credential-bearing Plex URLs are never stored.
+- Added Windows System Media Transport Controls integration. Global media keys
+  now control Orynivo's existing transport and queue, while Windows receives
+  playback state, seekable timeline data, title, artist, album, and artwork for
+  the media overlay and lock screen. Metadata follows gapless transitions,
+  podcasts, Plex tracks, and live internet-radio title changes.
+- Added a themed **Save as playlist** action to the album-detail header. It can
+  append every currently displayed album track to an existing playlist or create
+  a new playlist, respecting the current album-track scope. The album card now
+  spans the available content width, with the favorite action directly before
+  the album title and the cover/playlist actions aligned side by side.
+
+### Fixed
+
+- Preserved manual artist renames across watcher updates and later library
+  scans. The original tag name is stored as exactly one alias entry in
+  `artist_aliases`, and rescanned tracks continue using the canonical database
+  display name instead of recreating the old artist. Merges also record the
+  pre-merge names of both artists as aliases without adding a redundant entry
+  for the new canonical name.
+- Fixed A-Z navigation in virtualized artist and album artwork views after
+  reopening or rebinding the view. Alphabet jumps now load through the target,
+  wait for wrap-panel layout, and then scroll reliably; stale offsets are reset.
+- Fixed artist rename and merge from the artist-information view by separating
+  modal dialogs from database connection lifetime and running the final
+  transaction without holding a UI-thread connection open.
+- Fixed the **Rename** button in the artist-name dialog not confirming pointer
+  clicks. Enter and the primary button now use the same confirmation path. Both
+  dialog buttons use centered text and explicit theme-aware hover and pressed
+  colors instead of the default black Fluent hover surface.
+- Artist renames now update the information-screen title and active artist state
+  immediately after the SQLite transaction. The potentially lengthy full Lucene
+  rebuild runs afterward in the background instead of making the rename appear
+  to have no effect.
+- Moved artist-name collision lookup off the UI thread and combined it with a
+  collision-free rename in one database session. Large libraries no longer stall
+  between closing the dialog and starting the transaction, and the committed
+  name is verified before refreshing the artist view.
+- Moved the verified SQLite rename/merge operation into the artist-name dialog's
+  confirmation lifecycle. **Rename** and Enter now keep the dialog open while
+  committing on a background thread, close only after success, and display a
+  localized error in place when persistence fails. Merge failures are now caught
+  and displayed instead of propagating as unhandled exceptions.
+- Restored the theme-aware currently-playing highlight for track nodes in the
+  local folder view. Tree highlighting now resolves local `FolderTag` paths as
+  well as Plex folder-track paths, and remains visible when the playing node is
+  also the currently selected tree item. Local track nodes are indexed by
+  absolute path so previous/next and gapless transitions update the exact
+  following entry independently of TreeView realization. Local file entries now
+  use a dedicated visible header surface because Avalonia's Fluent tree template
+  did not consistently render their container background.
+- Restored the playlist context actions for track tables, search results, album
+  rows, and folder-tree entries. Dynamically generated actions now open as
+  themed pointer-positioned flyouts, including existing playlists, new playlist
+  creation, and removal from the active regular playlist. Rows and folder nodes
+  now carry and directly open their own `ContextFlyout` instances using the same
+  tunnel-phase pattern as the working sidebar actions.
+
+## [0.7.2] - 2026-06-21
+
+### Fixed
+
+- Fixed the application failing during startup because the lyrics `ControlTheme`
+  contained a descendant selector that Avalonia rejects only at runtime.
+  Active-line typography now binds to direct selected-item properties.
+- Fixed synchronized-lyrics highlighting being lost again after the shared
+  dialog list-theme changes. Active-line typography is now driven directly by
+  the programmatically selected lyrics item instead of a nested bound class in
+  the data template.
+- Restored synchronized-lyrics highlighting by keeping the active LRC line
+  selected in the non-interactive lyrics list in addition to its active data
+  state. The manual LRCLIB result list now has a dedicated plain theme instead
+  of header-card styling, with explicit readable selected text colors in light
+  and dark themes.
+- Fixed the custom LRCLIB result-item template bypassing its `DataTemplate` and
+  displaying the complete lyrics record in the left result list. The template
+  now forwards the configured content template so entries again show title,
+  artist, duration, album, and synchronization status.
+- Removed black selected text from the artist-image search and audited all
+  Avalonia views for the same fallback-color issue. Artist-image, cover, and
+  lyrics result lists now share a theme-aware item container, while every window
+  receives the primary theme text color as a global fallback.
+
+## [0.7.1] - 2026-06-21
+
+### Fixed
+
+- Added the theme-aware now-playing highlight to tracks in the Plex folder tree.
+  It follows normal and gapless playback transitions, clears on stop, and
+  remains correct for collapsed or newly lazy-loaded branches.
+- Fixed Plex Artists, Albums, Tracks, and Folders mode buttons starting loads
+  for both checked and unchecked radio-button events. Mode requests now use
+  stable server, library, token, and view snapshots and discard stale
+  asynchronous responses before they can display another mode's rows or columns.
+- Fixed Plex folder nodes expanding into blank rows. Using `TreeViewItem`
+  controls through `ItemsSource` caused Avalonia to create incorrect nested
+  containers, while expanding before asynchronous loading exposed the empty
+  placeholder. The expand action now waits until real children exist, folder
+  classification uses Plex's folder marker, keyboard expansion follows the same
+  guarded path, and failures remain retryable.
+
+## [0.7.0] - 2026-06-21
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Expanded smart playlists with a dedicated localized editor for year, artist,
+  album, duration, recently added or played windows, never-played tracks,
+  minimum/maximum play counts, random or playback-recency ordering, and result
+  limits. Creating a smart playlist remains the compact active-filter workflow;
+  the advanced editor is available by right-clicking an existing smart playlist
+  in the sidebar. Existing smart-playlist JSON stays compatible.
+- Added automatic recursive library monitoring with one `FileSystemWatcher` per
+  available configured root. Create, change, rename, and delete events are
+  debounced before updating SQLite and Lucene, while a full reconciliation runs
+  after 10 minutes and every 30 minutes as protection against missed or
+  overflowed watcher events.
+- Manual scans, watcher batches, and periodic reconciliation now share a single
+  scanner gate. Full scans also remove missing tracks from SQLite, not only
+  Lucene, and scan results report the removed-file count.
+- Added drag-and-drop reordering for data columns. Column order is persisted
+  independently per table and dynamic main-content view, while fixed artwork and
+  action columns retain their structural positions.
+- Added a localized, context-sensitive column chooser opened by right-clicking
+  table headers. Local track tables can show additional tag, file, technical,
+  date, and ReplayGain metadata; radio and podcast tables expose only relevant
+  catalog fields. Selections persist per table/view, while artwork/action
+  columns remain fixed and at least one data column stays visible. Active
+  columns have an explicit check mark and selected-row background in the menu.
+- Added user-resizable columns to all application tables. Widths are persisted
+  per table and main-content view in `settings.json`, captured before dynamic
+  column sets are replaced, and restored on the next application start.
+- Added optional ReplayGain volume adjustment for PCM playback with disabled,
+  track, and album modes. The preferred value falls back to the other available
+  ReplayGain tag, gain is combined with the user volume using saturating sample
+  conversion, and native ASIO DSD output remains bit-perfect.
+- Library scans now import track and album ReplayGain metadata. Each configured
+  library root receives a one-time refresh of unchanged tracks on its first scan
+  after this update.
+- Added UTF-8 M3U8 import and export for regular playlists. Relative paths are
+  resolved against the playlist file and written relatively where possible;
+  missing local files and HTTP/HTTPS entries are retained, while URLs carrying
+  user-info credentials or Plex tokens are skipped. Smart playlists remain live
+  and are not exported as static M3U8 files.
+- Added gapless playback for sequential PCM queues through ASIO, cwASIO, and
+  exclusive WASAPI. The next FFmpeg decoder is started and prefetched while the
+  current track is playing, then continues through the existing device session.
+  Transport metadata, ReplayGain, and playback history follow the audible
+  buffered-frame boundary. Shuffle and native ASIO DSD retain title-by-title
+  playback.
+- Added a themed favorite button to the album detail header shown above an
+  album's track list. Its heart state updates immediately and persists the album
+  favorite without leaving the detail view.
+- Matched the album detail header to the shared radio, podcast, and library card
+  design with the accent-colored border and asymmetric rounded corners.
+
+### Fixed
+
+- Added a theme-aware background highlight for the currently audible item in
+  track, search, radio, and podcast-episode tables. The highlight follows
+  gapless transitions, clears when playback stops, survives navigation back to a
+  list, and does not override the stronger selected-row background.
+- Restored seek-slider dragging and track-position clicks during multi-track
+  gapless PCM playback. Seeking now clears buffered output, restarts the current
+  decoder at the selected position, and prepares the following track again.
+  User-volume changes are applied at the live ASIO/WASAPI output stage instead
+  of being delayed by already prefetched PCM samples.
+- Synchronized the WASAPI transport volume bidirectionally with the selected
+  Windows output device. Changes made through Windows now update the displayed
+  slider and percentage. The custom position-slider thumb also uses an explicit
+  two-way value binding and handled pointer-release routing, restoring dragging
+  as well as direct track clicks.
+- Fixed the position slider jumping backwards after seeking when the current
+  track reached its buffered end during gapless playback. Seek offsets are now
+  tracked independently per queued title and remain active until that title is
+  no longer audible.
+- Restored sidebar context menus for personal radio stations, pinned podcasts,
+  regular playlists, and smart playlists. Dynamic entries now use Avalonia
+  `MenuFlyout` instances opened at the pointer position. Right-button presses
+  are intercepted before the `ListBox` selection logic, while accordion and
+  repeated-item navigation handlers explicitly ignore non-left mouse buttons.
+  Flyout surfaces, borders, text, hover, pressed, and separator colors follow
+  the active Orynivo theme.
+- Unified the table-header column chooser with the same themed `MenuFlyout`
+  presentation. It remains open while multiple columns are toggled and still
+  prevents hiding the final selectable column. Explicit menu entries now share
+  the same theme-aware text colors in sidebar and table-header flyouts.
+
+## [0.6.0] - 2026-06-19
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Licensed Orynivo's original source code and documentation under Apache License
+  2.0, with repository and release copies of `LICENSE`, `NOTICE`, third-party
+  notices, and applicable license texts.
+- Expanded the About dialog with the Orynivo license, copyright, trademark
+  scope, FFmpeg, Steinberg ASIO, and third-party licensing information.
+- Added real-time DSF/DFF-to-PCM playback through exclusive-mode WASAPI. The
+  conversion uses FFmpeg without temporary files, prefers PCM rates in the 44.1
+  kHz family, and falls back to common 48 kHz-family rates supported by the
+  selected endpoint.
+- Added localized transport and status-bar indicators in German, English,
+  French, and Spanish when DSD is being converted to PCM, including the active
+  PCM output sample rate.
+
+### Fixed
+
+- Fixed the table-header column chooser not opening on right-click and then
+  crashing because Avalonia 11.2 retained internal ownership for dynamically
+  attached `ContextMenu` instances. The chooser no longer calls the
+  `ContextMenu` API.
+- Corrected themed scrollbar behavior so arrow buttons move one row and clicks
+  above or below the thumb move by one visible table page with one-row overlap.
+  Track-table A-Z highlighting now follows the top visible row during manual
+  scrolling, and alphabet jumps use the same trimmed sort-title ordering as the
+  database.
+- Trimmed leading and trailing whitespace from track titles and sort titles
+  during scans, database upserts, migration of existing libraries, display, and
+  Lucene indexing. The search-index schema is advanced so existing indexes
+  rebuild with normalized title values.
+- Fixed search and other text inputs switching to a white focused background
+  while retaining white text in the dark theme. Normal, hover, focused,
+  placeholder, and border colors now follow Orynivo's active light or dark input
+  palette.
+
+## [0.5.0] - 2026-06-17
+
+### Changed
+
+- Migrated the entire frontend from WPF to Avalonia UI 11.2 for cross-platform
+  compatibility. The target framework remains `net8.0-windows` to preserve
+  Windows-only features (ASIO, DPAPI). All XAML files are now AXAML; styles use
+  `ControlTheme` with pseudo-class selectors instead of WPF `ControlTemplate`
+  triggers; `FuncDataTemplate<T>` replaces `FrameworkElementFactory`; and
+  thumbnail generation in `ArtworkCache` is rewritten with SkiaSharp. New NuGet
+  packages: `Avalonia.Fonts.Inter`, `SkiaSharp`.
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Automatic FFmpeg download: when `ffmpeg.exe` and `ffprobe.exe` are not found
+  in the application directory or the system PATH, Orynivo downloads the BtbN
+  LGPL-essential Windows build from GitHub Releases on first start, extracts the
+  binaries next to the application executable, and makes them available for the
+  current process session. A localised progress indicator is shown in the
+  startup screen. If the download fails, a warning dialog is displayed and the
+  application starts without audio playback capability.
+
+### Fixed
+
+- Restored visible text in Avalonia table/list navigation and restored vector
+  glyph rendering in themed buttons after the Avalonia UI 11.2 migration.
+- Fixed Avalonia transport controls after the migration: the play/pause glyph is
+  centered, transport sliders show their track background again, sidebar
+  accordion headers toggle reliably, and album/artist artwork tiles lazy-load
+  visible images without eagerly decoding every card.
+- Moved album and artist artwork tile bitmap decoding off the UI thread, reduced
+  tile title text sizes, and enlarged the table/artwork view switcher.
+- Reduced album and artist artwork view stalls by binding artwork cards in
+  incremental pages and loading only the visible page's images.
+- Increased the transport play/pause glyph to 20 px and reduced default button
+  and dropdown text sizes for better visual consistency.
+- Fixed track-filter popup rows so facet counts stay visible in a fixed right
+  column and checkbox changes apply the selected state only once.
+- Rebalanced the Tracks table layout with calmer row/header sizing, proportional
+  title/artist/album columns, and spacing between the table and A-Z index.
+- Harmonized DataGrid cell font sizes so link/button columns match regular text
+  columns.
+- Restored the global header search box in regular library views after its
+  Avalonia visibility condition was inverted.
+- Restored the folder-structure view by eagerly populating root nodes and
+  falling back to detected library roots when configured roots do not match the
+  scanned track paths exactly.
+- Removed the WPF-style placeholder row from folder nodes so expanding a folder
+  shows its actual child folders and tracks under Avalonia.
+- The folder-structure expand/collapse glyphs now use themed text and accent
+  colors instead of the default dark template paths, including non-template
+  ToggleButton glyph paths.
+- The folder-structure chevrons now also override Avalonia Fluent's
+  `TreeViewItemForeground` resources, which are used directly by the default
+  chevron path.
+- Increased the Tracks table column-header row height so the first visible row
+  no longer looks cramped against the header.
+- Fixed clipping in the Tracks favorite column by giving the favorite button
+  fixed centered icon bounds.
+- Fixed transport and volume slider thumbs staying centered by binding the
+  custom slider template track to the slider minimum, maximum, value, and
+  orientation.
+- Centered the missing-cover text and search button inside album artwork cards.
+- Increased album artwork card height and tightened the favorite button bounds
+  so the favorite glyph stays inside the card.
+- Matched the Internet Radio and Podcast discovery cards with the accented
+  podcast detail border and aligned their top spacing.
+- Added a shared accent-bordered intro card below the plain main header so
+  Dashboard, Artists, Albums, Tracks, and Folder structure match the Radio and
+  Podcast view style without moving search/filter controls into the card.
+- Kept the library intro card compact and aligned the A-Z index with the content
+  area instead of the intro card.
+- Added a session-wide navigation history so the main header Back button returns
+  through sidebar navigation, search results, album tracks, artist drill-downs,
+  dashboard links, playlists, podcasts, radio, folder, and Plex library views.
+- Kept the global Back button hidden on the initial view and restyled it as a
+  subtle light-blue left chevron.
+- Top-aligned the main header title and global Back chevron so taller controls
+  on the right no longer shift headings vertically between views.
+- Added Favorites-only header toggles for Artists and Albums that apply to both
+  table and artwork-card modes.
+- The Artists/Albums Favorites-only checkbox now uses the dark header theme with
+  a visible light-blue outline and stable hover text color.
+- Artwork card views now keep sparse artist and album card sets aligned from the
+  top-left instead of centering them vertically.
+- Transport-bar buttons now use dynamic light/dark theme resources instead of
+  fixed dark colors, including hover and disabled states.
+- Fixed the daily-history dialog close button typography/alignment and render
+  non-actionable history title, artist, and album cells as plain text instead of
+  disabled link buttons.
+- Reduced Settings appearance checkbox label typography to match the rest of the
+  settings dialog.
+- Expanded the Settings output-device dropdowns to use the available dialog
+  width.
+- Fixed a crash when opening a dashboard calendar day's listening history under
+  Avalonia UI 11.2 by removing an invalid zero row-header width from the dialog
+  DataGrid.
+- Fixed dark-theme text colors in the dashboard daily-history dialog table and
+  link buttons.
+- Removed nullable and Avalonia runtime-loader build warnings from the migrated
+  Avalonia UI dialogs and main-window search/navigation code.
+- Fixed a race condition in the DFF and DSF audio players where `SeekAsync`
+  could write to `FileStream.Position` while `PumpAsync` was concurrently
+  reading from the same stream, causing corrupted reads or exceptions. A
+  `SemaphoreSlim` now serialises file seeks and reads, matching the guard
+  already used by the WASAPI and FFmpeg ASIO players.
+- Fixed a missing `volatile` modifier on the `_paused` field in the DFF, DSF,
+  and FFmpeg ASIO players, which could prevent pause/resume from taking effect
+  immediately due to CPU cache visibility.
+
+## [0.4.0] - 2026-06-15
+
+### Fixed
+
+- Plex folder playback now queues only the tracks on the selected file's
+  immediate folder level, continues with sibling entries, and respects shuffle
+  without recursively adding tracks from subfolders.
+- Prevented the application from freezing after saving or reopening Plex server
+  settings by removing synchronous waits on asynchronous credential file I/O.
+- Applied the active light or dark theme to the Plex server dialog title bar,
+  input fields, and all dialog buttons.
+- Standardized line spacing throughout the About dialog license list.
+- Fixed dark-theme text and check-mark styling for the sidebar visibility
+  options under **Settings > Appearance**.
+- Fixed native DSF playback from drives that return partial asynchronous reads
+  by preserving complete per-channel DSF blocks and stopping at the declared
+  data chunk boundary.
+- Fixed cwASIO playback with legacy Windows ASIO drivers that reject the
+  optional cwASIO instance-name extension, affecting both PCM and native DSD.
+- Podcast filters no longer require a podcast title before returning results.
+- Radio genres no longer show misleading counts produced by summing overlapping
+  normalized tags.
+- Radio genre filters no longer return only matches from the initial 100-station
+  result page.
+- Radio Browser tag queries now use compatible lowercase search values.
+- Cached podcast categories without Apple genre IDs are refreshed automatically.
+
+### Added
+
+- The visualizer compiles straight-line shader bodies instead of interpreting
+  them. `ShaderCompiler` turns a shader with local declarations and a single
+  return into a delegate over a slot array, and both the compiled path and the
+  interpreter call the same `ShaderRuntime` operations, so `ShaderCompilerTests`
+  can prove they produce identical values. The renderer prefers the compiled
+  shader and seeds the frame-constant variables once per frame rather than per
+  pixel. Measured, the per-pixel shader cost fell from about 660 to about 242
+  nanoseconds. A comp shader also runs on a grid bounded to 40,000 pixels now
+  and is scaled back over the frame, which made its cost independent of the
+  render size: at 1280 x 720 the same pass fell from 232 ms to 43 ms. It is
+  still above the frame budget, so no shader runs at full resolution yet.
+  Arithmetic in a compiled shader now calls one runtime method per operator
+  instead of a delegate, and a swizzle has its components selected at compile
+  time; measured, that bought about ten percent, and the remaining work is
+  recorded in the roadmap under phase 39e.
+
+- Plex music-library browsing with switchable artist, album, track, and lazy
+  folder views, artist/album drill-down, paginated large result sets, and
+  playback through the existing audio path.
+- Audio-format columns in track search results and playlist/favorites-based
+  track lists.
+- Configurable multi-server Plex integration with Windows user-bound encrypted
+  access tokens and connection testing under **Settings > Streaming services**.
+- A hideable Plex sidebar accordion below podcasts that lists configured servers
+  and only their music libraries.
+- Podcast details through the transport info button during episode playback,
+  showing centered podcast artwork, episode metadata, and the RSS summary.
+- Accordion sections for local library, personal radios, pinned podcasts, and
+  playlists in the main sidebar, with per-section visibility options under
+  **Settings > Appearance**, independent expansion, and persisted open states.
+- MIT-licensed cwASIO output backend with PCM and native DSD support through the
+  existing bridge and playback paths.
+- Separate **Steinberg ASIO** and **cwASIO** choices in Settings; availability
+  follows the corresponding native bridge DLL.
+- cwASIO native builds and Release artifacts in GitHub Actions without requiring
+  the separately distributed Steinberg SDK.
+- Modal daily playback history opened from populated Dashboard calendar days,
+  including playback time, media type, title, artist, album, listened duration,
+  and total duration.
+- Daily-history links for playing local tracks and opening the corresponding
+  album or artist view.
+- Playback-history entries for podcast episodes and internet-radio sessions,
+  including media type, display metadata, external identifiers, duration, final
+  position, and completion state.
+- Podcast discovery through the regional Apple Podcasts catalog.
+- Persistent **My Podcasts** sidebar entries with removal through the context
+  menu.
+- Complete RSS/Atom episode lists sorted from newest to oldest.
+- Podcast episode playback through the existing PCM audio path.
+- Per-episode resume positions and **New**, **Started**, and **Played** states.
+- Automatic podcast progress persistence during playback and when playback
+  stops.
+- Podcast category and feed-language filters that work without a title query.
+- Cached radio-genre and podcast category/language catalogs under
+  `%LOCALAPPDATA%\Orynivo\catalog-filter-cache.json`.
+- Podcast detail cards with large artwork, feed description, categories,
+  language, latest publication date, and total/unheard/started statistics.
+- German, English, French, and Spanish localization for the podcast interface.
+
+### Changed
+
+- The About dialog now displays the Orynivo logo above the author and license
+  information.
+- Dashboard calendar and top-genre durations now use `HH:mm:ss`.
+- Dashboard calendar genres and Top 10 genre labels now open Tracks with the
+  clicked genre filter preselected.
+- Dashboard calendar listening time now includes local tracks, podcasts, and
+  internet radio while music genre statistics remain track-only.
+- Internet-radio genre selections now run server-side Radio Browser queries
+  instead of filtering only the first 100 loaded stations.
+- Multiple selected radio genres use OR semantics and can load up to 10,000
+  stations per selected genre.
+- Initial radio filters use the complete Radio Browser tag catalog.
+- Podcast categories use Apple's regional genre taxonomy and genre IDs.
+- Podcast language discovery uses regional top podcasts, pinned podcasts, and
+  subsequent search results.
+- Filter options use cached catalog data before a search and are recalculated
+  from the result set after a text search.
+- Podcast episode headers now use the same accent border style as the
+  internet-radio now-playing card.
+- The podcast episode Back button is hidden when the view was opened directly
+  from **My Podcasts**.
+
+## [0.3.0] - 2026-06-14
+
+- Baseline release before the podcast and catalog-filter additions documented
+  above.
