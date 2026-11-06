@@ -435,7 +435,7 @@ public partial class MainWindow : Window
         });
     }
 
-    /// <summary>Fades currently visible surfaces only while the optional view owner remains current.</summary>
+    /// <summary>Lifts currently visible surfaces only while the optional view owner remains current.</summary>
     /// <param name="canFade">Optional guard also checked by the deferred render callback.</param>
     private void FadeInVisibleContentSurface(Func<bool>? canFade = null)
     {
@@ -449,18 +449,10 @@ public partial class MainWindow : Window
                 surface.RenderTransform = null;
                 continue;
             }
-            surface.Transitions = animate
-                ? new Transitions
-                {
-                    new DoubleTransition
-                    {
-                        Property = OpacityProperty,
-                        Duration = TimeSpan.FromMilliseconds(160),
-                        Easing = new CubicEaseOut()
-                    }
-                }
-                : null;
-            surface.Opacity = animate ? 0 : 1;
+            // The loading overlay already fades the old view out. Resetting the
+            // surface opacity here would fade the new view twice and produce a
+            // visible blink, so only the short lift animates.
+            surface.Opacity = 1;
             surface.RenderTransform = animate ? CreateSurfaceSlideTransform() : null;
         }
 
@@ -482,21 +474,13 @@ public partial class MainWindow : Window
     {
         if (!MotionPreferences.ShouldAnimate(_settings.ReduceMotion))
         {
-            ContentTitleTextBlock.Transitions = null;
             ContentTitleTextBlock.Opacity = 1;
             ContentTitleTextBlock.RenderTransform = null;
             return;
         }
-        ContentTitleTextBlock.Transitions = new Transitions
-        {
-            new DoubleTransition
-            {
-                Property = OpacityProperty,
-                Duration = TimeSpan.FromMilliseconds(160),
-                Easing = new CubicEaseOut()
-            }
-        };
-        ContentTitleTextBlock.Opacity = 0;
+        // Keep the title opaque and slide it; fading an already-visible title
+        // from zero would blink for one frame.
+        ContentTitleTextBlock.Opacity = 1;
         var transform = new TranslateTransform(0, -4);
         transform.Transitions = new Transitions
         {

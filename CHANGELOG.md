@@ -68,6 +68,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- View and Settings transitions no longer blink or leave a blank frame. The
+  loading overlay provides the view fade while the content and header only
+  lift, and Settings sections start slightly dimmed instead of fully
+  transparent while they slide into place.
 - Switching tracks no longer emits a brief full-volume burst. New players now
   start silent and receive the prepared volume (or the crossfade's zero) before
   their first audible buffers; bit-perfect DSD players mute the hardware mixer

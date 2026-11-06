@@ -1490,7 +1490,7 @@ internal partial class SettingsView : UserControl
             _ = LoadMetadataProblemsAsync();
     }
 
-    /// <summary>Fades and lifts the newly visible settings section into place.</summary>
+    /// <summary>Lifts the newly visible settings section into place.</summary>
     /// <param name="section">Section panel selected by the settings navigation.</param>
     private void AnimateSettingsSection(Control? section)
     {
@@ -1503,16 +1503,19 @@ internal partial class SettingsView : UserControl
             section.RenderTransform = null;
             return;
         }
+        // The old section is hidden in the same dispatcher turn. Start the new
+        // section slightly dimmed rather than fully transparent, so it never
+        // leaves a blank frame while it slides into place.
         section.Transitions = new Transitions
         {
             new DoubleTransition
             {
                 Property = OpacityProperty,
-                Duration = TimeSpan.FromMilliseconds(160),
+                Duration = TimeSpan.FromMilliseconds(120),
                 Easing = new CubicEaseOut()
             }
         };
-        section.Opacity = 0;
+        section.Opacity = 0.85;
         var transform = new TranslateTransform(0, 6);
         transform.Transitions = new Transitions
         {

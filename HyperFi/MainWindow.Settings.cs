@@ -373,7 +373,7 @@ public partial class MainWindow : Window
         AnimateSettingsHostIn();
     }
 
-    /// <summary>Fades and lifts the embedded settings host into place.</summary>
+    /// <summary>Lifts the embedded settings host into place.</summary>
     private void AnimateSettingsHostIn()
     {
         if (!MotionPreferences.ShouldAnimate(_settings.ReduceMotion))
@@ -383,16 +383,18 @@ public partial class MainWindow : Window
             SettingsViewHost.RenderTransform = null;
             return;
         }
+        // Start the host slightly dimmed rather than fully transparent so it
+        // never leaves a blank frame while it lifts into place.
         SettingsViewHost.Transitions = new Transitions
         {
             new DoubleTransition
             {
                 Property = OpacityProperty,
-                Duration = TimeSpan.FromMilliseconds(180),
+                Duration = TimeSpan.FromMilliseconds(140),
                 Easing = new CubicEaseOut()
             }
         };
-        SettingsViewHost.Opacity = 0;
+        SettingsViewHost.Opacity = 0.9;
         var transform = new TranslateTransform(0, 10);
         transform.Transitions = new Transitions
         {
