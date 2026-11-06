@@ -237,8 +237,10 @@ The desktop project selects its target from the build host:
 - Windows builds target `net10.0-windows10.0.19041.0` and include the existing
   WASAPI/ASIO integrations.
 - Linux builds target `net10.0`; PCM audio is rendered through direct ALSA or
-  OpenAL. The Windows endpoint-volume integration is replaced by a compatibility
-  service, and system-media integration is provided by MPRIS 2
+  OpenAL. While a direct ALSA profile is selected, the compatibility
+  endpoint-volume service mirrors the PipeWire/PulseAudio default sink volume
+  through `pactl`, so desktop volume keys and mute changes drive HyperFi's
+  software gain. System-media integration is provided by MPRIS 2
   (`org.mpris.MediaPlayer2.hyperfi`) for desktop media keys and panels.
 - macOS builds target `net10.0`; PCM audio is rendered through Apple's system
   OpenAL framework. Windows audio, endpoint-volume, and SMTC integrations are
