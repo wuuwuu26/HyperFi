@@ -782,7 +782,7 @@ public partial class MainWindow : Window
     {
         ShuffleButton.Classes.Set("shuffleActive", _shuffleEnabled);
         ShuffleButton.Background = _shuffleEnabled
-            ? FindResource<IBrush>("AppSelectionTealBrush")
+            ? FindResource<IBrush>("AppSelectionHighlightBrush")
             : FindResource<IBrush>("AppTransportButtonBrush");
         ShuffleButton.Foreground = _shuffleEnabled
             ? Brushes.White

@@ -23,7 +23,7 @@
             <x:Double x:Key="DataGridSortIconMinWidth">0</x:Double>
             <!-- ── Theme brushes (overwritten at runtime by ThemeManager) ── -->
             <SolidColorBrush x:Key="AppAccentBrush"              Color="#E8C46A"/>
-            <SolidColorBrush x:Key="AppSelectionTealBrush"        Color="#1FA7A0"/>
+            <SolidColorBrush x:Key="AppSelectionHighlightBrush"   Color="#1A2845"/>
             <LinearGradientBrush x:Key="LyricsHifiPanelBrush"
                                  StartPoint="0%,0%"
                                  EndPoint="100%,100%">
@@ -31,17 +31,17 @@
                 <GradientStop Color="#080706" Offset="0.58"/>
                 <GradientStop Color="#12100C" Offset="1"/>
             </LinearGradientBrush>
-            <Color x:Key="SystemAccentColor">#1FA7A0</Color>
-            <Color x:Key="SystemAccentColorLight1">#3CBDB5</Color>
-            <Color x:Key="SystemAccentColorLight2">#6FD3CC</Color>
-            <Color x:Key="SystemAccentColorLight3">#A2E8E3</Color>
-            <Color x:Key="SystemAccentColorDark1">#178A84</Color>
-            <Color x:Key="SystemAccentColorDark2">#116E69</Color>
-            <Color x:Key="SystemAccentColorDark3">#0B534F</Color>
-            <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="#1FA7A0"/>
-            <SolidColorBrush x:Key="SystemControlHighlightListAccentLowBrush" Color="#1FA7A0"/>
-            <SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush" Color="#1FA7A0"/>
-            <SolidColorBrush x:Key="SystemControlHighlightListAccentHighBrush" Color="#1FA7A0"/>
+            <Color x:Key="SystemAccentColor">#1A2845</Color>
+            <Color x:Key="SystemAccentColorLight1">#2A3E63</Color>
+            <Color x:Key="SystemAccentColorLight2">#3F5680</Color>
+            <Color x:Key="SystemAccentColorLight3">#5A7099</Color>
+            <Color x:Key="SystemAccentColorDark1">#131E33</Color>
+            <Color x:Key="SystemAccentColorDark2">#0D1526</Color>
+            <Color x:Key="SystemAccentColorDark3">#080D18</Color>
+            <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="#1A2845"/>
+            <SolidColorBrush x:Key="SystemControlHighlightListAccentLowBrush" Color="#1A2845"/>
+            <SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush" Color="#1A2845"/>
+            <SolidColorBrush x:Key="SystemControlHighlightListAccentHighBrush" Color="#1A2845"/>
             <SolidColorBrush x:Key="AppFavoriteBrush"            Color="#FF5D7A"/>
             <SolidColorBrush x:Key="AppAccentTextBrush"          Color="#1A1408"/>
             <SolidColorBrush x:Key="AppAccentSoftBrush"          Color="#3A2E14"/>
