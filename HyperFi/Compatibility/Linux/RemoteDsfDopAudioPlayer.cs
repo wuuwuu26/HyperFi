@@ -34,7 +34,7 @@ public sealed class RemoteDsfDopAudioPlayer : IAudioPlayer
     private long _position;
     private long _seekGeneration;
     private volatile bool _paused;
-    private float _volume = 1.0f;
+    private float _volume = 0.0f;
     private bool _disposed;
 
     private RemoteDsfDopAudioPlayer(
@@ -88,7 +88,7 @@ public sealed class RemoteDsfDopAudioPlayer : IAudioPlayer
                 cancellationToken).ConfigureAwait(false);
             var header = ReadHeader(headerBytes);
             var alsaDevice = deviceId["alsa:".Length..];
-            AlsaHardwareVolume.EnsureUnity(deviceId);
+            AlsaHardwareVolume.SetVolume(deviceId, 0.0f);
             var usesNativeDsd = true;
             try
             {

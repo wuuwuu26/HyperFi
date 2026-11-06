@@ -68,6 +68,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- Switching tracks no longer emits a brief full-volume burst. New players now
+  start silent and receive the prepared volume (or the crossfade's zero) before
+  their first audible buffers; bit-perfect DSD players mute the hardware mixer
+  at creation and apply the slider through it.
 - The Windows-only `WasapiSampleRateSelectionTests` file is excluded from
   non-Windows test builds, so `dotnet test HyperFi.Tests` works on Linux and
   macOS without moving the file aside.

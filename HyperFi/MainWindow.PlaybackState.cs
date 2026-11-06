@@ -601,14 +601,22 @@ public partial class MainWindow : Window
             RefreshQueueNavigationButtons();
 
             var nextPath = _queue[_queueIndex].FilePath;
-            var ready = StartReadyPlaybackAsync(nextPath, onPrepared: player => player.Volume = 0f);
-            var incomingIntent = _playbackStarts.Current;
-            var incoming = await ready;
-            if (incoming is null || !_playbackStarts.IsCurrent(incomingIntent) ||
-                !ReferenceEquals(_player, incoming))
-                return;
-            var targetVolume = GetNormalPlayerVolume();
-            await FadePlayerVolumeAsync(incoming, 0f, targetVolume, fade);
+            PendingPlayerInitialVolume.Value = 0f;
+            try
+            {
+                var ready = StartReadyPlaybackAsync(nextPath, onPrepared: player => player.Volume = 0f);
+                var incomingIntent = _playbackStarts.Current;
+                var incoming = await ready;
+                if (incoming is null || !_playbackStarts.IsCurrent(incomingIntent) ||
+                    !ReferenceEquals(_player, incoming))
+                    return;
+                var targetVolume = GetNormalPlayerVolume();
+                await FadePlayerVolumeAsync(incoming, 0f, targetVolume, fade);
+            }
+            finally
+            {
+                PendingPlayerInitialVolume.Value = null;
+            }
         }
         catch (OperationCanceledException)
         {

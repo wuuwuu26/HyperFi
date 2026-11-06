@@ -601,6 +601,13 @@ public partial class MainWindow : Window
     private Task<IAudioPlayer?>? _playbackPreparationReady;
     private long _playbackPreparationIntent;
 
+    /// <summary>
+    /// Optional starting volume for the next prepared player in this async flow.
+    /// The non-gapless crossfade sets zero so a new player cannot emit its first
+    /// buffers at full volume before the incoming fade begins.
+    /// </summary>
+    private static readonly AsyncLocal<float?> PendingPlayerInitialVolume = new();
+
     /// <summary>Prepares seek and queue snapshot before one readiness/history publication.</summary>
     /// <param name="intent">Owning playback intent.</param>
     /// <param name="filePath">Resolved current track.</param>
@@ -645,10 +652,11 @@ public partial class MainWindow : Window
             if (!_playbackStarts.IsCurrent(intent) || !ReferenceEquals(_player, player))
                 return null;
             UpdateNowPlayingRowHighlights();
-            _player.Volume = _settings.OutputBackend == OutputBackend.Wasapi &&
-                             _endpointVolumeSynchronizer is { AppliesToOutputPath: true }
+            var normalVolume = _settings.OutputBackend == OutputBackend.Wasapi &&
+                               _endpointVolumeSynchronizer is { AppliesToOutputPath: true }
                 ? 1.0f
                 : (float)VolumeSlider.Value;
+            _player.Volume = PendingPlayerInitialVolume.Value ?? normalVolume;
             _player.ReplayGainFactor = GetReplayGainFactor(filePath);
             _currentPlaybackDuration = player.Duration;
             if (initialPosition == TimeSpan.Zero &&

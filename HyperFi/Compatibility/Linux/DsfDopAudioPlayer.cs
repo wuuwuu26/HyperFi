@@ -30,7 +30,7 @@ public sealed class DsfDopAudioPlayer : IAudioPlayer
     private readonly Task _pumpTask;
     private long _seekGeneration;
     private volatile bool _paused;
-    private float _volume = 1.0f;
+    private float _volume = 0.0f;
     private bool _disposed;
 
     private DsfDopAudioPlayer(
@@ -72,7 +72,7 @@ public sealed class DsfDopAudioPlayer : IAudioPlayer
         {
             var header = await ReadHeaderAsync(file, cancellationToken).ConfigureAwait(false);
             var alsaDevice = deviceId["alsa:".Length..];
-            AlsaHardwareVolume.EnsureUnity(deviceId);
+            AlsaHardwareVolume.SetVolume(deviceId, 0.0f);
             var usesNativeDsd = true;
             try
             {

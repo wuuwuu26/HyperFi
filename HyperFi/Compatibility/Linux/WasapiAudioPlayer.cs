@@ -38,7 +38,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     private long _playedFrames;
     private int _audibleTrackIndex;
     private volatile bool _paused;
-    private volatile float _volume = 1.0f;
+    private volatile float _volume = 0.0f;
     private bool _disposed;
 
     private WasapiAudioPlayer(

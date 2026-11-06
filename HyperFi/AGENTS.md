@@ -1652,7 +1652,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   cap the maximum volume. PCM software gain uses a cubic perceptual curve
   (`volume³`); bit-perfect DSF/DFF players bypass software gain and must apply
   the same slider through `AlsaHardwareVolume.SetVolume` so DSD volume is not
-  fixed at full scale.
+  fixed at full scale. New players must start silent (`_volume = 0`) and receive
+  the prepared volume, or the crossfade's zero, before their first audible
+  buffer; DSD players mute the hardware mixer at creation. Never let a newly
+  created player emit at its default full scale while the outgoing track fades.
 - The persisted DoP preference and forced DSD-to-PCM conversion are mutually
   exclusive. DoP is bit-perfect encapsulation and must bypass PCM gain and
   equalizer processing. Linux local and HTTP-range-streamed stereo DSF DoP uses
