@@ -349,14 +349,16 @@ internal sealed class WindowsEndpointVolumeSynchronizer : IDisposable
         return (percent.Value, muted);
     }
 
-    private static bool IsPactlAvailable()
+    private static bool IsPactlAvailable() => HasExecutable("pactl");
+
+    private static bool HasExecutable(string name)
     {
         var path = Environment.GetEnvironmentVariable("PATH");
         if (string.IsNullOrEmpty(path))
             return false;
         return path
             .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
-            .Any(directory => File.Exists(Path.Combine(directory, "pactl")));
+            .Any(directory => File.Exists(Path.Combine(directory, name)));
     }
 
     /// <summary>
@@ -367,8 +369,14 @@ internal sealed class WindowsEndpointVolumeSynchronizer : IDisposable
     /// <returns>The running watchdog shell, or <see langword="null"/> when it cannot be started.</returns>
     private static Process? StartSubscription()
     {
+        // pactl fully buffers its stdout when it is a pipe. Without line
+        // buffering the subscription would only deliver events when the buffer
+        // fills or the process exits, so the mirrored volume would appear stuck.
+        var subscribe = HasExecutable("stdbuf")
+            ? "stdbuf -oL pactl subscribe"
+            : "pactl subscribe";
         var script =
-            $"pactl subscribe 2>/dev/null & child=$!; " +
+            $"{subscribe} 2>/dev/null & child=$!; " +
             $"tail --pid={Environment.ProcessId} -f /dev/null; " +
             "kill $child 2>/dev/null";
         try

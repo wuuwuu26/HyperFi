@@ -652,7 +652,8 @@ public partial class MainWindow : Window
     }
 
     private float GetNormalPlayerVolume() =>
-        _settings.OutputBackend == OutputBackend.Wasapi && _endpointVolumeSynchronizer is not null
+        _settings.OutputBackend == OutputBackend.Wasapi &&
+        _endpointVolumeSynchronizer is { AppliesToOutputPath: true }
             ? 1.0f
             : (float)VolumeSlider.Value;
 

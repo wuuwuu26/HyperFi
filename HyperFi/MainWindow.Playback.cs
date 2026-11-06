@@ -646,7 +646,7 @@ public partial class MainWindow : Window
                 return null;
             UpdateNowPlayingRowHighlights();
             _player.Volume = _settings.OutputBackend == OutputBackend.Wasapi &&
-                             _endpointVolumeSynchronizer is not null
+                             _endpointVolumeSynchronizer is { AppliesToOutputPath: true }
                 ? 1.0f
                 : (float)VolumeSlider.Value;
             _player.ReplayGainFactor = GetReplayGainFactor(filePath);

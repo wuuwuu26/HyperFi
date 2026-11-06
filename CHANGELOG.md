@@ -76,6 +76,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Direct ALSA output now sets the card's playback mixer to unity before opening
   the device. A hardware control left low by PipeWire/PulseAudio previously
   capped the maximum volume even when HyperFi's software volume was 100%.
+- A new direct-ALSA player no longer starts at full software volume while the
+  volume slider shows a lower value; the prepared player now receives the
+  slider value for backends whose volume is applied in software.
+- The system-volume mirror now line-buffers `pactl subscribe`, so desktop volume
+  key changes reach HyperFi immediately instead of waiting for the pipe buffer
+  to fill.
 - The About window no longer overlaps its license heading, build information and
   first license line. The heading and scrolling license list now share a docked
   layout instead of relying on grid margins.
