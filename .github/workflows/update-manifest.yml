@@ -66,6 +66,7 @@ jobs:
             COMPONENT="" OS="" ARCH="" TYPE=""
             case "$FILE" in
               HyperFi-*-win-x64-Setup.exe) COMPONENT=desktop; OS=windows; ARCH=x64; TYPE=installer ;;
+              HyperFi-*-win-x64-Portable.zip) COMPONENT=desktop; OS=windows; ARCH=x64; TYPE=portable ;;
               HyperFi-*-linux-x64.tar.gz) COMPONENT=desktop; OS=linux; ARCH=x64; TYPE=archive ;;
               HyperFi-*-linux-arm64.tar.gz) COMPONENT=desktop; OS=linux; ARCH=arm64; TYPE=archive ;;
               HyperFi-*-osx-x64.tar.gz) COMPONENT=desktop; OS=macos; ARCH=x64; TYPE=archive ;;
