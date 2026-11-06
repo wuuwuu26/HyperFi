@@ -253,6 +253,8 @@ public sealed record LocalizedStrings(
     public string AlsaExactOpenFailed { get; init; } = "";
     /// <summary>Gets the formatted guidance shown when another process owns a direct ALSA device.</summary>
     public string AlsaDeviceBusy { get; init; } = "";
+    /// <summary>Gets the status shown when playback falls back to the system mixer because direct ALSA is busy.</summary>
+    public string AlsaBusyUsingSystemMixer { get; init; } = "";
     /// <summary>Gets the message shown when ALSA cannot resume after seeking.</summary>
     public string AlsaPrepareFailed { get; init; } = "";
     public string DeviceInfo { get; init; } = "";

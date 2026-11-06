@@ -49,6 +49,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- When the selected direct ALSA device is already owned by PipeWire or another
+  application, playback now falls back to the system mixer (OpenAL) and says so
+  in the status bar instead of refusing to play.
 - Direct ALSA reopens the device at the next queued track's source rate when it
   differs from the open rate, so a 44.1 kHz track after a 48 kHz track is no
   longer silently resampled to 48 kHz. Same-rate runs stay gapless; a rate

@@ -112,13 +112,16 @@ internal static class AlsaNative
 
     private static IOException CreateException(string deviceName, int sampleRate, int error)
     {
-        var message = error == -16
-            ? string.Format(LocalizationManager.Current.AlsaDeviceBusy, deviceName)
-            : string.Format(
-                LocalizationManager.Current.AlsaExactOpenFailed,
-                deviceName,
-                sampleRate,
-                Marshal.PtrToStringUTF8(SndStrError(error)));
-        return new IOException(message);
+        if (error == -16)
+        {
+            return new AlsaDeviceBusyException(
+                string.Format(LocalizationManager.Current.AlsaDeviceBusy, deviceName));
+        }
+
+        return new IOException(string.Format(
+            LocalizationManager.Current.AlsaExactOpenFailed,
+            deviceName,
+            sampleRate,
+            Marshal.PtrToStringUTF8(SndStrError(error))));
     }
 }
