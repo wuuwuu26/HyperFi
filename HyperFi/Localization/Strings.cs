@@ -327,8 +327,6 @@ public sealed record LocalizedStrings(
     public string OpenArtist { get; init; } = "";
     /// <summary>Gets the context-menu action for toggling the current favorite state.</summary>
     public string ToggleFavorite { get; init; } = "";
-    public string PlaybackThrough { get; init; } = "";
-    public string PlaybackThroughWithDsdConversion { get; init; } = "";
     public string NativeDsdOutput { get; init; } = "";
     public string DsdToPcmOutput { get; init; } = "";
     /// <summary>Gets the short transport label for bit-perfect DoP output.</summary>

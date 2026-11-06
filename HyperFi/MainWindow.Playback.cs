@@ -507,19 +507,6 @@ public partial class MainWindow : Window
             player.Duration,
             force: true);
 
-        var outputName = _player is BrowserAudioPlayer ? LocalizationManager.Current.BrowserAudioOutput : _settings.OutputBackend switch
-        {
-            OutputBackend.Asio or OutputBackend.CwAsio => _settings.SelectedDriverName,
-            OutputBackend.AirPlay => _settings.SelectedAirPlayDeviceName,
-            _ => _settings.SelectedWasapiDeviceName
-        };
-        StatusTextBlock.Text = info.IsDsd && !usesNativeDsd
-            ? string.Format(
-                LocalizationManager.Current.PlaybackThroughWithDsdConversion,
-                outputName,
-                info.OutputSampleRate)
-            : string.Format(LocalizationManager.Current.PlaybackThrough, outputName);
-
         try
         {
             using var db = AudioDatabase.OpenDefault();

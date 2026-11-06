@@ -421,6 +421,12 @@ public partial class MainWindow : Window
         using var timing = StartupTimingLog.Time("MainWindow constructor");
         using (StartupTimingLog.Time("MainWindow.InitializeComponent"))
             InitializeComponent();
+        StatusTextBlock.IsVisible = false;
+        StatusTextBlock.PropertyChanged += (_, args) =>
+        {
+            if (args.Property == TextBlock.TextProperty)
+                StatusTextBlock.IsVisible = !string.IsNullOrWhiteSpace(StatusTextBlock.Text);
+        };
         StartUiDiagnosticsLog();
         LogUiDiagnostics("MainWindow constructor after InitializeComponent");
         _dashboardRootPanel = DashboardPanel;

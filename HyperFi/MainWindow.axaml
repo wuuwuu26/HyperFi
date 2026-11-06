@@ -1379,6 +1379,7 @@
                                VerticalAlignment="Center"/>
                 </StackPanel>
                 <TextBlock x:Name="StatusTextBlock"
+                           IsVisible="False"
                            Padding="24,4,24,8"
                            Foreground="{DynamicResource AppMutedTextBrush}" FontSize="{DynamicResource FontSizeMeta}"
                            TextWrapping="Wrap"/>
