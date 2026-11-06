@@ -1466,6 +1466,7 @@ internal partial class SettingsView : UserControl
         McpPanel.IsVisible                     = tag == "Mcp";
         MobileRemotePanel.IsVisible            = tag == "MobileRemote";
         AiChatPanel.IsVisible                  = tag == "AiChat";
+        SettingsContentScrollViewer.Offset = new Vector(0, 0);
         AnimateSettingsSection(tag switch
         {
             "AudioDevice" => AudioDevicePanel,

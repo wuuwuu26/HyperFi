@@ -409,7 +409,8 @@
                    Grid.Row="0"
                    Fill="{DynamicResource AppHeaderBorderBrush}"/>
 
-        <ScrollViewer Grid.Column="2"
+        <ScrollViewer x:Name="SettingsContentScrollViewer"
+                      Grid.Column="2"
                       Grid.Row="0"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
