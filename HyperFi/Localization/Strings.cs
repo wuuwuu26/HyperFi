@@ -929,14 +929,10 @@ public sealed record LocalizedStrings(
     public string KeepArtistProfile { get; init; } = "";
     public string ArtistRenameFailed { get; init; } = "";
     public string Shuffle { get; init; } = "";
-    public string SearchLyrics { get; init; } = "";
-    public string LyricsSearchTitle { get; init; } = "";
-    public string LyricsSearchRunning { get; init; } = "";
-    public string LyricsSearchNoResults { get; init; } = "";
-    public string LyricsSearchFailed { get; init; } = "";
-    public string UseSelectedLyrics { get; init; } = "";
-    public string SelectLyricsResult { get; init; } = "";
     public string SynchronizedLyrics { get; init; } = "";
+    public string ImmersivePlayback { get; init; } = "";
+    public string ExitImmersivePlayback { get; init; } = "";
+    public string OutputQuality { get; init; } = "";
     public string InternetRadio { get; init; } = "";
     public string OwnRadios { get; init; } = "";
     public string RadioDirectory { get; init; } = "";
@@ -1490,14 +1486,6 @@ public sealed record LocalizedStrings(
     public string BackupTargetPassword { get; init; } = "";
     public string BackupUploadDone { get; init; } = "";
     public string BackupUploadFailed { get; init; } = "";
-    /// <summary>Gets the fullscreen karaoke feature label.</summary>
-    public string Karaoke { get; init; } = "";
-    /// <summary>Gets the karaoke action tooltip.</summary>
-    public string KaraokeTooltip { get; init; } = "";
-    /// <summary>Gets the karaoke exit hint.</summary>
-    public string KaraokeExitHint { get; init; } = "";
-    /// <summary>Gets the message shown when karaoke has no synchronized lyrics.</summary>
-    public string KaraokeRequiresSyncedLyrics { get; init; } = "";
     /// <summary>Gets the year-in-review feature and window label.</summary>
     public string YearInReview { get; init; } = "";
     /// <summary>Gets the year-in-review headline.</summary>

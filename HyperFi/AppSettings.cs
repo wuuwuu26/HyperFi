@@ -222,7 +222,7 @@ public sealed class AppSettings
     public int PodcastDownloadLimitMb { get; set; } = 2048;
     /// <summary>
     /// Gets or sets a value indicating whether optional UI motion (Genre Cloud,
-    /// Dashboard cover stage, and karaoke transitions) is disabled.
+    /// Dashboard cover stage, and immersive lyrics transitions) is disabled.
     /// </summary>
     public bool ReduceMotion { get; set; }
 

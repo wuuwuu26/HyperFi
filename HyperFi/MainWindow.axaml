@@ -1088,7 +1088,7 @@
         </Grid.RowDefinitions>
 
         <!-- ═══ SIDEBAR ═══ -->
-        <Grid Grid.Column="0" Grid.Row="0" Background="{DynamicResource AppSidebarBrush}">
+        <Grid x:Name="SidebarPanel" Grid.Column="0" Grid.Row="0" Background="{DynamicResource AppSidebarBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -1426,7 +1426,7 @@
         </Grid>
 
         <!-- ═══ CONTENT ═══ -->
-        <Grid Grid.Column="1" Grid.Row="0" Background="{DynamicResource AppContentBrush}">
+        <Grid x:Name="ContentPanel" Grid.Column="1" Grid.Row="0" Background="{DynamicResource AppContentBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -3269,8 +3269,8 @@
 
             <!-- Lyrics view -->
             <Grid x:Name="LyricsView"
-                  Grid.Row="1"
-                  Grid.RowSpan="3"
+                  Grid.Row="0"
+                  Grid.RowSpan="4"
                   IsVisible="False"
                   Background="{DynamicResource AppContentBrush}"
                   ZIndex="20"
@@ -3302,15 +3302,12 @@
                             Spacing="8"
                             Margin="0,18,22,0"
                             ZIndex="3">
-                    <Button Padding="12,6"
+                    <Button x:Name="LyricsImmersiveButton"
+                            Padding="12,6"
                             Theme="{StaticResource HeaderFilterButtonTheme}"
-                            ToolTip.Tip="{DynamicResource L_KaraokeTooltip}"
-                            Content="{DynamicResource L_Karaoke}"
-                            Click="KaraokeButton_OnClick"/>
-                    <Button Padding="12,6"
-                            Theme="{StaticResource HeaderFilterButtonTheme}"
-                            Content="{DynamicResource L_SearchLyrics}"
-                            Click="SearchLyricsButton_OnClick"/>
+                            ToolTip.Tip="{DynamicResource L_ImmersivePlayback}"
+                            Content="{DynamicResource L_ImmersivePlayback}"
+                            Click="ImmersiveLyricsButton_OnClick"/>
                     <Button x:Name="RefreshLyricsButton"
                             Theme="{StaticResource TransportBtnTheme}"
                             ToolTip.Tip="{DynamicResource L_RefreshLyrics}"
@@ -3326,35 +3323,76 @@
 
                 <Grid Margin="40,36,46,30">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="330"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <Border Width="264" Height="264"
-                                CornerRadius="14"
-                                ClipToBounds="True"
-                                Background="{DynamicResource AppArtworkPlaceholderBrush}">
-                            <Image x:Name="LyricsCoverImage"
-                                   Stretch="UniformToFill"
-                                   Source="{Binding Source, ElementName=LyricsBackgroundImage}"/>
-                        </Border>
-                        <TextBlock Text="{Binding Text, ElementName=NowPlayingTitleBlock}"
-                                   Margin="0,20,0,0"
-                                   FontSize="23"
-                                   FontWeight="SemiBold"
-                                   TextTrimming="CharacterEllipsis"
-                                   Foreground="{DynamicResource AppPrimaryTextBrush}"/>
-                        <TextBlock Text="{Binding Text, ElementName=NowPlayingArtistBlock}"
-                                   Margin="0,6,0,0"
-                                   FontSize="15"
-                                   TextTrimming="CharacterEllipsis"
-                                   Foreground="{DynamicResource AppMutedTextBrush}"/>
-                        <TextBlock Text="{Binding Text, ElementName=NowPlayingAlbumBlock}"
-                                   Margin="0,3,0,0"
-                                   FontSize="13"
-                                   TextTrimming="CharacterEllipsis"
-                                   Foreground="{DynamicResource AppMutedTextBrush}"/>
-                    </StackPanel>
+                    <Border Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Background="{StaticResource LyricsHifiPanelBrush}"
+                            BorderBrush="{StaticResource CardHoverGradientBrush}"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="22"
+                            BoxShadow="0 18 42 0 #90000000">
+                        <StackPanel>
+                            <TextBlock Text="HYPERFI"
+                                       FontSize="10"
+                                       FontWeight="Bold"
+                                       LetterSpacing="2.4"
+                                       Foreground="{DynamicResource AppAccentBrush}"/>
+                            <Border Margin="0,12,0,0"
+                                    BorderBrush="{StaticResource GenreCloudNodeBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="14"
+                                    Padding="4"
+                                    Background="#080706">
+                                <Border Width="264" Height="264"
+                                        CornerRadius="10"
+                                        ClipToBounds="True"
+                                        Background="{DynamicResource AppArtworkPlaceholderBrush}">
+                                    <Image x:Name="LyricsCoverImage"
+                                           Stretch="UniformToFill"
+                                           Source="{Binding Source, ElementName=LyricsBackgroundImage}"/>
+                                </Border>
+                            </Border>
+                            <TextBlock Text="{Binding Text, ElementName=NowPlayingTitleBlock}"
+                                       Margin="0,18,0,0"
+                                       FontSize="23"
+                                       FontWeight="SemiBold"
+                                       TextTrimming="CharacterEllipsis"
+                                       Foreground="{DynamicResource AppPrimaryTextBrush}"/>
+                            <TextBlock Text="{Binding Text, ElementName=NowPlayingArtistBlock}"
+                                       Margin="0,6,0,0"
+                                       FontSize="15"
+                                       TextTrimming="CharacterEllipsis"
+                                       Foreground="{DynamicResource AppMutedTextBrush}"/>
+                            <TextBlock Text="{Binding Text, ElementName=NowPlayingAlbumBlock}"
+                                       Margin="0,3,0,0"
+                                       FontSize="13"
+                                       TextTrimming="CharacterEllipsis"
+                                       Foreground="{DynamicResource AppMutedTextBrush}"/>
+                            <Border Margin="0,16,0,0"
+                                    Background="#0E0D0A"
+                                    BorderBrush="{StaticResource GenreCloudBreadcrumbBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="10"
+                                    Padding="12,8">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource L_OutputQuality}"
+                                               FontSize="10"
+                                               FontWeight="SemiBold"
+                                               LetterSpacing="1.2"
+                                               Foreground="{DynamicResource AppMutedTextBrush}"/>
+                                    <TextBlock x:Name="LyricsFormatTextBlock"
+                                               Text="{Binding Text, ElementName=FileInfoTextBlock}"
+                                               Margin="0,3,0,0"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource AppAccentBrush}"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
                     <Grid Grid.Column="1" Margin="46,0,0,0">
                         <ListBox x:Name="LyricsListBox"
                                  x:DataType="local:LyricLineViewModel"
@@ -3726,7 +3764,7 @@
         </Grid>
 
         <!-- ═══ TRANSPORT BAR ═══ -->
-        <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+        <Border x:Name="TransportBar" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
                 Background="{DynamicResource AppTransportBrush}"
                 BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppTransportBorderBrush}"
                 Padding="22,12">

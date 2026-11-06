@@ -51,6 +51,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- The lyrics view now covers the content header and places the cover, title,
+  artist, album, and an output-quality line on a black retro Hi-Fi panel with
+  gold trim, distinct from the blurred cover background.
+- The lyrics action formerly labeled Karaoke is now **Immersive playback**: it
+  shows the same lyrics page fullscreen, hides the sidebar, transport bar, and
+  content header, and restores the previous window state when exited.
 - The selected song row and the active **Shuffle** button now use the teal
   花青 highlight (`#1FA7A0`) instead of the default blue and purple accents.
 - The transport format line now uses kHz, separates the PCM output method from
@@ -81,6 +87,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+- The separate karaoke window and the manual lyrics-search dialog and action are
+  gone. The lyrics page itself provides the immersive fullscreen presentation.
 - The music visualizer is gone: its transport button, Settings page, preset
   selection and download actions, fullscreen window, MilkDrop preset engine,
   audio spectrum analysis and the related tests no longer ship. The lyrics view

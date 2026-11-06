@@ -6,7 +6,7 @@ namespace HyperFi.Controls;
 /// Resolves optional UI motion from the persisted reduce-motion preference. Every
 /// animated surface asks this type instead of deciding locally, so the setting
 /// stays consistent across the Genre Cloud, the Dashboard cover stage, the
-/// lyrics view scroll and the karaoke view.
+/// lyrics view scroll and immersive playback.
 /// </summary>
 public static class MotionPreferences
 {

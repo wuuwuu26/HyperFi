@@ -24,6 +24,13 @@
             <!-- ── Theme brushes (overwritten at runtime by ThemeManager) ── -->
             <SolidColorBrush x:Key="AppAccentBrush"              Color="#E8C46A"/>
             <SolidColorBrush x:Key="AppSelectionTealBrush"        Color="#1FA7A0"/>
+            <LinearGradientBrush x:Key="LyricsHifiPanelBrush"
+                                 StartPoint="0%,0%"
+                                 EndPoint="100%,100%">
+                <GradientStop Color="#1D1A16" Offset="0"/>
+                <GradientStop Color="#080706" Offset="0.58"/>
+                <GradientStop Color="#12100C" Offset="1"/>
+            </LinearGradientBrush>
             <Color x:Key="SystemAccentColor">#1FA7A0</Color>
             <Color x:Key="SystemAccentColorLight1">#3CBDB5</Color>
             <Color x:Key="SystemAccentColorLight2">#6FD3CC</Color>
@@ -523,13 +530,6 @@
             <x:String x:Key="L_RenameArtist">Umbenennen</x:String>
             <x:String x:Key="L_MergeArtistsTitle">Künstler zusammenführen</x:String>
             <x:String x:Key="L_Shuffle">Zufallswiedergabe</x:String>
-            <x:String x:Key="L_SearchLyrics">Songtext suchen</x:String>
-            <x:String x:Key="L_LyricsSearchTitle">Songtext suchen</x:String>
-            <x:String x:Key="L_LyricsSearchRunning">Passende Songtexte werden gesucht …</x:String>
-            <x:String x:Key="L_LyricsSearchNoResults">Keine passenden Songtexte gefunden.</x:String>
-            <x:String x:Key="L_LyricsSearchFailed">Die Songtextsuche ist fehlgeschlagen.</x:String>
-            <x:String x:Key="L_UseSelectedLyrics">Ausgewählten Songtext übernehmen</x:String>
-            <x:String x:Key="L_SelectLyricsResult">Wähle links einen Songtext für die Vorschau aus.</x:String>
             <x:String x:Key="L_ShowAllAlbumTracks">Alle Tracks des Albums anzeigen</x:String>
             <x:String x:Key="L_OptimizeDatabase">Datenbank optimieren</x:String>
             <x:String x:Key="L_RepairAlbumArtwork">Album-Cover reparieren</x:String>

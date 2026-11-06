@@ -1170,11 +1170,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   tested `HyperFi.Controls.MotionPreferences` helper. The Genre Cloud, the
   Dashboard cover stage, the lyrics view scroll, sidebar/settings selection,
   the sidebar logo glow, the top-level view surface, the content header and
-  `KaraokeWindow` must ask that helper instead of building transitions or frame
-  loops directly, and
-  `KaraokeWindow.ReduceMotion` is assigned from the saved setting when the
-  window opens. Navigation motion stays brief (at most 200 ms), never blocks
-  loading or ownership checks, and must not run when the preference is reduced.
+  immersive lyrics must ask that helper instead of building transitions or
+  frame loops directly. Navigation motion stays brief (at most 200 ms), never
+  blocks loading or ownership checks, and must not run when the preference is
+  reduced.
   The album and artist artwork grids open the selected card on Enter or Space
   through `ActivateArtworkCardAsync`, and transport controls keep an
   `AutomationProperties.Name` that matches their localized tooltip.
@@ -1183,20 +1182,17 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   `LyricsService.ParseLrc` into `TimedLyricLine.Words`, which also strips the
   markers from the line text. The main lyrics view exposes those words through
   `LyricWordViewModel` and lights each word in the accent colour once playback
-  reaches its timestamp; `KaraokeWindow` renders the same line as one `Run` per
-  word and repaints only the active slot when the word changes, so the
-  surrounding opacity/font-size transitions keep animating. The main lyrics list
+  reaches its timestamp. The main lyrics list
   keeps every line realised and eases its scroll offset to the active line
   through `MotionPreferences` instead of jumping with `ScrollIntoView`. Plain
   synchronized lines keep the line-level highlight through `LyricLineSelector`,
   which is also the word-level selector.
-- The lyrics view's **Karaoke** action opens `KaraokeWindow` fullscreen. It
-  shows a fixed window of synchronized lines around the active one, emphasizes
-  the active line, and animates opacity and font size through `Transitions`; the
-  main window pushes positions from its existing transport timer and never adds
-  a second polling loop. Karaoke requires synchronized lines, closes on Esc, a
-  click, or whenever the lyrics are cleared, and the active-line lookup must
-  stay in the pure, tested `HyperFi.Library.LyricLineSelector`.
+- The lyrics view's **Immersive playback** action shows the same lyrics page in
+  a fullscreen window state, hides the sidebar, transport bar and content
+  header, and restores the previous window state when the action or the close
+  button is used again. The lyrics view itself now covers the content header.
+  The active-line lookup must stay in the pure, tested
+  `HyperFi.Library.LyricLineSelector`.
 - The Dashboard **Year in review** action lives in the Listening stats card
   directly below its period selector, so both share one context. It opens
   `YearInReviewDialog`, which renders the existing year aggregates from

@@ -174,6 +174,7 @@ public partial class MainWindow : Window
 
     private void CloseNowPlayingDetailViews()
     {
+        SetLyricsImmersive(false);
         StopLyricsScrollAnimation();
         LyricsView.IsVisible = false;
         ArtistInfoView.IsVisible = false;

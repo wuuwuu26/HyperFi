@@ -153,7 +153,6 @@ public partial class MainWindow : Window
             SavePodcastProgress(completed: false);
         }
         UpdateActiveLyric(_player.Position);
-        _karaokeWindow?.UpdatePosition(_player.Position);
         PublishRemoteTrackPosition(_player.Position);
         EnsureInfiniteMixQueue();
         MaybeStartNonGaplessFadeTransition(visiblePosition);
@@ -357,7 +356,10 @@ public partial class MainWindow : Window
         PodcastInfoView.IsVisible = false;
         LyricsView.IsVisible = !(LyricsView.IsVisible);
         if (!LyricsView.IsVisible)
+        {
+            SetLyricsImmersive(false);
             StopLyricsScrollAnimation();
+        }
         UpdateBackButtonForDetailView();
         if (LyricsView.IsVisible &&
             _lyricLines.Count == 0 &&
@@ -375,77 +377,6 @@ public partial class MainWindow : Window
         if (string.IsNullOrWhiteSpace(_currentFilePath))
             return;
         await LoadLyricsForTrackAsync(_currentFilePath, forceRefresh: true);
-    }
-
-    private async void SearchLyricsButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        var filePath = _currentFilePath;
-        if (string.IsNullOrWhiteSpace(filePath))
-            return;
-
-        // Seed the search from the current track's metadata. Remote tracks have
-        // no local database row, so read the title/artist from the remote row
-        // instead of GetByPath (which fails on a stream URL and previously
-        // suppressed the dialog entirely for remote tracks).
-        var remoteRow = _currentHyperFiTrackRow;
-        string? seedTitle;
-        string? seedArtist;
-        TrackRecord? localTrack = null;
-        if (remoteRow is not null)
-        {
-            seedTitle = remoteRow.Title;
-            seedArtist = remoteRow.Artist;
-        }
-        else
-        {
-            using (var db = AudioDatabase.OpenDefault())
-                localTrack = db.GetByPath(filePath);
-            if (localTrack is null)
-                return;
-            seedTitle = localTrack.Title;
-            seedArtist = localTrack.Artist;
-        }
-
-        var dialog = new LyricsSearchWindow(seedTitle, seedArtist);
-        if (await dialog.ShowDialog<bool>(this) == false || dialog.SelectedResult is not { } selected)
-            return;
-
-        // Persist the chosen lyrics on the owning store: the remote server for
-        // remote tracks, the local database otherwise.
-        if (remoteRow is { HyperFiServer: { } server, Id: long trackId })
-        {
-            await _hyperfiClient.UploadTrackLyricsAsync(
-                server,
-                trackId,
-                selected.PlainLyrics,
-                selected.SyncedLyrics);
-        }
-        else
-        {
-            using var db = AudioDatabase.OpenDefault();
-            db.UpdateDownloadedLyrics(
-                filePath,
-                selected.PlainLyrics,
-                selected.SyncedLyrics,
-                "LRCLIB manual");
-        }
-
-        // Only reflect the change in the view if the same track is still shown.
-        if (!string.Equals(filePath, _currentFilePath, StringComparison.OrdinalIgnoreCase))
-            return;
-
-        if (localTrack is not null)
-        {
-            localTrack.DownloadedLyrics = selected.PlainLyrics;
-            localTrack.SyncedLyrics = selected.SyncedLyrics;
-            localTrack.LyricsSource = "LRCLIB manual";
-            localTrack.LyricsFetchedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            ApplyLyrics(localTrack);
-        }
-        else
-        {
-            ApplyLyricsContent(selected.PlainLyrics, selected.SyncedLyrics);
-        }
     }
 
     /// <summary>Builds the now-playing track context for the active metadata provider.</summary>
@@ -736,35 +667,46 @@ public partial class MainWindow : Window
         _lyricsScrollViewer = null;
     }
 
-    /// <summary>Opens or closes the fullscreen karaoke view for synchronized lyrics.</summary>
-    /// <param name="sender">The karaoke action.</param>
+    /// <summary>Opens or closes immersive fullscreen playback of the current lyrics page.</summary>
+    /// <param name="sender">The immersive action.</param>
     /// <param name="e">Click details.</param>
-    private void KaraokeButton_OnClick(object? sender, RoutedEventArgs e)
+    private void ImmersiveLyricsButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (_karaokeWindow is { } open)
-        {
-            open.Close();
+        if (!LyricsView.IsVisible)
+            LyricsButton_OnClick(sender, e);
+        if (!LyricsView.IsVisible)
             return;
-        }
+        SetLyricsImmersive(!_lyricsImmersive);
+    }
 
-        if (_lyricLines.Count == 0 || _lyricLines.All(line => line.Time is null))
-        {
-            ShowLyricsStatus(LocalizationManager.Current.KaraokeRequiresSyncedLyrics);
+    /// <summary>Enters or leaves the fullscreen lyrics presentation without hiding the lyrics.</summary>
+    /// <param name="immersive">Whether immersive playback should be active.</param>
+    private void SetLyricsImmersive(bool immersive)
+    {
+        if (_lyricsImmersive == immersive)
             return;
-        }
-
-        var window = new KaraokeWindow(
-            [.. _lyricLines.Select(line => new KaraokeWindow.KaraokeLine(line.Text, line.Time) { Words = line.Words })],
-            LyricsBackgroundImage.Source)
+        _lyricsImmersive = immersive;
+        if (immersive)
         {
-            ReduceMotion = _settings.ReduceMotion
-        };
-        window.SetTrack(NowPlayingTitleBlock.Text, NowPlayingArtistBlock.Text);
-        window.Closed += (_, _) => _karaokeWindow = null;
-        _karaokeWindow = window;
-        if (_player is not null)
-            window.UpdatePosition(_player.Position);
-        window.Show(this);
+            _windowStateBeforeImmersive = WindowState;
+            SidebarPanel.IsVisible = false;
+            TransportBar.IsVisible = false;
+            Grid.SetColumn(ContentPanel, 0);
+            Grid.SetColumnSpan(ContentPanel, 2);
+            WindowState = WindowState.FullScreen;
+            LyricsImmersiveButton.Content = LocalizationManager.Current.ExitImmersivePlayback;
+            ToolTip.SetTip(LyricsImmersiveButton, LocalizationManager.Current.ExitImmersivePlayback);
+        }
+        else
+        {
+            SidebarPanel.IsVisible = true;
+            TransportBar.IsVisible = true;
+            Grid.SetColumn(ContentPanel, 1);
+            Grid.SetColumnSpan(ContentPanel, 1);
+            WindowState = _windowStateBeforeImmersive;
+            LyricsImmersiveButton.Content = LocalizationManager.Current.ImmersivePlayback;
+            ToolTip.SetTip(LyricsImmersiveButton, LocalizationManager.Current.ImmersivePlayback);
+        }
     }
 
     private void ShowLyricsStatus(string text)
@@ -777,8 +719,6 @@ public partial class MainWindow : Window
 
     private void ClearLyrics()
     {
-        _karaokeWindow?.Close();
-        _karaokeWindow = null;
         StopLyricsScrollAnimation();
         LyricsListBox.SelectedItem = null;
         _lyricLines.Clear();

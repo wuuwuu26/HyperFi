@@ -1958,18 +1958,19 @@ override that root; packaged Linux servers use `/var/lib/hyperfi-server`.
 These files are not part of the repository.
 
 The note button in the transport bar replaces the current main content with a
-large lyrics view. The current cover is shown dimmed in the background. HyperFi
-first uses cached synchronized lyrics, then downloaded or embedded plain lyrics
-as a fallback. Missing lyrics can be requested from the public LRCLIB API and
-are stored in `library.db`; synchronized LRC lines are highlighted and kept in
-view using the current playback position. The refresh button performs a new
-lookup, and a missing result is shown directly in the lyrics view. The
-**Karaoke** action opens a fullscreen view of the synchronized lyrics with the
-active line centered and emphasized while neighbouring lines fade out, using the
-current cover as a dimmed backdrop. Enhanced LRC files that carry word
+large lyrics view that also covers the content header. The current cover is
+shown dimmed in the background, while the cover, title, artist, album and output
+quality sit on a black retro Hi-Fi panel with gold trim. HyperFi first uses
+cached synchronized lyrics, then downloaded or embedded plain lyrics as a
+fallback. Missing lyrics can be requested from the public LRCLIB API and are
+stored in `library.db`; synchronized LRC lines are highlighted and kept in view
+using the current playback position. The refresh button performs a new lookup,
+and a missing result is shown directly in the lyrics view. The
+**Immersive playback** action shows the same lyrics page in a fullscreen window
+state, hides the sidebar, transport bar and content header, and restores the
+previous window state when it is used again. Enhanced LRC files that carry word
 timestamps additionally highlight the active word and keep already-sung words in
-the accent colour. It exits with Esc or a click and explains when a track only
-has plain lyrics. For WASAPI, buffered but not yet audible frames are excluded
+the accent colour. For WASAPI, buffered but not yet audible frames are excluded
 from the playback position so synchronized lyrics follow the actual output
 timing.
 
@@ -2024,7 +2025,7 @@ or API key.
 ## Accessibility
 
 - **Reduce motion** under Appearance disables the optional Genre Cloud,
-  Dashboard cover-stage, karaoke, sidebar/Settings selection, content-header
+  Dashboard cover-stage, immersive lyrics, sidebar/Settings selection, content-header
   and view-surface animations.
 - The album and artist artwork grids open the selected card with Enter or Space,
   and the transport controls (previous, play/pause, next, volume, artist info,

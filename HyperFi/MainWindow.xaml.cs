@@ -235,7 +235,8 @@ public partial class MainWindow : Window
     private readonly ObservableCollection<PlaylistItem> _queue = [];
     private readonly ObservableCollection<ContentRow> _queueRows = [];
     private readonly ObservableCollection<LyricLineViewModel> _lyricLines = [];
-    private KaraokeWindow? _karaokeWindow;
+    private bool _lyricsImmersive;
+    private WindowState _windowStateBeforeImmersive;
     private bool _isPlaying;
     private int _queueIndex = -1;
     private bool _shuffleEnabled;
