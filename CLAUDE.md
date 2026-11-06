@@ -1,3 +1,3 @@
-# Orynivo — Projektregeln
+# HyperFi — Projektregeln
 
 @AGENTS.md

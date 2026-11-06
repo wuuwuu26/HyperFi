@@ -3,13 +3,13 @@ using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using Orynivo;
-using Orynivo.Library;
-using Orynivo.Localization;
+using HyperFi;
+using HyperFi.Library;
+using HyperFi.Localization;
 using System.Reflection;
 
 // Synthetic UI-only fixtures: no real library, server, audio device, or external lookup.
-Environment.SetEnvironmentVariable("ORYNIVO_DATA_DIR", Path.Combine(Path.GetTempPath(), "orynivo-metadata-ui-" + Guid.NewGuid().ToString("N")));
+Environment.SetEnvironmentVariable("HYPERFI_DATA_DIR", Path.Combine(Path.GetTempPath(), "hyperfi-metadata-ui-" + Guid.NewGuid().ToString("N")));
 AppBuilder.Configure<App>().UseHeadless(new AvaloniaHeadlessPlatformOptions { UseHeadlessDrawing = false }).UseSkia().SetupWithoutStarting();
 var tracks = new[] {
     new MetadataRepairTrack(2, "two.flac", "two.flac", "Second title", "Artist", "Album", "Artist", 180, 2, 1),
@@ -68,7 +68,7 @@ foreach (var language in Enum.GetValues<Language>())
 Console.WriteLine("Metadata dialog track bindings, proposal selection, and clearing passed in all four languages.");
 
 LocalizationManager.Apply(Language.German);
-var settingsType = typeof(App).Assembly.GetType("Orynivo.SettingsView")!;
+var settingsType = typeof(App).Assembly.GetType("HyperFi.SettingsView")!;
 var settings = (Control)Activator.CreateInstance(settingsType)!;
 settingsType.GetField("_metadataAnalysisLoaded", BindingFlags.NonPublic | BindingFlags.Instance)!.SetValue(settings, true);
 settingsType.GetMethod("InitializeMetadataFilters", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(settings, null);

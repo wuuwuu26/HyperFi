@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../Orynivo/Orynivo.csproj" />
+    <ProjectReference Include="../../HyperFi/HyperFi.csproj" />
     <PackageReference Include="Avalonia.Headless" Version="11.2.0" />
   </ItemGroup>
 </Project>

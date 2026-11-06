@@ -13,7 +13,7 @@
 #include <string>
 #include <string_view>
 
-namespace orynivo::airplay2 {
+namespace hyperfi::airplay2 {
 namespace {
 
 using fxchain::airplay::Bytes;
@@ -158,4 +158,4 @@ TransientPairingKeys TransientPairing::run(Socket& control) {
     return keys;
 }
 
-} // namespace orynivo::airplay2
+} // namespace hyperfi::airplay2

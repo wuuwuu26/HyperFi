@@ -69,11 +69,11 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore Linux player
-        run: dotnet restore Orynivo/Orynivo.csproj --runtime ${{ matrix.rid }}
+        run: dotnet restore HyperFi/HyperFi.csproj --runtime ${{ matrix.rid }}
 
       - name: Publish Linux player
         run: >
-          dotnet publish Orynivo/Orynivo.csproj
+          dotnet publish HyperFi/HyperFi.csproj
           --configuration Release
           --runtime ${{ matrix.rid }}
           --self-contained true
@@ -91,25 +91,25 @@ jobs:
           VERSION="${{ steps.ver.outputs.version }}"
           RID="${{ matrix.rid }}"
           PUB="publish/${RID}"
-          ARCHIVE_ROOT="archive/Orynivo-${VERSION}-${RID}"
+          ARCHIVE_ROOT="archive/HyperFi-${VERSION}-${RID}"
           STAGE="stage/${RID}"
 
-          chmod 755 "${PUB}/Orynivo"
+          chmod 755 "${PUB}/HyperFi"
           mkdir -p packages "${ARCHIVE_ROOT}"
           cp -a "${PUB}/." "${ARCHIVE_ROOT}/"
-          tar -czf "packages/Orynivo-${VERSION}-${RID}.tar.gz" \
-            -C archive "Orynivo-${VERSION}-${RID}"
+          tar -czf "packages/HyperFi-${VERSION}-${RID}.tar.gz" \
+            -C archive "HyperFi-${VERSION}-${RID}"
 
-          mkdir -p "${STAGE}/usr/lib/orynivo"
+          mkdir -p "${STAGE}/usr/lib/hyperfi"
           mkdir -p "${STAGE}/usr/bin"
           mkdir -p "${STAGE}/usr/share/applications"
           mkdir -p "${STAGE}/usr/share/pixmaps"
-          cp -a "${PUB}/." "${STAGE}/usr/lib/orynivo/"
-          ln -s /usr/lib/orynivo/Orynivo "${STAGE}/usr/bin/orynivo"
-          cp .github/player-release/orynivo.desktop \
-            "${STAGE}/usr/share/applications/orynivo.desktop"
+          cp -a "${PUB}/." "${STAGE}/usr/lib/hyperfi/"
+          ln -s /usr/lib/hyperfi/HyperFi "${STAGE}/usr/bin/hyperfi"
+          cp .github/player-release/hyperfi.desktop \
+            "${STAGE}/usr/share/applications/hyperfi.desktop"
           cp Logo/icon.png \
-            "${STAGE}/usr/share/pixmaps/orynivo.png"
+            "${STAGE}/usr/share/pixmaps/hyperfi.png"
 
       - name: Install package tools
         run: |
@@ -123,19 +123,19 @@ jobs:
           fpm \
             --input-type dir \
             --output-type deb \
-            --name orynivo \
+            --name hyperfi \
             --version "${VERSION}" \
             --architecture "${{ matrix.deb_arch }}" \
-            --description "Orynivo desktop music library and audio player" \
-            --url "https://github.com/bschlaack/Orynivo" \
-            --vendor "Björn Schlaack" \
-            --maintainer "Björn Schlaack <bschlaack@gmail.com>" \
+            --description "HyperFi desktop music library and audio player" \
+            --url "https://github.com/wuuwuu26/HyperFi" \
+            --vendor "HyperFi contributors" \
+            --maintainer "HyperFi contributors <wuuwuu26@users.noreply.github.com>" \
             --license Apache-2.0 \
             --category sound \
             --depends ffmpeg \
             --depends libasound2 \
             --depends libopenal1 \
-            --package "packages/orynivo_${VERSION}_${{ matrix.deb_arch }}.deb" \
+            --package "packages/hyperfi_${VERSION}_${{ matrix.deb_arch }}.deb" \
             --chdir "stage/${{ matrix.rid }}" \
             .
 
@@ -145,18 +145,18 @@ jobs:
           fpm \
             --input-type dir \
             --output-type rpm \
-            --name orynivo \
+            --name hyperfi \
             --version "${VERSION}" \
             --iteration 1 \
             --architecture "${{ matrix.rpm_arch }}" \
-            --description "Orynivo desktop music library and audio player" \
-            --url "https://github.com/bschlaack/Orynivo" \
-            --vendor "Björn Schlaack" \
+            --description "HyperFi desktop music library and audio player" \
+            --url "https://github.com/wuuwuu26/HyperFi" \
+            --vendor "HyperFi contributors" \
             --license Apache-2.0 \
             --category "Applications/Multimedia" \
             --depends alsa-lib \
             --depends openal-soft \
-            --package "packages/orynivo-${VERSION}-1.${{ matrix.rpm_arch }}.rpm" \
+            --package "packages/hyperfi-${VERSION}-1.${{ matrix.rpm_arch }}.rpm" \
             --chdir "stage/${{ matrix.rid }}" \
             .
 
@@ -165,17 +165,17 @@ jobs:
         run: |
           VERSION="${{ steps.ver.outputs.version }}"
           PACKAGE_ROOT="arch-package"
-          PACKAGE_PATH="packages/orynivo-${VERSION}-1-${{ matrix.archlinux_arch }}.pkg.tar.zst"
+          PACKAGE_PATH="packages/hyperfi-${VERSION}-1-${{ matrix.archlinux_arch }}.pkg.tar.zst"
           mkdir -p "${PACKAGE_ROOT}"
           cp -a "stage/${{ matrix.rid }}/." "${PACKAGE_ROOT}/"
           cat > "${PACKAGE_ROOT}/.PKGINFO" <<EOF
-          pkgname = orynivo
-          pkgbase = orynivo
+          pkgname = hyperfi
+          pkgbase = hyperfi
           pkgver = ${VERSION}-1
-          pkgdesc = Orynivo desktop music library and audio player
-          url = https://github.com/bschlaack/Orynivo
+          pkgdesc = HyperFi desktop music library and audio player
+          url = https://github.com/wuuwuu26/HyperFi
           builddate = $(date +%s)
-          packager = Orynivo GitHub Actions
+          packager = HyperFi GitHub Actions
           size = $(du -sb "${PACKAGE_ROOT}" | cut -f1)
           arch = ${{ matrix.archlinux_arch }}
           license = Apache-2.0
@@ -189,7 +189,7 @@ jobs:
 
           tar --zstd -tf "${PACKAGE_PATH}" | grep -Fxq '.PKGINFO'
           tar --zstd -xOf "${PACKAGE_PATH}" .PKGINFO \
-            | grep -Fxq "pkgname = orynivo"
+            | grep -Fxq "pkgname = hyperfi"
 
       - name: Upload packages to GitHub Release
         env:
@@ -197,6 +197,6 @@ jobs:
         run: >
           bash .github/scripts/upload-release-assets.sh
           '${{ steps.ver.outputs.tag }}'
-          'Orynivo ${{ steps.ver.outputs.version }}'
+          'HyperFi ${{ steps.ver.outputs.version }}'
           false
           packages/*

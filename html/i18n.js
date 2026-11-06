@@ -135,14 +135,14 @@ const translations = {
     "ru": "Без компромиссов.",
     "zh": "毫不妥协。"
   },
-  "Orynivo verbindet eine große lokale Musikbibliothek, Netzwerk-Streaming und bitperfekte Wiedergabe in einer ruhigen, modernen Oberfläche.": {
-    "hi": "Orynivo बड़े स्थानीय संगीत संग्रह, नेटवर्क स्ट्रीमिंग और बिट-परफ़ेक्ट प्लेबैक को एक शांत, आधुनिक इंटरफ़ेस में जोड़ता है।",
-    "de": "Orynivo verbindet eine große lokale Musikbibliothek, Netzwerk-Streaming und bitperfekte Wiedergabe in einer ruhigen, modernen Oberfläche.",
-    "en": "Orynivo brings large local music libraries, network streaming and bit-perfect playback together in one calm, modern interface.",
-    "fr": "Orynivo réunit les grandes bibliothèques musicales locales, le streaming réseau et la lecture bit-perfect dans une interface moderne et épurée.",
-    "es": "Orynivo reúne grandes bibliotecas musicales locales, streaming en red y reproducción bit-perfect en una interfaz moderna y serena.",
-    "ru": "Orynivo объединяет большую локальную музыкальную библиотеку, сетевое потоковое воспроизведение и побитово точный звук в спокойном, современном интерфейсе.",
-    "zh": "Orynivo 将大型本地音乐库、网络流媒体和位完美播放融于简洁现代的界面。"
+  "HyperFi verbindet eine große lokale Musikbibliothek, Netzwerk-Streaming und bitperfekte Wiedergabe in einer ruhigen, modernen Oberfläche.": {
+    "hi": "HyperFi बड़े स्थानीय संगीत संग्रह, नेटवर्क स्ट्रीमिंग और बिट-परफ़ेक्ट प्लेबैक को एक शांत, आधुनिक इंटरफ़ेस में जोड़ता है।",
+    "de": "HyperFi verbindet eine große lokale Musikbibliothek, Netzwerk-Streaming und bitperfekte Wiedergabe in einer ruhigen, modernen Oberfläche.",
+    "en": "HyperFi brings large local music libraries, network streaming and bit-perfect playback together in one calm, modern interface.",
+    "fr": "HyperFi réunit les grandes bibliothèques musicales locales, le streaming réseau et la lecture bit-perfect dans une interface moderne et épurée.",
+    "es": "HyperFi reúne grandes bibliotecas musicales locales, streaming en red y reproducción bit-perfect en una interfaz moderna y serena.",
+    "ru": "HyperFi объединяет большую локальную музыкальную библиотеку, сетевое потоковое воспроизведение и побитово точный звук в спокойном, современном интерфейсе.",
+    "zh": "HyperFi 将大型本地音乐库、网络流媒体和位完美播放融于简洁现代的界面。"
   },
   "Kostenlos herunterladen": {
     "hi": "निःशुल्क डाउनलोड करें",
@@ -189,14 +189,14 @@ const translations = {
     "ru": "Приложение говорит на вашем языке.",
     "zh": "用您的语言，听您的音乐。"
   },
-  "Die komplette Orynivo-App kann jederzeit auf Englisch, Deutsch, Französisch, Spanisch, Russisch, vereinfachtes Chinesisch oder Hindi umgeschaltet werden.": {
-    "de": "Die komplette Orynivo-App kann jederzeit auf Englisch, Deutsch, Französisch, Spanisch, Russisch, vereinfachtes Chinesisch oder Hindi umgeschaltet werden.",
-    "en": "The entire Orynivo app can be switched to English, German, French, Spanish, Russian, Simplified Chinese or Hindi at any time.",
-    "fr": "Toute l’application Orynivo peut être utilisée à tout moment en anglais, allemand, français, espagnol, russe, chinois simplifié ou hindi.",
-    "es": "Toda la aplicación Orynivo puede cambiarse en cualquier momento a inglés, alemán, francés, español, ruso, chino simplificado o hindi.",
-    "ru": "Весь интерфейс Orynivo можно в любой момент переключить на английский, немецкий, французский, испанский, русский, упрощённый китайский или хинди.",
-    "zh": "整个 Orynivo 应用可随时切换为英语、德语、法语、西班牙语、俄语、简体中文或印地语。",
-    "hi": "पूरे Orynivo ऐप की भाषा कभी भी अंग्रेज़ी, जर्मन, फ़्रेंच, स्पेनी, रूसी, सरलीकृत चीनी या हिन्दी में बदली जा सकती है।"
+  "Die komplette HyperFi-App kann jederzeit auf Englisch, Deutsch, Französisch, Spanisch, Russisch, vereinfachtes Chinesisch oder Hindi umgeschaltet werden.": {
+    "de": "Die komplette HyperFi-App kann jederzeit auf Englisch, Deutsch, Französisch, Spanisch, Russisch, vereinfachtes Chinesisch oder Hindi umgeschaltet werden.",
+    "en": "The entire HyperFi app can be switched to English, German, French, Spanish, Russian, Simplified Chinese or Hindi at any time.",
+    "fr": "Toute l’application HyperFi peut être utilisée à tout moment en anglais, allemand, français, espagnol, russe, chinois simplifié ou hindi.",
+    "es": "Toda la aplicación HyperFi puede cambiarse en cualquier momento a inglés, alemán, francés, español, ruso, chino simplificado o hindi.",
+    "ru": "Весь интерфейс HyperFi можно в любой момент переключить на английский, немецкий, французский, испанский, русский, упрощённый китайский или хинди.",
+    "zh": "整个 HyperFi 应用可随时切换为英语、德语、法语、西班牙语、俄语、简体中文或印地语。",
+    "hi": "पूरे HyperFi ऐप की भाषा कभी भी अंग्रेज़ी, जर्मन, फ़्रेंच, स्पेनी, रूसी, सरलीकृत चीनी या हिन्दी में बदली जा सकती है।"
   },
   "Ein Player. Deine gesamte Sammlung.": {
     "hi": "एक प्लेयर। आपका पूरा संग्रह।",
@@ -288,14 +288,14 @@ const translations = {
     "ru": "Музыка во всей сети",
     "zh": "连接您的音乐"
   },
-  "Mit Orynivo Server greifst du im Heimnetz auf entfernte Bibliotheken zu – inklusive Artwork, Suche, Playlists, Waveforms und sicherem Streaming.": {
-    "hi": "Orynivo सर्वर घरेलू नेटवर्क पर रिमोट संग्रह उपलब्ध कराता है—कवर, खोज, प्लेलिस्ट, वेवफ़ॉर्म और सुरक्षित स्ट्रीमिंग सहित।",
-    "de": "Mit Orynivo Server greifst du im Heimnetz auf entfernte Bibliotheken zu – inklusive Artwork, Suche, Playlists, Waveforms und sicherem Streaming.",
-    "en": "Orynivo Server gives you access to remote libraries on your local network, including artwork, search, playlists, waveforms and secure streaming.",
-    "fr": "Orynivo Server donne accès aux bibliothèques distantes de votre réseau local, avec pochettes, recherche, playlists, formes d’onde et streaming sécurisé.",
-    "es": "Orynivo Server ofrece acceso a bibliotecas remotas en tu red local, con carátulas, búsqueda, listas, formas de onda y streaming seguro.",
-    "ru": "Orynivo Server открывает доступ к удалённым библиотекам в домашней сети: обложки, поиск, плейлисты, звуковые волны и защищённая передача музыки.",
-    "zh": "通过 Orynivo Server 访问家庭网络中的远程媒体库，支持封面、搜索、播放列表、波形和安全流媒体播放。"
+  "Mit HyperFi Server greifst du im Heimnetz auf entfernte Bibliotheken zu – inklusive Artwork, Suche, Playlists, Waveforms und sicherem Streaming.": {
+    "hi": "HyperFi सर्वर घरेलू नेटवर्क पर रिमोट संग्रह उपलब्ध कराता है—कवर, खोज, प्लेलिस्ट, वेवफ़ॉर्म और सुरक्षित स्ट्रीमिंग सहित।",
+    "de": "Mit HyperFi Server greifst du im Heimnetz auf entfernte Bibliotheken zu – inklusive Artwork, Suche, Playlists, Waveforms und sicherem Streaming.",
+    "en": "HyperFi Server gives you access to remote libraries on your local network, including artwork, search, playlists, waveforms and secure streaming.",
+    "fr": "HyperFi Server donne accès aux bibliothèques distantes de votre réseau local, avec pochettes, recherche, playlists, formes d’onde et streaming sécurisé.",
+    "es": "HyperFi Server ofrece acceso a bibliotecas remotas en tu red local, con carátulas, búsqueda, listas, formas de onda y streaming seguro.",
+    "ru": "HyperFi Server открывает доступ к удалённым библиотекам в домашней сети: обложки, поиск, плейлисты, звуковые волны и защищённая передача музыки.",
+    "zh": "通过 HyperFi Server 访问家庭网络中的远程媒体库，支持封面、搜索、播放列表、波形和安全流媒体播放。"
   },
   "Mehr als Dateien": {
     "hi": "फ़ाइलों से आगे",
@@ -360,14 +360,14 @@ const translations = {
     "ru": "Облако жанров",
     "zh": "流派云"
   },
-  "Erkunde die Genres deiner lokalen Bibliothek und aller Orynivo Server hierarchisch. Die Größe der Begriffe folgt wahlweise der Anzahl passender Tracks oder Alben; Empfehlungen bleiben vollständig quellenbewusst.": {
-    "hi": "स्थानीय संग्रह और हर Orynivo सर्वर की शैलियों को पदानुक्रम में देखें। शब्दों का आकार मेल खाते ट्रैक या एल्बम की संख्या के अनुसार होता है, और सुझाव अपने सही स्रोत से जुड़े रहते हैं।",
-    "de": "Erkunde die Genres deiner lokalen Bibliothek und aller Orynivo Server hierarchisch. Die Größe der Begriffe folgt wahlweise der Anzahl passender Tracks oder Alben; Empfehlungen bleiben vollständig quellenbewusst.",
-    "en": "Explore the genres in your local library and every Orynivo Server as a hierarchy. Label sizes follow either matching track or album counts, and recommendations retain their exact source.",
-    "fr": "Explorez de façon hiérarchique les genres de votre bibliothèque locale et de tous les serveurs Orynivo. La taille des libellés reflète le nombre de titres ou d’albums correspondants, et chaque recommandation conserve sa source exacte.",
-    "es": "Explora de forma jerárquica los géneros de tu biblioteca local y de todos los servidores Orynivo. El tamaño de las etiquetas refleja la cantidad de pistas o álbumes coincidentes, y cada recomendación conserva su fuente exacta.",
-    "ru": "Исследуйте иерархию жанров локальной библиотеки и всех серверов Orynivo. Размер названий соответствует числу подходящих треков или альбомов; каждая рекомендация сохраняет свой источник.",
-    "zh": "按层级探索本地媒体库和所有 Orynivo 服务器中的流派。标签大小可按匹配曲目或专辑的数量显示，每条推荐都保留准确来源。"
+  "Erkunde die Genres deiner lokalen Bibliothek und aller HyperFi Server hierarchisch. Die Größe der Begriffe folgt wahlweise der Anzahl passender Tracks oder Alben; Empfehlungen bleiben vollständig quellenbewusst.": {
+    "hi": "स्थानीय संग्रह और हर HyperFi सर्वर की शैलियों को पदानुक्रम में देखें। शब्दों का आकार मेल खाते ट्रैक या एल्बम की संख्या के अनुसार होता है, और सुझाव अपने सही स्रोत से जुड़े रहते हैं।",
+    "de": "Erkunde die Genres deiner lokalen Bibliothek und aller HyperFi Server hierarchisch. Die Größe der Begriffe folgt wahlweise der Anzahl passender Tracks oder Alben; Empfehlungen bleiben vollständig quellenbewusst.",
+    "en": "Explore the genres in your local library and every HyperFi Server as a hierarchy. Label sizes follow either matching track or album counts, and recommendations retain their exact source.",
+    "fr": "Explorez de façon hiérarchique les genres de votre bibliothèque locale et de tous les serveurs HyperFi. La taille des libellés reflète le nombre de titres ou d’albums correspondants, et chaque recommandation conserve sa source exacte.",
+    "es": "Explora de forma jerárquica los géneros de tu biblioteca local y de todos los servidores HyperFi. El tamaño de las etiquetas refleja la cantidad de pistas o álbumes coincidentes, y cada recomendación conserva su fuente exacta.",
+    "ru": "Исследуйте иерархию жанров локальной библиотеки и всех серверов HyperFi. Размер названий соответствует числу подходящих треков или альбомов; каждая рекомендация сохраняет свой источник.",
+    "zh": "按层级探索本地媒体库和所有 HyperFi 服务器中的流派。标签大小可按匹配曲目或专辑的数量显示，每条推荐都保留准确来源。"
   },
   "Endlos-Mix": {
     "hi": "अनवरत मिक्स",
@@ -432,14 +432,14 @@ const translations = {
     "ru": "* Доступные форматы и частоты зависят от аудиоустройства и драйвера вывода.",
     "zh": "* 实际支持的格式和采样率取决于音频设备和输出驱动程序。"
   },
-  "Orynivo im Einsatz": {
-    "hi": "Orynivo की झलक",
-    "de": "Orynivo im Einsatz",
-    "en": "Orynivo in action",
-    "fr": "Orynivo en action",
-    "es": "Orynivo en acción",
-    "ru": "Orynivo в действии",
-    "zh": "Orynivo 实际界面"
+  "HyperFi im Einsatz": {
+    "hi": "HyperFi की झलक",
+    "de": "HyperFi im Einsatz",
+    "en": "HyperFi in action",
+    "fr": "HyperFi en action",
+    "es": "HyperFi en acción",
+    "ru": "HyperFi в действии",
+    "zh": "HyperFi 实际界面"
   },
   "Eine Oberfläche, die der": {
     "hi": "ऐसा इंटरफ़ेस, जहाँ",
@@ -468,14 +468,14 @@ const translations = {
     "ru": "на первом месте.",
     "zh": "成为主角。"
   },
-  "Vom schnellen Überblick bis zur detaillierten Trackverwaltung: Orynivo bleibt auch bei sehr großen Sammlungen übersichtlich.": {
-    "hi": "त्वरित सारांश से विस्तृत ट्रैक प्रबंधन तक, बहुत बड़े संग्रह में भी Orynivo स्पष्ट और व्यवस्थित रहता है।",
-    "de": "Vom schnellen Überblick bis zur detaillierten Trackverwaltung: Orynivo bleibt auch bei sehr großen Sammlungen übersichtlich.",
-    "en": "From a quick overview to detailed track management, Orynivo stays clear even with very large collections.",
-    "fr": "De la vue d’ensemble à la gestion détaillée des titres, Orynivo reste lisible même avec de très grandes collections.",
-    "es": "Desde una vista rápida hasta la gestión detallada de pistas, Orynivo sigue siendo claro incluso con colecciones muy grandes.",
+  "Vom schnellen Überblick bis zur detaillierten Trackverwaltung: HyperFi bleibt auch bei sehr großen Sammlungen übersichtlich.": {
+    "hi": "त्वरित सारांश से विस्तृत ट्रैक प्रबंधन तक, बहुत बड़े संग्रह में भी HyperFi स्पष्ट और व्यवस्थित रहता है।",
+    "de": "Vom schnellen Überblick bis zur detaillierten Trackverwaltung: HyperFi bleibt auch bei sehr großen Sammlungen übersichtlich.",
+    "en": "From a quick overview to detailed track management, HyperFi stays clear even with very large collections.",
+    "fr": "De la vue d’ensemble à la gestion détaillée des titres, HyperFi reste lisible même avec de très grandes collections.",
+    "es": "Desde una vista rápida hasta la gestión detallada de pistas, HyperFi sigue siendo claro incluso con colecciones muy grandes.",
     "ru": "От быстрого обзора до подробного управления треками: даже очень большие коллекции остаются понятными и удобными.",
-    "zh": "从快速概览到详细的曲目管理，即使收藏庞大，Orynivo 依然清晰易用。"
+    "zh": "从快速概览到详细的曲目管理，即使收藏庞大，HyperFi 依然清晰易用。"
   },
   "Künstler": {
     "hi": "कलाकार",
@@ -567,23 +567,23 @@ const translations = {
     "ru": "Готовы слушать свою коллекцию?",
     "zh": "准备好畅听您的媒体库了吗？"
   },
-  "Orynivo herunterladen.": {
-    "hi": "Orynivo डाउनलोड करें।",
-    "de": "Orynivo herunterladen.",
-    "en": "Download Orynivo.",
-    "fr": "Télécharger Orynivo.",
-    "es": "Descargar Orynivo.",
-    "ru": "Скачайте Orynivo.",
-    "zh": "下载 Orynivo。"
+  "HyperFi herunterladen.": {
+    "hi": "HyperFi डाउनलोड करें।",
+    "de": "HyperFi herunterladen.",
+    "en": "Download HyperFi.",
+    "fr": "Télécharger HyperFi.",
+    "es": "Descargar HyperFi.",
+    "ru": "Скачайте HyperFi.",
+    "zh": "下载 HyperFi。"
   },
-  "Kostenlos, quelloffen und ohne Konto. Wähle dein System – oder betreibe zusätzlich Orynivo Server für deine Musik im Netzwerk.": {
-    "hi": "निःशुल्क, ओपन सोर्स और बिना खाते के। अपना सिस्टम चुनें—या नेटवर्क पर संगीत के लिए Orynivo सर्वर भी जोड़ें।",
-    "de": "Kostenlos, quelloffen und ohne Konto. Wähle dein System – oder betreibe zusätzlich Orynivo Server für deine Musik im Netzwerk.",
-    "en": "Free, open source and no account required. Choose your system—or add Orynivo Server for music across your network.",
-    "fr": "Gratuit, open source et sans compte. Choisissez votre système ou ajoutez Orynivo Server pour diffuser votre musique sur le réseau.",
-    "es": "Gratis, de código abierto y sin cuenta. Elige tu sistema o añade Orynivo Server para tu música en red.",
-    "ru": "Бесплатно, с открытым кодом и без учётной записи. Выберите свою систему или дополнительно установите Orynivo Server для музыки в домашней сети.",
-    "zh": "免费、开源，无需账户。选择您的系统，也可额外部署 Orynivo Server，在网络中共享音乐。"
+  "Kostenlos, quelloffen und ohne Konto. Wähle dein System – oder betreibe zusätzlich HyperFi Server für deine Musik im Netzwerk.": {
+    "hi": "निःशुल्क, ओपन सोर्स और बिना खाते के। अपना सिस्टम चुनें—या नेटवर्क पर संगीत के लिए HyperFi सर्वर भी जोड़ें।",
+    "de": "Kostenlos, quelloffen und ohne Konto. Wähle dein System – oder betreibe zusätzlich HyperFi Server für deine Musik im Netzwerk.",
+    "en": "Free, open source and no account required. Choose your system—or add HyperFi Server for music across your network.",
+    "fr": "Gratuit, open source et sans compte. Choisissez votre système ou ajoutez HyperFi Server pour diffuser votre musique sur le réseau.",
+    "es": "Gratis, de código abierto y sin cuenta. Elige tu sistema o añade HyperFi Server para tu música en red.",
+    "ru": "Бесплатно, с открытым кодом и без учётной записи. Выберите свою систему или дополнительно установите HyperFi Server для музыки в домашней сети.",
+    "zh": "免费、开源，无需账户。选择您的系统，也可额外部署 HyperFi Server，在网络中共享音乐。"
   },
   "Aktuelle Version": {
     "hi": "वर्तमान संस्करण",
@@ -756,14 +756,14 @@ const translations = {
     "ru": "Установите и откройте",
     "zh": "安装并打开"
   },
-  "Lade das Paket für dein Betriebssystem herunter, installiere Orynivo und starte die App.": {
-    "hi": "अपने ऑपरेटिंग सिस्टम का पैकेज डाउनलोड करें, Orynivo इंस्टॉल करें और ऐप शुरू करें।",
-    "de": "Lade das Paket für dein Betriebssystem herunter, installiere Orynivo und starte die App.",
-    "en": "Download the package for your operating system, install Orynivo and launch the app.",
-    "fr": "Téléchargez le paquet correspondant à votre système, installez Orynivo et lancez l’application.",
-    "es": "Descarga el paquete para tu sistema operativo, instala Orynivo e inicia la aplicación.",
-    "ru": "Скачайте пакет для своей операционной системы, установите Orynivo и запустите приложение.",
-    "zh": "下载适合您操作系统的软件包，安装并启动 Orynivo。"
+  "Lade das Paket für dein Betriebssystem herunter, installiere HyperFi und starte die App.": {
+    "hi": "अपने ऑपरेटिंग सिस्टम का पैकेज डाउनलोड करें, HyperFi इंस्टॉल करें और ऐप शुरू करें।",
+    "de": "Lade das Paket für dein Betriebssystem herunter, installiere HyperFi und starte die App.",
+    "en": "Download the package for your operating system, install HyperFi and launch the app.",
+    "fr": "Téléchargez le paquet correspondant à votre système, installez HyperFi et lancez l’application.",
+    "es": "Descarga el paquete para tu sistema operativo, instala HyperFi e inicia la aplicación.",
+    "ru": "Скачайте пакет для своей операционной системы, установите HyperFi и запустите приложение.",
+    "zh": "下载适合您操作系统的软件包，安装并启动 HyperFi。"
   },
   "Musikquelle hinzufügen": {
     "hi": "संगीत स्रोत जोड़ें",
@@ -774,14 +774,14 @@ const translations = {
     "ru": "Добавьте источник музыки",
     "zh": "添加音乐来源"
   },
-  "Öffne Einstellungen → Verzeichnisse und wähle mindestens einen lokalen Musikordner. Einen Orynivo Server kannst du stattdessen oder zusätzlich verbinden.": {
-    "hi": "सेटिंग्स → फ़ोल्डर खोलें और कम से कम एक स्थानीय संगीत फ़ोल्डर चुनें। इसके बदले या साथ में Orynivo सर्वर जोड़ सकते हैं।",
-    "de": "Öffne Einstellungen → Verzeichnisse und wähle mindestens einen lokalen Musikordner. Einen Orynivo Server kannst du stattdessen oder zusätzlich verbinden.",
-    "en": "Open Settings → Directories and select at least one local music folder. You can connect an Orynivo Server instead or in addition.",
-    "fr": "Ouvrez Réglages → Dossiers et sélectionnez au moins un dossier musical local. Vous pouvez aussi connecter un serveur Orynivo à la place ou en complément.",
-    "es": "Abre Ajustes → Directorios y selecciona al menos una carpeta de música local. También puedes conectar un servidor Orynivo en su lugar o además.",
-    "ru": "Откройте Настройки → Папки и выберите хотя бы одну локальную музыкальную папку. Вместо неё или дополнительно можно подключить сервер Orynivo.",
-    "zh": "打开“设置 → 目录”，选择至少一个本地音乐文件夹。也可连接 Orynivo 服务器作为替代或补充。"
+  "Öffne Einstellungen → Verzeichnisse und wähle mindestens einen lokalen Musikordner. Einen HyperFi Server kannst du stattdessen oder zusätzlich verbinden.": {
+    "hi": "सेटिंग्स → फ़ोल्डर खोलें और कम से कम एक स्थानीय संगीत फ़ोल्डर चुनें। इसके बदले या साथ में HyperFi सर्वर जोड़ सकते हैं।",
+    "de": "Öffne Einstellungen → Verzeichnisse und wähle mindestens einen lokalen Musikordner. Einen HyperFi Server kannst du stattdessen oder zusätzlich verbinden.",
+    "en": "Open Settings → Directories and select at least one local music folder. You can connect an HyperFi Server instead or in addition.",
+    "fr": "Ouvrez Réglages → Dossiers et sélectionnez au moins un dossier musical local. Vous pouvez aussi connecter un serveur HyperFi à la place ou en complément.",
+    "es": "Abre Ajustes → Directorios y selecciona al menos una carpeta de música local. También puedes conectar un servidor HyperFi en su lugar o además.",
+    "ru": "Откройте Настройки → Папки и выберите хотя бы одну локальную музыкальную папку. Вместо неё или дополнительно можно подключить сервер HyperFi.",
+    "zh": "打开“设置 → 目录”，选择至少一个本地音乐文件夹。也可连接 HyperFi 服务器作为替代或补充。"
   },
   "Automatisch": {
     "hi": "स्वचालित",
@@ -909,14 +909,14 @@ const translations = {
     "ru": "со страницы выпуска.",
     "zh": "文件。"
   },
-  "Orynivo installieren": {
-    "hi": "Orynivo इंस्टॉल करें",
-    "de": "Orynivo installieren",
-    "en": "Install Orynivo",
-    "fr": "Installer Orynivo",
-    "es": "Instalar Orynivo",
-    "ru": "Установите Orynivo",
-    "zh": "安装 Orynivo"
+  "HyperFi installieren": {
+    "hi": "HyperFi इंस्टॉल करें",
+    "de": "HyperFi installieren",
+    "en": "Install HyperFi",
+    "fr": "Installer HyperFi",
+    "es": "Instalar HyperFi",
+    "ru": "Установите HyperFi",
+    "zh": "安装 HyperFi"
   },
   "Starte den Installer und folge dem Assistenten. Alternativ kannst du das portable ZIP entpacken.": {
     "hi": "इंस्टॉलर चलाएँ और विज़ार्ड के निर्देशों का पालन करें। विकल्प के रूप में पोर्टेबल ZIP निकाल सकते हैं।",
@@ -954,14 +954,14 @@ const translations = {
     "ru": "Выберите выход",
     "zh": "选择输出"
   },
-  "Orynivo wählt einen Standardausgang. Für bitperfekte Wiedergabe kannst du WASAPI Exclusive, ASIO oder cwASIO konfigurieren.": {
-    "hi": "Orynivo डिफ़ॉल्ट आउटपुट चुनता है। बिट-परफ़ेक्ट प्लेबैक के लिए WASAPI Exclusive, ASIO या cwASIO कॉन्फ़िगर करें।",
-    "de": "Orynivo wählt einen Standardausgang. Für bitperfekte Wiedergabe kannst du WASAPI Exclusive, ASIO oder cwASIO konfigurieren.",
-    "en": "Orynivo selects a default output. For bit-perfect playback, configure WASAPI Exclusive, ASIO or cwASIO.",
-    "fr": "Orynivo sélectionne une sortie par défaut. Pour une lecture bit-perfect, configurez WASAPI Exclusive, ASIO ou cwASIO.",
-    "es": "Orynivo selecciona una salida predeterminada. Para reproducción bit-perfect, configura WASAPI Exclusive, ASIO o cwASIO.",
-    "ru": "Orynivo выбирает выход по умолчанию. Для побитово точного воспроизведения настройте WASAPI Exclusive, ASIO или cwASIO.",
-    "zh": "Orynivo 会选择默认输出。若需位完美播放，可配置 WASAPI 独占模式、ASIO 或 cwASIO。"
+  "HyperFi wählt einen Standardausgang. Für bitperfekte Wiedergabe kannst du WASAPI Exclusive, ASIO oder cwASIO konfigurieren.": {
+    "hi": "HyperFi डिफ़ॉल्ट आउटपुट चुनता है। बिट-परफ़ेक्ट प्लेबैक के लिए WASAPI Exclusive, ASIO या cwASIO कॉन्फ़िगर करें।",
+    "de": "HyperFi wählt einen Standardausgang. Für bitperfekte Wiedergabe kannst du WASAPI Exclusive, ASIO oder cwASIO konfigurieren.",
+    "en": "HyperFi selects a default output. For bit-perfect playback, configure WASAPI Exclusive, ASIO or cwASIO.",
+    "fr": "HyperFi sélectionne une sortie par défaut. Pour une lecture bit-perfect, configurez WASAPI Exclusive, ASIO ou cwASIO.",
+    "es": "HyperFi selecciona una salida predeterminada. Para reproducción bit-perfect, configura WASAPI Exclusive, ASIO o cwASIO.",
+    "ru": "HyperFi выбирает выход по умолчанию. Для побитово точного воспроизведения настройте WASAPI Exclusive, ASIO или cwASIO.",
+    "zh": "HyperFi 会选择默认输出。若需位完美播放，可配置 WASAPI 独占模式、ASIO 或 cwASIO。"
   },
   "Paket wählen": {
     "hi": "पैकेज चुनें",
@@ -1035,23 +1035,23 @@ const translations = {
     "ru": "Откройте PKG",
     "zh": "打开 PKG"
   },
-  "Öffne das signierte Release-Paket und installiere Orynivo nach Programme. Portable ZIP- und Tar-Versionen sind ebenfalls verfügbar.": {
-    "hi": "हस्ताक्षरित रिलीज़ पैकेज खोलें और Orynivo को Applications में इंस्टॉल करें। पोर्टेबल ZIP और टार संस्करण भी उपलब्ध हैं।",
-    "de": "Öffne das signierte Release-Paket und installiere Orynivo nach Programme. Portable ZIP- und Tar-Versionen sind ebenfalls verfügbar.",
-    "en": "Open the signed release package and install Orynivo in Applications. Portable ZIP and tar versions are also available.",
-    "fr": "Ouvrez le paquet signé et installez Orynivo dans Applications. Des versions ZIP et tar portables sont également disponibles.",
-    "es": "Abre el paquete firmado e instala Orynivo en Aplicaciones. También hay versiones ZIP y tar portátiles.",
-    "ru": "Откройте пакет из подписанного выпуска и установите Orynivo в папку «Программы». Также доступны переносимые ZIP- и tar-архивы.",
-    "zh": "打开发行版本中的签名软件包，将 Orynivo 安装到“应用程序”。也提供便携版 ZIP 和 tar 压缩包。"
+  "Öffne das signierte Release-Paket und installiere HyperFi nach Programme. Portable ZIP- und Tar-Versionen sind ebenfalls verfügbar.": {
+    "hi": "हस्ताक्षरित रिलीज़ पैकेज खोलें और HyperFi को Applications में इंस्टॉल करें। पोर्टेबल ZIP और टार संस्करण भी उपलब्ध हैं।",
+    "de": "Öffne das signierte Release-Paket und installiere HyperFi nach Programme. Portable ZIP- und Tar-Versionen sind ebenfalls verfügbar.",
+    "en": "Open the signed release package and install HyperFi in Applications. Portable ZIP and tar versions are also available.",
+    "fr": "Ouvrez le paquet signé et installez HyperFi dans Applications. Des versions ZIP et tar portables sont également disponibles.",
+    "es": "Abre el paquete firmado e instala HyperFi en Aplicaciones. También hay versiones ZIP y tar portátiles.",
+    "ru": "Откройте пакет из подписанного выпуска и установите HyperFi в папку «Программы». Также доступны переносимые ZIP- и tar-архивы.",
+    "zh": "打开发行版本中的签名软件包，将 HyperFi 安装到“应用程序”。也提供便携版 ZIP 和 tar 压缩包。"
   },
-  "Füge Musikordner hinzu. Orynivo sucht FFmpeg in üblichen Paketmanager-Pfaden und im Benutzer-Cache.": {
-    "hi": "संगीत फ़ोल्डर जोड़ें। Orynivo सामान्य पैकेज-मैनेजर पथों और उपयोगकर्ता कैश में FFmpeg खोजता है।",
-    "de": "Füge Musikordner hinzu. Orynivo sucht FFmpeg in üblichen Paketmanager-Pfaden und im Benutzer-Cache.",
-    "en": "Add music folders. Orynivo looks for FFmpeg in common package-manager paths and the user cache.",
-    "fr": "Ajoutez vos dossiers musicaux. Orynivo recherche FFmpeg dans les chemins habituels des gestionnaires de paquets et le cache utilisateur.",
-    "es": "Añade carpetas de música. Orynivo busca FFmpeg en rutas habituales de gestores de paquetes y en la caché del usuario.",
-    "ru": "Добавьте музыкальные папки. Orynivo ищет FFmpeg в стандартных каталогах менеджеров пакетов и в пользовательском кэше.",
-    "zh": "添加音乐文件夹。Orynivo 会在常用包管理器路径和用户缓存中查找 FFmpeg。"
+  "Füge Musikordner hinzu. HyperFi sucht FFmpeg in üblichen Paketmanager-Pfaden und im Benutzer-Cache.": {
+    "hi": "संगीत फ़ोल्डर जोड़ें। HyperFi सामान्य पैकेज-मैनेजर पथों और उपयोगकर्ता कैश में FFmpeg खोजता है।",
+    "de": "Füge Musikordner hinzu. HyperFi sucht FFmpeg in üblichen Paketmanager-Pfaden und im Benutzer-Cache.",
+    "en": "Add music folders. HyperFi looks for FFmpeg in common package-manager paths and the user cache.",
+    "fr": "Ajoutez vos dossiers musicaux. HyperFi recherche FFmpeg dans les chemins habituels des gestionnaires de paquets et le cache utilisateur.",
+    "es": "Añade carpetas de música. HyperFi busca FFmpeg en rutas habituales de gestores de paquetes y en la caché del usuario.",
+    "ru": "Добавьте музыкальные папки. HyperFi ищет FFmpeg в стандартных каталогах менеджеров пакетов и в пользовательском кэше.",
+    "zh": "添加音乐文件夹。HyperFi 会在常用包管理器路径和用户缓存中查找 FFmpeg。"
   },
   "Serverpaket installieren": {
     "hi": "सर्वर पैकेज इंस्टॉल करें",
@@ -1116,14 +1116,14 @@ const translations = {
     "ru": "Подключите клиент",
     "zh": "连接客户端"
   },
-  "Füge den Server in Orynivo unter Einstellungen → Orynivo Server hinzu. Standardport:": {
-    "hi": "Orynivo में सेटिंग्स → Orynivo सर्वर के अंतर्गत सर्वर जोड़ें। डिफ़ॉल्ट पोर्ट:",
-    "de": "Füge den Server in Orynivo unter Einstellungen → Orynivo Server hinzu. Standardport:",
-    "en": "Add the server in Orynivo under Settings → Orynivo Server. Default port:",
-    "fr": "Ajoutez le serveur dans Orynivo sous Réglages → Orynivo Server. Port par défaut :",
-    "es": "Añade el servidor en Orynivo en Ajustes → Orynivo Server. Puerto predeterminado:",
-    "ru": "Добавьте сервер в Orynivo в Настройки → Серверы Orynivo. Порт по умолчанию:",
-    "zh": "在 Orynivo 的“设置 → Orynivo 服务器”中添加服务器。默认端口："
+  "Füge den Server in HyperFi unter Einstellungen → HyperFi Server hinzu. Standardport:": {
+    "hi": "HyperFi में सेटिंग्स → HyperFi सर्वर के अंतर्गत सर्वर जोड़ें। डिफ़ॉल्ट पोर्ट:",
+    "de": "Füge den Server in HyperFi unter Einstellungen → HyperFi Server hinzu. Standardport:",
+    "en": "Add the server in HyperFi under Settings → HyperFi Server. Default port:",
+    "fr": "Ajoutez le serveur dans HyperFi sous Réglages → HyperFi Server. Port par défaut :",
+    "es": "Añade el servidor en HyperFi en Ajustes → HyperFi Server. Puerto predeterminado:",
+    "ru": "Добавьте сервер в HyperFi в Настройки → Серверы HyperFi. Порт по умолчанию:",
+    "zh": "在 HyperFi 的“设置 → HyperFi 服务器”中添加服务器。默认端口："
   },
   "Gut zu wissen": {
     "hi": "जानने योग्य बातें",
@@ -1143,23 +1143,23 @@ const translations = {
     "ru": "Частые вопросы.",
     "zh": "常见问题。"
   },
-  "Ist Orynivo wirklich kostenlos?": {
-    "hi": "क्या Orynivo सचमुच निःशुल्क है?",
-    "de": "Ist Orynivo wirklich kostenlos?",
-    "en": "Is Orynivo really free?",
-    "fr": "Orynivo est-il vraiment gratuit ?",
-    "es": "¿Orynivo es realmente gratis?",
-    "ru": "Orynivo действительно бесплатен?",
-    "zh": "Orynivo 真的免费吗？"
+  "Ist HyperFi wirklich kostenlos?": {
+    "hi": "क्या HyperFi सचमुच निःशुल्क है?",
+    "de": "Ist HyperFi wirklich kostenlos?",
+    "en": "Is HyperFi really free?",
+    "fr": "HyperFi est-il vraiment gratuit ?",
+    "es": "¿HyperFi es realmente gratis?",
+    "ru": "HyperFi действительно бесплатен?",
+    "zh": "HyperFi 真的免费吗？"
   },
-  "Ja. Orynivo wird unter der Apache-Lizenz 2.0 veröffentlicht. Du kannst den Player kostenlos nutzen, prüfen und weiterentwickeln.": {
-    "hi": "हाँ। Orynivo Apache 2.0 लाइसेंस के अंतर्गत प्रकाशित है। आप प्लेयर निःशुल्क उपयोग कर सकते हैं, उसका कोड जाँच सकते हैं और उसे विकसित कर सकते हैं।",
-    "de": "Ja. Orynivo wird unter der Apache-Lizenz 2.0 veröffentlicht. Du kannst den Player kostenlos nutzen, prüfen und weiterentwickeln.",
-    "en": "Yes. Orynivo is released under the Apache 2.0 license. You may use, inspect and develop the player for free.",
-    "fr": "Oui. Orynivo est publié sous licence Apache 2.0. Vous pouvez utiliser, examiner et développer gratuitement le lecteur.",
-    "es": "Sí. Orynivo se publica con licencia Apache 2.0. Puedes usar, estudiar y desarrollar el reproductor gratis.",
-    "ru": "Да. Orynivo распространяется по лицензии Apache 2.0. Вы можете бесплатно пользоваться проигрывателем, изучать его код и дорабатывать его.",
-    "zh": "是的。Orynivo 采用 Apache 2.0 许可证。您可以免费使用、审查和改进播放器。"
+  "Ja. HyperFi wird unter der Apache-Lizenz 2.0 veröffentlicht. Du kannst den Player kostenlos nutzen, prüfen und weiterentwickeln.": {
+    "hi": "हाँ। HyperFi Apache 2.0 लाइसेंस के अंतर्गत प्रकाशित है। आप प्लेयर निःशुल्क उपयोग कर सकते हैं, उसका कोड जाँच सकते हैं और उसे विकसित कर सकते हैं।",
+    "de": "Ja. HyperFi wird unter der Apache-Lizenz 2.0 veröffentlicht. Du kannst den Player kostenlos nutzen, prüfen und weiterentwickeln.",
+    "en": "Yes. HyperFi is released under the Apache 2.0 license. You may use, inspect and develop the player for free.",
+    "fr": "Oui. HyperFi est publié sous licence Apache 2.0. Vous pouvez utiliser, examiner et développer gratuitement le lecteur.",
+    "es": "Sí. HyperFi se publica con licencia Apache 2.0. Puedes usar, estudiar y desarrollar el reproductor gratis.",
+    "ru": "Да. HyperFi распространяется по лицензии Apache 2.0. Вы можете бесплатно пользоваться проигрывателем, изучать его код и дорабатывать его.",
+    "zh": "是的。HyperFi 采用 Apache 2.0 许可证。您可以免费使用、审查和改进播放器。"
   },
   "Welche Audioformate werden unterstützt?": {
     "hi": "कौन-से ऑडियो प्रारूप समर्थित हैं?",
@@ -1179,32 +1179,32 @@ const translations = {
     "ru": "В том числе FLAC, WAV, MP3, AAC, Ogg/Vorbis, Opus, MKA, DSF и несжатый DFF/DSDIFF. Декодирование некоторых форматов зависит от FFmpeg.",
     "zh": "包括 FLAC、WAV、MP3、AAC、Ogg/Vorbis、Opus、MKA、DSF 和未压缩的 DFF/DSDIFF。部分格式的解码依赖 FFmpeg。"
   },
-  "Brauche ich Orynivo Server?": {
-    "hi": "क्या मुझे Orynivo सर्वर चाहिए?",
-    "de": "Brauche ich Orynivo Server?",
-    "en": "Do I need Orynivo Server?",
-    "fr": "Ai-je besoin d’Orynivo Server ?",
-    "es": "¿Necesito Orynivo Server?",
-    "ru": "Нужен ли мне Orynivo Server?",
-    "zh": "需要 Orynivo Server 吗？"
+  "Brauche ich HyperFi Server?": {
+    "hi": "क्या मुझे HyperFi सर्वर चाहिए?",
+    "de": "Brauche ich HyperFi Server?",
+    "en": "Do I need HyperFi Server?",
+    "fr": "Ai-je besoin d’HyperFi Server ?",
+    "es": "¿Necesito HyperFi Server?",
+    "ru": "Нужен ли мне HyperFi Server?",
+    "zh": "需要 HyperFi Server 吗？"
   },
-  "Nein. Für eine lokale Bibliothek reicht die Desktop-App. Der Server ist optional und macht eine zentrale Sammlung im lokalen Netzwerk für Orynivo-Clients verfügbar.": {
-    "hi": "नहीं। स्थानीय संग्रह के लिए डेस्कटॉप ऐप पर्याप्त है। वैकल्पिक सर्वर स्थानीय नेटवर्क पर केंद्रीय संग्रह Orynivo क्लाइंट को उपलब्ध कराता है।",
-    "de": "Nein. Für eine lokale Bibliothek reicht die Desktop-App. Der Server ist optional und macht eine zentrale Sammlung im lokalen Netzwerk für Orynivo-Clients verfügbar.",
-    "en": "No. The desktop app is enough for a local library. The optional server makes a central collection available to Orynivo clients on your local network.",
-    "fr": "Non. L’application de bureau suffit pour une bibliothèque locale. Le serveur optionnel rend une collection centrale accessible aux clients Orynivo du réseau local.",
-    "es": "No. La aplicación de escritorio basta para una biblioteca local. El servidor opcional permite acceder a una colección central desde clientes Orynivo en la red local.",
-    "ru": "Нет. Для локальной библиотеки достаточно настольного приложения. Необязательный сервер предоставляет общую коллекцию клиентам Orynivo в локальной сети.",
-    "zh": "不需要。本地媒体库只需桌面应用。服务器为可选组件，用于在局域网中向 Orynivo 客户端提供集中式音乐收藏。"
+  "Nein. Für eine lokale Bibliothek reicht die Desktop-App. Der Server ist optional und macht eine zentrale Sammlung im lokalen Netzwerk für HyperFi-Clients verfügbar.": {
+    "hi": "नहीं। स्थानीय संग्रह के लिए डेस्कटॉप ऐप पर्याप्त है। वैकल्पिक सर्वर स्थानीय नेटवर्क पर केंद्रीय संग्रह HyperFi क्लाइंट को उपलब्ध कराता है।",
+    "de": "Nein. Für eine lokale Bibliothek reicht die Desktop-App. Der Server ist optional und macht eine zentrale Sammlung im lokalen Netzwerk für HyperFi-Clients verfügbar.",
+    "en": "No. The desktop app is enough for a local library. The optional server makes a central collection available to HyperFi clients on your local network.",
+    "fr": "Non. L’application de bureau suffit pour une bibliothèque locale. Le serveur optionnel rend une collection centrale accessible aux clients HyperFi du réseau local.",
+    "es": "No. La aplicación de escritorio basta para una biblioteca local. El servidor opcional permite acceder a una colección central desde clientes HyperFi en la red local.",
+    "ru": "Нет. Для локальной библиотеки достаточно настольного приложения. Необязательный сервер предоставляет общую коллекцию клиентам HyperFi в локальной сети.",
+    "zh": "不需要。本地媒体库只需桌面应用。服务器为可选组件，用于在局域网中向 HyperFi 客户端提供集中式音乐收藏。"
   },
-  "Sendet Orynivo meine Bibliothek in eine Cloud?": {
-    "hi": "क्या Orynivo मेरा संग्रह क्लाउड में भेजता है?",
-    "de": "Sendet Orynivo meine Bibliothek in eine Cloud?",
-    "en": "Does Orynivo send my library to the cloud?",
-    "fr": "Orynivo envoie-t-il ma bibliothèque dans le cloud ?",
-    "es": "¿Orynivo envía mi biblioteca a la nube?",
-    "ru": "Отправляет ли Orynivo мою библиотеку в облако?",
-    "zh": "Orynivo 会将媒体库上传到云端吗？"
+  "Sendet HyperFi meine Bibliothek in eine Cloud?": {
+    "hi": "क्या HyperFi मेरा संग्रह क्लाउड में भेजता है?",
+    "de": "Sendet HyperFi meine Bibliothek in eine Cloud?",
+    "en": "Does HyperFi send my library to the cloud?",
+    "fr": "HyperFi envoie-t-il ma bibliothèque dans le cloud ?",
+    "es": "¿HyperFi envía mi biblioteca a la nube?",
+    "ru": "Отправляет ли HyperFi мою библиотеку в облако?",
+    "zh": "HyperFi 会将媒体库上传到云端吗？"
   },
   "Nein. Bibliothek und Einstellungen bleiben lokal. Externe Dienste werden nur für ausdrücklich verwendete Funktionen wie Metadaten, Radio, Podcasts oder KI-Chat kontaktiert.": {
     "hi": "नहीं। संग्रह और सेटिंग्स स्थानीय रहते हैं। बाहरी सेवाओं से केवल आपके द्वारा स्पष्ट रूप से उपयोग की गई सुविधाओं—जैसे मेटाडेटा, रेडियो, पॉडकास्ट या AI चैट—के लिए संपर्क किया जाता है।",
@@ -1224,14 +1224,14 @@ const translations = {
     "ru": "Как получать обновления?",
     "zh": "如何获取更新？"
   },
-  "Orynivo kann signierte GitHub-Releases prüfen. Downloads und Installationen werden nur nach deiner ausdrücklichen Aktion gestartet. Diese Website liest ebenfalls ausschließlich die öffentliche GitHub-Release-API, um aktuelle Downloadlinks anzuzeigen.": {
-    "hi": "Orynivo हस्ताक्षरित GitHub रिलीज़ जाँच सकता है। डाउनलोड और इंस्टॉलेशन केवल आपकी स्पष्ट कार्रवाई के बाद शुरू होते हैं। यह वेबसाइट भी वर्तमान डाउनलोड लिंक दिखाने के लिए केवल सार्वजनिक GitHub Releases API उपयोग करती है।",
-    "de": "Orynivo kann signierte GitHub-Releases prüfen. Downloads und Installationen werden nur nach deiner ausdrücklichen Aktion gestartet. Diese Website liest ebenfalls ausschließlich die öffentliche GitHub-Release-API, um aktuelle Downloadlinks anzuzeigen.",
-    "en": "Orynivo can check signed GitHub releases. Downloads and installations start only after your explicit action. This website also uses only the public GitHub Releases API to show current download links.",
-    "fr": "Orynivo peut vérifier les versions GitHub signées. Téléchargements et installations ne démarrent qu’après votre action explicite. Ce site utilise uniquement l’API publique GitHub Releases pour afficher les liens actuels.",
-    "es": "Orynivo puede comprobar versiones firmadas de GitHub. Las descargas e instalaciones solo comienzan tras una acción explícita. Esta web usa únicamente la API pública de GitHub Releases para mostrar enlaces actuales.",
-    "ru": "Orynivo проверяет подписанные выпуски GitHub. Загрузка и установка начинаются только по вашему явному действию. Этот сайт обращается только к общедоступному API выпусков GitHub, чтобы показать актуальные ссылки на загрузку.",
-    "zh": "Orynivo 可检查带签名的 GitHub 发行版本。只有您主动操作后才会下载和安装。本网站也仅访问公共 GitHub Releases API，以显示最新下载链接。"
+  "HyperFi kann signierte GitHub-Releases prüfen. Downloads und Installationen werden nur nach deiner ausdrücklichen Aktion gestartet. Diese Website liest ebenfalls ausschließlich die öffentliche GitHub-Release-API, um aktuelle Downloadlinks anzuzeigen.": {
+    "hi": "HyperFi हस्ताक्षरित GitHub रिलीज़ जाँच सकता है। डाउनलोड और इंस्टॉलेशन केवल आपकी स्पष्ट कार्रवाई के बाद शुरू होते हैं। यह वेबसाइट भी वर्तमान डाउनलोड लिंक दिखाने के लिए केवल सार्वजनिक GitHub Releases API उपयोग करती है।",
+    "de": "HyperFi kann signierte GitHub-Releases prüfen. Downloads und Installationen werden nur nach deiner ausdrücklichen Aktion gestartet. Diese Website liest ebenfalls ausschließlich die öffentliche GitHub-Release-API, um aktuelle Downloadlinks anzuzeigen.",
+    "en": "HyperFi can check signed GitHub releases. Downloads and installations start only after your explicit action. This website also uses only the public GitHub Releases API to show current download links.",
+    "fr": "HyperFi peut vérifier les versions GitHub signées. Téléchargements et installations ne démarrent qu’après votre action explicite. Ce site utilise uniquement l’API publique GitHub Releases pour afficher les liens actuels.",
+    "es": "HyperFi puede comprobar versiones firmadas de GitHub. Las descargas e instalaciones solo comienzan tras una acción explícita. Esta web usa únicamente la API pública de GitHub Releases para mostrar enlaces actuales.",
+    "ru": "HyperFi проверяет подписанные выпуски GitHub. Загрузка и установка начинаются только по вашему явному действию. Этот сайт обращается только к общедоступному API выпусков GitHub, чтобы показать актуальные ссылки на загрузку.",
+    "zh": "HyperFi 可检查带签名的 GitHub 发行版本。只有您主动操作后才会下载和安装。本网站也仅访问公共 GitHub Releases API，以显示最新下载链接。"
   },
   "Deine Sammlung wartet": {
     "hi": "आपका संग्रह इंतज़ार कर रहा है",
@@ -1260,14 +1260,14 @@ const translations = {
     "ru": "Проигрыватель для музыки, которая принадлежит вам.",
     "zh": "为您拥有的音乐而生。"
   },
-  "Orynivo herunterladen ↓": {
-    "hi": "Orynivo डाउनलोड करें ↓",
-    "de": "Orynivo herunterladen ↓",
-    "en": "Download Orynivo ↓",
-    "fr": "Télécharger Orynivo ↓",
-    "es": "Descargar Orynivo ↓",
-    "ru": "Скачать Orynivo ↓",
-    "zh": "下载 Orynivo ↓"
+  "HyperFi herunterladen ↓": {
+    "hi": "HyperFi डाउनलोड करें ↓",
+    "de": "HyperFi herunterladen ↓",
+    "en": "Download HyperFi ↓",
+    "fr": "Télécharger HyperFi ↓",
+    "es": "Descargar HyperFi ↓",
+    "ru": "Скачать HyperFi ↓",
+    "zh": "下载 HyperFi ↓"
   },
   "Moderner Open-Source-Musikplayer für Windows, Linux und macOS.": {
     "hi": "Windows, Linux और macOS के लिए आधुनिक ओपन-सोर्स संगीत प्लेयर।",
@@ -1278,14 +1278,14 @@ const translations = {
     "ru": "Современный музыкальный проигрыватель с открытым кодом для Windows, Linux и macOS.",
     "zh": "适用于 Windows、Linux 和 macOS 的现代开源音乐播放器。"
   },
-  "Orynivo Contributors": {
-    "hi": "Orynivo योगदानकर्ता",
-    "de": "Orynivo Contributors",
-    "en": "Orynivo contributors",
-    "fr": "Contributeurs Orynivo",
-    "es": "Colaboradores de Orynivo",
-    "ru": "Участники проекта Orynivo",
-    "zh": "Orynivo 贡献者"
+  "HyperFi Contributors": {
+    "hi": "HyperFi योगदानकर्ता",
+    "de": "HyperFi Contributors",
+    "en": "HyperFi contributors",
+    "fr": "Contributeurs HyperFi",
+    "es": "Colaboradores de HyperFi",
+    "ru": "Участники проекта HyperFi",
+    "zh": "HyperFi 贡献者"
   },
   "Dokumentation": {
     "hi": "दस्तावेज़",
@@ -1449,14 +1449,14 @@ const translations = {
     "ru": "Выбор языка",
     "zh": "语言选择"
   },
-  "Die gewählte Sprache wird ausschließlich als lokale Einstellung im Browser gespeichert und nicht an Orynivo übertragen.": {
-    "hi": "चुनी गई भाषा केवल ब्राउज़र की स्थानीय प्राथमिकता के रूप में रखी जाती है और Orynivo को नहीं भेजी जाती।",
-    "de": "Die gewählte Sprache wird ausschließlich als lokale Einstellung im Browser gespeichert und nicht an Orynivo übertragen.",
-    "en": "The selected language is stored only as a local browser preference and is not transmitted to Orynivo.",
-    "fr": "La langue choisie est uniquement enregistrée comme préférence locale dans le navigateur et n’est pas transmise à Orynivo.",
-    "es": "El idioma elegido se guarda únicamente como preferencia local del navegador y no se transmite a Orynivo.",
-    "ru": "Выбранный язык сохраняется только в настройках браузера и не передаётся Orynivo.",
-    "zh": "所选语言仅保存在本地浏览器偏好设置中，不会传输给 Orynivo。"
+  "Die gewählte Sprache wird ausschließlich als lokale Einstellung im Browser gespeichert und nicht an HyperFi übertragen.": {
+    "hi": "चुनी गई भाषा केवल ब्राउज़र की स्थानीय प्राथमिकता के रूप में रखी जाती है और HyperFi को नहीं भेजी जाती।",
+    "de": "Die gewählte Sprache wird ausschließlich als lokale Einstellung im Browser gespeichert und nicht an HyperFi übertragen.",
+    "en": "The selected language is stored only as a local browser preference and is not transmitted to HyperFi.",
+    "fr": "La langue choisie est uniquement enregistrée comme préférence locale dans le navigateur et n’est pas transmise à HyperFi.",
+    "es": "El idioma elegido se guarda únicamente como preferencia local del navegador y no se transmite a HyperFi.",
+    "ru": "Выбранный язык сохраняется только в настройках браузера и не передаётся HyperFi.",
+    "zh": "所选语言仅保存在本地浏览器偏好设置中，不会传输给 HyperFi。"
   },
   "GitHub-Releases": {
     "hi": "GitHub रिलीज़",
@@ -1494,14 +1494,14 @@ const translations = {
     "ru": "Оператор данных и права пользователей",
     "zh": "数据控制者与数据主体权利"
   },
-  "Verantwortlich ist Björn Schlaack, erreichbar unter": {
-    "hi": "डेटा नियंत्रक Björn Schlaack हैं, जिनसे यहाँ संपर्क किया जा सकता है:",
-    "de": "Verantwortlich ist Björn Schlaack, erreichbar unter",
-    "en": "The controller is Björn Schlaack, available at",
-    "fr": "Le responsable est Björn Schlaack, joignable à",
-    "es": "El responsable es Björn Schlaack, disponible en",
-    "ru": "Оператор данных — Björn Schlaack. Связаться можно по адресу",
-    "zh": "数据控制者为 Björn Schlaack，联系邮箱："
+  "Verantwortlich ist HyperFi contributors, erreichbar unter": {
+    "hi": "डेटा नियंत्रक HyperFi contributors हैं, जिनसे यहाँ संपर्क किया जा सकता है:",
+    "de": "Verantwortlich ist HyperFi contributors, erreichbar unter",
+    "en": "The controller is HyperFi contributors, available at",
+    "fr": "Le responsable est HyperFi contributors, joignable à",
+    "es": "El responsable es HyperFi contributors, disponible en",
+    "ru": "Оператор данных — HyperFi contributors. Связаться можно по адресу",
+    "zh": "数据控制者为 HyperFi contributors，联系邮箱："
   },
   "Betroffene Personen haben nach Maßgabe der DSGVO insbesondere Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch und Beschwerde bei einer Datenschutzaufsichtsbehörde.": {
     "hi": "GDPR के अनुसार संबंधित व्यक्तियों को विशेष रूप से जानकारी प्राप्त करने, सुधार, मिटाने, प्रसंस्करण सीमित करने, डेटा पोर्टेबिलिटी, आपत्ति और डेटा-सुरक्षा पर्यवेक्षण प्राधिकरण में शिकायत करने के अधिकार हैं।",
@@ -1512,14 +1512,14 @@ const translations = {
     "ru": "Согласно GDPR субъекты данных имеют право на доступ, исправление, удаление, ограничение обработки, перенос данных, возражение и подачу жалобы в орган по защите данных.",
     "zh": "根据 GDPR，数据主体享有访问、更正、删除、限制处理、数据可移植、反对以及向数据保护监管机构投诉等权利。"
   },
-  "Orynivo Startseite": {
-    "hi": "Orynivo मुखपृष्ठ",
-    "de": "Orynivo Startseite",
-    "en": "Orynivo home page",
-    "fr": "Accueil Orynivo",
-    "es": "Inicio de Orynivo",
-    "ru": "Главная страница Orynivo",
-    "zh": "Orynivo 主页"
+  "HyperFi Startseite": {
+    "hi": "HyperFi मुखपृष्ठ",
+    "de": "HyperFi Startseite",
+    "en": "HyperFi home page",
+    "fr": "Accueil HyperFi",
+    "es": "Inicio de HyperFi",
+    "ru": "Главная страница HyperFi",
+    "zh": "HyperFi 主页"
   },
   "Navigation öffnen": {
     "hi": "नेविगेशन खोलें",
@@ -1620,32 +1620,32 @@ const translations = {
     "ru": "Закрыть",
     "zh": "关闭"
   },
-  "Vergrößerter Orynivo Screenshot": {
-    "hi": "Orynivo का बड़ा स्क्रीनशॉट",
-    "de": "Vergrößerter Orynivo Screenshot",
-    "en": "Enlarged Orynivo screenshot",
-    "fr": "Capture Orynivo agrandie",
-    "es": "Captura ampliada de Orynivo",
-    "ru": "Увеличенный снимок Orynivo",
-    "zh": "放大的 Orynivo 截图"
+  "Vergrößerter HyperFi Screenshot": {
+    "hi": "HyperFi का बड़ा स्क्रीनशॉट",
+    "de": "Vergrößerter HyperFi Screenshot",
+    "en": "Enlarged HyperFi screenshot",
+    "fr": "Capture HyperFi agrandie",
+    "es": "Captura ampliada de HyperFi",
+    "ru": "Увеличенный снимок HyperFi",
+    "zh": "放大的 HyperFi 截图"
   },
-  "Orynivo Künstleransicht": {
-    "hi": "Orynivo कलाकार दृश्य",
-    "de": "Orynivo Künstleransicht",
-    "en": "Orynivo artist view",
-    "fr": "Vue des artistes Orynivo",
-    "es": "Vista de artistas de Orynivo",
-    "ru": "Исполнители в Orynivo",
-    "zh": "Orynivo 艺术家视图"
+  "HyperFi Künstleransicht": {
+    "hi": "HyperFi कलाकार दृश्य",
+    "de": "HyperFi Künstleransicht",
+    "en": "HyperFi artist view",
+    "fr": "Vue des artistes HyperFi",
+    "es": "Vista de artistas de HyperFi",
+    "ru": "Исполнители в HyperFi",
+    "zh": "HyperFi 艺术家视图"
   },
-  "Orynivo Künstleransicht mit Albumcovern": {
-    "hi": "एल्बम कवर सहित Orynivo कलाकार दृश्य",
-    "de": "Orynivo Künstleransicht mit Albumcovern",
-    "en": "Orynivo artist view with album covers",
-    "fr": "Vue des artistes Orynivo avec pochettes",
-    "es": "Vista de artistas de Orynivo con portadas",
-    "ru": "Исполнители и обложки альбомов в Orynivo",
-    "zh": "包含专辑封面的 Orynivo 艺术家视图"
+  "HyperFi Künstleransicht mit Albumcovern": {
+    "hi": "एल्बम कवर सहित HyperFi कलाकार दृश्य",
+    "de": "HyperFi Künstleransicht mit Albumcovern",
+    "en": "HyperFi artist view with album covers",
+    "fr": "Vue des artistes HyperFi avec pochettes",
+    "es": "Vista de artistas de HyperFi con portadas",
+    "ru": "Исполнители и обложки альбомов в HyperFi",
+    "zh": "包含专辑封面的 HyperFi 艺术家视图"
   },
   "Alben durchsuchen": {
     "hi": "एल्बम देखें",
@@ -1721,30 +1721,30 @@ const translations = {
   }
 };
 const pageMetadata = {
-  "hi": {"title":"Orynivo – Windows, Linux और macOS के लिए Hi-Res संगीत प्लेयर","description":"Orynivo Windows, Linux और macOS के लिए आधुनिक ओपन-सोर्स संगीत प्लेयर है—Hi-Res, DSD, संग्रह सर्वर, रेडियो, पॉडकास्ट और AI चैट के साथ।"},
+  "hi": {"title":"HyperFi – Windows, Linux और macOS के लिए Hi-Res संगीत प्लेयर","description":"HyperFi Windows, Linux और macOS के लिए आधुनिक ओपन-सोर्स संगीत प्लेयर है—Hi-Res, DSD, संग्रह सर्वर, रेडियो, पॉडकास्ट और AI चैट के साथ।"},
   "en": {
-    "title": "Orynivo – Hi-Res music player for Windows, Linux & macOS",
-    "description": "Orynivo is the modern open-source music player for Windows, Linux and macOS—with Hi-Res, DSD, a library server, radio, podcasts and AI chat."
+    "title": "HyperFi – Hi-Res music player for Windows, Linux & macOS",
+    "description": "HyperFi is the modern open-source music player for Windows, Linux and macOS—with Hi-Res, DSD, a library server, radio, podcasts and AI chat."
   },
   "de": {
-    "title": "Orynivo – Hi-Res-Musikplayer für Windows, Linux & macOS",
-    "description": "Orynivo ist der moderne, quelloffene Musikplayer für Windows, Linux und macOS – mit Hi-Res, DSD, Bibliotheksserver, Radio, Podcasts und KI-Chat."
+    "title": "HyperFi – Hi-Res-Musikplayer für Windows, Linux & macOS",
+    "description": "HyperFi ist der moderne, quelloffene Musikplayer für Windows, Linux und macOS – mit Hi-Res, DSD, Bibliotheksserver, Radio, Podcasts und KI-Chat."
   },
   "fr": {
-    "title": "Orynivo – Lecteur Hi-Res pour Windows, Linux et macOS",
-    "description": "Orynivo est un lecteur de musique open source moderne pour Windows, Linux et macOS, avec Hi-Res, DSD, serveur, radio, podcasts et chat IA."
+    "title": "HyperFi – Lecteur Hi-Res pour Windows, Linux et macOS",
+    "description": "HyperFi est un lecteur de musique open source moderne pour Windows, Linux et macOS, avec Hi-Res, DSD, serveur, radio, podcasts et chat IA."
   },
   "es": {
-    "title": "Orynivo – Reproductor Hi-Res para Windows, Linux y macOS",
-    "description": "Orynivo es un reproductor de música moderno y de código abierto para Windows, Linux y macOS, con Hi-Res, DSD, servidor, radio, pódcasts y chat de IA."
+    "title": "HyperFi – Reproductor Hi-Res para Windows, Linux y macOS",
+    "description": "HyperFi es un reproductor de música moderno y de código abierto para Windows, Linux y macOS, con Hi-Res, DSD, servidor, radio, pódcasts y chat de IA."
   },
   "ru": {
-    "title": "Orynivo — Hi-Res музыкальный проигрыватель для Windows, Linux и macOS",
-    "description": "Orynivo — современный музыкальный проигрыватель с открытым исходным кодом для Windows, Linux и macOS: Hi-Res, DSD, сервер библиотеки, радио, подкасты и AI-чат."
+    "title": "HyperFi — Hi-Res музыкальный проигрыватель для Windows, Linux и macOS",
+    "description": "HyperFi — современный музыкальный проигрыватель с открытым исходным кодом для Windows, Linux и macOS: Hi-Res, DSD, сервер библиотеки, радио, подкасты и AI-чат."
   },
   "zh": {
-    "title": "Orynivo — Windows、Linux 和 macOS 的 Hi-Res 音乐播放器",
-    "description": "Orynivo 是适用于 Windows、Linux 和 macOS 的现代开源音乐播放器，支持 Hi-Res、DSD、媒体库服务器、广播、播客和 AI 聊天。"
+    "title": "HyperFi — Windows、Linux 和 macOS 的 Hi-Res 音乐播放器",
+    "description": "HyperFi 是适用于 Windows、Linux 和 macOS 的现代开源音乐播放器，支持 Hi-Res、DSD、媒体库服务器、广播、播客和 AI 聊天。"
   }
 };
 const galleryTitles = {

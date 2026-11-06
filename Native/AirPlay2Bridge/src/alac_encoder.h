@@ -10,7 +10,7 @@
 class ALACEncoder;
 struct AudioFormatDescription;
 
-namespace orynivo::airplay2 {
+namespace hyperfi::airplay2 {
 
 /** Encodes fixed-size interleaved signed 16-bit PCM frames as Apple Lossless. */
 class AlacEncoder final {
@@ -48,4 +48,4 @@ private:
     std::size_t framesPerPacket_;
 };
 
-} // namespace orynivo::airplay2
+} // namespace hyperfi::airplay2

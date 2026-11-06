@@ -65,11 +65,11 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore macOS player
-        run: dotnet restore Orynivo/Orynivo.csproj --runtime ${{ matrix.rid }}
+        run: dotnet restore HyperFi/HyperFi.csproj --runtime ${{ matrix.rid }}
 
       - name: Publish macOS player
         run: >
-          dotnet publish Orynivo/Orynivo.csproj
+          dotnet publish HyperFi/HyperFi.csproj
           --configuration Release
           --runtime ${{ matrix.rid }}
           --self-contained true
@@ -86,12 +86,12 @@ jobs:
         run: |
           VERSION="${{ steps.ver.outputs.version }}"
           RID="${{ matrix.rid }}"
-          APP="bundle/${RID}/Orynivo.app"
+          APP="bundle/${RID}/HyperFi.app"
           mkdir -p "${APP}/Contents/MacOS"
           mkdir -p "${APP}/Contents/Resources"
           cp -a "publish/${RID}/." "${APP}/Contents/MacOS/"
           cp .github/player-macos/Info.plist "${APP}/Contents/Info.plist"
-          ICONSET="bundle/${RID}/Orynivo.iconset"
+          ICONSET="bundle/${RID}/HyperFi.iconset"
           mkdir -p "${ICONSET}"
           sips -z 16 16 Logo/icon.png --out "${ICONSET}/icon_16x16.png"
           sips -z 32 32 Logo/icon.png --out "${ICONSET}/icon_16x16@2x.png"
@@ -103,14 +103,14 @@ jobs:
           sips -z 512 512 Logo/icon.png --out "${ICONSET}/icon_256x256@2x.png"
           sips -z 512 512 Logo/icon.png --out "${ICONSET}/icon_512x512.png"
           sips -z 1024 1024 Logo/icon.png --out "${ICONSET}/icon_512x512@2x.png"
-          iconutil -c icns "${ICONSET}" -o "${APP}/Contents/Resources/Orynivo.icns"
-          chmod 755 "${APP}/Contents/MacOS/Orynivo"
+          iconutil -c icns "${ICONSET}" -o "${APP}/Contents/Resources/HyperFi.icns"
+          chmod 755 "${APP}/Contents/MacOS/HyperFi"
           /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${VERSION}" "${APP}/Contents/Info.plist"
           /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${VERSION}" "${APP}/Contents/Info.plist"
           mkdir -p packages
           ditto -c -k --sequesterRsrc --keepParent \
-            "${APP}" "packages/Orynivo-${VERSION}-${RID}-Portable.zip"
-          tar -czf "packages/Orynivo-${VERSION}-${RID}.tar.gz" -C "bundle/${RID}" Orynivo.app
+            "${APP}" "packages/HyperFi-${VERSION}-${RID}-Portable.zip"
+          tar -czf "packages/HyperFi-${VERSION}-${RID}.tar.gz" -C "bundle/${RID}" HyperFi.app
 
       - name: Create macOS installer package
         run: |
@@ -118,30 +118,30 @@ jobs:
           RID="${{ matrix.rid }}"
           PACKAGE_ROOT="installer-root/${RID}"
           mkdir -p "${PACKAGE_ROOT}/Applications"
-          ditto "bundle/${RID}/Orynivo.app" "${PACKAGE_ROOT}/Applications/Orynivo.app"
+          ditto "bundle/${RID}/HyperFi.app" "${PACKAGE_ROOT}/Applications/HyperFi.app"
           pkgbuild \
             --root "${PACKAGE_ROOT}" \
-            --identifier com.bschlaack.orynivo \
+            --identifier com.wuuwuu26.hyperfi \
             --version "${VERSION}" \
             --install-location / \
-            "packages/Orynivo-${VERSION}-${RID}.pkg"
+            "packages/HyperFi-${VERSION}-${RID}.pkg"
 
       - name: Validate application bundle
         run: |
           VERSION="${{ steps.ver.outputs.version }}"
           RID="${{ matrix.rid }}"
-          plutil -lint "bundle/${{ matrix.rid }}/Orynivo.app/Contents/Info.plist"
-          test -x "bundle/${{ matrix.rid }}/Orynivo.app/Contents/MacOS/Orynivo"
-          test -s "bundle/${{ matrix.rid }}/Orynivo.app/Contents/Resources/Orynivo.icns"
+          plutil -lint "bundle/${{ matrix.rid }}/HyperFi.app/Contents/Info.plist"
+          test -x "bundle/${{ matrix.rid }}/HyperFi.app/Contents/MacOS/HyperFi"
+          test -s "bundle/${{ matrix.rid }}/HyperFi.app/Contents/Resources/HyperFi.icns"
           /usr/libexec/PlistBuddy -c "Print :CFBundleIconFile" \
-            "bundle/${{ matrix.rid }}/Orynivo.app/Contents/Info.plist" \
-            | grep -Fxq 'Orynivo.icns'
-          file "bundle/${{ matrix.rid }}/Orynivo.app/Contents/MacOS/Orynivo"
-          unzip -t "packages/Orynivo-${VERSION}-${RID}-Portable.zip"
-          tar -tzf "packages/Orynivo-${VERSION}-${RID}.tar.gz" \
-            | grep -Fxq 'Orynivo.app/Contents/Info.plist'
-          pkgutil --payload-files "packages/Orynivo-${VERSION}-${RID}.pkg" \
-            | grep -Fxq './Applications/Orynivo.app/Contents/Info.plist'
+            "bundle/${{ matrix.rid }}/HyperFi.app/Contents/Info.plist" \
+            | grep -Fxq 'HyperFi.icns'
+          file "bundle/${{ matrix.rid }}/HyperFi.app/Contents/MacOS/HyperFi"
+          unzip -t "packages/HyperFi-${VERSION}-${RID}-Portable.zip"
+          tar -tzf "packages/HyperFi-${VERSION}-${RID}.tar.gz" \
+            | grep -Fxq 'HyperFi.app/Contents/Info.plist'
+          pkgutil --payload-files "packages/HyperFi-${VERSION}-${RID}.pkg" \
+            | grep -Fxq './Applications/HyperFi.app/Contents/Info.plist'
 
       - name: Upload package to GitHub Release
         env:
@@ -149,6 +149,6 @@ jobs:
         run: >
           bash .github/scripts/upload-release-assets.sh
           '${{ steps.ver.outputs.tag }}'
-          'Orynivo ${{ steps.ver.outputs.version }}'
+          'HyperFi ${{ steps.ver.outputs.version }}'
           false
           packages/*

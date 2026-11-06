@@ -18,7 +18,7 @@ Before completing any code change:
    hard-code visible UI text. For every new feature, also update all currently
    supported interface languages (including Russian, Simplified Chinese and
    Hindi) in the complete built-in resources in
-   `Orynivo/Localization/LocalizationManager.cs`. Run
+   `HyperFi/Localization/LocalizationManager.cs`. Run
    `scripts/verify-localization-parity.ps1` before completing the change so
    language files cannot silently drift apart.
 7. Verify that credentials, authenticated URLs, and secrets are not persisted,
@@ -32,13 +32,13 @@ deferred until the user asks for them separately.
 The closest `AGENTS.md` applies in addition to this repository-wide file:
 
 - `scripts/CatalogBench/AGENTS.md` — opt-in synthetic catalog measurements.
-- `Orynivo.Ui.Smoke/AGENTS.md` — isolated Windows headless workflow checks and
+- `HyperFi.Ui.Smoke/AGENTS.md` — isolated Windows headless workflow checks and
   their CI/local verification contracts.
-- `Orynivo/AGENTS.md` — Avalonia UI, navigation, playback, Dashboard, remote
+- `HyperFi/AGENTS.md` — Avalonia UI, navigation, playback, Dashboard, remote
   library integration, localization, and Windows-specific behavior.
-- `Orynivo.Core/AGENTS.md` — cross-platform library, database, scanning, search,
+- `HyperFi.Core/AGENTS.md` — cross-platform library, database, scanning, search,
   web, audio-processing primitives, and streaming contracts/clients.
-- `Orynivo.Server/AGENTS.md` — ASP.NET endpoints, authentication, configuration,
+- `HyperFi.Server/AGENTS.md` — ASP.NET endpoints, authentication, configuration,
   packaging, service operation, and server-side caches.
 - `Native/AGENTS.md` — Steinberg ASIO/cwASIO bridge code and native builds.
 
@@ -94,8 +94,8 @@ and move those entries into a dated version section when preparing a release.
 
 ### Documentation language
 
-- `README.md`, `CHANGELOG.md`, and the separate `Orynivo.wiki` repository must
-  use Orynivo's official English UI and feature names (for example **AI Chat**,
+- `README.md`, `CHANGELOG.md`, and the separate `HyperFi.wiki` repository must
+  use HyperFi's official English UI and feature names (for example **AI Chat**,
   **Up Next**, **Play more like this**, **Create output**, **Configure output**,
   and **Delete output**) whenever they refer to visible product functions.
 - Apply this consistently to historical entries as well as new documentation;
@@ -117,7 +117,7 @@ and move those entries into a dated version section when preparing a release.
 
 - Do not hard-code new visible UI text or status/error messages in XAML or
   code-behind
-- Store all such text under `Orynivo/Localization/`
+- Store all such text under `HyperFi/Localization/`
 - Every new or changed string must be provided in German, English, French,
   Spanish, Russian, Simplified Chinese, and Hindi
 - A text change is complete only after all supported language resources contain

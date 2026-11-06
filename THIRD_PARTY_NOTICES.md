@@ -1,8 +1,8 @@
 # Third-Party Notices
 
-Orynivo uses the components listed below. These components are not relicensed
-under Orynivo's Apache License 2.0; their respective licenses continue to apply.
-Package versions are the versions referenced by `Orynivo/Orynivo.csproj` and its
+HyperFi uses the components listed below. These components are not relicensed
+under HyperFi's Apache License 2.0; their respective licenses continue to apply.
+Package versions are the versions referenced by `HyperFi/HyperFi.csproj` and its
 resolved dependency graph.
 
 ## MIT-licensed components
@@ -72,7 +72,7 @@ The complete Apache License 2.0 text is the repository's `LICENSE` file.
 GNU Lesser General Public License, version 2.1 only (LGPL-2.1-only). The
 complete license text is provided in `licenses/LGPL-2.1.txt`.
 
-Orynivo consumes TagLibSharp as a separate managed assembly. Orynivo does not
+HyperFi consumes TagLibSharp as a separate managed assembly. HyperFi does not
 modify TagLibSharp. The exact corresponding source is available from the
 upstream repository and the source link recorded by its NuGet package:
 
@@ -83,21 +83,21 @@ compatible modified build, subject to the LGPL and runtime compatibility.
 
 ## FFmpeg
 
-[FFmpeg](https://ffmpeg.org/) is not linked into Orynivo. Orynivo launches the
+[FFmpeg](https://ffmpeg.org/) is not linked into HyperFi. HyperFi launches the
 separate `ffmpeg` and `ffprobe` executables as child processes. When those
-executables are absent, Orynivo downloads the BtbN `win64-lgpl-essentials` build
+executables are absent, HyperFi downloads the BtbN `win64-lgpl-essentials` build
 on Windows from:
 
 <https://github.com/BtbN/FFmpeg-Builds>
 
-On macOS, Orynivo downloads the current-architecture `ffmpeg` and `ffprobe`
+On macOS, HyperFi downloads the current-architecture `ffmpeg` and `ffprobe`
 release assets published by:
 
 <https://github.com/eugeneware/ffmpeg-static>
 
 FFmpeg is primarily licensed under LGPL-2.1-or-later, but the exact license of a
 binary depends on its build configuration and enabled external libraries.
-Orynivo deliberately requests the LGPL essentials build on Windows. macOS
+HyperFi deliberately requests the LGPL essentials build on Windows. macOS
 download assets retain the license and build information published alongside
 their upstream release. Corresponding FFmpeg source and build scripts are
 available from:
@@ -106,7 +106,7 @@ available from:
 - <https://github.com/BtbN/FFmpeg-Builds>
 - <https://github.com/eugeneware/ffmpeg-static>
 
-FFmpeg is an independent work and is not covered by Orynivo's Apache License.
+FFmpeg is an independent work and is not covered by HyperFi's Apache License.
 
 ## Steinberg ASIO
 
@@ -114,7 +114,7 @@ ASIO is a trademark and software of Steinberg Media Technologies GmbH.
 
 The optional `Native/AsioBridge` target can be built against a separately
 obtained Steinberg ASIO SDK. The SDK is not included in this repository and is
-not covered by Orynivo's Apache License. Anyone building or distributing that
+not covered by HyperFi's Apache License. Anyone building or distributing that
 optional bridge must obtain the SDK from Steinberg and comply with the chosen
 Steinberg ASIO SDK license and trademark usage guidelines.
 

@@ -8,7 +8,7 @@
 #include <span>
 #include <vector>
 
-namespace orynivo::airplay2 {
+namespace hyperfi::airplay2 {
 
 /** Produces Apple-compatible type-103 ALAC frames for the reliable TCP audio channel. */
 class BufferedAudioPacketizer final {
@@ -40,4 +40,4 @@ private:
     std::uint64_t packetCount_ = 0;
 };
 
-} // namespace orynivo::airplay2
+} // namespace hyperfi::airplay2

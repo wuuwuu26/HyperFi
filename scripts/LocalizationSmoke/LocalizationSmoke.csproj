@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="../../Orynivo/Localization/Strings.cs" Link="Strings.cs" />
-    <Compile Include="../../Orynivo/Localization/Language.cs" Link="Language.cs" />
-    <Compile Include="../../Orynivo/Localization/LocalizationManager.cs" Link="LocalizationManager.cs" />
+    <Compile Include="../../HyperFi/Localization/Strings.cs" Link="Strings.cs" />
+    <Compile Include="../../HyperFi/Localization/Language.cs" Link="Language.cs" />
+    <Compile Include="../../HyperFi/Localization/LocalizationManager.cs" Link="LocalizationManager.cs" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <vector>
 
-namespace orynivo::airplay2 {
+namespace hyperfi::airplay2 {
 
 /** Keys established by a successful fail-closed HAP transient pairing. */
 struct TransientPairingKeys final {
@@ -25,4 +25,4 @@ public:
     static TransientPairingKeys run(Socket& control);
 };
 
-} // namespace orynivo::airplay2
+} // namespace hyperfi::airplay2

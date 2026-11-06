@@ -1,6 +1,6 @@
-# Orynivo Product Website
+# HyperFi Product Website
 
-Static, responsive product website for Orynivo. English is the default language;
+Static, responsive product website for HyperFi. English is the default language;
 German, French, Spanish, Russian, Simplified Chinese, and Hindi are directly
 selectable. All required files and media assets live in this directory. Search
 engines receive static localized pages at `/`, `/de/`, `/fr/`, `/es/`, `/ru/`,

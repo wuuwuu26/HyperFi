@@ -1,8 +1,8 @@
-pkgbase = orynivo-bin
+pkgbase = hyperfi-bin
 	pkgdesc = Music library and Hi-Fi audio player
 	pkgver = 0.48.1
 	pkgrel = 2
-	url = https://orynivo.app
+	url = https://github.com/wuuwuu26/HyperFi
 	arch = x86_64
 	license = Apache-2.0
 	depends = alsa-lib
@@ -21,11 +21,11 @@ pkgbase = orynivo-bin
 	depends = libice
 	depends = libsm
 	optdepends = lttng-ust2.12: CoreCLR tracing
-	provides = orynivo=0.48.1
-	conflicts = orynivo
+	provides = hyperfi=0.48.1
+	conflicts = hyperfi
 	options = !strip
 	options = !debug
-	source = https://github.com/bschlaack/Orynivo/releases/download/v0.48.1/orynivo-0.48.1-1-x86_64.pkg.tar.zst
+	source = https://github.com/wuuwuu26/HyperFi/releases/download/v0.48.1/hyperfi-0.48.1-1-x86_64.pkg.tar.zst
 	sha256sums = c7f1c59474035a02a55cf8cd11cf255c61de0874d34a1c123101df6ea005426a
 
-pkgname = orynivo-bin
+pkgname = hyperfi-bin

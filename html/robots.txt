@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://orynivo.app/sitemap.xml
+Sitemap: https://github.com/wuuwuu26/HyperFi/sitemap.xml

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Orynivo are documented in this file.
+All notable changes to HyperFi are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
@@ -12,6 +12,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   name, a gold waveform letter-mark icon, HyperFi window and About branding,
   HyperFi Server labels, and a separate `~/.local/share/HyperFi` data root that
   migrates the previous Orynivo library on first launch.
+- The complete project tree now uses HyperFi names: solution and project files,
+  namespaces and assemblies, service/config/data paths, `hyperfi://` and
+  `hyperfi-album:` references, environment variables, packaging, website, docs,
+  tests, and build workflows. Existing Orynivo settings, credentials, playlists,
+  queue entries and data directories are migrated through explicit legacy
+  compatibility paths.
+- HyperFi retains the Apache License 2.0 attribution, the original Orynivo
+  NOTICE, and the original author copyright notices.
 - DSDIFF (DFF) files expose the ID3v2.3 tag and embedded cover art they carry,
   so they appear with their title, artist, album, track number and artwork.
 - The audio settings offer a **DSD → PCM output rate** choice, so the conversion
@@ -170,7 +178,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   the owning loading state.
 
 - Dashboard and Genre Cloud show their last cached display before background
-  refresh, including after restarting Orynivo. Dashboard sections refresh
+  refresh, including after restarting HyperFi. Dashboard sections refresh
   independently, unchanged data retains existing controls, and cached views
   remain interactive without the blocking loading overlay. Restart previews
   exclude credentials and authenticated URLs and are bounded by size, age and
@@ -205,7 +213,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   progress, cancellation and retry controls. Preserve active directory rows when
   other folders are added or removed; duplicate folders do not start new scans.
 
-- Keep explicit ORYNIVO_DATA_DIR profiles isolated from legacy Player settings
+- Keep explicit HYPERFI_DATA_DIR profiles isolated from legacy Player settings
   and caches. Preserve destination files created during legacy migration without
   crashing startup; other copy failures remain retryable.
 
@@ -246,7 +254,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Settings. Verify that profiles without outputs can create one while
   selection-only actions remain disabled.
 
-- Add distinct Directories and Orynivo servers actions to empty-library setup,
+- Add distinct Directories and HyperFi servers actions to empty-library setup,
   opening each existing Settings section with wrapped localized captions and
   explicit accessible names. Remove hint clipping and track fresh-profile layout
   and routing checks.
@@ -623,7 +631,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   immediately; one coalesced dispatcher pass abandons only the captured request
   versions, preserving searches and playlists started after the notification.
 
-- Saving changed Orynivo Server connections now invalidates shared catalog,
+- Saving changed HyperFi Server connections now invalidates shared catalog,
   Dashboard, Genre Cloud and similarity snapshots before subsequent settings
   work. Changes to server profile, streaming format or bitrate also count as
   configuration changes, preventing reuse of rows with stale playback settings.
@@ -781,7 +789,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - A preset's border colour channels are now truncated to a byte like Milkdrop's
   `D3DCOLOR_RGBA_01` macro instead of being clamped to zero-to-one. A preset
   such as `suksma - frust` computes `ib_a = 1 - mytime + bass`, which reaches
-  1.5 and is drawn by Milkdrop at 126/255; clamping it to one made Orynivo's
+  1.5 and is drawn by Milkdrop at 126/255; clamping it to one made HyperFi's
   inner border roughly twice as opaque as the reference. In-range values keep
   their exact value.
 - The visualizer could still show a deactivated preset at startup: the initial
@@ -815,7 +823,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - Motion vectors use the reference variables:
     `bMotionVectors`/`bMotionVectorsOn` alias onto `mv_a` (the arrow alpha), and
     the arrows take their colour from `mv_r`/`mv_g`/`mv_b`. The recorded-field
-    model itself remains Orynivo's documented extension.
+    model itself remains HyperFi's documented extension.
   - The generated noise textures use MilkDrop's sizes: `noise_lq`, `noise_mq`,
     and `noise_hq` are 256×256 and `noise_lq_lite` is 32×32 (previously
     `noise_lq` was 32 and `noise_hq` 512), so `texsize_noise_*` and every shader
@@ -832,7 +840,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   still keeps 512 samples for the modes that peek `i + 32` ahead.
 - Bound the shader sampler-size uniforms. MilkDrop exposes each generated
   texture's size as `texsize_noise_lq`/`texsize_noise_mq`/`texsize_noise_hq` and
-  the volume pair, but Orynivo declared the GLSL spellings as a single `float4`
+  the volume pair, but HyperFi declared the GLSL spellings as a single `float4`
   the scalar-only GL uniform setter could never fill, and the interpreter and
   compiled shader paths never seeded them at all, so a shader that reads
   `texsize_noise_lq.zw` (Royal Mashup (188) uses it for a dither coordinate) saw
@@ -853,13 +861,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   without which Winamp silently runs its default warp).
 - Corrected the MilkDrop preset variables `aspectx`/`aspecty`: the reference
   binds them to the _inverse_ aspect factors (`var_pf_aspectx = m_fInvAspectX`,
-  so a landscape frame is `(1, width/height)`), while Orynivo bound the
+  so a landscape frame is `(1, width/height)`), while HyperFi bound the
   non-inverse pair. Per-pixel code that multiplies its position delta by
   `aspecty` (for example Royal Mashup (13)) therefore applied the aspect
   correction twice. The shader `aspect` float4 keeps the reference layout
   `(aspectX, aspectY, 1/aspectX, 1/aspectY)`.
 - Corrected MilkDrop `bDarkenCenter`: Winamp draws only a small, faint centre
-  fan, while Orynivo previously darkened almost the entire frame. Royal Mashup
+  fan, while HyperFi previously darkened almost the entire frame. Royal Mashup
   (10)'s isolated wave brightness now closely matches the Winamp capture. Legacy
   hue shading also respects `fShader`, so a zero value leaves colours untinted.
 - Custom MilkDrop wave lines now interpolate colour and opacity between
@@ -923,7 +931,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   the previous feedback it already did on the SkSL path.
 - Corrected the vertical texture coordinate of MilkDrop's textured shapes. The
   reference (`milkdropfs.cpp`, marked "DON'T TOUCH!") uses
-  `0.5 + 0.5 * sin(angle + tex_ang + pi/4)`, while Orynivo negated the sine and
+  `0.5 + 0.5 * sin(angle + tex_ang + pi/4)`, while HyperFi negated the sine and
   therefore sampled the captured frame mirrored; the frames are top-down like
   the reference's capture, so the OpenGL fragment stage's single bottom-up flip
   is the only one needed.
@@ -931,7 +939,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   pins the sign.
 - Corrected the CPU blur chain's pass count. Each level is one long horizontal
   and one short vertical pass from its downscaled source; the reference advances
-  the level only every second pass (`fscale_now = fscale[i/2]`), but Orynivo's
+  the level only every second pass (`fscale_now = fscale[i/2]`), but HyperFi's
   interpreter ran N pairs for level N. Levels two and three were therefore
   over-blurred on the CPU while the OpenGL chain built the correct one pair, so
   a comp shader sampling `GetBlur2`/`GetBlur3` rendered differently on the two
@@ -954,18 +962,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - The preset audio bands `bass`, `mid`, and `treble` are alive again. The
   reference's guard against dividing an empty band by its long-term average is
   `0.001`, but it is written in the reference's own magnitude units — projectM
-  scales every sample by 128 and leaves its FFT unnormalized, while Orynivo's
+  scales every sample by 128 and leaves its FFT unnormalized, while HyperFi's
   magnitudes are normalized by the transform length. At that literal value the
   quiet middle and treble sums of real music fell below the guard, so both bands
   reported a constant 1.0: measured on a real track, projectM read
-  `bass 0.80 / mid 0.78 / treb 1.19` while Orynivo read `1.37 / 1.00 / 1.00`.
+  `bass 0.80 / mid 0.78 / treb 1.19` while HyperFi read `1.37 / 1.00 / 1.00`.
   The guard is now scaled by the same factor, and every preset that reacts to
   `mid` or `treble` sees a value that changes with the music again.
 - Shaders now receive the reference's animated hue shade as `hue_shader`.
   Milkdrop defines `hue_shader` as the final composite quad's vertex diffuse
   colour (`#define hue_shader _vDiffuse.xyz`) and always computes it, four
   corners of `0.5 + 0.5*normalised sine`, "since we don't know if shader uses it
-  or not". Orynivo bound no such variable, so every shader read zero and
+  or not". HyperFi bound no such variable, so every shader read zero and
   `$$$ Royal - Mashup (138)` — whose comp shader adds
   `.2*(1-uv.y)*(hue_shader-.8)*4` — clamped its frame to black on both the CPU
   and the GPU path. The four corners the legacy composite already computed are
@@ -994,7 +1002,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   block that writes the sample position `x` or `y` keeps the CPU warp, because
   an interpolated sample position has no meaning. A platform whose GL context
   never arrives falls back to the bitmap presentation automatically, and setting
-  `ORYNIVO_VISUALIZER_OPENGL=0` forces the CPU presentation.
+  `HYPERFI_VISUALIZER_OPENGL=0` forces the CPU presentation.
 - The visualizer's per-pixel warp is now parallel for presets that keep their
   working value in a temporary of their own, which is what the built-in
   **Plasma**, **Tunnel** and **Kaleidoscope** presets do. Measured at 960 x 540,
@@ -1010,7 +1018,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   path, so this regression cannot return unnoticed.
 - MilkDrop preset equations now receive bass, mid and treble from the
   reference's separate eight-bit, 576-sample custom-sound FFT instead of the
-  display spectrum. A matched 440 Hz capture showed Orynivo's middle and treble
+  display spectrum. A matched 440 Hz capture showed HyperFi's middle and treble
   inputs staying near one while Winamp's rose substantially; the corrected
   three-band response now closely matches Winamp's diagnostic preset. Royal
   Mashup (10) and (121) render visible structures again, though their colour and
@@ -1120,7 +1128,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   copy of the frame, `GetBlur2` an eighth, and `GetBlur3` a sixteenth, so its
   blurred picture is far smoother than a full-resolution blur. A preset that
   feeds the blur into its own maths amplifies the difference:
-  `LuxXx - BadBallz Beta`'s `tan(4*ist*1.58)` turned Orynivo's sharper `ist`
+  `LuxXx - BadBallz Beta`'s `tan(4*ist*1.58)` turned HyperFi's sharper `ist`
   into a hard white diamond where the reference draws a soft blob. The levels
   are now downscaled and blurred at their own size, on both the CPU and the GL
   path.
@@ -1311,7 +1319,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   warped frame, so a comp shader's `GetPixel` and its `tex2D(sampler_main, ...)`
   saw different pictures on the CPU while the GPU's translation used
   `sampler_main` for both.
-- Emitted `orynivoSafeDiv` for the shader's `/` and `/=` operators. The CPU
+- Emitted `hyperfiSafeDiv` for the shader's `/` and `/=` operators. The CPU
   treats a zero divisor as zero, while SkSL's division produced an infinity that
   then rendered white.
 - Added the missing Milkdrop shader functions to the CPU interpreter.
@@ -1904,17 +1912,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   windowed with a raised sine over that 480-sample window, and the loudness
   bands read the average of the two channels' equalized magnitudes instead of
   the transform of their mix, so a phase-inverted stereo pair is not cancelled
-  out of the bands. Orynivo's own 512-sample waveform and 256-point spectrum
+  out of the bands. HyperFi's own 512-sample waveform and 256-point spectrum
   contracts are unchanged. Measured on a real track the three bands now agree
   with projectM's within about 0.4 — projectM `2.15/2.45/2.25`,
-  `1.30/1.11/1.23`, `0.80/0.78/1.19` against Orynivo's `2.10/2.63/2.24`,
+  `1.30/1.11/1.23`, `0.80/0.78/1.19` against HyperFi's `2.10/2.63/2.24`,
   `1.15/1.12/1.12`, `0.59/0.46/0.76` — where they had differed by up to a factor
   of two.
 - The reference's logarithmic frequency equalization is now applied to the
   magnitudes the Milkdrop loudness bands and the spectrum a custom waveform
   reads use, matching projectM's own analyzer: the curve is
   `-0.02 * ln((half - bin) / half)`, zero at DC and rising with frequency.
-  Orynivo's own normalized display bands stay un-equalized, because that is a
+  HyperFi's own normalized display bands stay un-equalized, because that is a
   separate contract other consumers use. Measured on a real track this changes
   the band _weighting_ only; a spectral shape change is what it is for, and it
   neither fixed nor worsened the remaining `$$$ Royal - Mashup (138)` brightness
@@ -2124,7 +2132,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- Settings > Playback > Visualizer now explains that Orynivo ships no
+- Settings > Playback > Visualizer now explains that HyperFi ships no
   third-party presets and offers a **Download presets…** action that opens the
   projectM `presets-cream-of-the-crop` collection, so a user can add MilkDrop 2
   presets to the **Preset folder**.
@@ -2185,7 +2193,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added a Windows-only Winamp MilkDrop capture harness that runs the supplied
   `vis_milk2.dll` inside an isolated copy of Winamp, plays the comparison tone,
   records Direct3D frames with playback timestamps, and produces a side-by-side
-  Orynivo comparison. A 300-frame Royal Mashup run now provides a direct Winamp
+  HyperFi comparison. A 300-frame Royal Mashup run now provides a direct Winamp
   reference instead of relying on projectM as a proxy.
 - Added matched-music comparison for the visualizer: a reference oracle converts
   a track that FFmpeg can read into one raw 16-bit stereo PCM file both
@@ -2196,7 +2204,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   GPU by default. Such a block used to keep the CPU warp, because the mesh
   cannot interpolate a sample position; it is now emitted as a warp fragment
   shader that computes the coordinate per pixel instead, and
-  `ORYNIVO_VISUALIZER_PIXELWARP=0` forces the CPU warp.
+  `HYPERFI_VISUALIZER_PIXELWARP=0` forces the CPU warp.
   `the GL pixel-warp regression` verifies it: a whole-frame comparison cannot
   see the warp, because the display frame is dominated by the overlay that both
   renderers composite identically, so the probe draws the overlay only for the
@@ -2205,14 +2213,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   and a control preset without the block stays 26 px away, so the probe fails if
   the block does not reach the GPU.
 - Added a reference-player comparison, which renders a preset — or every preset
-  below a folder — with Orynivo and the reference implementation under identical
+  below a folder — with HyperFi and the reference implementation under identical
   resolution, frame count, frame time, mesh and audio, writes the frames and a
   settings manifest, and generates `compare-tone.wav`. That tone is a
   deterministic 440 Hz stereo signal both renderers synthesize, so a capture
   from a reference player such as MilkDrop in Winamp can be compared with the
   renders under the same audio state.
 - Added the GPU comp and warp shader pipeline for the visualizer (opt-in with
-  `ORYNIVO_VISUALIZER_OPENGL=1`). Shader presets now run their comp and warp
+  `HYPERFI_VISUALIZER_OPENGL=1`). Shader presets now run their comp and warp
   shaders as GLSL on the GPU at the full render resolution, instead of through
   the CPU interpreter on a grid capped at 10,000 pixels and shrunk toward 1,024
   when it overruns the 30 ms budget — which is why the Milk presets looked like
@@ -2234,7 +2242,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added `PresetBrightnessDiagnosticTests`, which renders one configured preset
   file for a few frames and reports each frame's mean brightness and saturated
   share, so a preset that turns white can be located to the frame it happens on.
-  Point `ORYNIVO_PRESET_BRIGHTNESS_FILE` at a preset to run it.
+  Point `HYPERFI_PRESET_BRIGHTNESS_FILE` at a preset to run it.
 - Added `CompFeedbackTests`, which pins down the comp stage's feedback rule: a
   comp shader that writes white must paint the display white without whitening
   the feedback, and an amplifying comp shader must settle instead of diverging.
@@ -2254,14 +2262,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   counted a parse failure as a run-time loss.
 - Added the local development harness, a local development harness that renders
   the visualizer's GPU pipeline without Avalonia. It compiles
-  `Orynivo/Controls/VisualizerGlPipeline.cs` unchanged and supplies its own
+  `HyperFi/Controls/VisualizerGlPipeline.cs` unchanged and supplies its own
   `Avalonia.OpenGL.GlInterface` over a hidden WGL context, so the real shaders
   and pass order are verified headlessly and a change to the pipeline's GL calls
   breaks that build instead of drifting. It writes the GPU and CPU frames side
   by side and prints the pipeline's one-shot diagnostics.
 - Added the GPU frame pipeline for the visualizer, off by default. With
-  `ORYNIVO_VISUALIZER_OPENGL=1` a preset **without** shaders renders entirely
-  through `Orynivo.Controls.VisualizerGlPipeline`: the warp is a mesh draw whose
+  `HYPERFI_VISUALIZER_OPENGL=1` a preset **without** shaders renders entirely
+  through `HyperFi.Controls.VisualizerGlPipeline`: the warp is a mesh draw whose
   fragment shader is a translation of `WarpSampling.SamplePosition`, the blur is
   the same nine-tap box filter, and decay, video echo, centre darkening, both
   border bands, gamma, and the additive overlay composite share one pass. The
@@ -2288,7 +2296,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   touching the feedback buffers. A GPU path composites that overlay over its own
   warped frame instead of re-drawing it.
 - Extracted the warp's sampling arithmetic into
-  `Orynivo.Visualization.WarpSampling`, which is now the single definition of
+  `HyperFi.Visualization.WarpSampling`, which is now the single definition of
   it: the CPU warp calls it per pixel and the GPU warp's fragment shader is its
   translation, so a GPU warp cannot silently disagree with the reference.
   `WarpSamplingTests` covers the identity, zoom, offset, rotation, stretch, and
@@ -2302,8 +2310,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   attributes; the CPU keeps evaluating the per-pixel program until the GPU warp
   replaces it.
 - Added an OpenGL presentation path to the visualizer, off by default. With
-  `ORYNIVO_VISUALIZER_OPENGL=1` the visualizer shows
-  `Orynivo.Controls.VisualizerGlPresenter`, which uploads the finished frame as
+  `HYPERFI_VISUALIZER_OPENGL=1` the visualizer shows
+  `HyperFi.Controls.VisualizerGlPresenter`, which uploads the finished frame as
   a texture and draws it with a shader instead of writing a `WriteableBitmap`,
   and logs the negotiated GL version once through the diagnostics log. The
   preset pipeline still renders on the CPU; this is the first step of roadmap
@@ -2325,10 +2333,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   from them renders visibly differently once that offset is interpolated, and
   that has to be reconciled before the mesh can become the default.
 - Added the local development harness, a local development harness that renders
-  a preset with the reference implementation (projectM) and with Orynivo and
+  a preset with the reference implementation (projectM) and with HyperFi and
   reports the per-frame mean channel difference and correlation. It links a
   projectM checkout the developer builds separately; no projectM source is
-  copied into the repository and no Orynivo artifact contains or links it.
+  copied into the repository and no HyperFi artifact contains or links it.
 - Added `PresetSkiaComparisonDiagnosticTests`, which renders a sample of a real
   collection with and without `PresetRenderer.UseSkiaPasses` and reports how far
   the two pictures drift, grouped by whether the preset has a warp shader, a
@@ -2498,7 +2506,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `Microsoft.AspNetCore.TestHost`, and `Microsoft.NET.Test.Sdk` moved to the
   matching 10.0.12/10.0.12/18.10.1 lines. `net8.0` and .NET 9 both reach end of
   support on 10 November 2026, so this replaces a line that was about to stop
-  receiving fixes. `Orynivo/Orynivo.csproj` also copies the Lucene `NOTICE.txt`
+  receiving fixes. `HyperFi/HyperFi.csproj` also copies the Lucene `NOTICE.txt`
   from the `4.8.0-beta00018` directory it actually references; the path still
   named `beta00017`, so the license file was silently skipped.
 
@@ -2524,7 +2532,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - The year-in-review summary can now also be exported as a single-page A4 PDF.
   The on-screen card and the PDF share the new pure
-  `Orynivo.Controls.YearInReviewLayout` content model, so the two cannot drift
+  `HyperFi.Controls.YearInReviewLayout` content model, so the two cannot drift
   apart; the PDF is drawn offline through SkiaSharp and the export stays bounded
   to one page. The dialog gained **Save as PDF** next to **Save as image**.-
   Last.fm scrobbling now also mirrors the transport favourite button: toggling a
@@ -2543,7 +2551,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - The smart-playlist editor can now replace the similarity reference track.
   **Choose reference track** opens a small search dialog over the local library
-  and every configured Orynivo Server and applies the selection together with
+  and every configured HyperFi Server and applies the selection together with
   the minimum similarity score; the readable label and **Remove reference**
   stay. Criteria building keeps using the pure `SmartPlaylistCriteriaEditing`
   helper, which gained a picked-reference override.
@@ -2555,7 +2563,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   label. Acting on search results: `set_tracks_favorite` and `set_tracks_rating`
   update several tracks in one step, and `create_similar_playlist` builds a
   similarity smart playlist from a reference track. Every entry accepts a local
-  absolute path or an opaque `orynivo://` reference, so no credential ever
+  absolute path or an opaque `hyperfi://` reference, so no credential ever
   reaches the model, and all five respect the per-tool Settings toggles. The
   tool count is now 37.
 - Added `scripts/verify-all.ps1`, which runs the same checks as CI on a local
@@ -2577,7 +2585,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   through `AudioDatabase.SetTrackGenres`, which writes the library-only
   `track_genre_overrides` table in one transaction and reapplies it on every
   later scan. Source media files are never modified, and an empty value removes
-  the override so the next scan restores the embedded genre. Selected Orynivo
+  the override so the next scan restores the embedded genre. Selected HyperFi
   Server tracks are updated on their owning server through the new authenticated
   `PUT /api/tracks/{id}/genre`, which records the same library-only override.
 - Podcast episodes can be downloaded for offline playback. Episode rows gained a
@@ -2589,13 +2597,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   is always kept.
 
 - Added an optional automatic server-side library backup schedule. The
-  `Orynivo:BackupSchedule` configuration section (disabled by default) writes a
+  `HyperFi:BackupSchedule` configuration section (disabled by default) writes a
   versioned library ZIP at most once per `IntervalDays` into its target folder
   and removes archives beyond `RetentionCount`. It reuses the shared
-  `Orynivo.Library.BackupRetention` decisions, derives its last run from the
+  `HyperFi.Library.BackupRetention` decisions, derives its last run from the
   newest archive so no extra state is stored, holds no credentials, and never
   includes audio files. Automatic archive naming moved into the shared
-  `Orynivo.Library.BackupNaming` helper, which the desktop now uses too.
+  `HyperFi.Library.BackupNaming` helper, which the desktop now uses too.
 
 - Added an optional WebDAV upload target for completed library backups.
   `AppSettings.BackupTarget` stores the enable flag, WebDAV URL, optional
@@ -2608,18 +2616,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Added a **Reduce motion** option under Appearance that disables the optional
   Genre Cloud, Dashboard cover-stage, and karaoke animations. The decision lives
-  in the pure `Orynivo.Controls.MotionPreferences` helper. The album and artist
+  in the pure `HyperFi.Controls.MotionPreferences` helper. The album and artist
   artwork grids can now be opened with Enter or Space in addition to a
   double-click, and the transport controls (previous, play/pause, next, volume,
   artist info, lyrics, favorite, shuffle, equalizer, and output) expose
   accessible names.
 
-- Added cross-device resume for remote Orynivo Server tracks. The server stores
+- Added cross-device resume for remote HyperFi Server tracks. The server stores
   the last playback position per profile and track (`profile_track_position`)
   through the new authenticated `GET`/`PUT /api/tracks/{id}/position` endpoints;
   the client publishes its audible position at most every 20 seconds and offers
   a **Resume** transport action when another device left off meaningfully later.
-  The decision lives in the pure `Orynivo.Library.CrossDeviceResume` helper,
+  The decision lives in the pure `HyperFi.Library.CrossDeviceResume` helper,
   only profile-scoped positions are stored, and no credential-bearing URL is
   ever persisted.
 
@@ -2632,7 +2640,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   instead, so only the CI Linux and macOS jobs saw the mismatch. That
   compatibility player now accepts and honours the same cap.
 - `scripts/verify-all.ps1` compiles the non-Windows desktop variant as well, by
-  building `Orynivo/Orynivo.csproj` with `-p:OS=Unix`. A Windows-only local
+  building `HyperFi/HyperFi.csproj` with `-p:OS=Unix`. A Windows-only local
   build cannot see a broken Linux or macOS call site, which is why this failure
   reached CI in the first place; the new step caught the same mismatch when it
   was reintroduced deliberately.
@@ -2651,16 +2659,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   order is extracted into the pure `WasapiAudioPlayer.OrderCandidateSampleRates`
   and covered by seven tests.
 
-- Similarity smart playlists now resolve on an Orynivo Server instead of
+- Similarity smart playlists now resolve on an HyperFi Server instead of
   returning an empty list. `/api/playlists/{id}/resolve` and
   `/api/playlists/resolve-count` go through the new
   `Services/SmartPlaylistResolver`, which supplies the server's cached
   similarity feature vectors whenever the criteria carries a reference. A
   reference that points at another library (`server:<id>`) intentionally still
   resolves to nothing, because vectors are provider-local.
-- Remote Orynivo Server tracks now really carry their estimated musical key.
+- Remote HyperFi Server tracks now really carry their estimated musical key.
   `CamelotKey` had been added to the rating-mutation DTO instead of
-  `OrynivoTrackInfo`, so the remote catalog mapping never received it and the
+  `HyperFiTrackInfo`, so the remote catalog mapping never received it and the
   Key column stayed empty for server rows. The track DTO now carries the field,
   the catalog mapping forwards it, and a Core test guards the deserialization.
 - Hardened the Core test suite against intermittent failures. Every database
@@ -2700,12 +2708,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - Linux desktop builds now expose the full MPRIS 2 media player interface
-  (`org.mpris.MediaPlayer2.orynivo`) on the session bus, giving desktop media
+  (`org.mpris.MediaPlayer2.hyperfi`) on the session bus, giving desktop media
   keys, panels, and applets parity with the Windows System Media Transport
   Controls integration. It supports Play/Pause/PlayPause/Stop/Next/Previous/
   Seek/SetPosition, reports metadata, position, playback status, volume, and
   navigation capabilities, and emits `PropertiesChanged` and `Seeked` signals.
-  Remote artwork URLs that carry credentials (Orynivo Server `?key=`, Plex
+  Remote artwork URLs that carry credentials (HyperFi Server `?key=`, Plex
   tokens) are never exposed; only local files and credential-free URLs are
   published. macOS remains unaffected.
 
@@ -2716,7 +2724,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   calls are ambiguous with the latest .NET 8 reference assemblies, which add
   `Split(string?, StringSplitOptions)`. Both now use explicitly typed `char[]`
   arguments.
-- Remote Orynivo Server tracks now show their cover art in the desktop media
+- Remote HyperFi Server tracks now show their cover art in the desktop media
   integration. The now-playing metadata prefers the locally cached
   `remote-artworks/track-art-<server>-<track>.img` file instead of the
   credential-bearing server URL, so MPRIS and the Windows media overlay can
@@ -2747,8 +2755,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   (`DataTransfer`, `DataTransferItem`, `IDataTransfer`, `DataFormat<string>`,
   and `DragDrop.DoDragDropAsync`) and raised Avalonia to the 11.3 line. The
   queue tokens are carried as a JSON string under the application format
-  `orynivo.queue-paths`, so track, album, and folder drags behave exactly as
-  before. The format lives in `OrynivoDataFormats` with a regression test,
+  `hyperfi.queue-paths`, so track, album, and folder drags behave exactly as
+  before. The format lives in `HyperFiDataFormats` with a regression test,
   because Avalonia only accepts ASCII letters, digits, dots, and hyphens in an
   application identifier and validates it eagerly. Dependabot may now propose
   Avalonia 11.3 minor updates; major updates remain ignored because Avalonia 12
@@ -2757,10 +2765,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added optional scheduled library backups. Settings > Library gained a
   **Scheduled backups** section with an enable toggle, an interval in days, a
   retention count, a backup folder picker, a **Back up now** action, and the
-  last successful run. Orynivo writes the same versioned ZIP as the manual
+  last successful run. HyperFi writes the same versioned ZIP as the manual
   export into the chosen folder (default: a per-user `backups` folder) and
   removes archives beyond the retention count. The schedule and retention
-  decisions live in the pure, tested `Orynivo.Library.BackupRetention`; audio
+  decisions live in the pure, tested `HyperFi.Library.BackupRetention`; audio
   files and credentials are never included.
 - Added a fullscreen karaoke view for synchronized lyrics. The lyrics view
   gained a **Karaoke** action that opens a fullscreen window with the active
@@ -2768,7 +2776,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   now-playing cover as a dimmed backdrop. It follows the transport position
   through the existing timer, exits with Esc or a click, and reports when a
   track only has plain lyrics. Lyric-line selection now lives in the pure,
-  tested `Orynivo.Library.LyricLineSelector`.
+  tested `HyperFi.Library.LyricLineSelector`.
 - Added a **Year in review** summary, reachable from the Dashboard statistics.
   It reuses the existing Dashboard aggregates — total listened hours, active
   days, a monthly breakdown, and the leading genres, albums, and artists — for a
@@ -2778,14 +2786,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   year never includes later listening.
 - The estimated musical key is now visible: an optional **Key** column (Camelot
   wheel label) is available for the shared Tracks, Up Next, and playlist tables,
-  and **Show track information** lists it for local and Orynivo Server tracks.
+  and **Show track information** lists it for local and HyperFi Server tracks.
 - Settings > Playback gained **Analyze audio features**, which runs the optional
   acoustic-descriptor and musical-key analysis for the complete local library
-  and requests bounded batches from every configured Orynivo Server. The section
+  and requests bounded batches from every configured HyperFi Server. The section
   explains what the analysis produces and what it is used for, reports progress,
   stays cancellable, never modifies source media, and leaves failed sources on
   their normal seven-day retry cooldown.
-- Added harmonic mixing. The new pure `Orynivo.Library.CamelotKey` type maps
+- Added harmonic mixing. The new pure `HyperFi.Library.CamelotKey` type maps
   conventional key names and Camelot labels onto the wheel and exposes wheel
   adjacency, and `AudioFeatureAnalysisService` estimates a musical key from a
   bounded Goertzel chromagram correlated against Krumhansl-Schmuckler profiles.
@@ -2795,7 +2803,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   mixes are ordered with the new deterministic `HarmonicOrdering` greedy wheel
   walk so consecutive tracks mix cleanly; tracks without an estimated key keep
   their ranking order at the end of the batch.
-- Added transactional bulk updates in `Orynivo.Core`:
+- Added transactional bulk updates in `HyperFi.Core`:
   `AudioDatabase.SetTrackFavorites` and `SetTrackUserRatings` apply a favorite
   state or a personal rating to several tracks in one transaction, with
   de-duplicated identifiers and validated ratings.
@@ -2811,7 +2819,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   track id) and an optional inclusive minimum similarity score, and resolves to
   that track's nearest neighbours through `SimilarityFeatureService`, still
   applying every other criterion. The Tracks context menu offers **Save as smart
-  playlist: similar tracks** for local and Orynivo Server tracks; the reference
+  playlist: similar tracks** for local and HyperFi Server tracks; the reference
   is stored without any server URL or credential, and remote neighbours are
   resolved through the client's cached similarity vectors. Criteria persisted
   before this change remain valid.
@@ -2819,7 +2827,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   based on — resolved to the track title and artist for local references, or the
   server name for remote ones — and lets its minimum similarity score be edited
   or the reference be removed.
-- Added bulk editing for the shared local and Orynivo Server Tracks table:
+- Added bulk editing for the shared local and HyperFi Server Tracks table:
   selecting more than one track shows a bulk action bar with **Mark as
   favorite**, **Remove favorite**, and a personal-rating selector. Local tracks
   are written through the transactional bulk methods; remote tracks mirror their
@@ -2853,52 +2861,52 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- Added `Orynivo.Library.QueuePathPolicy` in `Orynivo.Core` as the single,
+- Added `HyperFi.Library.QueuePathPolicy` in `HyperFi.Core` as the single,
   unit-tested decision for whether a playback or queue path may be persisted
   without credentials, plus a desktop-agnostic regression test suite covering
-  local, `cue://`, `orynivo://`, credential-free HTTP, and credential-bearing
+  local, `cue://`, `hyperfi://`, credential-free HTTP, and credential-bearing
   URL cases.
-- Added the `Orynivo.Tests` unit-test project for pure desktop helpers with a
-  regression suite for the transport accent colour maths. `Orynivo.Core.Tests`
+- Added the `HyperFi.Tests` unit-test project for pure desktop helpers with a
+  regression suite for the transport accent colour maths. `HyperFi.Core.Tests`
   additionally covers ReplayGain decibel-to-linear conversion and its
   track/album fallback. The Windows build workflow now runs all test projects.
-- Added the `Orynivo.Server.Tests` unit-test project covering the API key
+- Added the `HyperFi.Server.Tests` unit-test project covering the API key
   middleware (health bypass, header/query key acceptance, missing/wrong/empty
   key rejection, case-sensitive comparison) and the profile-context middleware
   (profile scoping, standard default, query selection, unknown-profile 403).
 - Added a dedicated CI parity job that runs the MCP tool and localization
   verification scripts on every push and pull request, Dependabot configuration
   for NuGet and GitHub Actions updates, and a repository `.editorconfig`.
-- Expanded `Orynivo.Core.Tests` with regression coverage for artist display-name
+- Expanded `HyperFi.Core.Tests` with regression coverage for artist display-name
   normalization and identity comparison keys, the shared smart-playlist
   filtering/ordering/limiting logic, CUE sheet parsing and virtual-path
   detection, and M3U8 import/export including relative-path resolution and
   credential-URL rejection.
 
-- Extracted the credential-free Orynivo Server track/album references into the
-  testable `Orynivo.PlaylistReferences`, the genre-cloud recommendation scoring
-  into `Orynivo.GenreRecommendationScore`, and the MusicBrainz rating-refresh
-  row partitioning into `Orynivo.MusicBrainzRatingGrouping`. `Orynivo.Tests` now
+- Extracted the credential-free HyperFi Server track/album references into the
+  testable `HyperFi.PlaylistReferences`, the genre-cloud recommendation scoring
+  into `HyperFi.GenreRecommendationScore`, and the MusicBrainz rating-refresh
+  row partitioning into `HyperFi.MusicBrainzRatingGrouping`. `HyperFi.Tests` now
   covers reference build/parse round-trips, malformed-value rejection, affinity
   aggregation, favorite weighting, the tie-break variation, and case-insensitive
   recording-MBID grouping.
 - Extracted the web-browsing SSRF address classification into the testable
-  `Orynivo.Web.PrivateNetworkPolicy`. `Orynivo.Core.Tests` now covers the IPv4,
+  `HyperFi.Web.PrivateNetworkPolicy`. `HyperFi.Core.Tests` now covers the IPv4,
   IPv6, and IPv4-mapped loopback, private, link-local, CGNAT, multicast, and
   reserved ranges.
 - Extracted the server health and info endpoints into
-  `Orynivo.Server.Endpoints.CoreEndpoints` and added in-memory `TestServer`
+  `HyperFi.Server.Endpoints.CoreEndpoints` and added in-memory `TestServer`
   integration tests that exercise `/api/health` and `/api/info` through the real
   API key and profile-context middleware pipeline (health bypass, header/query
   key acceptance, missing key, unknown-profile 403).
-- Added `Orynivo.Core.Tests` coverage for the HTML-to-text/Markdown extractor
+- Added `HyperFi.Core.Tests` coverage for the HTML-to-text/Markdown extractor
   (script/style removal, entity decoding, headings, links, lists, plain-text
   passthrough), for `SeekDiagnostics.SanitizeUrl` (secret query-parameter
   redaction, user-info removal, non-HTTP passthrough), and for the genre
   taxonomy (multi-parent ancestry queries, name/alias/delimiter normalization,
   dynamic unmapped keys, and display-name resolution).
 
-- Added the cross-platform Last.fm scrobbling core in `Orynivo.Core`
+- Added the cross-platform Last.fm scrobbling core in `HyperFi.Core`
   (`LastFmSignature` MD5 request signing, `ScrobbleRules` eligibility, and a
   `LastFmClient` for token/session authentication, now-playing updates, and
   scrobble submission) with regression tests for the signature vector and the
@@ -2920,12 +2928,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   review dialog listing Library Doctor duplicate groups with the first file of
   each group kept by default, an explicit confirmation, and an optional "delete
   the files from disk" step. Nothing is removed without confirmation.
-- Added `LibraryScanner.RemoveTracksByPaths` in `Orynivo.Core`: a confirmed
+- Added `LibraryScanner.RemoveTracksByPaths` in `HyperFi.Core`: a confirmed
   removal deletes the matching rows from SQLite, Lucene, and the waveform cache
   together, includes virtual CUE/MKA tracks that share a removed physical
   source, and can optionally delete the files from disk. It is never called
   implicitly.
-- Added `LibraryMetadataRepairService.FindDuplicateGroups` in `Orynivo.Core`,
+- Added `LibraryMetadataRepairService.FindDuplicateGroups` in `HyperFi.Core`,
   which reuses the Library Doctor AcoustID/SHA-256 evidence to return duplicate
   file groups (exact byte-identical files and likely same-size matches). It is
   read-only: nothing is removed or merged, and alternate recordings are never
@@ -2934,22 +2942,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `GET /api/stream/{id}?format=opus|aac&bitrate=<64-320>` re-encodes through
   FFmpeg for bandwidth-limited clients, with per-format defaults, validated
   ranges, and a 400 for unsupported requests. Clients select a per-server
-  streaming quality (Original / Opus 128 / AAC 192) in the Orynivo Server
+  streaming quality (Original / Opus 128 / AAC 192) in the HyperFi Server
   dialog; the parameters are optional so older clients are unaffected.
 - Added optional loudness normalization for radio and podcast streams: a slow,
-  bounded `StreamingLoudnessNormalizer` in `Orynivo.Core` that evens out their
+  bounded `StreamingLoudnessNormalizer` in `HyperFi.Core` that evens out their
   loudness relative to the ReplayGain-normalized library. It runs only for
   radio/podcast PCM (never library tracks or native DSD), is off by default, and
   is configured in Settings with localized labels in all seven languages.
 - Added optional headphone crossfeed for PCM playback: a `CrossfeedProcessor` in
-  `Orynivo.Core` (Light/Medium/Strong, one-pole blend with a level-preserving
+  `HyperFi.Core` (Light/Medium/Strong, one-pole blend with a level-preserving
   direct path) applied after ReplayGain and the equalizer in the ASIO and WASAPI
   PCM paths. It is off by default, leaves native DSD bit-perfect, and is
   configured in Settings with localized labels in all seven languages.
 
 ### Changed
 
-- Split the monolithic `Orynivo/MainWindow.xaml.cs` (17,774 lines) into cohesive
+- Split the monolithic `HyperFi/MainWindow.xaml.cs` (17,774 lines) into cohesive
   domain partials without changing behavior; the root file now holds only
   fields, nested types/records, and the constructor (about 1,200 lines). New
   domain partials: `MainWindow.Queue.cs` (queue persistence and Up Next),
@@ -2966,17 +2974,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   transport, waveform, lyrics, now-playing, history),
   `MainWindow.CoverSearch.cs` (cover/artist image search and artwork
   synchronization), `MainWindow.Favorites.cs`, `MainWindow.Plex.cs`,
-  `MainWindow.RemoteOrynivo.cs` (remote server view and caches),
+  `MainWindow.RemoteHyperFi.cs` (remote server view and caches),
   `MainWindow.LibraryViews.cs` (unified row loading/merging/conversion),
   `MainWindow.TableRendering.cs` (shared column factories and row rendering),
   `MainWindow.Startup.cs`, `MainWindow.ContentLoading.cs`,
   `MainWindow.EntityFavorites.cs`, `MainWindow.NavigationLinks.cs`,
-  `MainWindow.OrynivoNavigation.cs`, `MainWindow.ContextMenus.cs`,
+  `MainWindow.HyperFiNavigation.cs`, `MainWindow.ContextMenus.cs`,
   `MainWindow.Helpers.cs`, `MainWindow.RatingColumns.cs`,
   `MainWindow.ArtistAlbums.cs`, and `MainWindow.AppShell.cs`. The
   credential-free queue path check now delegates to the shared, tested
   `QueuePathPolicy`, and the transport accent colour maths moved to the testable
-  `Orynivo.Controls.ArtworkAccentColor`.
+  `HyperFi.Controls.ArtworkAccentColor`.
 - Split the largest domain partials further without changing behavior:
   `MainWindow.Dashboard.cs` into dashboard core, recommendations, media, and
   stats partials; `MainWindow.Playback.cs` into the playback engine,
@@ -2986,9 +2994,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `MainWindow.ArtistInfo.Profile.cs`.
 - Extracted queue drag-and-drop out of `MainWindow.Playlists.cs` into
   `MainWindow.Playlists.DragDrop.cs` and moved the Dashboard listening-trend
-  chart geometry into the testable `Orynivo.Controls.ListeningTrendGeometry`.
+  chart geometry into the testable `HyperFi.Controls.ListeningTrendGeometry`.
   The genre-cloud perceptual luminance fingerprint moved to
-  `Orynivo.Controls.GenreCloudImageFingerprint`. `Orynivo.Tests` now covers axis
+  `HyperFi.Controls.GenreCloudImageFingerprint`. `HyperFi.Tests` now covers axis
   rounding, invariant point formatting, the clamped-control-point smoothing
   invariant, and the fingerprint's average-threshold bit selection.
 
@@ -3006,7 +3014,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   deprecates the legacy drag-and-drop API and 12 requires Roslyn 4.14), and
   major upgrades of Microsoft.Data.Sqlite and Microsoft.NET.Test.Sdk are ignored
   because those lines target newer runtimes. Upgrades are migrated deliberately.
-- Stabilized `Orynivo.Core.Tests` in CI: the isolated test data root is now set
+- Stabilized `HyperFi.Core.Tests` in CI: the isolated test data root is now set
   from a module initializer before any type caches `AppPaths.DataRoot`, so the
   artist-attribution tests no longer run against the real user data directory
   (or share leftover rows) depending on test ordering.
@@ -3089,7 +3097,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   language-selector entries, localized metadata, hreflang links, and sitemap
   URLs. README and wiki language references now list all six locales.
 - Added translator-maintained JSON override files for Russian and Simplified
-  Chinese under `Orynivo/Localization/Overrides`; missing entries continue to
+  Chinese under `HyperFi/Localization/Overrides`; missing entries continue to
   use the reviewed built-in fallback.
 
 ### Fixed
@@ -3142,11 +3150,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - The **Up Next** table now offers the same selectable track columns as the
   Tracks view, keeps its scroll position when playback advances, and renders
   album and artist names as navigation links.
-- Restored **Up Next** entries from configured Orynivo Servers now survive
+- Restored **Up Next** entries from configured HyperFi Servers now survive
   application restarts through credential-free server track references and are
   hydrated asynchronously without delaying startup.
 - **Show track information** now displays the remote physical source path,
-  prefixed with the configured Orynivo Server name, instead of showing an
+  prefixed with the configured HyperFi Server name, instead of showing an
   unknown value.
 - The full **Recently played** view now resolves missing legacy local history
   IDs in one batch, so artist and album navigation remains available beyond the
@@ -3168,7 +3176,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   the UI and playback controls responsive for large libraries.
 - Similarity vectors are preloaded in the background after startup, and the
   similarity action reports its loading and ranking progress.
-- Fixed a UI freeze when starting similarity playback for remote `orynivo://`
+- Fixed a UI freeze when starting similarity playback for remote `hyperfi://`
   tracks by avoiding synchronous server lookups when metadata is already cached.
 - Queue construction no longer performs any synchronous provider fallback at
   all; missing remote metadata cannot block similarity playback.
@@ -3215,13 +3223,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   filtered by the active profile so personal listening data stays separate.
 - Album and artist catalog views now overlay profile-specific favorite state
   while keeping shared library metadata unchanged.
-- Orynivo Server now exposes a normalized authenticated profile registry and
-  scopes personal database operations per request with `X-Orynivo-Profile`.
+- HyperFi Server now exposes a normalized authenticated profile registry and
+  scopes personal database operations per request with `X-HyperFi-Profile`.
 - Opting into profile migration now includes playback history and Infinite Mix
   preferences in addition to favorites and personal ratings.
 - The desktop now sends the active profile's mapped server identity with remote
   catalog, smart-playlist and rating requests.
-- On first start, Orynivo now asks for the initial profile name and whether
+- On first start, HyperFi now asks for the initial profile name and whether
   existing personal data should be migrated before continuing.
 - Added authenticated server profile management
   (`GET/POST/PUT/DELETE /api/profiles`) with persistent names and protected
@@ -3234,7 +3242,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   favorite endpoint while retaining the local profile cache.
 - Remote artist and album favorite changes are now mirrored through matching
   profile-scoped server endpoints as well.
-- The Orynivo Server connection dialog now loads available server profiles and
+- The HyperFi Server connection dialog now loads available server profiles and
   lets the user select the profile used for this connection.
 - Recent playback history is synchronized in the background with the selected
   server profile and merged back on other clients, keeping profile-based
@@ -3329,7 +3337,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   compact player snapshot and never expose local paths or authenticated URLs.
   Current artwork is delivered as a bounded 640-pixel JPEG with private cache
   validators, and tapping a queue row starts that exact entry. The remote can
-  now search tracks across the local library and configured Orynivo Servers;
+  now search tracks across the local library and configured HyperFi Servers;
   opaque results support play-now, play-next, and append actions without
   exposing physical paths, server addresses, or API keys. Current-track
   favourites, output-profile selection, and validated queue move, remove, and
@@ -3345,7 +3353,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   prevented superseded library/search responses from replacing newer results.
 
 - Fixed albums added by a manual Settings library scan remaining absent from the
-  Albums view until Orynivo was restarted. Successful scan mutations now
+  Albums view until HyperFi was restarted. Successful scan mutations now
   invalidate the Dashboard, Genre Cloud, and unified Artists/Albums/Tracks
   session caches through the same path as file-watcher changes.
 - Fixed the mobile remote returning to its token prompt even after successful
@@ -3407,7 +3415,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Similarity vectors are retained in a five-minute in-memory cache for fast
   repeated actions, coalesce concurrent loads, emit count/duration diagnostics,
   and are invalidated with catalog or preference cache mutations.
-- Added optional versioned acoustic descriptors for similarity ranking. Orynivo
+- Added optional versioned acoustic descriptors for similarity ranking. HyperFi
   progressively caches energy, brightness/transient activity, and dynamics in
   provider-local SQLite using a bounded 90-second, 8-kHz mono FFmpeg analysis.
   Desktop and server warm only four missing tracks per cold similarity load,
@@ -3442,7 +3450,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added a before/after preview to guided Library Doctor corrections. Selecting a
   MusicBrainz release now shows the album identity plus every current and
   proposed track title and artist before the explicit apply action is enabled.
-- Added authenticated, compact Library Doctor findings for Orynivo Servers.
+- Added authenticated, compact Library Doctor findings for HyperFi Servers.
   Settings analyses local and configured server libraries concurrently, labels
   each result with its source, tolerates older/unavailable servers, and keeps
   remote findings read-only until a dedicated safe correction API is available.
@@ -3466,7 +3474,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- Fixed a Library Doctor database-column typo that closed Orynivo when metadata
+- Fixed a Library Doctor database-column typo that closed HyperFi when metadata
   analysis was refreshed. Analysis failures are now logged and shown in the
   Settings view instead of escaping from the asynchronous UI event handler.
 
@@ -3496,7 +3504,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Extended the shared MCP and AI Chat library search with optional track/album/
   artist selection, inclusive release-year ranges, exact library-added date
   ranges, and relevance, title, year, or addition-date ordering across the local
-  library and updated Orynivo Servers.
+  library and updated HyperFi Servers.
 
 ## [0.37.3] - 2026-09-02
 
@@ -3544,15 +3552,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Added nine individually permissioned MCP and AI-chat tools for current-track
   favorites, Infinite Mix, output and equalizer profiles, cached lyrics, and
-  Orynivo Server discovery and library scans. A build-time parity check now
+  HyperFi Server discovery and library scans. A build-time parity check now
   keeps the MCP surface, AI schema, dispatcher, and Settings checklist aligned.
 
 ### Fixed
 
 - Fixed combined artist-and-title library searches so terms can match across
   different indexed fields, including searches such as “A-Ha Take on Me” in both
-  local and connected Orynivo Server libraries.
-- AI chat now describes connected Orynivo Server libraries accurately and remote
+  local and connected HyperFi Server libraries.
+- AI chat now describes connected HyperFi Server libraries accurately and remote
   search failures are distinguished from genuine empty results.
 
 ## [0.37.1] - 2026-08-27
@@ -3605,10 +3613,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- AirPlay 2 receiver controls now drive Orynivo's transport instead of only
+- AirPlay 2 receiver controls now drive HyperFi's transport instead of only
   silencing the receiver: authenticated Play, Pause, Next, and Previous events
   from Sonos are decoded on the reverse event channel and dispatched through the
-  shared player controls, keeping Orynivo's state and UI synchronized.
+  shared player controls, keeping HyperFi's state and UI synchronized.
   Receiver-originated Play rebuilds a paused AirPlay session at its current
   audible position because Sonos does not resume accepting media on the stream
   it placed into the paused state.
@@ -3678,7 +3686,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Native AirPlay 2 sessions now publish the current title, artist, album, and
   optional bounded JPEG/PNG cover artwork to receiver displays instead of the
   bridge's former diagnostic test-tone metadata.
-- Integrated the Sonos-verified native AirPlay 2 bridge into regular Orynivo
+- Integrated the Sonos-verified native AirPlay 2 bridge into regular HyperFi
   playback. AirPlay output profiles now feed FFmpeg-decoded 44.1 kHz stereo PCM
   through the bundled bridge, including pause, seek, volume, ReplayGain, stop,
   output release, and the existing classic `raop_play` fallback. The bridge's
@@ -3702,7 +3710,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   playback remains explicitly experimental outside the verified Sonos
   stereo-pair configuration.
 - Output profiles can now select classic AirPlay (RAOP) receivers discovered
-  through mDNS on Windows, Linux, and macOS. Orynivo resolves the selected
+  through mDNS on Windows, Linux, and macOS. HyperFi resolves the selected
   receiver again before playback and streams FFmpeg-decoded PCM through a
   separately installed compatible `raop_play` sender.
 
@@ -3727,7 +3735,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - Unified artist and album details now reconcile missing artwork between the
-  local library and matching reachable Orynivo Server identities. Existing
+  local library and matching reachable HyperFi Server identities. Existing
   images are copied only to sources without artwork, and manually protected
   artist images are never overwritten.
 
@@ -3765,7 +3773,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - Repeated Artists, Albums, and Tracks navigation now reuses a bounded,
-  versioned three-view cache. Remote Orynivo Server catalogs load concurrently,
+  versioned three-view cache. Remote HyperFi Server catalogs load concurrently,
   local catalog work runs away from the UI thread, and artwork, favorite,
   watcher, and server-version changes invalidate affected snapshots.
 - SQLite schema migration is now performed once per database file and process,
@@ -3791,9 +3799,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- Restarting Orynivo now restores every selectable sidebar content view rather
+- Restarting HyperFi now restores every selectable sidebar content view rather
   than only a hard-coded subset. This includes Dashboard, Genre Cloud, AI Chat,
-  playlists, saved radio/podcast entries, Orynivo Server views, and
+  playlists, saved radio/podcast entries, HyperFi Server views, and
   asynchronously loaded Plex libraries; removed entries still fall back safely
   to Tracks.
 - Starting a local title from the calendar's daily listening-history dialog no
@@ -3845,7 +3853,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- Orynivo Server ReplayGain maintenance now runs FFmpeg with one worker thread,
+- HyperFi Server ReplayGain maintenance now runs FFmpeg with one worker thread,
   below-normal process/CPU priority, low I/O priority, and a short cancellable
   pause between tracks by default. The thread and pacing limits are configurable
   so long analyses no longer starve SSH and normal server API traffic. The
@@ -3891,14 +3899,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - The explicit **Calculate missing ReplayGain** action now processes the local
-  library and every configured Orynivo Server. Servers expose a separate
+  library and every configured HyperFi Server. Servers expose a separate
   authenticated maintenance endpoint with progress reporting; existing track and
   album ReplayGain values remain untouched.
-- Orynivo Server connections now load and persist their own **calculate missing
+- HyperFi Server connections now load and persist their own **calculate missing
   ReplayGain during server scans** preference in the server dialog. The desktop
   scan checkbox is explicitly local, while updated servers apply remote changes
   immediately and retain them in their editable configuration.
-- Each configured Orynivo Server row now separates **Scan library** from
+- Each configured HyperFi Server row now separates **Scan library** from
   **Calculate ReplayGain**. Both target only that server and provide
   server-specific progress and completion status without opening the editor; the
   normal scan action is named consistently in the server dialog as well.
@@ -3927,7 +3935,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   quick-pickers. It closes the active exclusive audio player to release the
   device for other applications, preserves the current source and position, and
   can reacquire the device and resume from that position without restarting
-  Orynivo.
+  HyperFi.
 
 ### Fixed
 
@@ -3962,7 +3970,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Existing rated recordings receive one automatic enrichment refresh.
 
 - Added persistent personal zero-to-five-star track ratings for local and
-  Orynivo Server libraries. Shared track tables expose interactive stars, while
+  HyperFi Server libraries. Shared track tables expose interactive stars, while
   cached MusicBrainz recording ratings and vote counts can be shown as a
   selectable column. MusicBrainz lookup prefers embedded recording MBIDs and
   only accepts an unambiguous artist/title/duration fallback; resolved MBIDs
@@ -3976,7 +3984,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   implementation are invalidated once and refreshed automatically. Duplicate
   local/server rows sharing one MBID reuse the same direct lookup result. While
   music is playing, a single low-priority worker now continues enriching stale
-  tracks from the local library and every configured Orynivo Server.
+  tracks from the local library and every configured HyperFi Server.
   Album-detail and explicit user requests pause that worker between requests and
   take priority. Unresolved metadata matches are retried after 90 days instead
   of being requested repeatedly.
@@ -4008,12 +4016,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - Added album names to Dashboard Recently Played cards, with direct album
-  navigation for local, Orynivo Server, and Plex history entries.
+  navigation for local, HyperFi Server, and Plex history entries.
 - Extended the unified artist detail page with source-aware tracks from the
-  local library and matching Orynivo Servers, ordered by album, disc, and track
+  local library and matching HyperFi Servers, ordered by album, disc, and track
   number. Album cards on that page now also offer the existing direct cover
   search action when artwork is missing, plus the same favorite control and
-  local/Orynivo Server source badge as the main Albums artwork view.
+  local/HyperFi Server source badge as the main Albums artwork view.
 
 ### Fixed
 
@@ -4049,7 +4057,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   artist image now stays in a fixed left column instead of overlapping the
   biography, while title, biography, source, and actions remain on the right.
   The hero also exposes a favorite button that synchronizes matching local and
-  Orynivo Server artist identities.
+  HyperFi Server artist identities.
 - Fixed artist-detail album navigation so cards open only on double-click,
   initially filter the album tracks to the selected artist with the existing
   show-all checkbox, remain on the artist detail while loading, and return to
@@ -4090,11 +4098,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added a unified artist detail page for every non-Plex artist navigation path.
   Its album-style hero shows the artist image, biography/source, rename and
   image-management actions, and an explicit profile refresh, followed by the
-  artist's de-duplicated albums from the local library and all matching Orynivo
+  artist's de-duplicated albums from the local library and all matching HyperFi
   Server identities.
 
 - Added a muted grayscale artist-image mosaic behind each Genre Cloud level.
-  Images follow the selected genre's recommendations across local and Orynivo
+  Images follow the selected genre's recommendations across local and HyperFi
   Server libraries, while rendered mosaics are cached for 24 hours without
   persisting authenticated server URLs. Images remain proportionally complete at
   both tile and surface level, and Settings can clear the generated background
@@ -4110,7 +4118,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- Fixed Windows identifying Orynivo as an unknown application in the system
+- Fixed Windows identifying HyperFi as an unknown application in the system
   media flyout by assigning the installed Start menu and optional desktop
   shortcuts the same explicit application user model ID as the running player.
 
@@ -4146,7 +4154,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- Added authenticated Orynivo Server library backup download and restore. The
+- Added authenticated HyperFi Server library backup download and restore. The
   versioned ZIP contains a consistent SQLite snapshot, playlists, playback
   history, album artwork, artist images, and configured server library paths,
   but excludes audio files and credentials. Restore validates and stages the
@@ -4154,7 +4162,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   watchers, and invalidates connected-client caches.
 
 - Added an explicit full metadata refresh for local library directories and
-  Orynivo Servers. Unlike a normal incremental scan, it re-reads unchanged files
+  HyperFi Servers. Unlike a normal incremental scan, it re-reads unchanged files
   with TagLib, reapplies persistent library-only overrides, rebuilds affected
   album/artist assignments, and refreshes the search index. Remote refreshes use
   the authenticated `POST /api/scan/metadata` endpoint so older servers reject
@@ -4172,9 +4180,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 
 - Added the complete album title as a tooltip on shared artwork cards so
-  truncated local, unified, Dashboard, Genre Cloud, and Orynivo Server album
+  truncated local, unified, Dashboard, Genre Cloud, and HyperFi Server album
   names remain readable.
-- Combined local and Orynivo Server album entries with the same normalized
+- Combined local and HyperFi Server album entries with the same normalized
   artist and album title into one source-aware logical album with an `L+OS`
   badge in album views, Dashboard recommendations, and Recently Added carousels.
   Opening that album now loads every underlying physical album record and
@@ -4184,7 +4192,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Dashboard album sections, Genre Cloud album suggestions, and album search
   results while keeping their tracks available in track views and searches.
 - Hid orphaned album and album-artist records with no remaining indexed tracks
-  from local and Orynivo Server catalogs, detail lookup, recent albums, and
+  from local and HyperFi Server catalogs, detail lookup, recent albums, and
   Dashboard totals. Versioned client album caches prevent stale server rows from
   remaining visible after the fix.
 
@@ -4223,7 +4231,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Added an Infinite Mix that builds a source-aware queue from configurable
   recent listening affinities, favorites, local tracks, and selected reachable
-  Orynivo Servers. Its profile covers mood, discovery level, 3/7/30/90-day
+  HyperFi Servers. Its profile covers mood, discovery level, 3/7/30/90-day
   history, source selection, favorite/rare-track weighting, and included or
   excluded genres. It avoids queued tracks and immediate artist/album
   repetition, appends 20 recommendations at a time, and automatically refills
@@ -4243,7 +4251,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   website languages.
 - Replaced the Infinite Mix comma-separated genre fields with removable chips
   and type-ahead suggestions sourced from the currently enabled local and
-  Orynivo Server libraries, while retaining support for custom genre values.
+  HyperFi Server libraries, while retaining support for custom genre values.
 - Expanded the main README, multilingual product website, and GitHub Wiki with
   current Genre Cloud and Infinite Mix behavior, usage, server integration, and
   local cache/data-location documentation.
@@ -4253,10 +4261,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Enlarged the Infinite Mix profile dialog, made it resizable, and reserved a
   dedicated right-side gutter so its vertical scrollbar no longer covers labels
   or input content.
-- Fixed remote Orynivo Server tracks appearing with the local `L` source badge
+- Fixed remote HyperFi Server tracks appearing with the local `L` source badge
   in **Up Next**. Queue rows now retain the registered server context used by
   the source-aware list that created the queue.
-- Fixed newly assigned Orynivo Server album covers disappearing after reopening
+- Fixed newly assigned HyperFi Server album covers disappearing after reopening
   the Genre Cloud or another album list. Remote cover upload, reassignment, and
   deletion now invalidate the scan-timestamp-based remote album-list cache.
 - Fixed intermittent 10–30 second UI stalls after assigning local album covers.
@@ -4286,14 +4294,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Added an interactive, count-scaled genre cloud with hierarchical drill-down
   and listening-history-based track recommendations. It merges the local library
-  with every configured Orynivo Server and preserves each recommended track's
+  with every configured HyperFi Server and preserves each recommended track's
   source for playback, favorites, and navigation.
 - Replaced the fixed single-parent genre tree with a curated, embedded JSON
   genre graph inspired by RYM-style navigation. Genres can be top-level while
   also belonging to multiple parents, and counts remain deduplicated per node.
 - Replaced the catch-all Other bucket with a localized **More genres** branch
   that preserves and exposes the library's actual unmapped genre names.
-- Added the compact authenticated Orynivo Server endpoint
+- Added the compact authenticated HyperFi Server endpoint
   `GET /api/genres/cloud`; clients fall back to track facets when connected to
   an older server.
 - Expanded the genre hierarchy with a dedicated Electronic → Dance/EDM branch,
@@ -4359,7 +4367,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added complete English, German, French, and Spanish language switching to the
   product website, with English as the default and the visitor's explicit
   selection retained locally. The site now also prominently communicates that
-  the complete Orynivo desktop app is available in the same four languages.
+  the complete HyperFi desktop app is available in the same four languages.
 - Added preliminary operator contact details and expanded the product website's
   privacy notice to cover hosting connection data, local language preferences,
   the self-hosted origin, Cloudflare reverse proxy, the GitHub Releases API,
@@ -4377,13 +4385,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Fixed the product website's **Set up server** link so it activates the Server
   installation tab before scrolling to its instructions, including direct
   `#server-install` links.
-- Fixed Arch-family desktop updates (including CachyOS) closing Orynivo
-  immediately after starting PolicyKit. Orynivo now remains open while
+- Fixed Arch-family desktop updates (including CachyOS) closing HyperFi
+  immediately after starting PolicyKit. HyperFi now remains open while
   `pacman -U` runs, closes only after a successful installer exit, and reports
   and logs authentication or package-manager failures.
 - Fixed unified artist renaming so renaming either its local or remote identity
   also renames matching identities in the local library and on configured
-  Orynivo Servers. A local merge decision now selects the equivalent surviving
+  HyperFi Servers. A local merge decision now selects the equivalent surviving
   identity for matching server-side merge collisions.
 
 ## [0.30.3] - 2026-07-30
@@ -4438,14 +4446,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - Added a cancellable Settings action that searches sequentially for missing
-  artist images in the local library and every configured Orynivo Server. It
+  artist images in the local library and every configured HyperFi Server. It
   tries Fanart.tv first when an API key is configured, then falls back to
   Wikimedia Commons, shows progress and an estimated remaining time, and offers
   an API-key-gated option to accept Fanart.tv results automatically. Wikimedia
   candidates always require explicit acceptance or rejection before storing them
   in their owning library.
 - Added one cross-platform encrypted credential container for Last.fm,
-  Fanart.tv, AI Chat, Orynivo Server, Plex, and streaming-provider secrets.
+  Fanart.tv, AI Chat, HyperFi Server, Plex, and streaming-provider secrets.
   Windows uses current-user DPAPI; Linux and macOS use AES-GCM with a separate
   random key file restricted to the current OS user. Existing plaintext
   `settings.json` secrets and older Windows credential files are migrated
@@ -4474,19 +4482,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added **Library > Review metadata** to Settings. It detects physically grouped
   folders split by inconsistent album titles or album artists, missing titles or
   track numbers, and duplicate track numbers. A folder can also be identified
-  directly from the Folder structure context menu. Orynivo performs a fuzzy
+  directly from the Folder structure context menu. HyperFi performs a fuzzy
   MusicBrainz CD-TOC lookup from track count and durations, presents ranked
   releases for confirmation. Album and artist search terms are editable before
   every lookup, allowing tag wording such as `Bravo Hits Vol. 42` to be
   simplified to `Bravo Hits 42` while track count and durations still validate
-  the result. Orynivo stores the selected titles, artists, album, numbering, and
+  the result. HyperFi stores the selected titles, artists, album, numbering, and
   MusicBrainz IDs as library-only overrides that survive scans without modifying
   audio-file tags.
 
 ### Fixed
 
 - Fixed Linux desktop updates being unavailable or attempting to treat the
-  downloaded package as an executable file. Orynivo now selects the signed DEB,
+  downloaded package as an executable file. HyperFi now selects the signed DEB,
   RPM, or Arch package for the current distribution and requests the required
   package-manager privileges through PolicyKit; CachyOS uses the verified Arch
   package with `pacman`.
@@ -4522,15 +4530,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- The Dashboard now suggests albums from local and Orynivo Server libraries by
+- The Dashboard now suggests albums from local and HyperFi Server libraries by
   matching album genres against the selected listening-history period. Users can
   choose the last week, last month, or all history and bias the ranking toward a
   relaxed, energetic, happy, or melancholic mood. Recommendations default to a
   tall animated cover stage with perspective-angled neighboring albums and
   circular navigation; a persisted List/Stage switch restores the user's choice.
 - Album and artist detail views can now upload local image files directly into
-  Orynivo's artwork caches. Adjacent trash actions delete album covers or artist
-  images for local and Orynivo Server libraries, with unified artist-image
+  HyperFi's artwork caches. Adjacent trash actions delete album covers or artist
+  images for local and HyperFi Server libraries, with unified artist-image
   changes synchronized across matching sources.
 
 ## [0.29.4] - 2026-07-28
@@ -4551,7 +4559,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 
 - Managed DEB server updates now retain the administrator's existing
-  `/etc/orynivo-server/appsettings.json` non-interactively instead of failing at
+  `/etc/hyperfi-server/appsettings.json` non-interactively instead of failing at
   a conffile prompt and leaving the updater service incomplete.
 
 ## [0.29.2] - 2026-07-27
@@ -4574,7 +4582,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- Added optional Fanart.tv artist thumbnails. Orynivo uses embedded MusicBrainz
+- Added optional Fanart.tv artist thumbnails. HyperFi uses embedded MusicBrainz
   artist IDs when available, otherwise accepts only an unambiguous exact
   MusicBrainz match, and selects the highest-rated HTTPS `artistthumb`. Manually
   selected images remain protected. The personal API key is session-only in
@@ -4595,7 +4603,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- Opening a local or Orynivo Server album from a unified artist view once again
+- Opening a local or HyperFi Server album from a unified artist view once again
   initially filters the album to that artist and shows the option to display all
   tracks on the album.
 
@@ -4604,14 +4612,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 
 - macOS now finds FFmpeg and FFprobe installed in common Homebrew, MacPorts,
-  pkgsrc, Fink, and per-user locations even when Finder launches Orynivo with a
-  minimal `PATH`. When neither tool is installed, Orynivo downloads matching
+  pkgsrc, Fink, and per-user locations even when Finder launches HyperFi with a
+  minimal `PATH`. When neither tool is installed, HyperFi downloads matching
   Intel or Apple Silicon builds into its per-user cache.
-- macOS application bundles now include an `Orynivo.icns` application icon and
+- macOS application bundles now include an `HyperFi.icns` application icon and
   declare it in `Info.plist`, so Finder, the Dock, and Launchpad can display the
-  Orynivo icon.
+  HyperFi icon.
 - The shared Folder structure navigation item now remains available when no
-  local library directory is configured but at least one Orynivo Server is
+  local library directory is configured but at least one HyperFi Server is
   present, allowing server folders to be browsed as the only library source.
 
 ## [0.29.0] - 2026-07-26
@@ -4636,7 +4644,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Added macOS desktop support for Intel (`osx-x64`) and Apple Silicon
   (`osx-arm64`). The Avalonia player now uses the macOS system OpenAL framework
-  for PCM playback and publishes self-contained `Orynivo.app` bundles as
+  for PCM playback and publishes self-contained `HyperFi.app` bundles as
   installable PKG packages, portable ZIPs, and tar archives. Every
   architecture-specific package is included in the signed release manifest.
 - Added signed automatic desktop updates on macOS. Startup and About-window
@@ -4661,7 +4669,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   as PCM-only and point users to direct ALSA for DSD playback. The enlarged
   capability window performs read-only ALSA hardware-parameter checks, avoiding
   console errors for unsupported high sample rates.
-- Prevented Orynivo Server library scans from appearing stuck on large or
+- Prevented HyperFi Server library scans from appearing stuck on large or
   chaptered media by disabling missing-ReplayGain FFmpeg analysis by default;
   deployments can opt back in through configuration.
 - Bounded Matroska chapter probing to 30 seconds per file and limited FFprobe's
@@ -4696,12 +4704,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- Added bit-perfect DSF playback over DoP through direct ALSA on Linux. Orynivo
+- Added bit-perfect DSF playback over DoP through direct ALSA on Linux. HyperFi
   bypasses FFmpeg and PCM processing, adds alternating standard DoP markers to
   the unchanged DSD payload, and opens the device at the derived carrier rate
   (for example 176.4 kHz for DSD64). The persisted, localized DoP preference and
   forced DSD-to-PCM conversion are mutually exclusive. Local files and
-  authenticated Orynivo Server streams both use this path; remote DSF data is
+  authenticated HyperFi Server streams both use this path; remote DSF data is
   read incrementally through HTTP byte ranges.
 - Fixed Linux DoP seeking so an ALSA reset cannot race with an in-flight output
   write; buffered pre-seek DSD blocks are discarded and marker framing restarts
@@ -4716,7 +4724,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Fixed noise during Linux DSF playback by honoring the DSF format chunk's bit
   order. Common LSB-first DSF payload bytes are now bit-reversed before native
   ALSA DSD or DoP output, whose chronological DSD bits are MSB-first.
-- Added direct ALSA playback for local and Orynivo-Server-streamed uncompressed
+- Added direct ALSA playback for local and HyperFi-Server-streamed uncompressed
   stereo DFF/DSDIFF on Linux. It prefers native `DSD_U32_BE`, falls back to DoP,
   supports seeking, and preserves DFF's already MSB-first payload order.
 - Updated the project documentation to present Linux as a packaged desktop
@@ -4783,7 +4791,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - Added Matroska Audio (`.mka`) files to library scanning, desktop file
-  recognition, and Orynivo Server streaming. Chaptered MKA albums are expanded
+  recognition, and HyperFi Server streaming. Chaptered MKA albums are expanded
   into individually searchable and playable tracks with embedded chapter tags
   and boundaries. Library-only chapter-title corrections persist across scans
   without modifying the MKA file.
@@ -4813,17 +4821,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- Added the authenticated Orynivo Server `/api/library/summary` endpoint and
+- Added the authenticated HyperFi Server `/api/library/summary` endpoint and
   client method for compact aggregate Dashboard counts without transferring
   complete track or album rows.
 
 ### Fixed
 
 - Corrected Dashboard library totals to include tracks and albums from all
-  configured Orynivo Servers and to unify artist identities consistently with
+  configured HyperFi Servers and to unify artist identities consistently with
   the shared Artists view, with lightweight fallbacks for older servers.
 - Unified artist rows now use available profile images and biographies from
-  either their local or Orynivo Server identity; newly downloaded profile data
+  either their local or HyperFi Server identity; newly downloaded profile data
   and manually selected images are synchronized to every matching source.
 
 ## [0.26.5] - 2026-07-15
@@ -4846,9 +4854,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- Added an Appearance option for maximized startup; when disabled, Orynivo
+- Added an Appearance option for maximized startup; when disabled, HyperFi
   restores the last normal main-window size and on-screen position.
-- Added the connected Orynivo Server version to each server row and allowed the
+- Added the connected HyperFi Server version to each server row and allowed the
   startup update notification to launch the existing verified update flow
   directly.
 
@@ -4909,7 +4917,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - Desktop updates now relay the same signed release to every reachable,
-  update-enabled Orynivo Server before launching the Windows installer; failed
+  update-enabled HyperFi Server before launching the Windows installer; failed
   servers are named and the user can explicitly continue the desktop update.
 
 ### Fixed
@@ -4919,7 +4927,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   packages, and surfaced HTTP rejection codes in Settings.
 - Applied Kestrel's global request-body limit again after layering the editable
   Linux configuration, so `Kestrel:Limits:MaxRequestBodySize` from
-  `/etc/orynivo-server/appsettings.json` is actually honoured.
+  `/etc/hyperfi-server/appsettings.json` is actually honoured.
 
 ## [0.26.2] - 2026-07-15
 
@@ -4964,9 +4972,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Enlarged the About window, placed its proportionally filled logo in a compact
   vertically cropped header, and reserved a readable minimum height for the
   scrollable license list after adding version and update controls.
-- Restored mixed-playlist actions for Orynivo Server file and directory nodes in
+- Restored mixed-playlist actions for HyperFi Server file and directory nodes in
   the Folder structure view. Remote folder selections now resolve their
-  registered server track IDs to stable `orynivo://` references and use the
+  registered server track IDs to stable `hyperfi://` references and use the
   shared local playlist list instead of obsolete hidden server playlists,
   without persisting authenticated stream URLs.
 
@@ -4992,7 +5000,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Added build-time desktop/server version reporting and signed GitHub Release
   updates. The About window can check, verify, download, and launch a newer
-  Windows installer; Orynivo can relay matching DEB/RPM packages to explicitly
+  Windows installer; HyperFi can relay matching DEB/RPM packages to explicitly
   update-enabled Linux servers without requiring server internet access.
 - Added a privileged, fixed-command Linux server updater that independently
   verifies the signed release manifest and package digest before invoking the
@@ -5043,7 +5051,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   playlists retain their orange emphasis through a new size- and spacing-matched
   vector lightning icon.
 - Redesigned the Dashboard around a large artwork-backed greeting hero using the
-  Orynivo wordmark and bundled light-wave background. The hero exposes live,
+  HyperFi wordmark and bundled light-wave background. The hero exposes live,
   lightweight album/track/artist/favorite counters plus working random-play and
   Up Next actions.
 - Added efficient SQLite dashboard summary and listening-trend queries. The
@@ -5070,13 +5078,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Reorganized contributor instructions around a mandatory completion checklist
   and scoped `AGENTS.md` files for the Windows client, Core, Server, and native
   bridges, keeping subsystem invariants close to the code they govern.
-- Unified matching local and Orynivo Server artists in the shared Artists view
+- Unified matching local and HyperFi Server artists in the shared Artists view
   and global search. A combined `L+OS` artist opens one mixed album view across
   every matching library; every non-Plex artist link—including Recently Played,
   Dashboard analytics, search, artist info, and now playing—uses the same
   cross-library drill-down, and Back navigation preserves that combined view.
 - Toggling the favorite state of a combined artist now applies the change to
-  every matching local and Orynivo Server artist identity.
+  every matching local and HyperFi Server artist identity.
 - Rebuilt the Dashboard layout to match the new visual direction: Recently
   Played and Recently Added sit in parallel surface cards; Recently Played uses
   the same large artwork-card proportions as albums and now includes a
@@ -5112,7 +5120,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Recently Played cards now receive normal and gradient hover borders solely
   from the shared `motionCard` style instead of overriding it with local
   single-color pointer handlers.
-- Dashboard and Quick Access favorite counts now validate client-side Orynivo
+- Dashboard and Quick Access favorite counts now validate client-side HyperFi
   Server favorite IDs against current server facets and resolvable track rows,
   matching the actual unified Favorites view instead of counting stale IDs from
   settings.
@@ -5120,9 +5128,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   facets before opening favorite tracks; Dashboard genre links likewise clear
   every unrelated track facet before applying the selected genre.
 - The Dashboard favorite counter and Quick Access summary now combine local
-  favorite tracks with client-side favorites from every configured Orynivo
+  favorite tracks with client-side favorites from every configured HyperFi
   Server instead of reporting only the local SQLite count.
-- Plex and Orynivo Server "Test connection" buttons now size to their localized
+- Plex and HyperFi Server "Test connection" buttons now size to their localized
   text instead of clipping longer labels.
 
 ## [0.24.0] - 2026-07-08
@@ -5148,7 +5156,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Smart-playlist editor live preview: while editing a smart playlist's criteria,
   a debounced preview line shows how many tracks currently match, resolved the
   same way the playlist actually opens. A locally stored smart playlist counts
-  across the unified library (local plus every configured Orynivo Server), so
+  across the unified library (local plus every configured HyperFi Server), so
   server-sourced criteria are no longer counted as zero; a server-stored one is
   resolved on that server via a new `/api/playlists/resolve-count` endpoint
   (older servers simply show no preview).
@@ -5158,7 +5166,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added an Up Next header button for clearing the complete queue without
   stopping the currently playing track.
 - Drag & drop into the queue: track rows, album rows, and folder nodes — local
-  and remote Orynivo Server alike — can be dragged onto the "Up Next" sidebar
+  and remote HyperFi Server alike — can be dragged onto the "Up Next" sidebar
   item to append them (remote albums/folders resolve to their tracks on drop);
   album artwork cards can now be dragged as well.
 - Added an optional fade transition for queue advances that are not handled by
@@ -5167,7 +5175,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Radio playback now refreshes Windows media-overlay metadata after ICY title
   changes and after the station logo has been downloaded into a local SMTC-safe
   cache file.
-- Remote Orynivo Server compatibility display: each server row in Settings now
+- Remote HyperFi Server compatibility display: each server row in Settings now
   probes the newer feature endpoints and concretely reports what an older server
   is missing ("Server does not support: Track facets, Recent albums,
   Waveforms").
@@ -5177,17 +5185,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Server-side scan progress is shown in the sidebar activity line: configured
   servers are polled and an in-progress scan appears as an "Updating … N / M
   files" status without reloading or blocking the current view.
-- MCP tools and the built-in AI chat can now reach remote Orynivo Server tracks:
+- MCP tools and the built-in AI chat can now reach remote HyperFi Server tracks:
   `search_library` returns results from the local library **and** every
-  configured Orynivo Server, and the `play`, `queue_append`, `queue_play_next`,
-  and `replace_queue` tools accept the `orynivo://serverId/track/trackId`
+  configured HyperFi Server, and the `play`, `queue_append`, `queue_play_next`,
+  and `replace_queue` tools accept the `hyperfi://serverId/track/trackId`
   references those results provide. References resolve to the real stream and
   register full track metadata, so remote playback shows correct
   transport/history/lyrics. API keys are never exposed to the model (opaque
   references; keys redacted in output).
 
 - Added "Most listened albums" and "Most listened artists" analytics cards to
-  the dashboard alongside Top Genres, merging local, remote Orynivo Server, and
+  the dashboard alongside Top Genres, merging local, remote HyperFi Server, and
   Plex playback. A shared period selector (All time / This year / This month /
   Last 30 days / Last 7 days) governs all three cards. Album and artist entries
   link into their own library (local, remote, or Plex).
@@ -5212,12 +5220,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   last successful connection time (persisted per server in `server-status.json`)
   when a server cannot be reached.
 - Split several `MainWindow` domains into dedicated partial files for dashboard,
-  history, playlists, internet radio, and Orynivo Server navigation code.
+  history, playlists, internet radio, and HyperFi Server navigation code.
 - Replaced several small text/emoji glyph buttons, including transport actions,
   with shared vector icon geometries and expanded empty-state text for missing
   library, radio, and podcast sources.
 - Updated the README to reflect current queue, smart-playlist, dashboard, MCP,
-  remote Orynivo Server, and cwASIO/native-DSD capabilities.
+  remote HyperFi Server, and cwASIO/native-DSD capabilities.
 
 ### Fixed
 
@@ -5261,12 +5269,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added an artist-info button beside the artist name in album/track detail
   headers, opening the same biography, image, and rename/merge view used by the
   artist list.
-- Restyled the favorite heart with a warmer Orynivo-specific color and adjusted
+- Restyled the favorite heart with a warmer HyperFi-specific color and adjusted
   glyph across tables, artwork cards, album headers, and the transport bar.
 
 ### Fixed
 
-- Reduced local and Orynivo Server artist rename work by updating only the
+- Reduced local and HyperFi Server artist rename work by updating only the
   affected Lucene search-index documents instead of rebuilding the whole index;
   remote renames now also advance the server library-change timestamp so client
   caches do not keep stale artist metadata.
@@ -5276,7 +5284,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   shown for playback-history rows even when they cannot be recovered through the
   local track join, including remote and Plex tracks.
 - Made daily listening-history album cells open the corresponding album track
-  view for local and Orynivo Server history entries.
+  view for local and HyperFi Server history entries.
 - Prevented background library watcher refreshes from replacing playlist,
   dashboard, drill-down, search, or detail views; sidebar rebuilds now preserve
   the selected navigation item without firing an unintended navigation change.
@@ -5285,10 +5293,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- Fixed remote Orynivo Server artist information from the shared Artists view so
+- Fixed remote HyperFi Server artist information from the shared Artists view so
   the info, refresh, rename, and image actions use the clicked row's server
   instead of the previously active server context.
-- Fixed manually selected remote Orynivo Server artist images disappearing when
+- Fixed manually selected remote HyperFi Server artist images disappearing when
   reopening artist information by assigning stable artist-artwork URLs to the
   updated row before caching the uploaded image bytes.
 - Restored the small thumbnail column in the Artists and Albums table views,
@@ -5297,7 +5305,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Invalidated the client-side remote artist-list cache after remote artist
   profile or image updates, and hydrated remote artist information from the
   server's cached profile before falling back to a fresh external lookup.
-- Made playback-history artists clickable for both local and Orynivo Server
+- Made playback-history artists clickable for both local and HyperFi Server
   entries, including the calendar day dialog and the Dashboard's recently played
   cards/full view.
 
@@ -5312,7 +5320,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   scroll calculations with the updated card height.
 - Fixed full-library search so artist-name queries also populate the Albums and
   Artists result sections when the match comes from album-artist metadata; the
-  Orynivo Server full-search endpoint now correctly maps Lucene track hits to
+  HyperFi Server full-search endpoint now correctly maps Lucene track hits to
   album and artist rows instead of treating track IDs as entity IDs.
 
 ## [0.23.0] - 2026-07-05
@@ -5336,7 +5344,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - The Tracks search now honours the active facet filters. The **source** facet
-  restricts which sources are searched at all (e.g. with only an Orynivo Server
+  restricts which sources are searched at all (e.g. with only an HyperFi Server
   selected, typing in the search box searches just that server and hides local
   results), while the favourite, genre, format, and bitrate facets additionally
   filter the track results. Saving the search as a smart playlist now also
@@ -5346,27 +5354,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   available whenever a search query or a facet filter is active.
 - The Folder structure view now groups its content by source: a top-level
   **Local** node (shown only when a local library directory is configured) and
-  one node per configured Orynivo Server (shown only when the server reports
+  one node per configured HyperFi Server (shown only when the server reports
   folder tracks), each expanding into its own folder tree. With a single source
   the group expands automatically; with several sources the groups stay
   collapsed so every source stays visible at the top. Remote folder file nodes
   play through the authenticated stream URL and carry the same transport
   metadata as remote track rows.
-- Prepared shared local/Orynivo Server row metadata for common Artists, Albums,
+- Prepared shared local/HyperFi Server row metadata for common Artists, Albums,
   Tracks, and search-result library views, including an optional `OS` source
   column with the server name as tooltip when remote rows are shown.
-- Local playlists can now contain mixed local and Orynivo Server tracks. Server
-  tracks are persisted as `orynivo://` references so authenticated `?key=`
+- Local playlists can now contain mixed local and HyperFi Server tracks. Server
+  tracks are persisted as `hyperfi://` references so authenticated `?key=`
   stream URLs are still not stored in SQLite.
 - Search result rows for tracks, albums, and artists now expose the same leading
   favorite heart action as the main library tables.
 - Smart playlists opened from the local playlist group now resolve against the
-  combined local and configured Orynivo Server track set.
-- Shared Artists, Albums, and Tracks views now load configured Orynivo Server
+  combined local and configured HyperFi Server track set.
+- Shared Artists, Albums, and Tracks views now load configured HyperFi Server
   rows into the combined row set before the first table bind, avoiding a
   post-startup table replacement while preserving mixed local/server results.
 - Added a source facet to the Tracks filter with **Local** and configured
-  Orynivo Server entries. Smart playlists can persist the same source
+  HyperFi Server entries. Smart playlists can persist the same source
   restriction through stable source keys.
 - Playlist tables now expose the favorite heart as the first column and the
   source column directly beside it. Source tooltips use theme-aware foreground
@@ -5392,7 +5400,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   theme foreground instead of black on the dark surface. The tooltip content is
   an explicit `TextBlock` with a local theme foreground, because a string
   tooltip does not inherit `ToolTip.Foreground` under the default tooltip theme.
-- The Albums table no longer freezes on startup once a remote Orynivo Server is
+- The Albums table no longer freezes on startup once a remote HyperFi Server is
   merged into the library. Building a remote album row's right-click playlist
   menu resolved the album's track list through a **synchronous** server request
   on the UI thread while the row was being realized inside the `DataGrid` layout
@@ -5412,13 +5420,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   default in large mixed local/server tables to avoid the album-table UI stall
   seen when many remote artwork-capable rows were bound at once.
 - Removed the obsolete Local child node from the Library sidebar now that local
-  and Orynivo Server sources share one library.
+  and HyperFi Server sources share one library.
 - Existing saved table column masks now show the new `OS` source column by
   default while still allowing it to be hidden from the column chooser.
 - Added per-server background timeouts while loading the shared Artists, Albums,
   Tracks, and smart-playlist views so an unavailable server cannot leave the UI
   stuck on startup.
-- Removed the post-bind Orynivo Server row append from the active Artists,
+- Removed the post-bind HyperFi Server row append from the active Artists,
   Albums, and Tracks tables after diagnostics showed that replacing a large
   already-visible DataGrid could freeze the UI shortly after startup.
 - Reduced scroll-time work in the shared Artists, Albums, and Tracks tables so
@@ -5466,7 +5474,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   without leaving the view. **Recently added** albums now use the same artwork
   cards as the normal Albums view, so their covers can be changed (search /
   reassign / delete) and albums can be toggled as favorites directly from the
-  dashboard — for local and remote Orynivo Server albums alike. The **Calendar**
+  dashboard — for local and remote HyperFi Server albums alike. The **Calendar**
   and **Top genres** blocks are now visually separated and shown side by side on
   wide windows (stacking on narrow ones), and Top genres is a modern analytics
   card with numbered colour-coded rank chips and thin proportional bars.
@@ -5491,7 +5499,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   punctuation such as `M!ssundaztood`. The primary release/artist query now
   preserves punctuation and URL-encodes the complete query, with compacted and
   spaced punctuation fallbacks when the exact query finds no cover results.
-- Fixed the Dashboard being rendered twice below itself when Orynivo started
+- Fixed the Dashboard being rendered twice below itself when HyperFi started
   with Dashboard as the restored last view. Dashboard rebuilds are now versioned
   and applied atomically, so a startup layout reflow cannot append stale content
   from an earlier asynchronous build.
@@ -5503,10 +5511,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   the Recently added album cards.
 - Fixed old remote **Recently played** entries showing the selected output
   device (for example "Topping USB Audio") as the artist. Remote history cards
-  now refresh their title/artist from the configured Orynivo Server metadata,
+  now refresh their title/artist from the configured HyperFi Server metadata,
   and their hover border explicitly uses the current theme accent brush.
 - Added manual artist-image search to the artist-info view opened from a
-  currently playing remote Orynivo Server track. The shared artist-image search
+  currently playing remote HyperFi Server track. The shared artist-image search
   dialog now focuses and selects its editable query on open and starts a new
   search with Enter, making it easier to change the search text and retry from
   both track and artist artist-info views.
@@ -5518,7 +5526,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Aligned the manual cover-search and artist-image-search dialogs by placing the
   **Search again** action beside the active query field and adding a search icon
   to the button in both dialogs.
-- Fixed Dashboard **Recently played** cards for Orynivo Server tracks not
+- Fixed Dashboard **Recently played** cards for HyperFi Server tracks not
   showing cover art and replaying with only a bare stream URL. Remote history
   entries now resolve back to their configured server track, load the
   server-side track artwork, and register the full remote row before playback so
@@ -5538,12 +5546,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   card hover/cover-reveal styles were scoped to `ListBoxItem` and now also react
   to the card border being hovered, so the shared artwork card animates in the
   dashboard strip and full view too.
-- Fixed the **Up next** queue order when starting a remote Orynivo Server album
+- Fixed the **Up next** queue order when starting a remote HyperFi Server album
   whose tracks span two directories (for example a multi-disc release without
   disc-number tags). Double-clicking a remote track now builds the queue from
   the actually clicked directory group in its displayed order, matching local
   albums, instead of rebuilding it from the raw, ungrouped album track list.
-- Improved remote Orynivo Server playback start latency on ASIO/cwASIO. A remote
+- Improved remote HyperFi Server playback start latency on ASIO/cwASIO. A remote
   PCM track (FLAC, MP3, etc.) is no longer treated as a possible native DSD
   stream when the server metadata already identifies its format, so it skips the
   two native DSF/DFF header probes (each a wasted HTTP round-trip) and starts
@@ -5551,13 +5559,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   consecutive remote PCM tracks on ASIO/cwASIO, which previously played
   track-by-track. Tracks with no usable format metadata still fall back to the
   conservative native-DSD probe.
-- Further reduced remote Orynivo Server playback start latency on all backends
+- Further reduced remote HyperFi Server playback start latency on all backends
   by skipping the separate FFmpeg probe when the server already reports the
   track's sample rate. The player now builds its technical info from the cached
   server metadata and only starts the decoder, removing one HTTP round-trip per
   track (initial start and gapless prefetch); DSD sources and tracks without a
   reported sample rate still probe as before.
-- Fixed remote Orynivo Server DSF playback using the FFmpeg PCM path while the
+- Fixed remote HyperFi Server DSF playback using the FFmpeg PCM path while the
   transport claimed native DSD output. Remote DSF files now stream natively over
   HTTP byte ranges to ASIO/cwASIO, and the transport shows **DSD nativ** only
   after the native DSF player has actually started; malformed or unsupported
@@ -5565,12 +5573,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   remote native path now validates the actual DSF header instead of trusting
   server metadata, retries transient ASIO driver-load failures while switching
   from PCM playback, and accepts DSF headers that report 8-bit stored DSD bytes.
-- Added native DFF/DSDIFF playback for remote Orynivo Server streams. The client
+- Added native DFF/DSDIFF playback for remote HyperFi Server streams. The client
   now parses the remote DFF chunk structure through HTTP byte-range reads and
   streams uncompressed DSD data directly to ASIO/cwASIO without downloading the
   complete file first; DST-compressed DFF remains unsupported and falls back to
   DSD-to-PCM.
-- Fixed missing transport waveforms for remote Orynivo Server tracks when the
+- Fixed missing transport waveforms for remote HyperFi Server tracks when the
   server cannot generate waveform peaks for a format such as DFF. The client now
   falls back to locally analysing the authenticated stream URL with FFmpeg and
   caches the resulting compact peaks.
@@ -5611,16 +5619,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added a waveform-style transport progress view that keeps the existing seek
   behaviour while showing local-file peak data with the active transport accent
   as the played overlay.
-- Added cached waveform peak generation for local Orynivo tracks and remote
-  Orynivo Server tracks. The server now exposes per-track waveform data through
+- Added cached waveform peak generation for local HyperFi tracks and remote
+  HyperFi Server tracks. The server now exposes per-track waveform data through
   `GET /api/tracks/{id}/waveform` and stores generated peaks in its data
   directory.
 - Added sanitized seek diagnostics in `logs/seek.log` for transport clicks, PCM
-  decoder replacement, FFmpeg decoder startup, and Orynivo Server server-side
+  decoder replacement, FFmpeg decoder startup, and HyperFi Server server-side
   seek transcodes so intermittent remote seek failures can be diagnosed without
   writing API keys or Plex tokens to the log.
 - Added an album link to the now-playing transport metadata between title and
-  artist. Local and Orynivo Server tracks open their normal album track detail
+  artist. Local and HyperFi Server tracks open their normal album track detail
   view from that link.
 - Added controlled web-browsing tools for the AI chat and external MCP clients:
   `search_web` (via a configurable SearXNG instance), `fetch_page` (readable
@@ -5631,7 +5639,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   window), redirects are limited and followed manually, responses are size- and
   timeout-capped, non-text content is refused (no arbitrary downloads), an
   optional domain allowlist is supported, and every request is logged to
-  `%LOCALAPPDATA%\Orynivo\logs\web-browsing.log`. The trusted SearXNG endpoint
+  `%LOCALAPPDATA%\HyperFi\logs\web-browsing.log`. The trusted SearXNG endpoint
   is exempt from the private-network guard so a LAN/Docker instance works. The
   SearXNG URL and limits are configurable under Settings → Integration → MCP
   Server → Web browsing, and each web tool has its own enable/disable toggle
@@ -5661,14 +5669,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   releases the previous stream and playback never silently resumes from the old
   position.
 - Fixed repeated remote seeks being blocked behind a hung earlier seek. New PCM
-  seeks now cancel any still-starting replacement decoder, and the Orynivo
+  seeks now cancel any still-starting replacement decoder, and the HyperFi
   Server seek transcode maps only the first audio stream so embedded artwork or
   other non-audio streams cannot stall the FLAC pipe startup.
 - Fixed Back navigation after opening an artist from the now-playing transport
   and then drilling into an album. The history now captures local and remote
   artist-album drill-down states explicitly instead of inferring them from the
   visible title text, so Back returns to the artist's album list.
-- Fixed the same Back path for remote Orynivo Server tracks by marking
+- Fixed the same Back path for remote HyperFi Server tracks by marking
   now-playing remote artist drill-downs as server album views before capturing
   history, preventing remote artist IDs from being restored through the local
   album query path.
@@ -5686,14 +5694,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Removed the bundled default SearXNG URL from the web-browsing settings so new
   installations start with an empty endpoint and require the user to enter their
   own instance.
-- Fixed Back navigation opening the wrong album after viewing a remote Orynivo
+- Fixed Back navigation opening the wrong album after viewing a remote HyperFi
   Server album that was opened from the dashboard and then drilling into its
   artist. Such a remote album was captured as a local album-tracks state and
   restored through the local path, reopening a local album that merely shared
   the numeric id. Remote albums are now detected by their catalog source and
   restored through the remote path regardless of how they were opened.
 - Fixed the manual lyrics search/download dialog not appearing while a remote
-  Orynivo Server track is playing. The handler required a local database row
+  HyperFi Server track is playing. The handler required a local database row
   (looked up by file path), which never matches a remote stream URL, so it
   returned before showing the dialog. It now seeds the search from the current
   track's metadata and stores the chosen lyrics on the remote server for remote
@@ -5736,7 +5744,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   (one or two initials over a deterministic accent-tinted gradient) instead of a
   flat grey rectangle, via the new reusable `InitialsAvatar` control. It is used
   in the album detail header, album/artist artwork cards, and the artist-info
-  image, and looks identical for local and remote (Orynivo Server) entities. The
+  image, and looks identical for local and remote (HyperFi Server) entities. The
   cover-search action now sits on a subtle scrim at the bottom of empty album
   covers so it stays readable over the gradient.
 - The artist-info view now shows the artist's albums as a wrapped strip of
@@ -5752,7 +5760,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   consistent height; and the Output and MCP sections show small status badges
   for FFmpeg, Steinberg ASIO, cwASIO, and the MCP server. The MCP per-tool list
   keeps its checkboxes as a permission checklist.
-- Each configured Orynivo Server and Plex server row in Settings now shows a
+- Each configured HyperFi Server and Plex server row in Settings now shows a
   live connection status badge (checking → available/unavailable). The
   reachability check runs asynchronously per server, so it never blocks opening
   Settings, and pending checks are cancelled when the list is rebuilt or
@@ -5772,7 +5780,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
-- Refreshed the main Orynivo visual theme with a more neutral dark/light
+- Refreshed the main HyperFi visual theme with a more neutral dark/light
   palette, a central accent brush, softer sidebar selection pills, larger
   transport controls, subtler table rows, and updated Dashboard album, calendar,
   and genre-stat cards.
@@ -5807,7 +5815,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   playback queue. Filtered, album, folder, playlist, and search-result playback
   still keeps the visible context as the queue.
 - Startup now writes detailed timing diagnostics to
-  `%LOCALAPPDATA%\Orynivo\logs\startup-timing-latest.log`, including FFmpeg, the
+  `%LOCALAPPDATA%\HyperFi\logs\startup-timing-latest.log`, including FFmpeg, the
   initial database open, schema/migration substeps, main-window construction,
   and background search-index work. The detailed database hook is disabled
   before the main window opens so normal UI database reads do not flood the log
@@ -5841,12 +5849,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - The Dashboard's "Recently added albums" strip now also includes albums from
-  every configured remote Orynivo Server, merged with the local library and
+  every configured remote HyperFi Server, merged with the local library and
   sorted by when each album was last added. Remote cards load their artwork from
   the server (cached locally) and navigate within the remote library. A new
   server endpoint `GET /api/albums/recent` backs this; older servers without it
   are simply skipped.
-- Searching within a remote Orynivo Server Tracks view now shows the same
+- Searching within a remote HyperFi Server Tracks view now shows the same
   three-section result (Tracks, Albums, Artists) as the local library search,
   backed by the server's `/api/search/full` endpoint. Result rows navigate
   within the remote library (album/artist links and double-click) and remote
@@ -5861,17 +5869,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 
 - The Dashboard genre statistics (Top genres and the per-day calendar genres)
-  now include remote Orynivo Server and Plex tracks. Their genre is captured at
+  now include remote HyperFi Server and Plex tracks. Their genre is captured at
   playback time in a new `play_history.genre` column, so genre stats no longer
   require a local library row. The calendar's daily total playback time already
   counted these tracks.
-- The now-playing artist button is now enabled while a remote Orynivo Server
+- The now-playing artist button is now enabled while a remote HyperFi Server
   track plays and opens that artist within the track's server library (instead
   of staying disabled to avoid opening an unrelated local artist).
 - Clicking the artist link on a dashboard recent-album card no longer also opens
   the album, and dashboard/search remote albums now clear any leftover artist
   filter so they show all of their tracks instead of appearing empty.
-- Opening a remote Orynivo Server view (e.g. an artist's albums) from a
+- Opening a remote HyperFi Server view (e.g. an artist's albums) from a
   dashboard recent-album card now hides the dashboard, internet-radio, podcast,
   lyrics, and artist-info views, so the loaded remote content is actually shown
   instead of staying hidden behind the previous view (which made the album view
@@ -5881,11 +5889,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- The Linux Orynivo Server now reads and writes its editable configuration at
-  `/etc/orynivo-server/appsettings.json`. It is layered on top of the bundled
+- The Linux HyperFi Server now reads and writes its editable configuration at
+  `/etc/hyperfi-server/appsettings.json`. It is layered on top of the bundled
   defaults at startup, and runtime changes (such as adding a library directory
   through the client) are persisted there instead of to the read-only,
-  root-owned content-root copy under `/usr/lib/orynivo-server`, which previously
+  root-owned content-root copy under `/usr/lib/hyperfi-server`, which previously
   failed with `UnauthorizedAccessException` and is also overwritten on package
   upgrades.
 
@@ -5893,12 +5901,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- The Linux Orynivo Server package no longer crashes on startup
-  (`UnauthorizedAccessException` / `SIGABRT`) when run as the `orynivo-server`
+- The Linux HyperFi Server package no longer crashes on startup
+  (`UnauthorizedAccessException` / `SIGABRT`) when run as the `hyperfi-server`
   systemd service. The service user has no writable home, so resolving the data
   directory via `$HOME/.local/share` failed. The data directory can now be
-  overridden with the `ORYNIVO_DATA_DIR` environment variable; the systemd unit
-  sets it to `/var/lib/orynivo-server` (created via `StateDirectory` and the
+  overridden with the `HYPERFI_DATA_DIR` environment variable; the systemd unit
+  sets it to `/var/lib/hyperfi-server` (created via `StateDirectory` and the
   package post-install) so the database, caches, and artwork are stored in a
   dedicated service-owned directory.
 - Plex folder browsing now shows tracks whose files have no title tag. Such
@@ -5927,8 +5935,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- Remote Orynivo Server Tracks now caches the downloaded full track list under
-  `%LOCALAPPDATA%\Orynivo\remote-track-cache\` and reuses it while the server's
+- Remote HyperFi Server Tracks now caches the downloaded full track list under
+  `%LOCALAPPDATA%\HyperFi\remote-track-cache\` and reuses it while the server's
   `LibraryChangedAt` scan timestamp is unchanged, so revisiting the Tracks view
   no longer re-downloads the whole library. The cache key includes the API key
   (cached playback URLs embed it) and client-side favourites are re-applied
@@ -5936,39 +5944,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- Remote Orynivo Server folder view loading placeholder now uses the themed
+- Remote HyperFi Server folder view loading placeholder now uses the themed
   muted text brush, so the "loading" message is readable on the dark background
   instead of rendering as black text.
-- Remote Orynivo Server Tracks now loads the unfiltered track list with a large
+- Remote HyperFi Server Tracks now loads the unfiltered track list with a large
   page size instead of 500 rows per request. On a large library (~75k tracks)
   the old paging issued ~150 sequential HTTP requests and took over a minute, so
   the Tracks view appeared empty unless the favourites filter (a single request)
   was active; it now loads the whole library in one or two requests within a
   couple of seconds.
-- Remote Orynivo Server Tracks now applies its table columns immediately before
+- Remote HyperFi Server Tracks now applies its table columns immediately before
   binding the loaded rows (matching the local Tracks view) instead of before the
   async server load, so the DataGrid reliably realizes the rows.
-- Remote Orynivo Server folder playback now registers full track metadata before
+- Remote HyperFi Server folder playback now registers full track metadata before
   queuing streams, so the transport shows title/artist/artwork and enables
   lyrics, artist info, favourites, and playlist actions like the local folder
   view.
-- Remote Orynivo Server folder context menus now route credential-bearing stream
+- Remote HyperFi Server folder context menus now route credential-bearing stream
   URLs through the server playlist provider instead of falling back to
   queue-only actions, so files and folders can be saved to playlists on that
   server.
-- Remote Orynivo Server Tracks now explicitly refreshes the table layout after
+- Remote HyperFi Server Tracks now explicitly refreshes the table layout after
   async row binding so the view appears immediately without requiring an
   unrelated sidebar interaction.
-- Remote Orynivo Server Tracks now binds rows immediately instead of leaving the
+- Remote HyperFi Server Tracks now binds rows immediately instead of leaving the
   table source empty until a deferred layout pass, fixing an initially blank
   Tracks view.
-- Remote Orynivo Server folder views now clear stale local folder nodes before
+- Remote HyperFi Server folder views now clear stale local folder nodes before
   loading, show a server-loading placeholder, and cache the server folder-track
-  list under `%LOCALAPPDATA%\Orynivo\remote-folder-cache\`. The cache is reused
+  list under `%LOCALAPPDATA%\HyperFi\remote-folder-cache\`. The cache is reused
   until the server reports a newer library-change timestamp.
 - Library accordion headers are no longer treated as navigable views, preventing
   raw `LibraryGroup:...` tags from replacing the content title.
-- Orynivo Server scan status now exposes `LibraryChangedAt`, a persisted Unix
+- HyperFi Server scan status now exposes `LibraryChangedAt`, a persisted Unix
   timestamp updated when a scan or file watcher run adds, updates, or removes
   indexed tracks, so clients can invalidate remote caches without downloading
   the full list first.
@@ -6000,7 +6008,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- Added a shared playlist provider layer for local and remote Orynivo Server
+- Added a shared playlist provider layer for local and remote HyperFi Server
   libraries so track/album/folder context menus use the same playlist actions
   while persisting entries to the correct local database or remote server.
 
@@ -6009,16 +6017,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - FFmpeg and FFprobe child processes now always receive a valid working
   directory, and startup repairs a missing current directory left by stale
   shortcuts or installer paths, avoiding launch failures that referenced an old
-  `%LOCALAPPDATA%\Programs\Orynivo` path.
+  `%LOCALAPPDATA%\Programs\HyperFi` path.
 
 ## [0.17.0] - 2026-06-28
 
 ### Fixed
 
 - Automatic FFmpeg download on Windows now stores downloaded binaries in
-  `%LOCALAPPDATA%\Orynivo\ffmpeg` instead of the application install directory,
+  `%LOCALAPPDATA%\HyperFi\ffmpeg` instead of the application install directory,
   so setup installations under `Program Files` work without elevation.
-- On first start or after a missing/corrupt output configuration, Orynivo now
+- On first start or after a missing/corrupt output configuration, HyperFi now
   creates and selects a `Default` WASAPI output profile using the Windows
   default multimedia output device so playback can work without manual device
   setup.
@@ -6044,31 +6052,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - The transport favourite (heart) button now works while playing a remote
-  Orynivo Server track and toggles the client-side favourite for that track
+  HyperFi Server track and toggles the client-side favourite for that track
   (stored in `settings.json`), mirroring the change in any visible remote track
   rows. Previously the button was only active for local tracks.
-- When no local library directory and no Orynivo Server are configured, the
+- When no local library directory and no HyperFi Server are configured, the
   Library sidebar now shows a hint pointing to Settings to add local directories
-  or one or more Orynivo Servers. The complete Local node is hidden until a
+  or one or more HyperFi Servers. The complete Local node is hidden until a
   library directory exists, and the hint disappears immediately once a directory
   or server is added.
 - The transport lyrics and artist-info buttons now work while playing a track
-  from a remote Orynivo Server. Lyrics are fetched from LRCLIB and the artist
+  from a remote HyperFi Server. Lyrics are fetched from LRCLIB and the artist
   biography/image from Wikipedia or Last.fm on the client, then cached on the
   server (consistent with the existing artwork/biography upload pattern). A new
-  `INowPlayingMetadataProvider` abstraction with local and Orynivo Server
-  implementations (`Orynivo/NowPlayingMetadataProviders.cs`) drives both flows.
+  `INowPlayingMetadataProvider` abstraction with local and HyperFi Server
+  implementations (`HyperFi/NowPlayingMetadataProviders.cs`) drives both flows.
 - New server endpoints `GET`/`PUT /api/tracks/{id}/lyrics` cache per-track
   lyrics; the remote track DTO now also carries the primary `ArtistId` so the
   client can resolve and cache the playing track's artist profile.
 - The transport cover (bottom-left) and the lyrics background now display for
-  remote Orynivo Server tracks. Cover loading is unified for local and remote
+  remote HyperFi Server tracks. Cover loading is unified for local and remote
   tracks through `INowPlayingMetadataProvider.GetArtworkAsync`, backed by a new
   `GET /api/artwork/track/{id}` server endpoint.
 - The Windows System Media Transport Controls (lock screen / media overlay) now
-  show album artwork for remote Orynivo Server tracks via the authenticated
+  show album artwork for remote HyperFi Server tracks via the authenticated
   track-artwork URL.
-- The remote Orynivo Server Artists, Albums, and Tracks views now match the
+- The remote HyperFi Server Artists, Albums, and Tracks views now match the
   local library views: the same column masks with clickable artist/album links,
   the artist-info button, thumbnails, the full set of optional track columns,
   the intro card, and the per-entity Favorites-only toggle. Clicking an
@@ -6080,34 +6088,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   in-library navigation.
 
 - Added a shared local/remote library catalog provider layer in the Windows
-  client. Local `AudioDatabase` rows and remote Orynivo Server responses now map
+  client. Local `AudioDatabase` rows and remote HyperFi Server responses now map
   into common artist, album, and track models before reaching the reusable UI
   masks.
-- Remote Orynivo Server album drill-downs now use the shared album-track detail
+- Remote HyperFi Server album drill-downs now use the shared album-track detail
   surface with the local-style album header, cover actions, favorite toggle, and
   grouped track tables.
-- Remote Orynivo Server album drill-downs opened from a selected artist now
+- Remote HyperFi Server album drill-downs opened from a selected artist now
   initially show only that artist's tracks and expose the same "show all album
   tracks" checkbox as local albums.
-- Back navigation from remote Orynivo Server album details now preserves the
+- Back navigation from remote HyperFi Server album details now preserves the
   remote server context instead of restoring the same numeric album ID against
   the local library.
-- Remote Orynivo Server albums and artists now support artwork management from
+- Remote HyperFi Server albums and artists now support artwork management from
   the Windows client. The client runs the existing cover/artist-image searches,
   uploads the selected image bytes to the server, and the server stores them in
   its local artwork caches without performing external artwork lookups itself.
-- Remote Orynivo Server artist biographies can now be refreshed from the Windows
+- Remote HyperFi Server artist biographies can now be refreshed from the Windows
   client. Last.fm or Wikipedia requests run on the client, then the server
   stores only the resulting cached biography, source URL, language, and optional
   image bytes.
-- Remote Orynivo Server artist-info views now expose the same rename/merge and
+- Remote HyperFi Server artist-info views now expose the same rename/merge and
   Wikimedia image-search actions as local artists. Renames and merges are
   committed through the server and rebuild the server Lucene index.
 - Local playlists now appear under the Local node in the Library sidebar. Each
-  configured Orynivo Server now exposes server-side playlists under its own
+  configured HyperFi Server now exposes server-side playlists under its own
   Playlists node; regular remote playlists can be created, deleted, filled with
   server tracks, opened, played, and edited by removing entries.
-- Smart playlists now work for remote Orynivo Servers exactly like for local
+- Smart playlists now work for remote HyperFi Servers exactly like for local
   media. The remote Tracks view gained the **Save smart playlist** action (when
   facet filters are active), and remote smart playlists expose **Edit smart
   playlist** in the sidebar context menu. Criteria are persisted on the server
@@ -6119,7 +6127,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `POST /api/playlists/{id}/resolve` endpoint that receives the client's
   favourite track IDs, so a Favourites-only remote smart playlist correctly
   returns the client's favourited tracks instead of an empty list.
-- Remote Orynivo Server entries now expand into Artists, Albums, Tracks, and
+- Remote HyperFi Server entries now expand into Artists, Albums, Tracks, and
   Folder structure in the sidebar. Remote Artists and Albums reuse the local
   table/artwork masks with lazy authenticated artwork loading and a local client
   artwork cache, Remote Tracks uses the normal header search box through the
@@ -6129,38 +6137,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - Renamed the main sidebar's local-library section to Library. Local media now
-  appear under a "Local" node, and configured Orynivo Servers with their
+  appear under a "Local" node, and configured HyperFi Servers with their
   Artists, Albums, Tracks, and Folder structure entries are listed in the same
-  Library section instead of in a separate Orynivo Server section.
-- The Local media node and each configured Orynivo Server node inside the
+  Library section instead of in a separate HyperFi Server section.
+- The Local media node and each configured HyperFi Server node inside the
   Library sidebar section are now individually collapsible.
-- Settings no longer exposes a separate Orynivo Server sidebar visibility
+- Settings no longer exposes a separate HyperFi Server sidebar visibility
   toggle; the Library sidebar toggle controls both local media and configured
-  Orynivo Server entries.
+  HyperFi Server entries.
 - Removed the now-defunct Playlists toggle from Settings > Appearance > sidebar
   sections. Playlists are a child group of the Local node and follow the Library
   section visibility; the legacy `ShowPlaylistsSection` setting is retained for
   compatibility but has no UI control.
-- Orynivo Server track DTOs now include the extended metadata needed by the
+- HyperFi Server track DTOs now include the extended metadata needed by the
   shared track tables, including genre, totals, composer, BPM, file size, added
   date, and ReplayGain values when available.
 - Settings navigation group headings are now consistently uppercase in every
   supported language.
 - Settings navigation child items now keep normal title casing even when their
   parent group heading is uppercase.
-- Orynivo Server connection settings now live under their own Settings >
-  Library > Orynivo Server entry instead of Settings > Streaming services or the
+- HyperFi Server connection settings now live under their own Settings >
+  Library > HyperFi Server entry instead of Settings > Streaming services or the
   local directories page.
 
 ### Fixed
 
-- Remote Orynivo Server (and other HTTP-streamed) tracks now start much faster.
+- Remote HyperFi Server (and other HTTP-streamed) tracks now start much faster.
   FFmpeg/ffprobe were blocking on their default 5-second / 5 MB stream-analysis
   window on every decoder start over HTTP, which made the first play of a remote
   track stall for ~5 seconds. The probe window is now capped (with HTTP
   reconnect resilience) for `http(s)` inputs in the decoder and both PCM probe
   paths.
-- Seeking within a remote Orynivo Server track is now near-instant. Previously
+- Seeking within a remote HyperFi Server track is now near-instant. Previously
   the client seeked the HTTP stream itself, which for seektable-less files means
   FFmpeg binary-searches via many range round-trips (~5 seconds). The client now
   requests the stream with `?ss=<seconds>` and the server seeks the local file
@@ -6179,34 +6187,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   correctly indented as children of their Local/server node (aligned with the
   Artists/Albums/Tracks/Folder rows) instead of protruding to the section edge;
   their playlist entries are indented one level deeper. Local and remote server
-  library rows now share the same margin-based indentation. Each Orynivo
+  library rows now share the same margin-based indentation. Each HyperFi
   Server's Playlists node is now an independently collapsible group like the
-  local one, persisted in `CollapsedOrynivoServerPlaylistGroups`.
+  local one, persisted in `CollapsedHyperFiServerPlaylistGroups`.
 - The Playlists sidebar group label is now title-cased ("Playlists"/"Listas")
   instead of the all-caps section-header form, matching the other library child
   rows.
 - The sidebar accordion collapse chevrons now line up vertically across section
   headers and collapsible library groups; the section-header right padding was
   matched to the navigation-item padding so the arrows are flush.
-- Double-clicking a track in a remote Orynivo Server album now plays the track
+- Double-clicking a track in a remote HyperFi Server album now plays the track
   instead of navigating to an unrelated local album. The remote track list no
   longer leaves the album view-mode toggle visible, and the album drill-down no
   longer mistakes a remote track row's ID for a local album ID.
-- Remote Orynivo Server artist-info buttons now open the selected server artist
+- Remote HyperFi Server artist-info buttons now open the selected server artist
   instead of treating the server artist ID as a local library artist ID.
-- Remote Orynivo Server album and artist artwork grids now load existing artwork
+- Remote HyperFi Server album and artist artwork grids now load existing artwork
   on initial navigation instead of showing placeholders until a later artwork
   assignment refreshes the rows.
-- The remote Orynivo Server album artwork button and cover context menu now use
+- The remote HyperFi Server album artwork button and cover context menu now use
   the remote server artwork upload path instead of accidentally switching the
   view to the local album library.
-- Adding the first Orynivo Server now expands and rebuilds the sidebar section
-  so the configured server appears under the Orynivo Server header after saving.
-- Orynivo Server scans now run a missing-album-artwork repair pass after full
+- Adding the first HyperFi Server now expands and rebuilds the sidebar section
+  so the configured server appears under the HyperFi Server header after saving.
+- HyperFi Server scans now run a missing-album-artwork repair pass after full
   scans and use physical source paths for CUE albums, allowing existing embedded
   covers to populate server-side album artwork even when tracks were otherwise
   unchanged.
-- Orynivo Server album artwork requests now fall back to an on-demand embedded
+- HyperFi Server album artwork requests now fall back to an on-demand embedded
   artwork repair for the requested album, so existing file covers can appear
   without a manual client-side cover assignment.
 - Artwork file caches are now verified against the current application data
@@ -6216,10 +6224,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Album artwork endpoints now repair missing cached image files for the
   requested album on demand and fall back to the original artwork file when a
   requested thumbnail file is unavailable.
-- The Linux Orynivo Server project now references the SkiaSharp native Linux
+- The Linux HyperFi Server project now references the SkiaSharp native Linux
   assets so album-artwork thumbnail generation works in headless deployments
   without requiring an external image conversion tool.
-- Orynivo Server folder browsing now materializes `/api/folders/tracks` before
+- HyperFi Server folder browsing now materializes `/api/folders/tracks` before
   disposing SQLite, fixing the closed-connection exception that prevented the
   remote folder structure from loading.
 
@@ -6243,17 +6251,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- **Orynivo.Core** — extracted the cross-platform library layer from the Windows
-  player into a standalone `net8.0` class library. `Orynivo.Core` contains
+- **HyperFi.Core** — extracted the cross-platform library layer from the Windows
+  player into a standalone `net8.0` class library. `HyperFi.Core` contains
   `AudioDatabase`, `LibraryScanner`, `LibraryWatcherService`,
   `TrackSearchIndex`, `FfmpegLocator` (cross-platform; auto-downloads FFmpeg on
   Windows, expects system FFmpeg on Linux/macOS), `FfmpegPcmDecoder`,
   `ParametricEqualizer`, `EqualizerProfile`, `SmartPlaylistCriteria` (now
   includes a `Resolve()` method that applies filtering and ordering without UI
-  code), and all library model records. The existing Orynivo Windows player
-  references `Orynivo.Core` and retains `InternalsVisibleTo` access for
+  code), and all library model records. The existing HyperFi Windows player
+  references `HyperFi.Core` and retains `InternalsVisibleTo` access for
   audio-processing internals.
-- **Orynivo.Server** — new cross-platform headless music server (`net8.0`,
+- **HyperFi.Server** — new cross-platform headless music server (`net8.0`,
   ASP.NET Core Minimal API) that exposes the local library over the network via
   a REST API secured with a pre-shared API key (`X-Api-Key` header or `?key=`
   query parameter):
@@ -6277,24 +6285,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - `GET /api/stream/path?p=` — stream by absolute file path
   - `GET /api/artwork/album/{albumId}?size=` — serve album artwork
   - `GET /api/artwork/track?p=` — serve track artwork by file path
-  - Configured via `appsettings.json` (`Orynivo:ApiKey`, `Orynivo:LibraryPaths`,
-    `Orynivo:ScanOnStartup`, `Orynivo:ServerName`)
+  - Configured via `appsettings.json` (`HyperFi:ApiKey`, `HyperFi:LibraryPaths`,
+    `HyperFi:ScanOnStartup`, `HyperFi:ServerName`)
   - Binds to `http://0.0.0.0:5280` by default
 - **Linux server packages** — pushing a version tag also triggers
   `.github/workflows/server-release.yml`, which builds self-contained
-  `Orynivo.Server` binaries for `linux-x64` and `linux-arm64` and adds four
+  `HyperFi.Server` binaries for `linux-x64` and `linux-arm64` and adds four
   packages to the same draft GitHub Release:
-  `orynivo-server_{version}_amd64.deb`, `orynivo-server_{version}_arm64.deb`,
-  `orynivo-server-{version}-1.x86_64.rpm`,
-  `orynivo-server-{version}-1.aarch64.rpm`. Each package installs to
-  `/usr/lib/orynivo-server/`, places a `/usr/bin/orynivo-server` symlink, ships
-  a default config at `/etc/orynivo-server/appsettings.json` (marked as a
+  `hyperfi-server_{version}_amd64.deb`, `hyperfi-server_{version}_arm64.deb`,
+  `hyperfi-server-{version}-1.x86_64.rpm`,
+  `hyperfi-server-{version}-1.aarch64.rpm`. Each package installs to
+  `/usr/lib/hyperfi-server/`, places a `/usr/bin/hyperfi-server` symlink, ships
+  a default config at `/etc/hyperfi-server/appsettings.json` (marked as a
   conffile so upgrades do not overwrite user edits), and registers a systemd
-  unit `orynivo-server.service` running as a dedicated `orynivo-server` system
+  unit `hyperfi-server.service` running as a dedicated `hyperfi-server` system
   user. No .NET runtime is required on the target machine.
 
-- **Orynivo Server client** — the Windows player can now connect to remote
-  Orynivo Server instances running on the local network. Add one or more servers
+- **HyperFi Server client** — the Windows player can now connect to remote
+  HyperFi Server instances running on the local network. Add one or more servers
   in Settings → Integration (name, URL, API key); each appears as an accordion
   section in the sidebar. Selecting a server opens an Artists / Albums / Tracks
   view backed by the server's REST API; double- clicking an artist or album
@@ -6304,29 +6312,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `/api/artwork/album/{id}?size=96` endpoint. The server editor can also load,
   add, remove, and save the remote server's music directories through a
   server-side directory browser, start a server scan, and show live scan
-  progress for large directories. The Orynivo Server section visibility can be
+  progress for large directories. The HyperFi Server section visibility can be
   toggled from Settings → Appearance. API keys are stored in `settings.json`
   (the same policy as the embedded AI chat key).
 
 ### Fixed
 
-- The Orynivo Server settings and remote directory browser dialogs now use
+- The HyperFi Server settings and remote directory browser dialogs now use
   themed button and list-item templates for normal, hover, pressed, selected,
   and disabled states, avoiding unreadable dark controls on dark backgrounds.
 - Server and local library scans now skip inaccessible subdirectories such as
   Linux `lost+found` folders instead of aborting the complete scan with
   `UnauthorizedAccessException`.
-- Orynivo Server stream URLs are no longer used as display titles in the
+- HyperFi Server stream URLs are no longer used as display titles in the
   transport, Up Next view, play history, or media metadata. Remote server queue
   entries now carry the track title, artist, album, duration, and format, and
   authenticated `?key=` stream URLs are not persisted in the playback queue.
-- Settings now uses title-case labels for Plex and Orynivo Server sections in
+- Settings now uses title-case labels for Plex and HyperFi Server sections in
   the server configuration area, while sidebar and visibility-toggle labels keep
   their all-caps section headings.
-- The Orynivo Server directory browser now shows the current server path in a
+- The HyperFi Server directory browser now shows the current server path in a
   read-only field, uses a `..` list entry for parent navigation, and widens the
   add-directory action so its text is not clipped.
-- On Unix-like Orynivo Server hosts, the remote directory browser now opens `/`
+- On Unix-like HyperFi Server hosts, the remote directory browser now opens `/`
   directly instead of showing a Windows-style drive-root view.
 
 ## [0.14.0] - 2026-06-26
@@ -6352,11 +6360,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added a Windows installer and portable ZIP built via GitHub Actions. Pushing a
   version tag (e.g. `v0.14.0`) triggers the release workflow
   (`.github/workflows/release.yml`), which publishes two self-contained packages
-  as a draft GitHub Release: `Orynivo-{version}-win-x64-Setup.exe` (installer
+  as a draft GitHub Release: `HyperFi-{version}-win-x64-Setup.exe` (installer
   with Start Menu entry and uninstaller) and
-  `Orynivo-{version}-win-x64-Portable.zip` (extract anywhere and run). No .NET
+  `HyperFi-{version}-win-x64-Portable.zip` (extract anywhere and run). No .NET
   installation is required on the target machine. Library data under
-  `%LOCALAPPDATA%\Orynivo\` is preserved on uninstall.
+  `%LOCALAPPDATA%\HyperFi\` is preserved on uninstall.
 
 ## [0.13.0] - 2026-06-26
 
@@ -6381,12 +6389,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Embedded AI Chat** — a new **AI Chat** sidebar view that sends
   natural-language questions about the music library to any OpenAI-compatible
   LLM endpoint (LM Studio, Ollama, OpenAI, Anthropic compatibility layer, or any
-  `/v1/chat/completions` provider). The model has access to all 19 Orynivo
+  `/v1/chat/completions` provider). The model has access to all 19 HyperFi
   player tools via function calling and executes them directly against the
   player bridge and library database — no external MCP server required.
   Responses stream token-by-token. Configuration (endpoint URL, optional API
   key, model name, max tokens) lives under Settings > Integration > AI Chat.
-  (`AppSettings.AiChat`, `Orynivo/AI/AiChatSettings.cs`, `AiChatService.cs`,
+  (`AppSettings.AiChat`, `HyperFi/AI/AiChatSettings.cs`, `AiChatService.cs`,
   `AiToolDefinitions.cs`, `AiToolExecutor.cs`, `AiChatView.axaml`)
 - Added `clear_queue` MCP/AI tool: empties the playback queue without stopping
   the current track.
@@ -6431,7 +6439,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `create_smart_playlist`, and `get_play_history`. The server is started and
   stopped immediately when Settings are saved; it only binds to `localhost`.
   (`AppSettings.McpServerEnabled`, `AppSettings.McpServerPort`,
-  `Orynivo/Mcp/McpPlayerBridge.cs`, `McpTools.cs`, `McpServerService.cs`)
+  `HyperFi/Mcp/McpPlayerBridge.cs`, `McpTools.cs`, `McpServerService.cs`)
 - MCP tools can now be individually enabled or disabled under Settings >
   Integration. Disabled tools respond with `"Tool is disabled."` so the AI
   assistant knows the capability is unavailable; the active set is persisted in
@@ -6591,7 +6599,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   TreeView gesture can expose the placeholder; it uses the same asynchronous
   child-loading path as the chevron and then toggles the populated folder.
 - Fixed Plex tracks composed of multiple media parts advancing to the next queue
-  item after only the first part. Orynivo now preserves all ordered Plex part
+  item after only the first part. HyperFi now preserves all ordered Plex part
   URLs and decodes them as one logical gapless track with the authoritative Plex
   duration.
 - Fixed Plex playback advancing when FFmpeg reports an unexpected end of the
@@ -6695,7 +6703,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   regular playlist, and safe queue entries plus the current index persist across
   restarts. Credential-bearing Plex URLs are never stored.
 - Added Windows System Media Transport Controls integration. Global media keys
-  now control Orynivo's existing transport and queue, while Windows receives
+  now control HyperFi's existing transport and queue, while Windows receives
   playback state, seekable timeline data, title, artist, album, and artwork for
   the media overlay and lock screen. Metadata follows gapless transitions,
   podcasts, Plex tracks, and live internet-radio title changes.
@@ -6890,7 +6898,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   are intercepted before the `ListBox` selection logic, while accordion and
   repeated-item navigation handlers explicitly ignore non-left mouse buttons.
   Flyout surfaces, borders, text, hover, pressed, and separator colors follow
-  the active Orynivo theme.
+  the active HyperFi theme.
 - Unified the table-header column chooser with the same themed `MenuFlyout`
   presentation. It remains open while multiple columns are toggled and still
   prevents hiding the final selectable column. Explicit menu entries now share
@@ -6916,10 +6924,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   time; measured, that bought about ten percent, and the remaining work is
   recorded in the roadmap under phase 39e.
 
-- Licensed Orynivo's original source code and documentation under Apache License
+- Licensed HyperFi's original source code and documentation under Apache License
   2.0, with repository and release copies of `LICENSE`, `NOTICE`, third-party
   notices, and applicable license texts.
-- Expanded the About dialog with the Orynivo license, copyright, trademark
+- Expanded the About dialog with the HyperFi license, copyright, trademark
   scope, FFmpeg, Steinberg ASIO, and third-party licensing information.
 - Added real-time DSF/DFF-to-PCM playback through exclusive-mode WASAPI. The
   conversion uses FFmpeg without temporary files, prefers PCM rates in the 44.1
@@ -6946,7 +6954,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   rebuild with normalized title values.
 - Fixed search and other text inputs switching to a white focused background
   while retaining white text in the dark theme. Normal, hover, focused,
-  placeholder, and border colors now follow Orynivo's active light or dark input
+  placeholder, and border colors now follow HyperFi's active light or dark input
   palette.
 
 ## [0.5.0] - 2026-06-17
@@ -6980,7 +6988,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   recorded in the roadmap under phase 39e.
 
 - Automatic FFmpeg download: when `ffmpeg.exe` and `ffprobe.exe` are not found
-  in the application directory or the system PATH, Orynivo downloads the BtbN
+  in the application directory or the system PATH, HyperFi downloads the BtbN
   LGPL-essential Windows build from GitHub Releases on first start, extracts the
   binaries next to the application executable, and makes them available for the
   current process session. A localised progress indicator is shown in the
@@ -7158,14 +7166,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   stops.
 - Podcast category and feed-language filters that work without a title query.
 - Cached radio-genre and podcast category/language catalogs under
-  `%LOCALAPPDATA%\Orynivo\catalog-filter-cache.json`.
+  `%LOCALAPPDATA%\HyperFi\catalog-filter-cache.json`.
 - Podcast detail cards with large artwork, feed description, categories,
   language, latest publication date, and total/unheard/started statistics.
 - German, English, French, and Spanish localization for the podcast interface.
 
 ### Changed
 
-- The About dialog now displays the Orynivo logo above the author and license
+- The About dialog now displays the HyperFi logo above the author and license
   information.
 - Dashboard calendar and top-genre durations now use `HH:mm:ss`.
 - Dashboard calendar genres and Top 10 genre labels now open Tracks with the

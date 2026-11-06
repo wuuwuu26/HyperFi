@@ -68,11 +68,11 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore dependencies
-        run: dotnet restore Orynivo.Server/Orynivo.Server.csproj --runtime ${{ matrix.rid }}
+        run: dotnet restore HyperFi.Server/HyperFi.Server.csproj --runtime ${{ matrix.rid }}
 
-      - name: Publish Orynivo.Server (${{ matrix.rid }})
+      - name: Publish HyperFi.Server (${{ matrix.rid }})
         run: >
-          dotnet publish Orynivo.Server/Orynivo.Server.csproj
+          dotnet publish HyperFi.Server/HyperFi.Server.csproj
           --configuration Release
           --runtime ${{ matrix.rid }}
           --self-contained true
@@ -90,36 +90,36 @@ jobs:
           STAGE="stage/${{ matrix.rid }}"
           PUB="publish/${{ matrix.rid }}"
 
-          mkdir -p "${STAGE}/usr/lib/orynivo-server"
+          mkdir -p "${STAGE}/usr/lib/hyperfi-server"
           mkdir -p "${STAGE}/usr/bin"
-          mkdir -p "${STAGE}/etc/orynivo-server"
+          mkdir -p "${STAGE}/etc/hyperfi-server"
           mkdir -p "${STAGE}/lib/systemd/system"
 
           # Copy published server binaries and runtime
-          cp -r "${PUB}/." "${STAGE}/usr/lib/orynivo-server/"
-          chmod 755 "${STAGE}/usr/lib/orynivo-server/Orynivo.Server"
+          cp -r "${PUB}/." "${STAGE}/usr/lib/hyperfi-server/"
+          chmod 755 "${STAGE}/usr/lib/hyperfi-server/HyperFi.Server"
 
           # Convenience symlink on PATH
-          ln -sf /usr/lib/orynivo-server/Orynivo.Server \
-              "${STAGE}/usr/bin/orynivo-server"
+          ln -sf /usr/lib/hyperfi-server/HyperFi.Server \
+              "${STAGE}/usr/bin/hyperfi-server"
 
           # Default configuration — users must set ApiKey and LibraryPaths
-          cp Orynivo.Server/appsettings.json \
-              "${STAGE}/etc/orynivo-server/appsettings.json"
+          cp HyperFi.Server/appsettings.json \
+              "${STAGE}/etc/hyperfi-server/appsettings.json"
 
           # systemd unit
-          cp .github/server-release/orynivo-server.service \
-              "${STAGE}/lib/systemd/system/orynivo-server.service"
-          cp .github/server-release/orynivo-server-updater.service \
-              "${STAGE}/lib/systemd/system/orynivo-server-updater.service"
-          cp .github/server-release/orynivo-server-updater.path \
-              "${STAGE}/lib/systemd/system/orynivo-server-updater.path"
-          cp .github/server-release/orynivo-server-updater.sh \
-              "${STAGE}/usr/lib/orynivo-server/orynivo-server-updater"
-          chmod 755 "${STAGE}/usr/lib/orynivo-server/orynivo-server-updater"
+          cp .github/server-release/hyperfi-server.service \
+              "${STAGE}/lib/systemd/system/hyperfi-server.service"
+          cp .github/server-release/hyperfi-server-updater.service \
+              "${STAGE}/lib/systemd/system/hyperfi-server-updater.service"
+          cp .github/server-release/hyperfi-server-updater.path \
+              "${STAGE}/lib/systemd/system/hyperfi-server-updater.path"
+          cp .github/server-release/hyperfi-server-updater.sh \
+              "${STAGE}/usr/lib/hyperfi-server/hyperfi-server-updater"
+          chmod 755 "${STAGE}/usr/lib/hyperfi-server/hyperfi-server-updater"
           test -n "${{ vars.UPDATE_SIGNING_PUBLIC_KEY_BASE64 }}"
           printf '%s' "${{ vars.UPDATE_SIGNING_PUBLIC_KEY_BASE64 }}" | base64 --decode \
-              > "${STAGE}/usr/lib/orynivo-server/update-public-key.der"
+              > "${STAGE}/usr/lib/hyperfi-server/update-public-key.der"
 
       - name: Install fpm
         run: sudo gem install fpm --no-document
@@ -130,43 +130,43 @@ jobs:
         run: |
           VERSION="${{ steps.ver.outputs.version }}"
           STAGE="stage/${{ matrix.rid }}"
-          printf '%s\n' deb > "${STAGE}/usr/lib/orynivo-server/install-type"
+          printf '%s\n' deb > "${STAGE}/usr/lib/hyperfi-server/install-type"
 
           sed -i 's/\r$//' \
             .github/server-release/postinst.sh \
             .github/server-release/prerm.sh \
-            .github/server-release/orynivo-server-updater.sh
+            .github/server-release/hyperfi-server-updater.sh
           bash -n .github/server-release/postinst.sh
           bash -n .github/server-release/prerm.sh
-          bash -n .github/server-release/orynivo-server-updater.sh
+          bash -n .github/server-release/hyperfi-server-updater.sh
           chmod +x .github/server-release/postinst.sh \
                    .github/server-release/prerm.sh
           mkdir -p packages
 
-          DEB_DESC="Orynivo headless music server — scans a local library and exposes it over the network via REST and HTTP audio streaming. Edit /etc/orynivo-server/appsettings.json (set ApiKey and LibraryPaths), then: systemctl enable --now orynivo-server. Requires ffmpeg for CUE-sheet track transcoding."
+          DEB_DESC="HyperFi headless music server — scans a local library and exposes it over the network via REST and HTTP audio streaming. Edit /etc/hyperfi-server/appsettings.json (set ApiKey and LibraryPaths), then: systemctl enable --now hyperfi-server. Requires ffmpeg for CUE-sheet track transcoding."
 
           fpm \
             --input-type dir \
             --output-type deb \
-            --name orynivo-server \
+            --name hyperfi-server \
             --version "${VERSION}" \
             --architecture "${{ matrix.deb_arch }}" \
             --description "${DEB_DESC}" \
-            --url "https://github.com/bschlaack/Orynivo" \
-            --vendor "Björn Schlaack" \
-            --maintainer "Björn Schlaack <bschlaack@gmail.com>" \
+            --url "https://github.com/wuuwuu26/HyperFi" \
+            --vendor "HyperFi contributors" \
+            --maintainer "HyperFi contributors <wuuwuu26@users.noreply.github.com>" \
             --license MIT \
             --category sound \
             --after-install .github/server-release/postinst.sh \
             --before-remove .github/server-release/prerm.sh \
-            --config-files /etc/orynivo-server/appsettings.json \
+            --config-files /etc/hyperfi-server/appsettings.json \
             --deb-recommends ffmpeg \
-            --package "packages/orynivo-server_${VERSION}_${{ matrix.deb_arch }}.deb" \
+            --package "packages/hyperfi-server_${VERSION}_${{ matrix.deb_arch }}.deb" \
             --chdir "${STAGE}" \
             .
 
           CONTROL_DIR="$(mktemp -d)"
-          dpkg-deb --control "packages/orynivo-server_${VERSION}_${{ matrix.deb_arch }}.deb" "${CONTROL_DIR}"
+          dpkg-deb --control "packages/hyperfi-server_${VERSION}_${{ matrix.deb_arch }}.deb" "${CONTROL_DIR}"
           test "$(head -c 11 "${CONTROL_DIR}/postinst")" = '#!/bin/bash'
           ! grep -q $'\r' "${CONTROL_DIR}/postinst"
           ! grep -q $'\r' "${CONTROL_DIR}/prerm"
@@ -180,28 +180,28 @@ jobs:
         run: |
           VERSION="${{ steps.ver.outputs.version }}"
           STAGE="stage/${{ matrix.rid }}"
-          printf '%s\n' rpm > "${STAGE}/usr/lib/orynivo-server/install-type"
+          printf '%s\n' rpm > "${STAGE}/usr/lib/hyperfi-server/install-type"
 
           chmod +x .github/server-release/rpm-postinst.sh \
                    .github/server-release/rpm-preun.sh
 
-          RPM_DESC="Orynivo headless music server. Scans a local library and exposes it over the network via REST and HTTP audio streaming. Edit /etc/orynivo-server/appsettings.json (set ApiKey and LibraryPaths), then: systemctl enable --now orynivo-server. ffmpeg (e.g. from RPM Fusion) is required for CUE-sheet track transcoding."
+          RPM_DESC="HyperFi headless music server. Scans a local library and exposes it over the network via REST and HTTP audio streaming. Edit /etc/hyperfi-server/appsettings.json (set ApiKey and LibraryPaths), then: systemctl enable --now hyperfi-server. ffmpeg (e.g. from RPM Fusion) is required for CUE-sheet track transcoding."
 
           fpm \
             --input-type dir \
             --output-type rpm \
-            --name orynivo-server \
+            --name hyperfi-server \
             --version "${VERSION}" \
             --architecture "${{ matrix.rpm_arch }}" \
             --description "${RPM_DESC}" \
-            --url "https://github.com/bschlaack/Orynivo" \
-            --vendor "Björn Schlaack" \
+            --url "https://github.com/wuuwuu26/HyperFi" \
+            --vendor "HyperFi contributors" \
             --license MIT \
             --after-install .github/server-release/rpm-postinst.sh \
             --before-remove .github/server-release/rpm-preun.sh \
-            --config-files /etc/orynivo-server/appsettings.json \
-            --rpm-summary "Orynivo headless music server" \
-            --package "packages/orynivo-server-${VERSION}-1.${{ matrix.rpm_arch }}.rpm" \
+            --config-files /etc/hyperfi-server/appsettings.json \
+            --rpm-summary "HyperFi headless music server" \
+            --package "packages/hyperfi-server-${VERSION}-1.${{ matrix.rpm_arch }}.rpm" \
             --chdir "${STAGE}" \
             .
 
@@ -213,6 +213,6 @@ jobs:
         run: >
           bash .github/scripts/upload-release-assets.sh
           '${{ steps.ver.outputs.tag }}'
-          'Orynivo ${{ steps.ver.outputs.version }}'
+          'HyperFi ${{ steps.ver.outputs.version }}'
           false
           packages/*

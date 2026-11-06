@@ -5,17 +5,17 @@
   <key>CFBundleDevelopmentRegion</key>
   <string>en</string>
   <key>CFBundleDisplayName</key>
-  <string>Orynivo</string>
+  <string>HyperFi</string>
   <key>CFBundleExecutable</key>
-  <string>Orynivo</string>
+  <string>HyperFi</string>
   <key>CFBundleIconFile</key>
-  <string>Orynivo.icns</string>
+  <string>HyperFi.icns</string>
   <key>CFBundleIdentifier</key>
-  <string>com.bschlaack.orynivo</string>
+  <string>com.wuuwuu26.hyperfi</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleName</key>
-  <string>Orynivo</string>
+  <string>HyperFi</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>

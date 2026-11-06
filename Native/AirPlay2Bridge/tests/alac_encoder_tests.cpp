@@ -6,8 +6,8 @@
 #include <vector>
 
 int main() {
-    orynivo::airplay2::AlacEncoder encoder(44100);
-    const std::vector<std::byte> silence(orynivo::airplay2::AlacEncoder::PcmBytesPerPacket);
+    hyperfi::airplay2::AlacEncoder encoder(44100);
+    const std::vector<std::byte> silence(hyperfi::airplay2::AlacEncoder::PcmBytesPerPacket);
     const auto packet = encoder.encode(silence);
     assert(!packet.empty());
     assert(packet.size() < silence.size());

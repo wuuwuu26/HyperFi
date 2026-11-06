@@ -8,7 +8,7 @@
 #include <stdexcept>
 #include <string_view>
 
-namespace orynivo::airplay2 {
+namespace hyperfi::airplay2 {
 namespace {
 constexpr std::size_t MaxResponseBytes = 4 * 1024 * 1024;
 
@@ -35,7 +35,7 @@ RtspResponse EncryptedRtsp::request(std::string method, std::string uri,
         "DACP-ID: " + senderId_ + "\r\n" +
         "Active-Remote: 1\r\n" +
         "Client-Instance: " + senderId_ + "\r\n" +
-        "X-Apple-Client-Name: Orynivo\r\n";
+        "X-Apple-Client-Name: HyperFi\r\n";
     if (!contentType.empty()) request += "Content-Type: " + contentType + "\r\n";
     for (const auto& [key, value] : extraHeaders)
         request += key + ": " + value + "\r\n";
@@ -98,4 +98,4 @@ RtspResponse EncryptedRtsp::request(std::string method, std::string uri,
     throw std::runtime_error("AirPlay encrypted RTSP request timed out.");
 }
 
-} // namespace orynivo::airplay2
+} // namespace hyperfi::airplay2

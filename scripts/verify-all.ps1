@@ -68,7 +68,7 @@ function Invoke-Check {
 
 $steps = [System.Collections.Generic.List[object]]::new()
 if (-not $SkipBuild) {
-    foreach ($project in 'Orynivo.Core', 'Orynivo.Server', 'Orynivo') {
+    foreach ($project in 'HyperFi.Core', 'HyperFi.Server', 'HyperFi') {
         $steps.Add(@{
             Name       = "Build $project ($Configuration)"
             Executable = 'dotnet'
@@ -86,10 +86,10 @@ if (-not $SkipBuild) {
     # the OS property compiles that variant on any host; this caught a CreateAsync overload
     # mismatch that only the CI Linux and macOS jobs had reported.
     $steps.Add(@{
-        Name       = "Build Orynivo (Linux/macOS compile, $Configuration)"
+        Name       = "Build HyperFi (Linux/macOS compile, $Configuration)"
         Executable = 'dotnet'
         Arguments  = @(
-            'build', 'Orynivo/Orynivo.csproj',
+            'build', 'HyperFi/HyperFi.csproj',
             '-p:OS=Unix',
             '--configuration', $Configuration,
             '--warnaserror',
@@ -98,7 +98,7 @@ if (-not $SkipBuild) {
     })
 }
 if (-not $SkipTests) {
-    foreach ($project in 'Orynivo.Core.Tests', 'Orynivo.Tests', 'Orynivo.Server.Tests') {
+    foreach ($project in 'HyperFi.Core.Tests', 'HyperFi.Tests', 'HyperFi.Server.Tests') {
         $steps.Add(@{
             Name       = "Test $project"
             Executable = 'dotnet'
@@ -110,7 +110,7 @@ if (-not $SkipTests -and $IsWindows) {
     $steps.Add(@{
         Name       = 'Windows headless UI workflows'
         Executable = 'dotnet'
-        Arguments  = @('run', '--project', 'Orynivo.Ui.Smoke/Orynivo.Ui.Smoke.csproj', '--configuration', $Configuration)
+        Arguments  = @('run', '--project', 'HyperFi.Ui.Smoke/HyperFi.Ui.Smoke.csproj', '--configuration', $Configuration)
     })
 }
 $steps.Add(@{

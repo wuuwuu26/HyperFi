@@ -12,16 +12,16 @@ If you like what Roon does, but want software that is free, open source, and
 keeps your files and listening data yours, HyperFi is built for you.
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/bschlaack/Orynivo)](https://github.com/bschlaack/Orynivo/releases/latest)
+[![Release](https://img.shields.io/github/v/release/wuuwuu26/HyperFi)](https://github.com/wuuwuu26/HyperFi/releases/latest)
 ![Platforms](https://img.shields.io/badge/platforms-Windows%20%C2%B7%20Linux%20%C2%B7%20macOS-lightgrey)
 
-**Website:** [orynivo.app](https://orynivo.app/) · **Downloads:**
-[latest release](https://github.com/bschlaack/Orynivo/releases/latest) ·
-**Docs:** [GitHub Wiki](https://github.com/bschlaack/Orynivo/wiki) · **Full
+**Website:** [github.com/wuuwuu26/HyperFi](https://github.com/wuuwuu26/HyperFi/) · **Downloads:**
+[latest release](https://github.com/wuuwuu26/HyperFi/releases/latest) ·
+**Docs:** [GitHub Wiki](https://github.com/wuuwuu26/HyperFi/wiki) · **Full
 feature reference:**
 [docs/FULL-FEATURE-REFERENCE.md](docs/FULL-FEATURE-REFERENCE.md)
 
-## See Orynivo in action
+## See HyperFi in action
 
 <!-- markdownlint-disable MD034 -->
 
@@ -49,13 +49,13 @@ If the embedded video does not play in your browser,
   </tr>
 </table>
 
-## Why Orynivo?
+## Why HyperFi?
 
 - **Bit-perfect audio.** Exclusive WASAPI, cwASIO, and Steinberg ASIO output on
   Windows; direct ALSA hardware profiles on Linux with native DSD (DSF/DFF) and
   no ASIO bridge required. DoP fallback, gapless playback, ReplayGain, +6 dB PCM
   boost, and a parametric EQ with Equalizer APO / AutoEQ import.
-- **Your library, everywhere.** Orynivo Server is a headless server for Linux,
+- **Your library, everywhere.** HyperFi Server is a headless server for Linux,
   macOS, and Windows that exposes your library over the local network via REST
   and HTTP streaming. Desktop clients merge local and remote libraries into one
   unified Artists / Albums / Tracks experience.
@@ -80,40 +80,40 @@ If the embedded video does not play in your browser,
 ## Download
 
 Self-contained builds (the .NET runtime is bundled; no prerequisites) from the
-[latest release](https://github.com/bschlaack/Orynivo/releases/latest):
+[latest release](https://github.com/wuuwuu26/HyperFi/releases/latest):
 
 | Component      | Packages                                                       |
 | -------------- | -------------------------------------------------------------- |
 | Windows player | `Setup.exe`, portable ZIP (Windows 10/11 x64)                  |
 | Linux player   | DEB, RPM, Arch `.pkg.tar.zst`, portable tar.gz (x64 and ARM64) |
 | macOS player   | PKG and portable app ZIP (Apple Silicon and Intel)             |
-| Orynivo Server | DEB and RPM (Linux x64 / ARM64, incl. Raspberry Pi)            |
+| HyperFi Server | DEB and RPM (Linux x64 / ARM64, incl. Raspberry Pi)            |
 
 The signed in-app updater installs updates through your native package manager
 on Linux and verifies download digests on every platform.
 
-## Orynivo Server
+## HyperFi Server
 
-`Orynivo.Server` scans the same library directories as the desktop app and
+`HyperFi.Server` scans the same library directories as the desktop app and
 serves them over the local network: browse artists, albums, tracks, playlists,
 artwork, waveforms, and lyrics, and stream audio with authenticated URLs that
 work directly in FFmpeg and browsers. It runs as a plain binary or a systemd
 service, and every release ships DEB/RPM packages. The
-[Wiki](https://github.com/bschlaack/Orynivo/wiki) and the
-[full reference](docs/FULL-FEATURE-REFERENCE.md#orynivo-server) document the
+[Wiki](https://github.com/wuuwuu26/HyperFi/wiki) and the
+[full reference](docs/FULL-FEATURE-REFERENCE.md#hyperfi-server) document the
 complete REST API and setup.
 
 ## Supported formats
 
 `DSF`, `DFF`, `FLAC`, `MP3`, `WAV`, `AIFF`, `M4A`, `MKA` (with chapters), `AAC`,
 `OGG`, `Opus`, `WMA`, and CUE sheets referencing PCM sources. PCM is decoded via
-FFmpeg, which Orynivo locates or downloads automatically.
+FFmpeg, which HyperFi locates or downloads automatically.
 
 ## Documentation
 
 - [HTTPS and reverse proxies](docs/SERVER-REVERSE-PROXY.md) — Caddy and nginx
-  examples for Orynivo Server and authenticated MCP access
-- [GitHub Wiki](https://github.com/bschlaack/Orynivo/wiki) — end-user guides
+  examples for HyperFi Server and authenticated MCP access
+- [GitHub Wiki](https://github.com/wuuwuu26/HyperFi/wiki) — end-user guides
 - [Full feature & technical reference](docs/FULL-FEATURE-REFERENCE.md) — every
   feature, output profile, format behavior, and build detail
 - [CHANGELOG.md](CHANGELOG.md) · [ROADMAP.md](ROADMAP.md)
@@ -123,24 +123,24 @@ FFmpeg, which Orynivo locates or downloads automatically.
 Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0):
 
 ```bash
-dotnet restore Orynivo/Orynivo.csproj
-dotnet build Orynivo/Orynivo.csproj --configuration Release
-dotnet run --project Orynivo/Orynivo.csproj
+dotnet restore HyperFi/HyperFi.csproj
+dotnet build HyperFi/HyperFi.csproj --configuration Release
+dotnet run --project HyperFi/HyperFi.csproj
 ```
 
 Create the same self-contained `linux-x64` output produced by CI:
 
 ```bash
-dotnet restore Orynivo/Orynivo.csproj --runtime linux-x64
-dotnet publish Orynivo/Orynivo.csproj --configuration Release \
+dotnet restore HyperFi/HyperFi.csproj --runtime linux-x64
+dotnet publish HyperFi/HyperFi.csproj --configuration Release \
   --runtime linux-x64 --self-contained true --no-restore \
-  --output artifacts/Orynivo-linux-x64
+  --output artifacts/HyperFi-linux-x64
 ```
 
 Version tags publish self-contained desktop releases for `linux-x64` and
 `linux-arm64`. Each architecture receives a portable `.tar.gz`, a DEB package,
 and an RPM package; Arch Linux additionally receives an `x86_64 .pkg.tar.zst`.
-Installed packages place Orynivo under `/usr/lib/orynivo`, add the `orynivo`
+Installed packages place HyperFi under `/usr/lib/hyperfi`, add the `hyperfi`
 command, and register a desktop launcher. All Linux player artifacts are covered
 by the signed release manifest.
 
@@ -154,18 +154,18 @@ scope.
 Build and publish the macOS desktop for either supported architecture:
 
 ```bash
-dotnet restore Orynivo/Orynivo.csproj --runtime osx-arm64
-dotnet publish Orynivo/Orynivo.csproj --configuration Release \
+dotnet restore HyperFi/HyperFi.csproj --runtime osx-arm64
+dotnet publish HyperFi/HyperFi.csproj --configuration Release \
   --runtime osx-arm64 --self-contained true --no-restore \
-  --output artifacts/Orynivo-osx-arm64
+  --output artifacts/HyperFi-osx-arm64
 ```
 
 Use `osx-x64` instead on an Intel Mac. Tagged releases package both runtime
-identifiers as self-contained installable PKGs, portable `Orynivo.app` ZIPs, and
-tar archives. Orynivo detects FFmpeg and FFprobe in the normal Homebrew,
+identifiers as self-contained installable PKGs, portable `HyperFi.app` ZIPs, and
+tar archives. HyperFi detects FFmpeg and FFprobe in the normal Homebrew,
 MacPorts, pkgsrc, Fink, and per-user binary locations even when it is launched
 from Finder. If neither tool is installed, it downloads architecture-matching
-builds into the Orynivo per-user cache. OpenAL is provided by macOS.
+builds into the HyperFi per-user cache. OpenAL is provided by macOS.
 
 An X11 or Wayland desktop session is required to run the Avalonia UI. FFmpeg and
 FFprobe must be installed and available on `PATH` for playback, media probing,
@@ -178,7 +178,7 @@ system/default route.
 
 ## AI Integration
 
-Orynivo includes two complementary AI interfaces that share the same 32
+HyperFi includes two complementary AI interfaces that share the same 32
 player-control, queue-management, and library tools.
 
 ### Embedded AI Chat
@@ -194,7 +194,7 @@ _"Spiele alle Beatles-Alben"_ makes it search the library, fill the queue with
 the results, and start playback, all in one turn.
 
 Configure the endpoint URL, optional API key, model name, and max-token limit
-under **Settings → Integration → AI Chat**. Orynivo queries the
+under **Settings → Integration → AI Chat**. HyperFi queries the
 OpenAI-compatible `/v1/models` endpoint when this section is opened or the
 connection values change, presents the returned identifiers in a selectable
 list, and retains a free-form model field for compatibility endpoints that do
@@ -215,7 +215,7 @@ saved AI Chat configuration.
 | Favorites, ratings, and discovery | `set_current_favorite`, `set_tracks_favorite`, `set_tracks_rating`, `control_infinite_mix`                     |
 | Audio configuration               | `list_output_profiles`, `select_output_profile`, `list_equalizer_profiles`, `configure_equalizer`              |
 | Lyrics                            | `get_current_lyrics`                                                                                           |
-| Orynivo Server                    | `list_orynivo_servers`, `scan_orynivo_server`                                                                  |
+| HyperFi Server                    | `list_hyperfi_servers`, `scan_hyperfi_server`                                                                  |
 | Playlists                         | `list_playlists`, `get_playlist_tracks`, `create_playlist`, `create_smart_playlist`, `create_similar_playlist` |
 | History                           | `get_play_history`, `get_year_in_review`                                                                       |
 | Web                               | `search_web`, `fetch_page`, `fetch_page_as_markdown`                                                           |
@@ -225,17 +225,17 @@ saved AI Chat configuration.
 years, inclusive ISO-8601 `addedFrom`/`addedTo` library dates, and relevance,
 title, release-year, or library-addition ordering. This supports requests such
 as “show newly added tracks”, “albums added since 2026-08-01”, and “albums from
-1998”. The year is the release year stored in the media metadata; Orynivo does
+1998”. The year is the release year stored in the media metadata; HyperFi does
 not currently store a separate composition year. Filtered remote queries need an
-Orynivo Server version that provides the authenticated structured-search
+HyperFi Server version that provides the authenticated structured-search
 endpoint.
 
 The model picks the right queue tool automatically: `replace_queue` clears the
 old list and starts playing immediately when the user asks for new content;
 `queue_append` adds to the existing queue when the user wants to add more;
 `clear_queue` empties the queue without interrupting the current track. Library
-search includes configured Orynivo Server libraries as opaque
-`orynivo://serverId/track/trackId` references. Playback and queue tools resolve
+search includes configured HyperFi Server libraries as opaque
+`hyperfi://serverId/track/trackId` references. Playback and queue tools resolve
 those references inside the app, so API keys and authenticated stream URLs are
 not exposed to the model.
 
@@ -244,10 +244,10 @@ not exposed to the model.
 The mobile web remote can be enabled under its separate **Settings → Integration
 → Mobile web remote** page. It listens on its own LAN port (default **49201**)
 and uses a dedicated generated bearer token; MCP permissions and its token are
-not reused. Open `http://<address-of-the-orynivo-computer>:49201/remote` on a
+not reused. Open `http://<address-of-the-hyperfi-computer>:49201/remote` on a
 phone, enter the remote token, and keep the page open for reconnecting live
 player updates. The bare address
-`http://<address-of-the-orynivo-computer>:49201` redirects to that page as well.
+`http://<address-of-the-hyperfi-computer>:49201` redirects to that page as well.
 Missing or rejected tokens are reported directly on the sign-in card. Tokens are
 held only in the open page's memory, not in browser storage; reloading or
 opening the plain URL requires entering the token again. The desktop stores this
@@ -271,16 +271,16 @@ layout on tablets. It shows state without disclosing file paths or authenticated
 stream URLs. Previous, play/pause, next, stop, seek, volume, and direct
 queue-entry controls are available. Current artwork is transferred as a bounded
 thumbnail and retained through private browser cache headers. The search field
-queries tracks in the local library and every configured Orynivo Server
+queries tracks in the local library and every configured HyperFi Server
 concurrently. Results can be played immediately, inserted next, or appended; the
 browser receives only an opaque identity and display metadata, never a physical
 path, server address, or API key. LAN access is disabled by default. The current
 track can be marked as a favourite, configured output profiles can be selected,
 and queue entries can be moved or removed without opening the desktop window.
 The library section browses artists, their albums, and album tracks from both
-the local catalog and every configured Orynivo Server. The Playlists section
+the local catalog and every configured HyperFi Server. The Playlists section
 uses the desktop's shared regular and smart playlists, including resolvable
-local and Orynivo Server tracks. Open a playlist to browse its tracks, play the
+local and HyperFi Server tracks. Open a playlist to browse its tracks, play the
 entire list (replacing the queue), or append it without replacing the current
 music. Smart criteria are resolved live. Unresolved entries and standalone
 imported streams not indexed in a library are currently omitted by this browser;
@@ -375,7 +375,7 @@ it. Playback controls, position, duration, volume and output selection remain on
 the same page.
 
 Choose **This device** under **Output device** to listen on the phone, tablet or
-browser running the remote. Orynivo fully releases the previous computer output
+browser running the remote. HyperFi fully releases the previous computer output
 (including exclusive WASAPI/ASIO) before handing over the current source. While
 browser output is selected, new music, radio and podcast actions also play only
 there. Switching between the browser and a configured computer output preserves
@@ -467,11 +467,11 @@ size/redirect/timeout limits, no arbitrary downloads, request logging).
 Configure the SearXNG URL and limits under **Settings → Integration → MCP Server
 → Web browsing**.
 
-## Orynivo Server reference
+## HyperFi Server reference
 
-`Orynivo.Server` is a self-contained headless music server that runs on
+`HyperFi.Server` is a self-contained headless music server that runs on
 **Windows, Linux, and macOS**. It scans the same local library directories and
-exposes them over the local network so any HTTP client — another Orynivo
+exposes them over the local network so any HTTP client — another HyperFi
 instance, a media player, or a custom app — can browse and stream your music.
 
 ### API
@@ -544,8 +544,8 @@ Edit `appsettings.json` before first use:
 
 ```json
 {
-  "Orynivo": {
-    "ServerName": "Orynivo Server",
+  "HyperFi": {
+    "ServerName": "HyperFi Server",
     "ApiKey": "change-this-to-a-long-random-string",
     "LibraryPaths": ["/music", "/mnt/nas/music"],
     "ScanOnStartup": true,
@@ -571,7 +571,7 @@ defaults to one FFmpeg worker thread and a cancellable 250 ms pause between
 analysed tracks. Packaged Linux services also use reduced CPU and I/O priority
 so SSH and API traffic remain responsive. Set `ReplayGainFfmpegThreads` to `0`
 to restore FFmpeg's automatic thread choice; both limits can be overridden
-through `/etc/default/orynivo-server` with the usual `Orynivo__...`
+through `/etc/default/hyperfi-server` with the usual `HyperFi__...`
 environment-variable names. ReplayGain maintenance keeps only compact album
 identifiers between its track and album phases and refreshes the search index in
 bounded batches, so memory usage remains proportional to a small work set rather
@@ -586,13 +586,13 @@ archive so no extra state is stored, and the section holds no credentials. Audio
 files are never included.
 
 `AllowRemoteUpdates` is disabled by default. When enabled on a packaged Linux
-server, an authenticated Orynivo desktop client can download the matching signed
+server, an authenticated HyperFi desktop client can download the matching signed
 DEB/RPM release, relay it to a server without internet access, and request its
 installation. The server verifies the signed manifest and package hash again;
 the unprivileged server process only stages the files. A narrowly scoped root
 systemd updater performs the package-manager operation and restarts the service.
 Automated DEB upgrades retain the existing administrator-edited
-`/etc/orynivo-server/appsettings.json` without prompting. Release builds
+`/etc/hyperfi-server/appsettings.json` without prompting. Release builds
 normalize and validate the packaged Bash maintainer scripts so DEB installation
 cannot fail because of Windows CRLF shebang line endings. Portable, development,
 Windows, and macOS server installations currently report managed updates as
@@ -601,9 +601,9 @@ unsupported.
 The server binds to `http://0.0.0.0:5280` by default. Override the port in
 `appsettings.json` under `Kestrel:Endpoints:Http:Url`.
 
-When the Windows player is connected to an Orynivo Server, the server's music
-directories can also be managed from the Orynivo Server connection dialog in
-Settings → Library → Orynivo Server. The directory browser shows the server
+When the Windows player is connected to an HyperFi Server, the server's music
+directories can also be managed from the HyperFi Server connection dialog in
+Settings → Library → HyperFi Server. The directory browser shows the server
 filesystem, not the local Windows filesystem: Unix-like servers open at `/`,
 while Windows servers expose their drive roots. The same dialog can start a
 normal incremental server scan or explicitly re-read metadata from every file,
@@ -614,7 +614,7 @@ Track favorites and artist profiles remain untouched; when corrected tags create
 a replacement album identity in the same physical directory, downloaded album
 artwork and the album favorite flag are carried forward as well. Inaccessible
 subdirectories such as Linux `lost+found` folders are skipped instead of
-aborting the complete scan. Configured Orynivo Server connections are merged
+aborting the complete scan. Configured HyperFi Server connections are merged
 into the main Artists, Albums, Tracks, and search-result library views. Rows
 from a server are marked with an optional `OS` source badge that shows the
 server name as a tooltip. The same connection dialog can download or restore a
@@ -624,11 +624,11 @@ Audio files and API keys are never included. Restore validates the ZIP before
 replacing data, rebuilds the search index, and leaves the original library in
 place if installation fails. The shared Folder structure view is also available
 with server-only configurations; a local library directory is not required to
-browse folders reported by an Orynivo Server. The Windows client probes server
+browse folders reported by an HyperFi Server. The Windows client probes server
 compatibility in Settings, reports missing newer endpoints explicitly, shows the
 last successful connection time when a server is unreachable, and can clear
 cached remote artwork, track lists, and folder trees per server or globally.
-Each Orynivo Server connection stores its own streaming quality: **Original**,
+Each HyperFi Server connection stores its own streaming quality: **Original**,
 or a lossy transcode at a chosen bitrate (`Opus` or `AAC`, 64–320 kbps). Lossy
 requests are validated server-side and rejected with HTTP 400 when the format or
 bitrate is unsupported, so the setting is safe to leave on a server that cannot
@@ -640,20 +640,20 @@ original and transcoded streams.
 **dotnet:**
 
 ```bash
-dotnet run --project Orynivo.Server/Orynivo.Server.csproj
+dotnet run --project HyperFi.Server/HyperFi.Server.csproj
 ```
 
 **Linux (after package install):**
 
 ```bash
 # Edit config first
-sudo nano /etc/orynivo-server/appsettings.json
+sudo nano /etc/hyperfi-server/appsettings.json
 
 # Enable and start the service
-sudo systemctl enable --now orynivo-server
+sudo systemctl enable --now hyperfi-server
 
 # Check logs
-journalctl -u orynivo-server -f
+journalctl -u hyperfi-server -f
 ```
 
 FFmpeg must be installed separately on Linux and macOS and is required only for
@@ -669,7 +669,7 @@ byte-range streaming without FFmpeg.
 - Automatic PCM down-conversion through `ffmpeg` when the source sample rate
   exceeds the selected ASIO or WASAPI device's capabilities; WASAPI uses the
   highest supported 32-bit float, 24-bit PCM, or 16-bit PCM output format
-- Native stereo DSD playback for local and Orynivo-Server-streamed DSF and
+- Native stereo DSD playback for local and HyperFi-Server-streamed DSF and
   uncompressed DFF files. Linux uses the kernel/ALSA `DSD_U32_BE` interface
   directly, with DoP fallback and no cwASIO/Steinberg/native bridge dependency;
   Windows uses cwASIO or the optional Steinberg ASIO bridge. Remote streams are
@@ -685,12 +685,12 @@ byte-range streaming without FFmpeg.
 - PCM playback through `ffmpeg`
 - Multiple named output profiles for quickly switching between configured output
   devices; a quick-pick popup in the transport bar selects the active profile
-  without opening Settings. On first start, Orynivo creates and selects a
+  without opening Settings. On first start, HyperFi creates and selects a
   `Default` WASAPI profile from the Windows default multimedia output device
   when no output has been configured yet.
 - A lock button beside the transport Equalizer and Output quick-pickers can
   close the active exclusive player and release its audio device for another
-  application. Orynivo preserves the source and playback position; selecting the
+  application. HyperFi preserves the source and playback position; selecting the
   open lock reacquires the device and resumes playback without restarting the
   application. Explicit release waits for both the active player and any earlier
   player cleanup still running after a track transition's wait limit. It also
@@ -720,15 +720,15 @@ byte-range streaming without FFmpeg.
 - Optional fade transitions can smooth queue advances that are not already
   handled by the gapless PCM engine.
 - The transport progress control shows a waveform-style peak view for local
-  audio files and remote Orynivo Server tracks, caches compact peak data, and
+  audio files and remote HyperFi Server tracks, caches compact peak data, and
   keeps click/drag seeking on the same timeline. Remote tracks first use the
   server waveform endpoint and fall back to local FFmpeg analysis of the
   authenticated stream URL when the server cannot analyse the source format.
-- Remote Orynivo Server tracks keep their library title, artist, album, and
+- Remote HyperFi Server tracks keep their library title, artist, album, and
   duration in transport metadata, play history, and **Up next**. Authenticated
   `?key=` stream URLs are not shown as titles and are not persisted in the
   playback queue.
-- Configured Orynivo Server libraries are included in the same Artists, Albums,
+- Configured HyperFi Server libraries are included in the same Artists, Albums,
   Tracks, and search-result infrastructure as the local library. Server rows
   reuse the local table/artwork masks and show an optional `OS` source badge
   with the server name as tooltip. To avoid Avalonia DataGrid stalls, mixed
@@ -737,16 +737,16 @@ byte-range streaming without FFmpeg.
   Remote artwork is loaded lazily from authenticated server artwork endpoints
   and cached in the Windows client's local data directory.
 - The Tracks filter includes a **Source** section with Local and every
-  configured Orynivo Server. Saved smart playlists can store the same source
+  configured HyperFi Server. Saved smart playlists can store the same source
   restriction through stable source keys (`local`, `server:<id>`).
-- Remote Orynivo Server artist-info pages support renaming/merging artists and
+- Remote HyperFi Server artist-info pages support renaming/merging artists and
   assigning Wikimedia artist images. The Windows client performs the image
   search and uploads the selected image to the server. For a unified artist,
   biographies and images are synchronized with the matching local and other
-  reachable Orynivo Server identities while manual images remain protected.
+  reachable HyperFi Server identities while manual images remain protected.
 - Album and artist detail headers also accept JPEG, PNG, or WebP files selected
   from the local device. Uploaded covers and artist images are stored in the
-  owning local or Orynivo Server cache; adjacent trash actions remove them.
+  owning local or HyperFi Server cache; adjacent trash actions remove them.
   Unified artist-image uploads and deletions are applied to every matching
   reachable library identity.
 - Opening a remote server album from a selected artist initially scopes the
@@ -756,7 +756,7 @@ byte-range streaming without FFmpeg.
   album's source-specific artist identity, initially scopes the track list to
   the selected artist, and offers the checkbox to show all album tracks.
 - Album views, Dashboard recommendations, and Recently Added displays combine
-  local and Orynivo Server records with the same artist and album title into one
+  local and HyperFi Server records with the same artist and album title into one
   source-aware logical album (`L+OS` when both contribute). When matching tags
   occur in several physical folders (for example an original release, a sampler,
   and a hi-res collection), the detail view retains every track and presents
@@ -765,28 +765,28 @@ byte-range streaming without FFmpeg.
   album-card/catalog surfaces because they cannot be identified usefully; their
   tracks remain available through Tracks, folders, playlists, and track search.
   Album database records without any remaining indexed tracks are also omitted
-  from local and Orynivo Server catalogs, detail views, recent lists, and
+  from local and HyperFi Server catalogs, detail views, recent lists, and
   aggregate counts. Artwork cards show the complete album title in a tooltip
   when the visible card label is shortened to fit.
-- File and directory context menus in an Orynivo Server Folder structure view
+- File and directory context menus in an HyperFi Server Folder structure view
   can append tracks to an existing mixed playlist or create a new shared local
-  playlist. Folder descendants are stored as stable `orynivo://` references;
+  playlist. Folder descendants are stored as stable `hyperfi://` references;
   authenticated playback URLs are never written as playlist entries.
 - Playlists live under the Library sidebar and can contain mixed local and
-  Orynivo Server tracks. Server tracks are stored in local playlists as stable
-  `orynivo://` references and resolved to authenticated stream URLs only when
+  HyperFi Server tracks. Server tracks are stored in local playlists as stable
+  `hyperfi://` references and resolved to authenticated stream URLs only when
   they are opened or queued, so `?key=` stream URLs are not persisted. Playlist
   tables show the favorite heart first and the source column next to it. Regular
   mixed playlists batch local metadata and remote ID lookups, preserve order and
   duplicate entries, and cancel abandoned loads. Unavailable entries stay
   visible as non-playable placeholders that can be removed. Failed sources offer
   **Try again**, retaining usable rows and the selected entry/position. Smart
-  playlists resolve against the combined local and configured Orynivo Server
+  playlists resolve against the combined local and configured HyperFi Server
   track set. Server catalogs are loaded across all pages; outdated incomplete
   track caches are rebuilt automatically without changing favorites.
-- Remote Orynivo Server artists, albums, and tracks can be marked as favorites;
+- Remote HyperFi Server artists, albums, and tracks can be marked as favorites;
   those favorite flags are stored only in the Windows client's settings.
-- Remote Orynivo Server album covers and artist images can be searched from the
+- Remote HyperFi Server album covers and artist images can be searched from the
   Windows client; the client uploads the selected image bytes to the server, and
   the server stores them in its own artwork cache.
 - Album cover searches display small previews as they arrive (up to three
@@ -795,7 +795,7 @@ byte-range streaming without FFmpeg.
   Searches are cancelled when replaced or closed. Metadata-free timing records
   in `logs/cover-search-performance.log` separate preview arrival, decoding, and
   UI publication for troubleshooting; they contain no album names or URLs.
-- Remote Orynivo Server artist biographies can be refreshed from the Windows
+- Remote HyperFi Server artist biographies can be refreshed from the Windows
   client. Last.fm or Wikipedia requests run on the client; the server receives
   only the resulting biography, source URL, language, and optional image bytes
   to cache.
@@ -804,14 +804,14 @@ byte-range streaming without FFmpeg.
   authorization. Scrobbles are queued and flushed in the background, so playback
   and artist-information lookups are never blocked; the session key and the API
   secret are stored only in the encrypted per-user credential container.
-  Scrobbling applies to local and Orynivo Server library tracks, and both the
+  Scrobbling applies to local and HyperFi Server library tracks, and both the
   scrobble threshold and the pending queue survive restarts. The favourite
   button also mirrors the current track as loved or unloved on Last.fm, which is
   best effort and never blocks playback.
 - Windows System Media Transport Controls integration with global media keys,
   play/pause/previous/next/stop and seek requests, system-overlay and
   lock-screen metadata, album art, playback state, and timeline synchronization
-- Linux MPRIS 2 media player integration (`org.mpris.MediaPlayer2.orynivo`) for
+- Linux MPRIS 2 media player integration (`org.mpris.MediaPlayer2.hyperfi`) for
   desktop media keys, panels, and applets, with the same transport commands,
   metadata, position, playback status, and volume; credential-bearing remote
   artwork URLs are never published to the session bus
@@ -859,7 +859,7 @@ byte-range streaming without FFmpeg.
 - Artist, album, track, and folder views
 - Localized interface languages: German, English, French, Spanish, Russian,
   Simplified Chinese, and Hindi. All seven use the same complete built-in
-  resources, documented in `Orynivo/Localization/README.md`.
+  resources, documented in `HyperFi/Localization/README.md`.
 - Resizable table columns whose widths are preserved separately for each
   library, search, playlist, Plex, radio, podcast, and history table
 - Context-sensitive column selection by right-clicking a table header, including
@@ -867,9 +867,9 @@ byte-range streaming without FFmpeg.
   fields for radio and podcasts
 - Track context menus include **Show track information**, which displays the
   physical file path first and then the complete available track metadata.
-  Remote playback URLs and credentials are never shown; Orynivo Server paths
+  Remote playback URLs and credentials are never shown; HyperFi Server paths
   include the configured server name (for example,
-  `Plex Orynivo: /u02/flac/file.flac`).
+  `Plex HyperFi: /u02/flac/file.flac`).
 - Drag-and-drop table-column ordering persisted independently for each table and
   main-content view
 - Space-saving accordion sections in the main sidebar, with configurable
@@ -884,7 +884,7 @@ byte-range streaming without FFmpeg.
   tracks
 - Session-wide Back navigation across sidebar views, search results, dashboard
   links, artist/album drill-downs, playlists, podcasts, radio, folders, and Plex
-  library views. Mixed local/Orynivo Server artist and album views remain
+  library views. Mixed local/HyperFi Server artist and album views remain
   unified when restored, including source-aware selection when IDs overlap.
   Remote details retain their owning server; invalid or removed source tags
   cannot reopen an album from another active server. Server overview loads
@@ -912,18 +912,18 @@ byte-range streaming without FFmpeg.
   by editable album/artist search terms, title similarity, and all available
   approximate track durations, then apply a confirmed release as persistent
   library-only metadata without rewriting files. Explicit analysis runs outside
-  the UI thread and can be cancelled. Updated connected Orynivo Servers
+  the UI thread and can be cancelled. Updated connected HyperFi Servers
   contribute compact read-only findings through the authenticated API; older or
   unavailable servers are reported without preventing local results.
 - A versioned provider-neutral similarity feature foundation combines existing
   genre, BPM, mood-tag, favourite, rating, and listening-history signals in
   Core. It performs no background audio analysis and is designed for identical
-  local and Orynivo Server ranking contracts. Its deterministic
+  local and HyperFi Server ranking contracts. Its deterministic
   nearest-neighbour ranker applies artist and album diversity limits to avoid
   repetitive results. Remote vectors are retrieved in bounded authenticated
   pages and are assigned the configured server's stable identity without
   embedding its URL or API key. A track's context menu exposes **Play more like
-  this** for local and Orynivo Server library tracks. Orynivo loads and ranks
+  this** for local and HyperFi Server library tracks. HyperFi loads and ranks
   the compact vectors away from the UI thread, creates a diverse cross-library
   queue, and begins with the selected track. Its transient ranked profile then
   uses the existing Infinite Mix threshold refill, so playback continues beyond
@@ -952,7 +952,7 @@ byte-range streaming without FFmpeg.
   Favorites-only filtering in both modes
 - Interactive count-scaled genre cloud with hierarchical drill-down and
   listening-history-based track suggestions, aggregated across the local library
-  and every configured Orynivo Server; recommendations can be viewed as playable
+  and every configured HyperFi Server; recommendations can be viewed as playable
   tracks or as album artwork cards. Its curated graph supports genres with
   multiple parents, while unknown tags remain discoverable by their real names
   under **More genres**. Opening a suggested album uses the full album detail
@@ -960,7 +960,7 @@ byte-range streaming without FFmpeg.
   label sizes represent tracks in Tracks mode and distinct albums in Albums
   mode.
 - Infinite Mix builds a continuously replenished Up Next queue from recent
-  listening habits, favorites, the local library, and all reachable Orynivo
+  listening habits, favorites, the local library, and all reachable HyperFi
   Servers. It balances discovery with genre affinity and suppresses immediate
   track, album, and artist repetition. Initial preparation is surfaced through a
   progress overlay; later refills rotate through the complete matching genre
@@ -971,12 +971,12 @@ byte-range streaming without FFmpeg.
   their ranking order. The estimated key appears as an optional **Key** column
   in the track tables and in **Show track information**; Settings > Playback
   offers **Analyze audio features** to analyze the complete library and the
-  configured Orynivo Servers instead of waiting for the background batches.
+  configured HyperFi Servers instead of waiting for the background batches.
 - A Dashboard **Year in review** summary for any year with listening history:
   listened hours, active days, a monthly breakdown, and the leading genres,
   albums, and artists, exportable as a shareable PNG image or a single-page PDF
 - Dashboard with an artwork-backed greeting hero with a lightened-artwork rim,
-  live library counters (including local and configured Orynivo Server track
+  live library counters (including local and configured HyperFi Server track
   favorites), random playback and queue shortcuts, parallel Recently
   Played/Recently Added artwork strips, album links plus source and favorite
   state on history cards, a period-aware listening seven-point labeled and
@@ -986,17 +986,17 @@ byte-range streaming without FFmpeg.
   playback calendar. Album rankings retain artwork, and linked genres open the
   matching filtered track list.
 - Dashboard performance investigations can use the bounded rolling
-  `logs/dashboard-performance.log` beneath the Orynivo data directory. It
+  `logs/dashboard-performance.log` beneath the HyperFi data directory. It
   contains only phase names, elapsed times, build outcome, and server count;
   library paths, media names, URLs, and credentials are never recorded.
   Dashboard displays its last available sections immediately and refreshes
   counters, media, recommendations, and listening statistics independently.
   Unchanged sections retain their controls and scroll position; overlapping
   source loads are coalesced. Sanitized restart previews also make the previous
-  Dashboard available before server requests finish after launching Orynivo.
+  Dashboard available before server requests finish after launching HyperFi.
   Without a previous preview, the greeting appears first and data follows.
 - The last selectable sidebar view is restored on restart, including Genre
-  Cloud, Dashboard, AI Chat, playlists, saved radio/podcast entries, Orynivo
+  Cloud, Dashboard, AI Chat, playlists, saved radio/podcast entries, HyperFi
   Server views, and Plex libraries. Missing or removed entries fall back to
   Tracks.
 - Clickable populated calendar days with a modal daily listening history; local
@@ -1027,7 +1027,7 @@ byte-range streaming without FFmpeg.
 - Regular playlists and live smart playlists with metadata, library-age,
   playback-history, similarity, ordering, and result-limit criteria. A track's
   context menu offers **Save as smart playlist: similar tracks**, which keeps
-  the nearest local and Orynivo Server neighbours of that reference track.
+  the nearest local and HyperFi Server neighbours of that reference track.
   Shared smart playlists load selected sources with at most three simultaneous
   server requests, retain available results after source failures, and offer
   **Try again** with the selected track retained. A similarity reference can
@@ -1037,11 +1037,11 @@ byte-range streaming without FFmpeg.
 - Smart playlists are created directly from active track filters and can be
   refined later through their sidebar context menu. The editor previews the live
   match count while criteria are changed, including unified local/server counts
-  and server-side counts when the connected Orynivo Server supports them, and it
+  and server-side counts when the connected HyperFi Server supports them, and it
   shows every stored criterion — including the reference track of a similarity
   smart playlist, whose minimum similarity score stays editable. The reference
   can be replaced with **Choose reference track**, which searches the local
-  library and every configured Orynivo Server, or removed entirely.
+  library and every configured HyperFi Server, or removed entirely.
 - UTF-8 M3U8 import and export for regular playlists, including relative local
   paths, retained missing-file entries, and HTTP/HTTPS streams; credentialed
   Plex URLs are excluded
@@ -1171,8 +1171,8 @@ byte-range streaming without FFmpeg.
   minutes, while bounded curve smoothing keeps the plotted height proportional
   to that Y-axis scale without overshooting measured values
 - Dashboard favorite totals match the unified Favorites view by counting only
-  currently resolvable local and Orynivo Server tracks
-- Persistent personal 1–5-star ratings for local and Orynivo Server tracks,
+  currently resolvable local and HyperFi Server tracks
+- Persistent personal 1–5-star ratings for local and HyperFi Server tracks,
   editable directly in shared track tables. An optional MusicBrainz rating
   column shows cached community scores and vote counts; lookups prefer embedded
   recording MBIDs and conservatively match artist, title, and duration only when
@@ -1195,8 +1195,8 @@ byte-range streaming without FFmpeg.
   at least two positive votes. They remain separate from embedded genres but
   supplement Genre Cloud classification, genre filters, Infinite Mix, and
   full-text search. Normal scans never contact MusicBrainz or rewrite files.
-  During active music playback, Orynivo continues this enrichment in one
-  rate-limited background queue for the local library and configured Orynivo
+  During active music playback, HyperFi continues this enrichment in one
+  rate-limited background queue for the local library and configured HyperFi
   Servers. Pausing or stopping playback pauses the queue; opening an album or
   explicitly requesting a rating takes priority. Known recordings refresh after
   30 days, while unresolved artist/title matches wait 90 days before a retry so
@@ -1228,14 +1228,14 @@ byte-range streaming without FFmpeg.
 ### Genre discovery and Infinite Mix
 
 Open **Genre Cloud** from the Library section to explore the genres found in the
-local library and every configured Orynivo Server. The first level groups the
+local library and every configured HyperFi Server. The first level groups the
 library into broad families. Selecting a label reveals its more specific genres
 and immediately updates the recommendations below the cloud. The breadcrumb
 buttons return to an earlier level. A leaf without further children remains
 visible as the large center label instead of producing an empty view. The
 **Start Infinite Mix from cloud** action opens the normal profile editor with
 the genres represented at that level already selected. After confirmation,
-Orynivo queries the selected branch and every recursive subgenre directly,
+HyperFi queries the selected branch and every recursive subgenre directly,
 including tracks tagged with the parent genre itself; on a leaf level, only that
 selected genre is used.
 
@@ -1295,13 +1295,13 @@ loading.
 
 The current level uses available images from its recommended local and remote
 artists as a muted grayscale tile background. Images are proportionally fitted
-inside their tiles so portraits and landscape artwork remain complete. Orynivo
+inside their tiles so portraits and landscape artwork remain complete. HyperFi
 caches only the rendered mosaic for 24 hours; authenticated server artwork URLs
 are never stored in that Genre Cloud cache. The generated backgrounds can be
 cleared independently under **Settings > Appearance** without removing
 downloaded artist images or other artwork. In the same section, the background
 can be disabled entirely or switched between album covers and artist images. If
-only a few matching images are available, Orynivo centers that set instead of
+only a few matching images are available, HyperFi centers that set instead of
 repeating it across the complete surface. The number of requested tiles follows
 the current cloud width (up to 32), while a perceptual image fingerprint removes
 duplicate pictures even when local and server copies use different files or
@@ -1314,7 +1314,7 @@ background-cache clear action.
 **Infinite Mix** can be started from the Dashboard, **Up next**, or the current
 Genre Cloud level. Before starting, its compact profile editor selects a calm,
 balanced, or energetic mood; familiar-to-adventurous discovery level; 3, 7, 30,
-or 90-day history period; local and individual Orynivo Server sources; favorite
+or 90-day history period; local and individual HyperFi Server sources; favorite
 and rarely-played weighting; and optional included or excluded genres.
 **Focus**, **Workout**, and **Wind down** presets pre-fill those fields as a
 starting point and can be adjusted afterwards. Initial creation shows a blocking
@@ -1325,7 +1325,7 @@ and immediate track, album, and artist repetitions are avoided. Selection
 prefers different artists and albums first, then fills the batch with additional
 eligible tracks when a narrow genre contains too few distinct albums to reach
 the normal 20-track batch size. Genre rules use removable chips with type-ahead
-suggestions gathered from the currently enabled local and Orynivo Server
+suggestions gathered from the currently enabled local and HyperFi Server
 libraries; custom genre text remains possible when a library does not offer a
 matching suggestion.
 
@@ -1343,8 +1343,8 @@ The user interface recognizes, among others:
 `AAC`, `OGG`, `Opus`, `WMA`, and CUE sheets referencing PCM source files such as
 FLAC or WAV.
 
-PCM formats are decoded by `ffmpeg`, which Orynivo downloads automatically on
-Windows into `%LOCALAPPDATA%\Orynivo\ffmpeg` on first start if not already
+PCM formats are decoded by `ffmpeg`, which HyperFi downloads automatically on
+Windows into `%LOCALAPPDATA%\HyperFi\ffmpeg` on first start if not already
 installed. The Windows downloader resolves the current BtbN LGPL ZIP asset from
 the GitHub release API so it is not tied to one fixed archive name. Actual codec
 support depends on the build. MKA files containing Matroska chapters are
@@ -1356,12 +1356,12 @@ library track. MKA chapter probing limits FFprobe's analysis window and times
 out after 30 seconds per file so damaged or slow network media cannot block a
 complete scan. Library-only title corrections for virtual chapters are persisted
 separately in SQLite and survive later scans without changing the MKA container.
-For CUE sheets, Orynivo uses `INDEX 01` boundaries to seek and stop FFmpeg
+For CUE sheets, HyperFi uses `INDEX 01` boundaries to seek and stop FFmpeg
 within the referenced source file; no temporary split files are created. When
 WASAPI is selected, DSD audio in DSF or DFF containers is converted to PCM in
 real time without creating a temporary file. When cwASIO or the optional
 Steinberg ASIO backend is selected, DSF and uncompressed stereo DFF can be sent
-as native DSD when the driver reports compatible DSD support; otherwise Orynivo
+as native DSD when the driver reports compatible DSD support; otherwise HyperFi
 can fall back to the same FFmpeg-backed DSD-to-PCM path. On Linux, DSF and
 uncompressed stereo DFF are sent directly through ALSA as native `DSD_U32_BE`,
 with DoP as the fallback when the DAC supports it; no ASIO bridge is involved.
@@ -1379,7 +1379,7 @@ converted by `ffmpeg`.
   building)
 - [FFmpeg](https://ffmpeg.org/) — downloaded automatically on first start if not
   already present. To use a specific build, place `ffmpeg.exe` and `ffprobe.exe`
-  in `PATH`, next to `Orynivo.exe`, or in `%LOCALAPPDATA%\Orynivo\ffmpeg`.
+  in `PATH`, next to `HyperFi.exe`, or in `%LOCALAPPDATA%\HyperFi\ffmpeg`.
 - For cwASIO: Visual Studio 2022 with the **Desktop development with C++**
   workload and an installed ASIO driver
 - Optional Steinberg bridge: Steinberg ASIO SDK 2.3
@@ -1404,12 +1404,12 @@ development environments, `C:\Dev\asiosdk_2.3`. When no SDK is found, only
 
 The Linux player does not build or load `AsioBridge.dll` or `CwAsioBridge.dll`.
 Native DSF and uncompressed DFF output is sent directly through ALSA, so neither
-the Steinberg ASIO SDK nor a platform-specific Orynivo bridge is required.
+the Steinberg ASIO SDK nor a platform-specific HyperFi bridge is required.
 
 ### macOS player
 
 - macOS 10.15 or newer on Apple Silicon (`arm64`) or Intel (`x64`)
-- FFmpeg and FFprobe from `PATH`, common package-manager locations, or Orynivo's
+- FFmpeg and FFprobe from `PATH`, common package-manager locations, or HyperFi's
   automatic per-user download
 - The system OpenAL framework used for PCM output
 - Avalonia OpenGL rendering with a software fallback for Macs whose Metal shader
@@ -1421,7 +1421,7 @@ so the .NET runtime is not required. Development builds require the .NET 10 SDK.
 The signed update mechanism selects and verifies the PKG matching the running
 architecture before opening the normal macOS Installer.
 
-### Orynivo Server
+### HyperFi Server
 
 - Linux, macOS, or Windows; x64 or ARM64
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) (for
@@ -1435,14 +1435,14 @@ architecture before opening the normal macOS Installer.
 ## Release package reference
 
 Download the latest builds from
-[Releases](https://github.com/bschlaack/Orynivo/releases).
+[Releases](https://github.com/wuuwuu26/HyperFi/releases).
 
 ### Windows player
 
 | Package                                  | Description                                       |
 | ---------------------------------------- | ------------------------------------------------- |
-| `Orynivo-{version}-win-x64-Setup.exe`    | Installer — Start Menu entry and uninstaller      |
-| `Orynivo-{version}-win-x64-Portable.zip` | Portable — extract anywhere and run `Orynivo.exe` |
+| `HyperFi-{version}-win-x64-Setup.exe`    | Installer — Start Menu entry and uninstaller      |
+| `HyperFi-{version}-win-x64-Portable.zip` | Portable — extract anywhere and run `HyperFi.exe` |
 
 Both packages are self-contained (.NET 10 bundled, no prerequisites).
 
@@ -1450,11 +1450,11 @@ Both packages are self-contained (.NET 10 bundled, no prerequisites).
 
 | Package                                                              | Description             |
 | -------------------------------------------------------------------- | ----------------------- |
-| `Orynivo-{version}-linux-x64.tar.gz`                                 | Portable x86-64 archive |
-| `Orynivo-{version}-linux-arm64.tar.gz`                               | Portable ARM64 archive  |
-| `orynivo_{version}_amd64.deb` / `orynivo_{version}_arm64.deb`        | Debian / Ubuntu         |
-| `orynivo-{version}-1.x86_64.rpm` / `orynivo-{version}-1.aarch64.rpm` | Fedora / Rocky / RHEL   |
-| `orynivo-{version}-1-x86_64.pkg.tar.zst`                             | Arch Linux x86-64       |
+| `HyperFi-{version}-linux-x64.tar.gz`                                 | Portable x86-64 archive |
+| `HyperFi-{version}-linux-arm64.tar.gz`                               | Portable ARM64 archive  |
+| `hyperfi_{version}_amd64.deb` / `hyperfi_{version}_arm64.deb`        | Debian / Ubuntu         |
+| `hyperfi-{version}-1.x86_64.rpm` / `hyperfi-{version}-1.aarch64.rpm` | Fedora / Rocky / RHEL   |
+| `hyperfi-{version}-1-x86_64.pkg.tar.zst`                             | Arch Linux x86-64       |
 
 The Linux packages are self-contained with respect to .NET. FFmpeg, ALSA, and
 OpenAL remain system runtime dependencies as described above. Tagged release
@@ -1466,7 +1466,7 @@ distributions. After verifying the selected package digest it requests
 administrator authorization through PolicyKit and installs it with the native
 package manager. CachyOS is treated as Arch Linux and receives the signed
 `.pkg.tar.zst` package; the package file itself is never launched as an
-executable. Orynivo remains open until the privileged package manager exits and
+executable. HyperFi remains open until the privileged package manager exits and
 closes only after a successful installation. Authentication cancellation or a
 package-manager error leaves the update window open with a failure status.
 
@@ -1474,46 +1474,46 @@ package-manager error leaves the update window open with a failure status.
 
 | Package                                    | Description                               |
 | ------------------------------------------ | ----------------------------------------- |
-| `Orynivo-{version}-osx-arm64.pkg`          | Installer for Apple Silicon Macs          |
-| `Orynivo-{version}-osx-x64.pkg`            | Installer for Intel Macs                  |
-| `Orynivo-{version}-osx-arm64-Portable.zip` | Portable app for Apple Silicon Macs       |
-| `Orynivo-{version}-osx-x64-Portable.zip`   | Portable app for Intel Macs               |
-| `Orynivo-{version}-osx-arm64.tar.gz`       | Alternative app archive for Apple Silicon |
-| `Orynivo-{version}-osx-x64.tar.gz`         | Alternative app archive for Intel         |
+| `HyperFi-{version}-osx-arm64.pkg`          | Installer for Apple Silicon Macs          |
+| `HyperFi-{version}-osx-x64.pkg`            | Installer for Intel Macs                  |
+| `HyperFi-{version}-osx-arm64-Portable.zip` | Portable app for Apple Silicon Macs       |
+| `HyperFi-{version}-osx-x64-Portable.zip`   | Portable app for Intel Macs               |
+| `HyperFi-{version}-osx-arm64.tar.gz`       | Alternative app archive for Apple Silicon |
+| `HyperFi-{version}-osx-x64.tar.gz`         | Alternative app archive for Intel         |
 
-The PKG installs `Orynivo.app` under `/Applications`. The bundle includes the
-native Orynivo application icon. For portable use, extract the ZIP and open
-`Orynivo.app` from any writable directory. The builds are self-contained with
+The PKG installs `HyperFi.app` under `/Applications`. The bundle includes the
+native HyperFi application icon. For portable use, extract the ZIP and open
+`HyperFi.app` from any writable directory. The builds are self-contained with
 respect to .NET; FFmpeg and FFprobe are found in common package-manager
 locations or downloaded automatically when absent. The current packages are not
 code-signed or notarized, so macOS Gatekeeper may require explicitly opening the
 app or installer from Finder's context menu.
 
-Orynivo's startup and About-window update checks support both Mac architectures.
+HyperFi's startup and About-window update checks support both Mac architectures.
 They select the matching PKG from the signed release manifest, verify its
 SHA-256 digest, and open it in the macOS Installer. Installation still requires
-the normal explicit macOS confirmation; Orynivo never invokes a privileged
+the normal explicit macOS confirmation; HyperFi never invokes a privileged
 installation command itself.
 
 ### Linux server
 
 | Package                                  | Architecture                           |
 | ---------------------------------------- | -------------------------------------- |
-| `orynivo-server_{version}_amd64.deb`     | Debian / Ubuntu (x86-64)               |
-| `orynivo-server_{version}_arm64.deb`     | Debian / Ubuntu (ARM64 / Raspberry Pi) |
-| `orynivo-server-{version}-1.x86_64.rpm`  | Fedora / Rocky / RHEL (x86-64)         |
-| `orynivo-server-{version}-1.aarch64.rpm` | Fedora / Rocky / RHEL (ARM64)          |
+| `hyperfi-server_{version}_amd64.deb`     | Debian / Ubuntu (x86-64)               |
+| `hyperfi-server_{version}_arm64.deb`     | Debian / Ubuntu (ARM64 / Raspberry Pi) |
+| `hyperfi-server-{version}-1.x86_64.rpm`  | Fedora / Rocky / RHEL (x86-64)         |
+| `hyperfi-server-{version}-1.aarch64.rpm` | Fedora / Rocky / RHEL (ARM64)          |
 
 All packages are self-contained (.NET 10 bundled). See the
-[Server section](#orynivo-server) for post-install setup.
+[Server section](#hyperfi-server) for post-install setup.
 
 ## Build
 
 Clone the repository:
 
 ```powershell
-git clone https://github.com/bschlaack/Orynivo.git
-cd Orynivo
+git clone https://github.com/wuuwuu26/HyperFi.git
+cd HyperFi
 ```
 
 ### Windows player
@@ -1552,15 +1552,15 @@ output.
 The managed unit tests run on any platform:
 
 ```bash
-dotnet test Orynivo.Core.Tests/Orynivo.Core.Tests.csproj
-dotnet test Orynivo.Tests/Orynivo.Tests.csproj
-dotnet test Orynivo.Server.Tests/Orynivo.Server.Tests.csproj
+dotnet test HyperFi.Core.Tests/HyperFi.Core.Tests.csproj
+dotnet test HyperFi.Tests/HyperFi.Tests.csproj
+dotnet test HyperFi.Server.Tests/HyperFi.Server.Tests.csproj
 ```
 
-`Orynivo.Core.Tests` covers the cross-platform core library, including the
-credential-free `QueuePathPolicy` and ReplayGain conversion. `Orynivo.Tests`
+`HyperFi.Core.Tests` covers the cross-platform core library, including the
+credential-free `QueuePathPolicy` and ReplayGain conversion. `HyperFi.Tests`
 covers pure desktop helpers such as the transport accent colour maths; it never
-starts the Avalonia UI. `Orynivo.Server.Tests` covers the server's API key and
+starts the Avalonia UI. `HyperFi.Server.Tests` covers the server's API key and
 profile-context middleware without starting the web host. Every database test
 creates its own temporary library, so the suite is safe to run in parallel and
 never touches your real library data.
@@ -1617,7 +1617,7 @@ CI timing gates. See
 ### Windows headless workflow smoke
 
 ```bash
-dotnet run --project Orynivo.Ui.Smoke/Orynivo.Ui.Smoke.csproj -c Debug
+dotnet run --project HyperFi.Ui.Smoke/HyperFi.Ui.Smoke.csproj -c Debug
 ```
 
 The tracked smoke suite runs in a separate process with a unique temporary data
@@ -1639,24 +1639,24 @@ headless scroll host performs layout. No playback, hardware checks or real
 dialogs run. Windows CI executes the suite in Debug and Release; Linux/macOS
 runtime coverage remains a follow-up.
 
-### Orynivo Server
+### HyperFi Server
 
 The server has no native dependencies and builds on any platform:
 
 ```bash
-dotnet build Orynivo.Server/Orynivo.Server.csproj
-dotnet run --project Orynivo.Server/Orynivo.Server.csproj
+dotnet build HyperFi.Server/HyperFi.Server.csproj
+dotnet run --project HyperFi.Server/HyperFi.Server.csproj
 ```
 
 To publish a self-contained binary for a specific platform:
 
 ```bash
 # Linux x64
-dotnet publish Orynivo.Server/Orynivo.Server.csproj \
+dotnet publish HyperFi.Server/HyperFi.Server.csproj \
   --runtime linux-x64 --self-contained true --output out/linux-x64
 
 # Linux ARM64
-dotnet publish Orynivo.Server/Orynivo.Server.csproj \
+dotnet publish HyperFi.Server/HyperFi.Server.csproj \
   --runtime linux-arm64 --self-contained true --output out/linux-arm64
 ```
 
@@ -1678,7 +1678,7 @@ git push origin v0.14.0
 
 | Workflow                   | Runner  | Output                                                              |
 | -------------------------- | ------- | ------------------------------------------------------------------- |
-| `release.yml`              | Windows | `Orynivo-{v}-win-x64-Setup.exe`, `Orynivo-{v}-win-x64-Portable.zip` |
+| `release.yml`              | Windows | `HyperFi-{v}-win-x64-Setup.exe`, `HyperFi-{v}-win-x64-Portable.zip` |
 | `player-macos-release.yml` | macOS   | Intel/Apple-Silicon PKGs, portable ZIPs, and tar archives           |
 | `server-release.yml`       | Ubuntu  | `amd64`/`arm64` `.deb` and `x86_64`/`aarch64` `.rpm` packages       |
 
@@ -1713,9 +1713,9 @@ openssl ecparam -name prime256v1 -genkey -noout -out update-signing-private.pem
 openssl ec -in update-signing-private.pem -pubout -outform DER \
   | base64 -w0 > update-signing-public.txt
 gh secret set UPDATE_SIGNING_PRIVATE_KEY_PEM \
-  --repo bschlaack/Orynivo < update-signing-private.pem
+  --repo wuuwuu26/HyperFi < update-signing-private.pem
 gh variable set UPDATE_SIGNING_PUBLIC_KEY_BASE64 \
-  --repo bschlaack/Orynivo < update-signing-public.txt
+  --repo wuuwuu26/HyperFi < update-signing-public.txt
 ```
 
 Older GitHub CLI versions do not provide `gh variable`. Upgrade `gh`, or create
@@ -1723,13 +1723,13 @@ the public repository variable through the GitHub API (the value is a public
 verification key, not the private signing secret):
 
 ```bash
-gh api --method POST repos/bschlaack/Orynivo/actions/variables \
+gh api --method POST repos/wuuwuu26/HyperFi/actions/variables \
   -f name=UPDATE_SIGNING_PUBLIC_KEY_BASE64 \
   -f value="$(cat update-signing-public.txt)"
 ```
 
 If the variable already exists, replace `POST` with `PATCH` and use the endpoint
-`repos/bschlaack/Orynivo/actions/variables/UPDATE_SIGNING_PUBLIC_KEY_BASE64`.
+`repos/wuuwuu26/HyperFi/actions/variables/UPDATE_SIGNING_PUBLIC_KEY_BASE64`.
 
 Store an offline backup of the private key; rotating it requires a transition
 release because already-installed builds trust the public key embedded at their
@@ -1737,7 +1737,7 @@ own build time.
 
 The About window displays the embedded version and can download, verify, and
 launch a newer Windows installer, a distribution-matching Linux package, or the
-architecture-matching macOS PKG. Settings > Orynivo Server offers the same
+architecture-matching macOS PKG. Settings > HyperFi Server offers the same
 signed update for supported DEB/RPM servers and relays the package from the
 desktop when the server itself cannot reach GitHub. Connected server rows show
 the version returned by their authenticated info endpoint, and the complete
@@ -1747,7 +1747,7 @@ the background at startup and reports a newer matching desktop version. The
 notification offers a localized **Download and install** action that starts the
 same verified update flow as the About window; no download begins without that
 explicit choice. Settings > Appearance also controls whether the main window
-starts maximized. When maximized startup is disabled, Orynivo remembers the last
+starts maximized. When maximized startup is disabled, HyperFi remembers the last
 normal window size and position and restores it only when that placement still
 intersects an attached screen. The embedded Settings view adapts to smaller
 window heights by scrolling the active section while keeping its Save and Cancel
@@ -1755,9 +1755,9 @@ actions available. Server package uploads use a route-specific one-GiB safety
 limit so self-contained DEB/RPM packages are not rejected by Kestrel's smaller
 default request limit. The server also reapplies
 `Kestrel:Limits:MaxRequestBodySize` after loading the editable
-`/etc/orynivo-server/appsettings.json`, so that global override is effective
+`/etc/hyperfi-server/appsettings.json`, so that global override is effective
 despite the configuration file being layered after builder creation. When a
-desktop update is explicitly installed from About, Orynivo first relays the same
+desktop update is explicitly installed from About, HyperFi first relays the same
 signed release to every reachable update-enabled configured server. If a server
 update fails, its name is shown before the user chooses whether the platform
 installer should continue.
@@ -1769,11 +1769,11 @@ from the development branch are intentionally ignored.
 ## Run
 
 ```powershell
-.\Orynivo\bin\Debug\net10.0-windows10.0.19041.0\Orynivo.exe
+.\HyperFi\bin\Debug\net10.0-windows10.0.19041.0\HyperFi.exe
 ```
 
 Library directories and the desired output device can then be configured in
-Settings. When no output has been configured yet, Orynivo creates a `Default`
+Settings. When no output has been configured yet, HyperFi creates a `Default`
 WASAPI output from the Windows default multimedia output device so playback
 works without manual setup. Named output profiles allow saving multiple backend
 and device combinations; a quick-pick popup on the transport bar switches
@@ -1786,10 +1786,10 @@ disabled by default because analysing complete audio files makes initial scans
 substantially slower. The first subsequent scan of each configured library root
 refreshes unchanged files once to import existing ReplayGain tags regardless of
 that option. The dedicated calculation button fills missing values later in the
-local library and on every configured Orynivo Server, reporting each server's
+local library and on every configured HyperFi Server, reporting each server's
 progress in turn. Values already present are preserved. The desktop checkbox
 controls local scans only. Each remote server exposes its own equivalent
-checkbox in **Settings → Library → Orynivo Server**; opening the server dialog
+checkbox in **Settings → Library → HyperFi Server**; opening the server dialog
 loads the current value from that server, and saving applies and persists it
 there without requiring a service restart. Configured server rows provide
 separate **Scan library** and **Calculate ReplayGain** buttons. Each action
@@ -1827,7 +1827,7 @@ identity within the same physical directory. Transient metadata-read failures
 are retried and reported as failed files; they never replace an existing track's
 tags with empty values. The Library Doctor also highlights conservatively
 matched artist-name variants across the local library. These are review hints
-only: Orynivo does not merge artists automatically because punctuation or
+only: HyperFi does not merge artists automatically because punctuation or
 spelling differences can still identify distinct performers. Guided MusicBrainz
 correction displays the current and proposed album identity and a track-by-track
 title/artist preview. Nothing is written until the user selects a release and
@@ -1836,20 +1836,20 @@ explicitly applies that correction.
 ## Project Structure
 
 ```text
-Orynivo/
+HyperFi/
 ├── Native/                  Native C++ bridges
 │   ├── AirPlay2Bridge/      Standalone AirPlay 2 sender (versioned C ABI, CMake)
 │   ├── AsioBridge/          Steinberg ASIO bridge
 │   └── CwAsioBridge/        cwASIO bridge
 ├── third_party/cwasio/      Vendored cwASIO sources under the MIT License
-├── Orynivo.Core/            Cross-platform library (net10.0, no platform dependencies)
+├── HyperFi.Core/            Cross-platform library (net10.0, no platform dependencies)
 │   ├── Audio/               FFmpeg decoder, acoustic analysis, ReplayGain, equalizer, crossfeed
 │   ├── Library/             SQLite database, scanner, watcher, Lucene search, backups, models
 │   ├── Scrobbling/          Last.fm request signing, scrobble rules, and HTTP client
-│   ├── Streaming/           Provider-neutral contracts plus the Plex and Orynivo Server clients
+│   ├── Streaming/           Provider-neutral contracts plus the Plex and HyperFi Server clients
 │   ├── Updates/             Signed release-update verification and asset selection
 │   └── Web/                 SSRF-guarded page fetching and SearXNG search
-├── Orynivo/                 Avalonia desktop client (Windows, Linux, macOS)
+├── HyperFi/                 Avalonia desktop client (Windows, Linux, macOS)
 │   ├── AI/                  Embedded AI chat, OpenAI-compatible client, Markdown rendering
 │   ├── Assets/              Logos, application icon, and dashboard artwork
 │   ├── Audio/               ASIO, cwASIO, WASAPI, OpenAL, AirPlay, PCM and DSD playback
@@ -1861,16 +1861,16 @@ Orynivo/
 │   ├── Scrobbling/          Desktop scrobbling service and pending-scrobble store
 │   ├── Streaming/           Credential-store facades and the inactive Qobuz provider scaffold
 │   └── MainWindow.*.cs      Main window, split into domain-sized partials
-├── Orynivo.Server/          Cross-platform headless server (net10.0, ASP.NET Core)
+├── HyperFi.Server/          Cross-platform headless server (net10.0, ASP.NET Core)
 │   ├── Endpoints/           Core, library, streaming, configuration, backup, and update routes
 │   ├── Middleware/          API key and user-profile authentication
 │   ├── Services/            Hosted library scan, watcher, and audio-feature maintenance
 │   ├── Program.cs           Server entry point
 │   └── appsettings.json     Default configuration
-├── Orynivo.Core.Tests/      Unit tests for the cross-platform core library
-├── Orynivo.Tests/           Unit tests for pure desktop helpers (no running UI required)
-├── Orynivo.Ui.Smoke/        Windows headless synthetic artist/search/album workflows
-├── Orynivo.Server.Tests/    Server middleware and isolated in-memory endpoint tests
+├── HyperFi.Core.Tests/      Unit tests for the cross-platform core library
+├── HyperFi.Tests/           Unit tests for pure desktop helpers (no running UI required)
+├── HyperFi.Ui.Smoke/        Windows headless synthetic artist/search/album workflows
+├── HyperFi.Server.Tests/    Server middleware and isolated in-memory endpoint tests
 ├── scripts/                 Verification and smoke-test harnesses
 │   ├── verify-localization-parity.ps1   Seven-language desktop/website/mobile parity
 │   ├──     verify-mcp-tool-parity.ps1       MCP, AI tool schema, and Settings checklist parity
@@ -1888,7 +1888,7 @@ Orynivo/
 │   ├── workflows/           CI, Windows/macOS/Linux and server releases, manifest signing
 │   └── dependabot.yml       Weekly NuGet and GitHub Actions updates
 ├── build.ps1                Builds the native bridges and the .NET application
-├── Orynivo.sln              Visual Studio solution
+├── HyperFi.sln              Visual Studio solution
 ├── AGENTS.md                Repository-wide contributor and architecture rules
 ├── CHANGELOG.md             Release notes
 └── README.md                This document
@@ -1896,13 +1896,13 @@ Orynivo/
 
 ## Local Data
 
-Orynivo stores player data under `%LOCALAPPDATA%\Orynivo\` on Windows and the
+HyperFi stores player data under `%LOCALAPPDATA%\HyperFi\` on Windows and the
 operating system's local application-data directory (normally
-`$HOME/.local/share/Orynivo/`) on Linux and macOS. `ORYNIVO_DATA_DIR` can
-override that root; packaged Linux servers use `/var/lib/orynivo-server`.
+`$HOME/.local/share/HyperFi/`) on Linux and macOS. `HYPERFI_DATA_DIR` can
+override that root; packaged Linux servers use `/var/lib/hyperfi-server`.
 
 - `settings.json`: non-secret application settings
-- `credentials.dat`: encrypted Last.fm, Fanart.tv, AI Chat, Orynivo Server,
+- `credentials.dat`: encrypted Last.fm, Fanart.tv, AI Chat, HyperFi Server,
   Plex, and streaming-provider credentials
 - `credentials.key`: Linux/macOS AES-GCM key, readable and writable only by the
   current operating-system user (Windows uses DPAPI and does not create it)
@@ -1912,10 +1912,10 @@ override that root; packaged Linux servers use `/var/lib/orynivo-server`.
   diagnostics
 - `artworks\`: original artwork and generated thumbnails
 - `artist-images\`: cached Wikipedia/Wikimedia artist images
-- `remote-artworks\`: artwork downloaded from connected Orynivo Servers
+- `remote-artworks\`: artwork downloaded from connected HyperFi Servers
 - `remote-track-cache\` and `remote-folder-cache\`: bounded remote-library
   metadata caches, invalidated when the server reports a newer library scan
-- `server-status.json`: last successful connection time for configured Orynivo
+- `server-status.json`: last successful connection time for configured HyperFi
   Servers
 - `search-index\`: Lucene.NET search index
 - `waveforms\`: compact cached peak data for the transport waveform
@@ -1927,7 +1927,7 @@ override that root; packaged Linux servers use `/var/lib/orynivo-server`.
 These files are not part of the repository.
 
 The note button in the transport bar replaces the current main content with a
-large lyrics view. The current cover is shown dimmed in the background. Orynivo
+large lyrics view. The current cover is shown dimmed in the background. HyperFi
 first uses cached synchronized lyrics, then downloaded or embedded plain lyrics
 as a fallback. Missing lyrics can be requested from the public LRCLIB API and
 are stored in `library.db`; synchronized LRC lines are highlighted and eased
@@ -1965,7 +1965,7 @@ artwork, rebasing paths, and rebuilding the search index.
 **Scheduled backups** can create that archive automatically. Choose an enable
 toggle, an interval in days, how many backups to keep, and a backup folder
 (default: a `backups` folder beneath the per-user data directory), or run one
-immediately with **Back up now**. Orynivo writes the archive, removes older ones
+immediately with **Back up now**. HyperFi writes the archive, removes older ones
 beyond the retention count, and shows the last successful run.
 
 **Cloud backup target** additionally uploads every completed archive to a WebDAV
@@ -1986,7 +1986,7 @@ supports nothing at or below the cap.
 
 ## Cross-device resume
 
-Remote Orynivo Server tracks remember where you stopped. The client publishes
+Remote HyperFi Server tracks remember where you stopped. The client publishes
 the audible position at most every 20 seconds to the authenticated,
 profile-scoped `/api/tracks/{id}/position` endpoint, and starting that track on
 another device offers a **Resume** transport action when the stored position is
@@ -2017,7 +2017,7 @@ required checks for each held-back line are recorded in
   route may still be mixed or resampled by PipeWire, PulseAudio, or OpenAL.
 - Linux supports stereo DSF and uncompressed stereo DFF/DSDIFF as native,
   bit-perfect `DSD_U32_BE` through a compatible direct ALSA endpoint, including
-  authenticated Orynivo Server streams, with DoP as the fallback. DST-compressed
+  authenticated HyperFi Server streams, with DoP as the fallback. DST-compressed
   DFF remains unsupported for direct DSD output. DSD is not sent through OpenAL
   because its mixing, gain, or format conversion could corrupt the payload or
   DoP markers.
@@ -2038,9 +2038,9 @@ required checks for each held-back line are recorded in
 - Plex browsing is paginated to keep very large libraries responsive. Playback
   availability depends on every selected Plex media part being directly
   accessible and decodable by the installed FFmpeg build. Unexpected HTTP stream
-  termination is retried from the last decoded position before Orynivo advances
+  termination is retried from the last decoded position before HyperFi advances
   to the next queue item.
-- Renaming or merging artists updates Orynivo's internal library, album
+- Renaming or merging artists updates HyperFi's internal library, album
   assignments, and search index. It does not modify tags in the audio files.
 - ASIO devices may be unavailable for inspection or playback while another
   application holds them exclusively.
@@ -2060,9 +2060,9 @@ test suite, and what the maintainers look for.
 
 ## License
 
-Orynivo is licensed under the [Apache License 2.0](LICENSE). Third-party
+HyperFi is licensed under the [Apache License 2.0](LICENSE). Third-party
 components are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and
 [`licenses/`](licenses/).
 
-> Orynivo is under active development. The database schema, user interface, and
+> HyperFi is under active development. The database schema, user interface, and
 > available features may still change between releases.

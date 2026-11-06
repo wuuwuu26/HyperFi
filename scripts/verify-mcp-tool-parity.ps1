@@ -10,10 +10,10 @@ function Get-Matches([string]$relativePath, [string]$pattern) {
 }
 
 $contracts = [ordered]@{
-    MCP        = Get-Matches 'Orynivo/Mcp/McpTools.cs' 'McpServerTool\(Name = "([^"]+)"'
-    ChatSchema = Get-Matches 'Orynivo/AI/AiToolDefinitions.cs' 'Make\("([^"]+)"'
-    Dispatcher = Get-Matches 'Orynivo/AI/AiToolExecutor.cs' '"([a-z_]+)"\s*=>'
-    Settings   = Get-Matches 'Orynivo/SettingsView.axaml.cs' '\("([a-z_]+)",\s+nameof\(McpTool'
+    MCP        = Get-Matches 'HyperFi/Mcp/McpTools.cs' 'McpServerTool\(Name = "([^"]+)"'
+    ChatSchema = Get-Matches 'HyperFi/AI/AiToolDefinitions.cs' 'Make\("([^"]+)"'
+    Dispatcher = Get-Matches 'HyperFi/AI/AiToolExecutor.cs' '"([a-z_]+)"\s*=>'
+    Settings   = Get-Matches 'HyperFi/SettingsView.axaml.cs' '\("([a-z_]+)",\s+nameof\(McpTool'
 }
 
 $expected = @($contracts.MCP | Sort-Object -Unique)

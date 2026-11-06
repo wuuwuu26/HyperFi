@@ -1,11 +1,11 @@
-# Contributing to Orynivo
+# Contributing to HyperFi
 
-Thanks for your interest in improving Orynivo!
+Thanks for your interest in improving HyperFi!
 
 ## Before you start
 
 - Report bugs and propose features through
-  [GitHub Issues](https://github.com/bschlaack/Orynivo/issues). For audio
+  [GitHub Issues](https://github.com/wuuwuu26/HyperFi/issues). For audio
   output problems, include your OS, output profile (WASAPI/cwASIO/ASIO/ALSA/
   OpenAL), DAC model, and the file format/sample rate — that is usually
   everything needed to reproduce.
@@ -19,9 +19,9 @@ Thanks for your interest in improving Orynivo!
 2. Clone and build:
 
    ```bash
-   dotnet restore Orynivo/Orynivo.csproj
-   dotnet build Orynivo/Orynivo.csproj --configuration Release
-   dotnet run --project Orynivo/Orynivo.csproj
+   dotnet restore HyperFi/HyperFi.csproj
+   dotnet build HyperFi/HyperFi.csproj --configuration Release
+   dotnet run --project HyperFi/HyperFi.csproj
    ```
 
 3. Platform prerequisites (FFmpeg, ALSA/OpenAL runtimes, optional Steinberg
@@ -34,9 +34,9 @@ The managed test suites run on any platform and never touch your real music
 library:
 
 ```bash
-dotnet test Orynivo.Core.Tests/Orynivo.Core.Tests.csproj
-dotnet test Orynivo.Tests/Orynivo.Tests.csproj
-dotnet test Orynivo.Server.Tests/Orynivo.Server.Tests.csproj
+dotnet test HyperFi.Core.Tests/HyperFi.Core.Tests.csproj
+dotnet test HyperFi.Tests/HyperFi.Tests.csproj
+dotnet test HyperFi.Server.Tests/HyperFi.Server.Tests.csproj
 ```
 
 On Windows, `pwsh -NoProfile -File scripts/verify-all.ps1` runs the same checks
@@ -56,7 +56,7 @@ suite, and the parity scripts). Please run it before requesting review.
 ## Good first issues
 
 Look for issues labeled
-[`good first issue`](https://github.com/bschlaack/Orynivo/labels/good%20first%20issue)
+[`good first issue`](https://github.com/wuuwuu26/HyperFi/labels/good%20first%20issue)
 — help with documentation, localization quality, and UI polish is always
 appreciated.
 
