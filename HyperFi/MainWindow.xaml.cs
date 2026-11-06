@@ -428,6 +428,10 @@ public partial class MainWindow : Window
             if (args.Property == TextBlock.TextProperty)
                 StatusTextBlock.IsVisible = !string.IsNullOrWhiteSpace(StatusTextBlock.Text);
         };
+        AttachSegmentedThumb(AlbumViewModeBorder);
+        AttachSegmentedThumb(PlexViewModeBorder);
+        AttachSegmentedThumb(HyperFiServerViewModeBorder);
+        AttachSegmentedThumb(GenreRecommendationModeBorder);
         StartUiDiagnosticsLog();
         LogUiDiagnostics("MainWindow constructor after InitializeComponent");
         _dashboardRootPanel = DashboardPanel;

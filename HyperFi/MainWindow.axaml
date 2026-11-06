@@ -840,7 +840,7 @@
                 </ControlTemplate>
             </Setter>
             <Style Selector="^:checked /template/ Border#Bd">
-                <Setter Property="Background" Value="{DynamicResource AppAccentBrush}"/>
+                <Setter Property="Background" Value="Transparent"/>
             </Style>
             <Style Selector="^:checked">
                 <Setter Property="Foreground" Value="{DynamicResource AppAccentTextBrush}"/>
@@ -1932,7 +1932,8 @@
                                 VerticalAlignment="Center"
                                 Content="{DynamicResource L_GenreCloudInfiniteMix}"
                                 Click="GenreCloudInfiniteMixButton_OnClick"/>
-                        <Border Grid.Column="2"
+                        <Border x:Name="GenreRecommendationModeBorder"
+                                Grid.Column="2"
                                 Padding="3"
                                 Background="{DynamicResource AppButtonBrush}"
                                 BorderBrush="{DynamicResource AppButtonBorderBrush}"

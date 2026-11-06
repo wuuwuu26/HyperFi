@@ -1173,10 +1173,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   tested `HyperFi.Controls.MotionPreferences` helper. The Genre Cloud, the
   Dashboard cover stage, the lyrics view scroll, sidebar/settings selection,
   the sidebar logo glow, the top-level view surface, the content header and
-  immersive lyrics must ask that helper instead of building transitions or
-  frame loops directly. Navigation motion stays brief (at most 200 ms), never
-  blocks loading or ownership checks, and must not run when the preference is
-  reduced.
+  immersive lyrics and segmented view-mode pills must ask that helper instead
+  of building transitions or frame loops directly. Navigation and segmented
+  motion stays brief (at most 200 ms), never blocks loading or ownership
+  checks, and must not run when the preference is reduced.
   The album and artist artwork grids open the selected card on Enter or Space
   through `ActivateArtworkCardAsync`, and transport controls keep an
   `AutomationProperties.Name` that matches their localized tooltip.

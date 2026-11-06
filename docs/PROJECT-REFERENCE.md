@@ -2752,6 +2752,11 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   sizes. Immersive detail titles (album, artist, podcast headers) use
   `FontSizeDisplay`; tables use `FontSizeCaption`/`FontSizeBody`; small meta
   text uses `FontSizeMeta` with a muted foreground.
+- Segmented RadioButton switchers (Table/Cover, Plex, HyperFi Server, and Genre
+  Cloud recommendations) share `AttachSegmentedThumb`, which places a gold
+  selection pill behind the buttons and animates its width and horizontal
+  offset. The checked button background stays transparent so the pill remains
+  visible; the motion respects `AppSettings.ReduceMotion`.
 - The default typeface is `Noto Serif CJK SC`, configured through
   `FontManagerOptions` in `Program.cs` with `Noto Serif` fallbacks. The bundled
   Inter font is no longer shipped; systems without Noto Serif CJK fall back to

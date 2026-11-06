@@ -51,6 +51,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Segmented view-mode switchers (Table/Cover, Plex, HyperFi Server, and Genre
+  Cloud recommendations) now slide their gold selection pill between options
+  instead of switching instantly; the motion respects **Reduce motion**.
 - The desktop interface now uses **Noto Serif CJK SC** as its default typeface,
   with Noto Serif fallbacks. The bundled Inter font is no longer shipped.
 - The lyrics view now covers the content header and places the cover, title,
