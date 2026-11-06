@@ -62,6 +62,12 @@ changes are written back to the default sink. The synchronizer is a mirror, not
 part of the audio path, and OpenAL profiles keep their normal system-mixed
 volume.
 
+Before opening a direct ALSA device, `AlsaHardwareVolume` sets every playback
+mixer control on that card to its maximum and unmutes it. A hardware control
+left low by the system mixer is outside HyperFi's software volume path and
+would otherwise cap the maximum volume. The control is left at unity so the
+software mixer remains the single volume stage.
+
 macOS desktop builds target `net10.0` for `osx-arm64` and `osx-x64`. PCM
 playback uses Apple's system OpenAL framework. FFmpeg/FFprobe discovery checks
 the application and per-user cache, inherited `PATH`, and conventional Homebrew,

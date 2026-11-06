@@ -144,6 +144,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
             // Release the matching card profile before opening the exclusive
             // hardware PCM, then restore it when this player is retired.
             var handoff = PipeWireExclusiveHandoff.TrySuspend(deviceId);
+            AlsaHardwareVolume.EnsureUnity(deviceId);
             nint pcm;
             try
             {

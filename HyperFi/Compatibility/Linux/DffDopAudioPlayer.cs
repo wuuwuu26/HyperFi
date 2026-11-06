@@ -88,6 +88,7 @@ public sealed class DffDopAudioPlayer : IAudioPlayer
         {
             var header = await ReadHeaderAsync(source, cancellationToken).ConfigureAwait(false);
             var alsaDevice = deviceId["alsa:".Length..];
+            AlsaHardwareVolume.EnsureUnity(deviceId);
             var usesNativeDsd = true;
             try
             {

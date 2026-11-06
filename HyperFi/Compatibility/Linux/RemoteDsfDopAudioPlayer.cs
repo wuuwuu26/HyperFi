@@ -84,6 +84,7 @@ public sealed class RemoteDsfDopAudioPlayer : IAudioPlayer
                 cancellationToken).ConfigureAwait(false);
             var header = ReadHeader(headerBytes);
             var alsaDevice = deviceId["alsa:".Length..];
+            AlsaHardwareVolume.EnsureUnity(deviceId);
             var usesNativeDsd = true;
             try
             {

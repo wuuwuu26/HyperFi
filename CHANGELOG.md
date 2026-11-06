@@ -73,6 +73,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   soft; they now decode the stored full-resolution cover at the rendered size.
 - The Linux device info dialog listed a hard-coded PCM rate set capped at
   192 kHz; it now reports the rates the ALSA device actually advertises.
+- Direct ALSA output now sets the card's playback mixer to unity before opening
+  the device. A hardware control left low by PipeWire/PulseAudio previously
+  capped the maximum volume even when HyperFi's software volume was 100%.
 - The About window no longer overlaps its license heading, build information and
   first license line. The heading and scrolling license list now share a docked
   layout instead of relying on grid margins.
