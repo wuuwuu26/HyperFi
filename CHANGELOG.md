@@ -81,7 +81,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   slider value for backends whose volume is applied in software.
 - The system-volume mirror now line-buffers `pactl subscribe`, so desktop volume
   key changes reach HyperFi immediately instead of waiting for the pipe buffer
-  to fill.
+  to fill. MPRIS now also reports the mirrored value after a system volume or
+  mute change.
 - The About window no longer overlaps its license heading, build information and
   first license line. The heading and scrolling license list now share a docked
   layout instead of relying on grid margins.

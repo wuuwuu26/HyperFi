@@ -178,6 +178,7 @@ public partial class MainWindow : Window
 
         if (pushToEndpoint && _endpointVolumeSynchronizer is not null)
             _endpointVolumeSynchronizer.SetVolume(volume);
+        _windowsMediaTransport?.SetVolume(VolumeSlider.Value);
     }
 
     private float GetReplayGainFactor(string filePath)
