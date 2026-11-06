@@ -485,11 +485,9 @@ public partial class MainWindow : Window
         return new Border
         {
             MinHeight = 250,
-            Padding = new Thickness(14),
-            Background = FindResource<IBrush>("AppSurfaceBrush"),
-            BorderBrush = FindResource<IBrush>("AppGridLineBrush"),
-            BorderThickness = new Thickness(1),
-            CornerRadius = new CornerRadius(14),
+            Padding = new Thickness(2, 2, 2, 10),
+            Background = Brushes.Transparent,
+            BorderThickness = new Thickness(0),
             Child = layout
         };
     }
@@ -894,11 +892,11 @@ public partial class MainWindow : Window
     /// <returns>An empty surface border ready to host its content.</returns>
     private Border DashboardSurfaceCard() => new()
     {
-        Background = FindResource<IBrush>("AppSurfaceBrush"),
-        BorderBrush = FindResource<IBrush>("AppGridLineBrush"),
-        BorderThickness = new Thickness(1),
-        CornerRadius = new CornerRadius(14),
-        Padding = new Thickness(16, 14, 16, 8),
+        Background = FindResource<IBrush>("AppInsetBrush"),
+        BorderThickness = new Thickness(0),
+        CornerRadius = new CornerRadius(10),
+        BoxShadow = BoxShadows.Parse("inset 0 2 10 0 #8C000000"),
+        Padding = new Thickness(16, 14, 16, 10),
         Margin = new Thickness(0, 0, 0, 4)
     };
 

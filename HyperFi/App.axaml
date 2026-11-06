@@ -76,6 +76,29 @@
             <SolidColorBrush x:Key="AppTransportPlayHoverBrush"  Color="#F2D98C"/>
             <SolidColorBrush x:Key="AppTransportPlayDisabledBrush" Color="#26313D"/>
             <SolidColorBrush x:Key="AppTransportPlayDisabledTextBrush" Color="#3A3A55"/>
+            <!-- ── Depth surfaces (raised and recessed physical layers) ── -->
+            <LinearGradientBrush x:Key="AppContentWellBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#060504" Offset="0"/>
+                <GradientStop Color="#15120B" Offset="1"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="AppHeaderSurfaceBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#1B1610" Offset="0"/>
+                <GradientStop Color="#0E0B07" Offset="1"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="AppTransportSurfaceBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#18130C" Offset="0"/>
+                <GradientStop Color="#090703" Offset="1"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="AppInsetBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#080604" Offset="0"/>
+                <GradientStop Color="#18140C" Offset="1"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="AppRaisedBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#241E14" Offset="0"/>
+                <GradientStop Color="#15110B" Offset="1"/>
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="AppArtworkEdgeBrush"         Color="#33FFFFFF"/>
+            <SolidColorBrush x:Key="AppBevelHighlightBrush"      Color="#33FFFFFF"/>
             <SolidColorBrush x:Key="AppArtworkPlaceholderBrush"  Color="#222A35"/>
             <SolidColorBrush x:Key="AppScrollbarTrackBrush"      Color="#171D25"/>
             <SolidColorBrush x:Key="AppScrollbarThumbBrush"      Color="#344150"/>

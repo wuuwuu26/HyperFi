@@ -1290,16 +1290,20 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   identities reject legacy potentially incomplete snapshots. Every full-catalog
   disk-cache writer must use strict requests and finish every page successfully.
   Reapply current client favorites after loading cached tracks.
-- Interactive cards use the shared cyan-violet gradient hover border. Main
-  sidebar entries carry a source-appropriate shared vector icon; smart playlists
-  use the shared 13-px icon footprint and spacing but retain a dedicated orange
-  vector lightning icon for emphasis.
+- Artwork grids are physical objects, not web cards: the album/artist templates
+  render a bare cover with a soft drop shadow and a one-pixel light edge, and
+  metadata sits directly on the content well. Hover lifts the cover through the
+  shared `coverFrame` gold rim instead of growing a border around the whole
+  tile. Other interactive cards use the shared gold gradient hover border.
+  Main sidebar entries carry a source-appropriate shared vector icon; smart
+  playlists use the shared 13-px icon footprint and spacing but retain a
+  dedicated orange vector lightning icon for emphasis.
 - Every artwork card that supports double-click navigation also exposes its
   primary entity name as an `EntityLinkButtonTheme` link to the identical
   destination. Link clicks must be handled independently so they neither invoke
   the surrounding card's double-click handler nor trigger playback.
 - Non-Dashboard hero and intro surfaces use the normal card background and the
-  shared cyan-violet highlight gradient as their persistent border. They use a
+  shared gold highlight gradient as their persistent border. They use a
   consistent 14-px radius on all four corners. The artwork-backed Dashboard
   greeting hero remains visually distinct. Compact intro heroes reuse their
   matching sidebar vector icon inside a shared circular, accent-tinted badge.
@@ -1647,8 +1651,9 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   chart geometry's origin anchor so `Stretch.Fill` maps values against the full
   configured Y-axis range rather than the curve's own bounds. Clamp smoothed
   Bézier control points to each segment's endpoint range to prevent overshoot.
-  Recently Played cards must use the centralized `motionCard` border styles and
-  must not replace the gradient through pointer-event assignments.
+  Recently Played covers must use the centralized `motionCard`/`coverFrame`
+  styles and must not replace their shadow or rim through pointer-event
+  assignments.
 - Audio routing invariants remain: native ASIO/cwASIO DSD is bit-perfect;
   volume, ReplayGain, PCM boost, and equalization affect PCM paths only.
   Direct ALSA bypasses the system mixer, so `WindowsEndpointVolumeSynchronizer`

@@ -194,11 +194,9 @@ public partial class MainWindow : Window
         layout.Children.Add(content);
         return new Border
         {
-            Padding = new Thickness(12, 12, 12, 10),
-            Background = FindResource<IBrush>("AppSurfaceBrush"),
-            BorderBrush = FindResource<IBrush>("AppGridLineBrush"),
-            BorderThickness = new Thickness(1),
-            CornerRadius = new CornerRadius(14),
+            Padding = new Thickness(2, 2, 2, 10),
+            Background = Brushes.Transparent,
+            BorderThickness = new Thickness(0),
             Child = layout
         };
     }
@@ -449,9 +447,9 @@ public partial class MainWindow : Window
             Margin          = expandedSpacing
                 ? new Thickness(8, 0, 12, 20)
                 : new Thickness(8),
-            Padding         = new Thickness(10),
-            Background      = FindResource<IBrush>("AppSurfaceBrush"),
-            CornerRadius    = new CornerRadius(12),
+            Padding         = new Thickness(4),
+            Background      = Brushes.Transparent,
+            CornerRadius    = new CornerRadius(4),
             Cursor          = new Cursor(playable ? StandardCursorType.Hand : StandardCursorType.Arrow)
         };
         card.Classes.Add("motionCard");
@@ -460,11 +458,13 @@ public partial class MainWindow : Window
 
         var artHost = new Border
         {
-            Width        = artSize,
-            Height       = artSize,
-            Background   = FindResource<IBrush>("AppArtworkPlaceholderBrush"),
-            CornerRadius = new CornerRadius(9),
-            ClipToBounds = true
+            Width           = artSize,
+            Height          = artSize,
+            Background      = FindResource<IBrush>("AppArtworkPlaceholderBrush"),
+            BorderBrush     = FindResource<IBrush>("AppArtworkEdgeBrush"),
+            BorderThickness = new Thickness(1),
+            CornerRadius    = new CornerRadius(3),
+            ClipToBounds    = true
         };
         var artContent = new Grid();
 
@@ -516,7 +516,7 @@ public partial class MainWindow : Window
             Height             = artSize,
             ZIndex             = 10,
             Background         = new SolidColorBrush(Color.FromArgb(0x66, 0, 0, 0)),
-            CornerRadius       = new CornerRadius(9),
+            CornerRadius       = new CornerRadius(3),
             IsHitTestVisible   = false,
             IsVisible          = false,
             Child = new TextBlock
@@ -532,7 +532,14 @@ public partial class MainWindow : Window
             artContent.Children.Add(playOverlay);
 
         artHost.Child = artContent;
-        stack.Children.Add(artHost);
+        var artFrame = new Border
+        {
+            CornerRadius = new CornerRadius(3),
+            BoxShadow = BoxShadows.Parse("0 10 22 0 #A6000000"),
+            Child = artHost
+        };
+        artFrame.Classes.Add("coverFrame");
+        stack.Children.Add(artFrame);
 
         var titleBlock = new TextBlock
         {

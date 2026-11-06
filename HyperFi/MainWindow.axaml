@@ -155,83 +155,90 @@
                     AutomationProperties.Name="{Binding Title}"
                     Width="180"
                     MinHeight="276"
-                    Margin="8"
-                    Padding="10"
-                    Background="{DynamicResource AppSurfaceBrush}"
-                    BorderBrush="{DynamicResource AppGridLineBrush}"
-                    BorderThickness="1"
-                    CornerRadius="14">
+                    Margin="8,10"
+                    Padding="4"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    CornerRadius="4">
                 <StackPanel>
-                    <Border Width="160"
-                            Height="160"
-                            Background="{DynamicResource AppArtworkPlaceholderBrush}"
-                            CornerRadius="10"
-                            ClipToBounds="True">
-                        <Border.ContextMenu>
-                            <ContextMenu Opening="AlbumArtworkContextMenu_OnOpened">
-                                <MenuItem Header="{DynamicResource L_DeleteCover}"
-                                          Tag="{Binding}"
-                                          Click="DeleteCoverMenuItem_OnClick"/>
-                                <MenuItem Header="{DynamicResource L_ReassignCover}"
-                                          Tag="{Binding}"
-                                          Click="ReassignCoverMenuItem_OnClick"/>
-                            </ContextMenu>
-                        </Border.ContextMenu>
-                        <Grid>
-                            <controls:InitialsAvatar DisplayName="{Binding Title}"
-                                                     FontSize="{DynamicResource FontSizeDisplay}"
-                                                     IsVisible="{Binding Artwork, Converter={x:Static conv:ObjectConverters.IsNull}}"/>
-                            <Image Source="{Binding Artwork}"
-                                   Stretch="UniformToFill"/>
-                            <Border Classes="coverOverlay"
-                                    Background="#5F000000">
-                                <TextBlock Text="↗"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Top"
-                                           Margin="0,8,8,0"
-                                           FontSize="{DynamicResource FontSizeSubtitle}"
-                                           Foreground="{DynamicResource AppAccentTextBrush}"/>
-                            </Border>
-                            <Border IsVisible="{Binding Artwork, Converter={x:Static conv:ObjectConverters.IsNull}}"
-                                    VerticalAlignment="Bottom"
-                                    Padding="0,7"
-                                    Background="#59000000">
-                                <Button Content="{DynamicResource L_SearchCover}"
-                                        Tag="{Binding}"
-                                        Width="110"
-                                        Height="28"
-                                        HorizontalAlignment="Center"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Padding="0"
-                                        Background="{DynamicResource AppAccentBrush}"
-                                        Foreground="{DynamicResource AppAccentTextBrush}"
-                                        BorderThickness="0"
-                                        Cursor="Hand"
-                                        Click="SearchCoverButton_OnClick"/>
-                            </Border>
-                        </Grid>
+                    <Border Classes="coverFrame"
+                            CornerRadius="3"
+                            BoxShadow="0 10 22 0 #A6000000">
+                        <Border Width="172"
+                                Height="172"
+                                Background="{DynamicResource AppArtworkPlaceholderBrush}"
+                                BorderBrush="{DynamicResource AppArtworkEdgeBrush}"
+                                BorderThickness="1"
+                                CornerRadius="3"
+                                ClipToBounds="True">
+                            <Border.ContextMenu>
+                                <ContextMenu Opening="AlbumArtworkContextMenu_OnOpened">
+                                    <MenuItem Header="{DynamicResource L_DeleteCover}"
+                                              Tag="{Binding}"
+                                              Click="DeleteCoverMenuItem_OnClick"/>
+                                    <MenuItem Header="{DynamicResource L_ReassignCover}"
+                                              Tag="{Binding}"
+                                              Click="ReassignCoverMenuItem_OnClick"/>
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                            <Grid>
+                                <controls:InitialsAvatar DisplayName="{Binding Title}"
+                                                         FontSize="{DynamicResource FontSizeDisplay}"
+                                                         IsVisible="{Binding Artwork, Converter={x:Static conv:ObjectConverters.IsNull}}"/>
+                                <Image Source="{Binding Artwork}"
+                                       Stretch="UniformToFill"/>
+                                <Border Classes="coverOverlay"
+                                        Background="#5F000000">
+                                    <TextBlock Text="↗"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Top"
+                                               Margin="0,8,8,0"
+                                               FontSize="{DynamicResource FontSizeSubtitle}"
+                                               Foreground="{DynamicResource AppAccentTextBrush}"/>
+                                </Border>
+                                <Border IsVisible="{Binding Artwork, Converter={x:Static conv:ObjectConverters.IsNull}}"
+                                        VerticalAlignment="Bottom"
+                                        Padding="0,7"
+                                        Background="#59000000">
+                                    <Button Content="{DynamicResource L_SearchCover}"
+                                            Tag="{Binding}"
+                                            Width="110"
+                                            Height="28"
+                                            HorizontalAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Padding="0"
+                                            Background="{DynamicResource AppAccentBrush}"
+                                            Foreground="{DynamicResource AppAccentTextBrush}"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Click="SearchCoverButton_OnClick"/>
+                                </Border>
+                            </Grid>
+                        </Border>
                     </Border>
                     <Button Content="{Binding Title}"
                             Tag="{Binding}"
                             ToolTip.Tip="{Binding Title}"
-                            Margin="0,10,0,0"
+                            Margin="2,10,0,0"
                             FontSize="{DynamicResource FontSizeCaption}"
                             FontWeight="SemiBold"
+                            HorizontalContentAlignment="Left"
                             Theme="{DynamicResource EntityLinkButtonTheme}"
                             Click="AlbumLinkButton_OnClick"/>
                     <Button Content="{Binding Artist}"
                             Tag="{Binding}"
-                            Margin="0,3,0,0"
+                            Margin="2,3,0,0"
                             FontSize="{DynamicResource FontSizeMeta}"
+                            HorizontalContentAlignment="Left"
                             Foreground="{DynamicResource AppSecondaryTextBrush}"
                             Theme="{DynamicResource EntityLinkButtonTheme}"
                             Click="ArtistLinkButton_OnClick"/>
                     <TextBlock Text="{Binding Year}"
-                               Margin="0,3,0,0"
+                               Margin="2,3,0,0"
                                FontSize="{DynamicResource FontSizeMeta}"
                                Foreground="{DynamicResource AppMutedTextBrush}"/>
-                    <Grid Margin="0,2,0,0" VerticalAlignment="Center">
+                    <Grid Margin="2,4,0,0" VerticalAlignment="Center">
                         <Button Content="{Binding FavoriteGlyph}"
                                 Tag="{Binding}"
                                 Width="28"
@@ -249,23 +256,14 @@
                                 FontSize="{DynamicResource FontSizeBodyStrong}"
                                 Cursor="Hand"
                                 Click="FavoriteButton_OnClick"/>
-                        <Border HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Height="20"
-                                MinWidth="26"
-                                Padding="6,0"
-                                CornerRadius="10"
-                                Background="{DynamicResource AppSurfaceHoverBrush}"
-                                BorderBrush="{DynamicResource AppAccentBrush}"
-                                BorderThickness="1"
-                                ToolTip.Tip="{Binding SourceName}">
-                            <TextBlock Text="{Binding SourceBadge}"
-                                       FontSize="10"
-                                       FontWeight="SemiBold"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Foreground="{DynamicResource AppAccentBrush}"/>
-                        </Border>
+                        <TextBlock Text="{Binding SourceBadge}"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   LetterSpacing="0.8"
+                                   Foreground="{DynamicResource AppAccentBrush}"
+                                   ToolTip.Tip="{Binding SourceName}"/>
                     </Grid>
                 </StackPanel>
             </Border>
@@ -951,23 +949,19 @@
             <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}"/>
         </Style>
         <Style Selector="Border.motionCard">
-            <Setter Property="BorderBrush" Value="{DynamicResource AppGridLineBrush}"/>
-            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Transitions">
                 <Transitions>
                     <DoubleTransition Property="Opacity" Duration="0:0:0.14"/>
                 </Transitions>
             </Setter>
         </Style>
-        <Style Selector="ListBoxItem:pointerover Border.motionCard">
-            <Setter Property="BorderBrush" Value="{StaticResource CardHoverGradientBrush}"/>
-            <Setter Property="BorderThickness" Value="2"/>
+        <!-- Artwork behaves like a physical object: the cover lifts on hover
+             instead of the whole tile growing a web-style card border. -->
+        <Style Selector="ListBoxItem:pointerover Border.coverFrame">
+            <Setter Property="BoxShadow" Value="0 12 28 0 #B3000000, 0 0 0 1 #66E8C46A"/>
         </Style>
-        <!-- Also react when the card border itself is hovered, so the shared card
-             works outside a ListBox (e.g. the Dashboard recently-added strip). -->
-        <Style Selector="Border.motionCard:pointerover">
-            <Setter Property="BorderBrush" Value="{StaticResource CardHoverGradientBrush}"/>
-            <Setter Property="BorderThickness" Value="2"/>
+        <Style Selector="Border.coverFrame:pointerover">
+            <Setter Property="BoxShadow" Value="0 12 28 0 #B3000000, 0 0 0 1 #66E8C46A"/>
         </Style>
         <Style Selector="Border.coverOverlay">
             <Setter Property="Opacity" Value="0"/>
@@ -1089,6 +1083,12 @@
 
         <!-- ═══ SIDEBAR ═══ -->
         <Grid x:Name="SidebarPanel" Grid.Column="0" Grid.Row="0" Background="{DynamicResource AppSidebarBrush}">
+            <Border Grid.RowSpan="6"
+                    Width="1"
+                    HorizontalAlignment="Right"
+                    Background="{DynamicResource AppBevelHighlightBrush}"
+                    IsHitTestVisible="False"
+                    ZIndex="20"/>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -1421,7 +1421,7 @@
         </Grid>
 
         <!-- ═══ CONTENT ═══ -->
-        <Grid x:Name="ContentPanel" Grid.Column="1" Grid.Row="0" Background="{DynamicResource AppContentBrush}">
+        <Grid x:Name="ContentPanel" Grid.Column="1" Grid.Row="0" Background="{DynamicResource AppContentWellBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -1430,9 +1430,11 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <Border Background="{DynamicResource AppHeaderBrush}"
+            <Border Background="{DynamicResource AppHeaderSurfaceBrush}"
                     BorderThickness="0,0,0,1" BorderBrush="{DynamicResource AppHeaderBorderBrush}"
-                    Padding="28,19">
+                    Padding="28,19"
+                    ZIndex="5"
+                    BoxShadow="0 12 28 0 #B3000000">
                 <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -1819,10 +1821,10 @@
                     Margin="28,18,28,0"
                     Padding="20,12,20,10"
                     VerticalAlignment="Top"
-                    Background="{DynamicResource AppSurfaceBrush}"
-                    BorderBrush="{DynamicResource AppInputBorderBrush}"
-                    BorderThickness="1"
-                    CornerRadius="18"
+                    Background="{DynamicResource AppInsetBrush}"
+                    BorderThickness="0"
+                    CornerRadius="10"
+                    BoxShadow="inset 0 3 14 0 #A6000000"
                     ClipToBounds="True"
                     IsVisible="False">
                 <Grid>
@@ -3034,42 +3036,47 @@
                                 AutomationProperties.Name="{Binding Title}"
                                 Width="200"
                                 Height="256"
-                                Margin="8"
-                                Padding="12"
-                                Background="{DynamicResource AppSurfaceBrush}"
-                                BorderBrush="{DynamicResource AppGridLineBrush}"
-                                BorderThickness="1"
-                                CornerRadius="14">
+                                Margin="8,10"
+                                Padding="4"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                CornerRadius="4">
                             <Grid>
                                 <StackPanel>
-                                    <Border Width="176"
-                                            Height="176"
-                                            Background="{DynamicResource AppArtworkPlaceholderBrush}"
-                                            CornerRadius="10"
-                                            ClipToBounds="True">
-                                        <Grid>
-                                            <controls:InitialsAvatar DisplayName="{Binding Title}"
-                                                                     FontSize="{DynamicResource FontSizeDisplay}"
-                                                                     IsVisible="{Binding Artwork, Converter={x:Static conv:ObjectConverters.IsNull}}"/>
-                                            <Image Source="{Binding Artwork}"
-                                                   Stretch="UniformToFill"/>
-                                            <Border Classes="coverOverlay"
-                                                    Background="#52000000">
-                                                <TextBlock Text="↗"
-                                                           HorizontalAlignment="Right"
-                                                           VerticalAlignment="Top"
-                                                           Margin="0,8,8,0"
-                                                           FontSize="{DynamicResource FontSizeSubtitle}"
-                                                           Foreground="{DynamicResource AppAccentTextBrush}"/>
-                                            </Border>
-                                        </Grid>
+                                    <Border Classes="coverFrame"
+                                            CornerRadius="3"
+                                            BoxShadow="0 10 22 0 #A6000000">
+                                        <Border Width="176"
+                                                Height="176"
+                                                Background="{DynamicResource AppArtworkPlaceholderBrush}"
+                                                BorderBrush="{DynamicResource AppArtworkEdgeBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="3"
+                                                ClipToBounds="True">
+                                            <Grid>
+                                                <controls:InitialsAvatar DisplayName="{Binding Title}"
+                                                                         FontSize="{DynamicResource FontSizeDisplay}"
+                                                                         IsVisible="{Binding Artwork, Converter={x:Static conv:ObjectConverters.IsNull}}"/>
+                                                <Image Source="{Binding Artwork}"
+                                                       Stretch="UniformToFill"/>
+                                                <Border Classes="coverOverlay"
+                                                        Background="#52000000">
+                                                    <TextBlock Text="↗"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Top"
+                                                               Margin="0,8,8,0"
+                                                               FontSize="{DynamicResource FontSizeSubtitle}"
+                                                               Foreground="{DynamicResource AppAccentTextBrush}"/>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
                                     </Border>
                                     <Button Content="{Binding Title}"
                                             Tag="{Binding}"
-                                            Margin="0,10,0,0"
+                                            Margin="2,10,0,0"
                                             FontSize="{DynamicResource FontSizeCaption}"
                                             FontWeight="SemiBold"
-                                            HorizontalContentAlignment="Center"
+                                            HorizontalContentAlignment="Left"
                                             Theme="{StaticResource EntityLinkButtonTheme}"
                                             Click="ArtistLinkButton_OnClick"/>
                                     <Grid Margin="0,4,0,0" VerticalAlignment="Center">
@@ -3090,23 +3097,14 @@
                                                 FontSize="{DynamicResource FontSizeBodyStrong}"
                                                 Cursor="Hand"
                                                 Click="FavoriteButton_OnClick"/>
-                                        <Border HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                Height="20"
-                                                MinWidth="26"
-                                                Padding="6,0"
-                                                CornerRadius="10"
-                                                Background="{DynamicResource AppSurfaceHoverBrush}"
-                                                BorderBrush="{DynamicResource AppAccentBrush}"
-                                                BorderThickness="1"
-                                                ToolTip.Tip="{Binding SourceName}">
-                                            <TextBlock Text="{Binding SourceBadge}"
-                                                       FontSize="10"
-                                                       FontWeight="SemiBold"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Foreground="{DynamicResource AppAccentBrush}"/>
-                                        </Border>
+                                        <TextBlock Text="{Binding SourceBadge}"
+                                                   HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="10"
+                                                   FontWeight="SemiBold"
+                                                   LetterSpacing="0.8"
+                                                   Foreground="{DynamicResource AppAccentBrush}"
+                                                   ToolTip.Tip="{Binding SourceName}"/>
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -3760,9 +3758,10 @@
 
         <!-- ═══ TRANSPORT BAR ═══ -->
         <Border x:Name="TransportBar" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
-                Background="{DynamicResource AppTransportBrush}"
-                BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppTransportBorderBrush}"
-                Padding="22,12">
+                Background="{DynamicResource AppTransportSurfaceBrush}"
+                BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppBevelHighlightBrush}"
+                Padding="22,12"
+                BoxShadow="0 -12 28 0 #B3000000">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

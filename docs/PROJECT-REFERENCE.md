@@ -3119,7 +3119,8 @@ responsiveness, not a measured portable first-frame deadline.
   left-aligned above the value and label.
   1. **Recently played** (`DashboardBuildRecentlyPlayed`, when history exists):
      a horizontal carousel of up to 20 cards from `GetRecentHistory` (deduped by
-     path) placed beside Recently Added in a matching surface card. History
+     path) placed beside Recently Added in the same transparent section.
+     History
      cards use the same 180 × 276 proportions and 160-px cover size as album
      artwork cards. Each shows a local/remote album thumbnail or
      `InitialsAvatar`, hover play overlay, favorite heart, and an `L`, `OS`, or
@@ -3184,8 +3185,9 @@ responsiveness, not a measured portable first-frame deadline.
      `Stretch.Fill`, its geometry must retain the zero-length `M 0,0 L 0,0`
      origin anchor before the curve. Without that anchor, Avalonia normalizes
      the curve's own peak to the top and falsifies the Y scale. Recently Played
-     cards must not assign borders from pointer handlers; their normal and
-     gradient hover borders come exclusively from `motionCard` styles.
+     covers must not assign shadows or rims from pointer handlers; their
+     resting shadow and gold hover rim come exclusively from `motionCard` and
+     `coverFrame` styles.
      - **Calendar** (`DashboardBuildCalendarCard`): compact Monday-first month
        grid with day numbers, today highlight, activity dots, month navigation,
        tooltips, and clickable populated days.

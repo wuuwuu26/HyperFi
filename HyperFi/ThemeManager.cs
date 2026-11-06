@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -62,6 +63,13 @@ public static class ThemeManager
         resources["AppTransportPlayDisabledBrush"] = Brush(dark ? "#E6241E14" : "#EFE4C8");
         resources["AppTransportPlayDisabledTextBrush"] = Brush(dark ? "#4A4232" : "#B8AC90");
         resources["AppArtworkPlaceholderBrush"]  = Brush(dark ? "#CC201B12" : "#EDE4CF");
+        resources["AppContentWellBrush"]         = Gradient(dark ? "#060504" : "#F1EADA", dark ? "#15120B" : "#FDFBF4");
+        resources["AppHeaderSurfaceBrush"]       = Gradient(dark ? "#1B1610" : "#FFFFFF", dark ? "#0E0B07" : "#F4EEDF");
+        resources["AppTransportSurfaceBrush"]    = Gradient(dark ? "#18130C" : "#FFFFFF", dark ? "#090703" : "#F1EADA");
+        resources["AppInsetBrush"]               = Gradient(dark ? "#080604" : "#F2ECDE", dark ? "#18140C" : "#FBF7EC");
+        resources["AppRaisedBrush"]              = Gradient(dark ? "#241E14" : "#FFFFFF", dark ? "#15110B" : "#F6F0E2");
+        resources["AppArtworkEdgeBrush"]         = Brush(dark ? "#33FFFFFF" : "#2E000000");
+        resources["AppBevelHighlightBrush"]      = Brush(dark ? "#33FFFFFF" : "#66FFFFFF");
         resources["AppScrollbarTrackBrush"]      = Brush(dark ? "#CC14110B" : "#F5EFE0");
         resources["AppScrollbarThumbBrush"]      = Brush(dark ? "#3A3222" : "#CBBE9E");
         resources["AppScrollbarThumbHoverBrush"] = Brush(dark ? "#4E442E" : "#B3A47F");
@@ -102,6 +110,21 @@ public static class ThemeManager
     }
 
     private static SolidColorBrush Brush(string hex) => new(Color.Parse(hex));
+
+    /// <summary>Creates a vertical two-stop gradient used for raised and recessed surfaces.</summary>
+    /// <param name="top">Colour at the top edge.</param>
+    /// <param name="bottom">Colour at the bottom edge.</param>
+    /// <returns>The configured brush.</returns>
+    private static LinearGradientBrush Gradient(string top, string bottom) => new()
+    {
+        StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
+        EndPoint = new RelativePoint(0, 1, RelativeUnit.Relative),
+        GradientStops =
+        {
+            new GradientStop(Color.Parse(top), 0),
+            new GradientStop(Color.Parse(bottom), 1)
+        }
+    };
 
     private static Bitmap AssetImage(string uri) => new(AssetLoader.Open(new Uri(uri)));
 }

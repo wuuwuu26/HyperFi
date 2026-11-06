@@ -51,6 +51,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- The library no longer wraps every album, artist, or Dashboard section in a
+  bordered rounded card. Covers now sit directly on a recessed content well as
+  physical objects with a soft drop shadow, a thin light edge, and a gold rim
+  lift on hover; the header, transport, and sidebar use raised gradients and
+  bevel highlights so the window reads as layered hardware instead of a web
+  page.
 - Segmented view-mode switchers (Table/Cover, Plex, HyperFi Server, and Genre
   Cloud recommendations) now slide their gold selection pill between options
   instead of switching instantly; the motion respects **Reduce motion**.
