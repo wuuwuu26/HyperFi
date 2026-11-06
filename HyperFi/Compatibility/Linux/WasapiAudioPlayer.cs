@@ -38,6 +38,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     private long _playedFrames;
     private int _audibleTrackIndex;
     private volatile bool _paused;
+    private volatile bool _stopAfterCurrentTrack;
     private volatile float _volume = 0.0f;
     private bool _disposed;
 
@@ -107,6 +108,12 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     }
     /// <inheritdoc/>
     public float ReplayGainFactor { get; set; } = 1.0f;
+    /// <inheritdoc/>
+    public bool StopAfterCurrentTrack
+    {
+        get => _stopAfterCurrentTrack;
+        set => _stopAfterCurrentTrack = value;
+    }
 
     /// <summary>Creates a continuous direct ALSA or OpenAL playback session.</summary>
     /// <param name="items">Tracks in playback order with their ReplayGain factors.</param>
@@ -358,7 +365,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
                         decoder.Dispose();
                         decoder = null;
                         var nextIndex = writeTrackIndex + 1;
-                        if (nextIndex >= _items.Count)
+                        if (_stopAfterCurrentTrack || nextIndex >= _items.Count)
                         {
                             decoderFinished = true;
                             break;
@@ -462,7 +469,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
                     decoder.Dispose();
                     decoder = null;
                     var nextIndex = writeTrackIndex + 1;
-                    if (nextIndex >= _items.Count)
+                    if (_stopAfterCurrentTrack || nextIndex >= _items.Count)
                         break;
 
                     writeTrackIndex = nextIndex;

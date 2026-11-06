@@ -53,6 +53,14 @@ public interface IGaplessAudioPlayer : IAudioPlayer
 
     /// <summary>Technical information for the track that is currently audible.</summary>
     AudioFileInfo CurrentInfo { get; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether playback finishes after the
+    /// current track instead of continuing with the next prepared track.
+    /// Shuffle uses this to change the next track without stopping and
+    /// recreating the output device.
+    /// </summary>
+    bool StopAfterCurrentTrack { get; set; }
 }
 
 /// <summary>

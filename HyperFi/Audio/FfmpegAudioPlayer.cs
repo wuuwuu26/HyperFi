@@ -28,6 +28,7 @@ public sealed class FfmpegAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     private readonly CrossfeedProcessor _crossfeed;
     private readonly StreamingLoudnessNormalizer _loudnessNormalizer;
     private volatile bool _paused;
+    private volatile bool _stopAfterCurrentTrack;
     private long _totalFramesWritten;
     private int _audibleTrackIndex;
     private int _writeTrackIndex;
@@ -124,6 +125,12 @@ public sealed class FfmpegAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     }
     /// <inheritdoc/>
     public float ReplayGainFactor { get; set; } = 1.0f;
+    /// <inheritdoc/>
+    public bool StopAfterCurrentTrack
+    {
+        get => _stopAfterCurrentTrack;
+        set => _stopAfterCurrentTrack = value;
+    }
 
     /// <summary>Creates a continuous ASIO PCM playback session.</summary>
     /// <param name="items">Tracks in playback order with their ReplayGain factors.</param>
@@ -428,8 +435,12 @@ public sealed class FfmpegAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
 
                     _activeDecoder?.Dispose();
                     var nextIndex = _writeTrackIndex + 1;
-                    if (nextIndex >= _items.Count || preparedNext is null)
+                    if (_stopAfterCurrentTrack ||
+                        nextIndex >= _items.Count ||
+                        preparedNext is null)
+                    {
                         break;
+                    }
 
                     var prepared = await preparedNext.ConfigureAwait(false);
                     _writeTrackIndex = nextIndex;

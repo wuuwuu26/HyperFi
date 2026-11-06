@@ -47,6 +47,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     private LoudnessUpdateRequest? _pendingLoudnessUpdate;
     private int _equalizerResetRequested;
     private float _volume = 1.0f;
+    private volatile bool _stopAfterCurrentTrack;
     private bool _disposed;
 
     private WasapiAudioPlayer(
@@ -129,6 +130,12 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     }
     /// <inheritdoc/>
     public float ReplayGainFactor { get; set; } = 1.0f;
+    /// <inheritdoc/>
+    public bool StopAfterCurrentTrack
+    {
+        get => _stopAfterCurrentTrack;
+        set => _stopAfterCurrentTrack = value;
+    }
 
     /// <summary>Creates a continuous exclusive-mode WASAPI playback session.</summary>
     /// <param name="items">Tracks in playback order with their ReplayGain factors.</param>
@@ -418,8 +425,12 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
 
                     _activeDecoder?.Dispose();
                     var nextIndex = _writeTrackIndex + 1;
-                    if (nextIndex >= _items.Count || preparedNext is null)
+                    if (_stopAfterCurrentTrack ||
+                        nextIndex >= _items.Count ||
+                        preparedNext is null)
+                    {
                         break;
+                    }
 
                     var prepared = await preparedNext.ConfigureAwait(false);
                     _writeTrackIndex = nextIndex;

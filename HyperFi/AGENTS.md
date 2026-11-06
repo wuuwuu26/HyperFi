@@ -39,9 +39,15 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
 
 ## Client Invariants
 
-- Shuffle changes must refresh prepared gapless output through the existing
-  coordinator, preserving position, pause and start ownership. Automatic queue
-  advancement must include forward shuffle history after Previous.
+- Shuffle changes must never stop or recreate the active output. The gapless
+  players keep their prepared item list and expose
+  `IGaplessAudioPlayer.StopAfterCurrentTrack`, which the window sets from
+  `_shuffleEnabled` on creation and on every toggle; the track then ends
+  normally and the existing non-gapless advance picks the shuffled successor.
+  Rebuild through the gapless coordinator only when a stale prepared snapshot
+  would still play queue-order successors after shuffle is turned off, and
+  compare paths without resolving ReplayGain. Automatic queue advancement must
+  include forward shuffle history after Previous.
 
 - Genre Cloud shares local facet input only until catalog/profile invalidation.
   Resolve selected albums by ID and load independent sources concurrently; never

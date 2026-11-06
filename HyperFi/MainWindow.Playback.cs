@@ -627,7 +627,10 @@ public partial class MainWindow : Window
             ClearReleasedOutputResumeState();
             UpdateOutputDeviceLockButton();
             if (player is IGaplessAudioPlayer gaplessPlayer)
+            {
+                gaplessPlayer.StopAfterCurrentTrack = _shuffleEnabled;
                 gaplessPlayer.TrackChanged += GaplessPlayer_OnTrackChanged;
+            }
             if (!await _playbackSession.SeekAsync(intent, player, initialPosition))
                 return null;
             if (!_playbackStarts.IsCurrent(intent) || !ReferenceEquals(_player, player))
@@ -666,7 +669,7 @@ public partial class MainWindow : Window
             if (!_playbackStarts.IsCurrent(intent) || !ReferenceEquals(_player, player))
                 return null;
             if (player is IGaplessAudioPlayer && radioStation is null && podcastPlayback is null &&
-                !_preparedGaplessQueuePaths.SequenceEqual(BuildGaplessPlaybackItems(filePath, true).Select(item => item.FilePath)))
+                !_preparedGaplessQueuePaths.SequenceEqual(BuildGaplessQueuePaths(filePath, true)))
             {
                 initialPosition = player.Position;
                 ((IGaplessAudioPlayer)player).TrackChanged -= GaplessPlayer_OnTrackChanged;
@@ -693,12 +696,12 @@ public partial class MainWindow : Window
     {
         while (_playbackStarts.IsCurrent(intent))
         {
-            var paths = BuildGaplessPlaybackItems(filePath, allowQueuedTracks).Select(item => item.FilePath).ToArray();
+            var paths = BuildGaplessQueuePaths(filePath, allowQueuedTracks);
             var created = await _playbackStarts.CreateAsync(intent,
                 captured => _playbackPlayerFactory(filePath, allowQueuedTracks, captured), token, _audioPlayerRetirement);
             if (created is not { } result) return null;
             if (result.Player is not IGaplessAudioPlayer ||
-                paths.SequenceEqual(BuildGaplessPlaybackItems(filePath, allowQueuedTracks).Select(item => item.FilePath)))
+                paths.SequenceEqual(BuildGaplessQueuePaths(filePath, allowQueuedTracks)))
             {
                 _preparedGaplessQueuePaths = paths;
                 return result;
@@ -842,6 +845,23 @@ public partial class MainWindow : Window
         string currentFilePath,
         bool allowQueuedTracks)
     {
+        var paths = BuildGaplessQueuePaths(currentFilePath, allowQueuedTracks);
+        var items = new List<GaplessPlaybackItem>(paths.Length);
+        foreach (var path in paths)
+            items.Add(ResolveGaplessPlaybackItem(path));
+        return items;
+    }
+
+    /// <summary>
+    /// Resolves only the ordered paths a gapless session would prepare. This is
+    /// the cheap half of <see cref="BuildGaplessPlaybackItems"/> used to compare
+    /// snapshots without repeated ReplayGain lookups.
+    /// </summary>
+    /// <param name="currentFilePath">Current resolved track path.</param>
+    /// <param name="allowQueuedTracks">Whether queued successors may be included.</param>
+    /// <returns>The ordered gapless paths, always starting with the current track.</returns>
+    private string[] BuildGaplessQueuePaths(string currentFilePath, bool allowQueuedTracks)
+    {
         if (!allowQueuedTracks ||
             _shuffleEnabled ||
             _queueIndex < 0 ||
@@ -851,10 +871,10 @@ public partial class MainWindow : Window
                 currentFilePath,
                 StringComparison.OrdinalIgnoreCase))
         {
-            return [ResolveGaplessPlaybackItem(currentFilePath)];
+            return [currentFilePath];
         }
 
-        var items = new List<GaplessPlaybackItem>();
+        var paths = new List<string>();
         for (var index = _queueIndex; index < _queue.Count; index++)
         {
             var path = _queue[index].FilePath;
@@ -867,12 +887,10 @@ public partial class MainWindow : Window
                 break;
             }
 
-            items.Add(ResolveGaplessPlaybackItem(path));
+            paths.Add(path);
         }
 
-        return items.Count == 0
-            ? [ResolveGaplessPlaybackItem(currentFilePath)]
-            : items;
+        return paths.Count == 0 ? [currentFilePath] : [.. paths];
     }
 
     /// <summary>

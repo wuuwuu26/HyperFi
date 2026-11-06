@@ -692,12 +692,57 @@ public partial class MainWindow : Window
     /// <summary>Applies shuffle immediately to navigation and the prepared gapless output.</summary>
     /// <param name="sender">The shuffle button.</param>
     /// <param name="e">The routed click event.</param>
-    private async void ShuffleButton_OnClick(object? sender, RoutedEventArgs e)
+    private void ShuffleButton_OnClick(object? sender, RoutedEventArgs e)
     {
         _shuffleEnabled = !_shuffleEnabled;
+        // The prepared gapless session keeps its queued tracks. Toggling shuffle
+        // only changes whether it may advance into them, so the output device is
+        // never stopped and recreated on a click.
+        ApplyShuffleBoundaryToActiveGaplessPlayer();
         ResetShuffleHistory();
         UpdateShuffleButton();
         RefreshQueueNavigationButtons();
+        if (!_shuffleEnabled)
+            RefreshGaplessQueueIfSnapshotIsStale();
+    }
+
+    /// <summary>Limits the active gapless session to the current track while shuffle is enabled.</summary>
+    private void ApplyShuffleBoundaryToActiveGaplessPlayer()
+    {
+        if (_player is IGaplessAudioPlayer gapless)
+            gapless.StopAfterCurrentTrack = _shuffleEnabled;
+    }
+
+    /// <summary>
+    /// Rebuilds gapless output only when the queue changed while shuffle was on
+    /// and the prepared successors no longer match the live queue.
+    /// </summary>
+    private void RefreshGaplessQueueIfSnapshotIsStale()
+    {
+        if (_player is not IGaplessAudioPlayer ||
+            string.IsNullOrWhiteSpace(_currentFilePath) ||
+            _preparedGaplessQueuePaths.Length <= 1)
+        {
+            return;
+        }
+
+        // A gapless session may have advanced since it was prepared, so compare
+        // the prepared suffix that starts at the audible track.
+        var start = Array.FindIndex(
+            _preparedGaplessQueuePaths,
+            path => string.Equals(path, _currentFilePath, StringComparison.OrdinalIgnoreCase));
+        if (start < 0 ||
+            !_preparedGaplessQueuePaths.AsSpan(start).SequenceEqual(
+                BuildGaplessQueuePaths(_currentFilePath, true)))
+        {
+            _ = RefreshGaplessQueueAfterShuffleAsync();
+        }
+    }
+
+    /// <summary>Rebuilds the gapless session after a stale shuffle snapshot without blocking the click.</summary>
+    /// <returns>The refresh lifetime; failures are logged only.</returns>
+    private async Task RefreshGaplessQueueAfterShuffleAsync()
+    {
         try { await RefreshActiveGaplessQueueAsync(); }
         catch (OperationCanceledException) { }
         catch (Exception ex) { CrashLogger.Log(ex, "Shuffle gapless refresh"); }

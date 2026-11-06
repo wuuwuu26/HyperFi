@@ -31,6 +31,10 @@ public partial class MainWindow : Window
         };
         var transform = new TranslateTransform();
         thumb.RenderTransform = transform;
+        // The stack is still attached to the container here. Adding it to the
+        // grid before replacing the container's child would fail validation
+        // because a visual can only have one parent; detach it first.
+        container.Child = null;
         var grid = new Grid();
         grid.Children.Add(thumb);
         grid.Children.Add(stack);

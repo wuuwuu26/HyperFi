@@ -101,6 +101,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- Toggling **Shuffle** no longer stops and recreates the audio output, so the
+  click no longer causes a playback stutter or a UI pause. The prepared gapless
+  session now stops after the current track while shuffle is on, and gapless
+  snapshot checks compare paths without repeated ReplayGain database lookups.
+- The desktop no longer crashes on startup after the segmented view-mode pill
+  change. The radio-button stack is detached from its outer border before it is
+  moved into the pill grid, so Avalonia no longer rejects the second visual
+  parent.
 - The sidebar logo now uses a trimmed asset, so the icon is fully visible
   instead of being clipped. The output-device line wraps to show the complete
   device name, and the icon and wordmark carry a slow gold glow that is disabled

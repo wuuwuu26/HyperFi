@@ -2417,7 +2417,9 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   history, and persisted settings together.
 - The gapless PCM players receive an immutable item list at startup. Mutating an
   active gapless queue therefore restarts the current stream and seeks back to
-  its audible position so the revised order takes effect immediately.
+  its audible position so the revised order takes effect immediately. Shuffle is
+  the exception: it only flips `StopAfterCurrentTrack`, because the following
+  track is chosen from the live queue instead of the prepared list.
 - **Restore last queue**: `CapturePlaybackQueueState` detects a wholesale queue
   replacement (the new queue shares no path with the outgoing one) and stores
   the outgoing queue via `AudioDatabase.SavePreviousPlaybackQueue` (kept in
@@ -2656,8 +2658,14 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   device. Audible track changes are derived from rendered/buffered frame counts
   so transport metadata and playback history change at the actual boundary.
 - Gapless playback is disabled for shuffle queues and native ASIO DSD (DSF/DFF).
-  Changing Shuffle refreshes already prepared output through the shared gapless
-  refresh coordinator, preserving current position and pause state. Automatic
+  Toggling Shuffle never stops or recreates the output device: the gapless
+  players expose `IGaplessAudioPlayer.StopAfterCurrentTrack`, and the window
+  sets it from `_shuffleEnabled` so a prepared queue stops at the end of the
+  current track while shuffle is on. The next track is then chosen by the
+  existing shuffle advance. Only a stale prepared snapshot, meaning the queue
+  changed while shuffle was on, is rebuilt through the shared gapless refresh
+  coordinator after shuffle is turned off; snapshot checks compare paths with
+  `BuildGaplessQueuePaths` so they never resolve ReplayGain. Automatic
   advancement includes forward shuffle history after Previous. Those paths
   retain title-by-title device handling; DSD converted to PCM through WASAPI
   participates in the PCM gapless pipeline.

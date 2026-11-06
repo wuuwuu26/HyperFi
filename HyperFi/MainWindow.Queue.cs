@@ -629,9 +629,29 @@ public partial class MainWindow : Window
             () => _player is IGaplessAudioPlayer && !string.IsNullOrWhiteSpace(_currentFilePath),
             JoinCurrentPlaybackPreparation, PrepareGaplessQueueRefresh,
             _playbackStarts.IsCurrent,
-            () => _preparedGaplessQueuePaths.SequenceEqual(
-                BuildGaplessPlaybackItems(_currentFilePath!, true).Select(item => item.FilePath))))
+            () => IsPreparedGaplessSnapshotCurrent(_currentFilePath!)))
             .RefreshAsync();
+    }
+
+    /// <summary>
+    /// Checks whether the prepared gapless session already covers every track
+    /// the live queue would admit. Under shuffle the session stops after the
+    /// current track, so only its first path has to match.
+    /// </summary>
+    /// <param name="currentFilePath">Current resolved track path.</param>
+    /// <returns>Whether another rebuild would change what can be played.</returns>
+    private bool IsPreparedGaplessSnapshotCurrent(string currentFilePath)
+    {
+        if (_shuffleEnabled)
+        {
+            return _preparedGaplessQueuePaths.Length > 0 &&
+                string.Equals(
+                    _preparedGaplessQueuePaths[0],
+                    currentFilePath,
+                    StringComparison.OrdinalIgnoreCase);
+        }
+        return _preparedGaplessQueuePaths.SequenceEqual(
+            BuildGaplessQueuePaths(currentFilePath, true));
     }
 
     /// <summary>Adapts pending gapless seek preparation without creating another start.</summary>
