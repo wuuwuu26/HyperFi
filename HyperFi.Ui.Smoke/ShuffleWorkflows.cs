@@ -11,7 +11,7 @@ internal static class ShuffleWorkflows
 {
     private const BindingFlags Private = BindingFlags.Instance | BindingFlags.NonPublic;
 
-    /// <summary>Exercises mode refresh, duplicate exclusion, exhaustion and replay history on synthetic queues.</summary>
+    /// <summary>Exercises mode toggling, duplicate exclusion, exhaustion and replay history on synthetic queues.</summary>
     internal static void Run()
     {
         var window = new MainWindow();
@@ -32,7 +32,8 @@ internal static class ShuffleWorkflows
             button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             Check(!(bool)Get("_shuffleEnabled"), "Shuffle control did not disable the mode.");
         }
-        Check(refreshes == 14, "Shuffle control omitted the prepared-output refresh.");
+        Check(refreshes == 0,
+            "Shuffle control rebuilt prepared output instead of stopping after the current track.");
         var queue = (IList<PlaylistItem>)Get("_queue");
         queue.Clear();
         foreach (var path in new[] { "synthetic-a.flac", "synthetic-a.flac", "synthetic-b.flac", "synthetic-c.flac" })
@@ -60,7 +61,7 @@ internal static class ShuffleWorkflows
         Check((bool)Call("HasNextQueueItem")!, "Automatic advancement lost forward shuffle history.");
         Check((bool)Call("TryMoveToNextQueueIndex")!, "Shuffle history lost Next after Previous.");
         Check(!(bool)Call("TryMoveToNextQueueIndex")!, "Shuffle restarted an exhausted queue.");
-        Console.WriteLine("PASS: shuffle refreshes output across views and preserves distinct-track history");
+        Console.WriteLine("PASS: shuffle toggles without rebuilding output and preserves distinct-track history");
     }
 
     /// <summary>Rejects a failed synthetic workflow invariant.</summary>
