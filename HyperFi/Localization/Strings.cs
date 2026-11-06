@@ -331,6 +331,8 @@ public sealed record LocalizedStrings(
     public string DsdToPcmOutput { get; init; } = "";
     /// <summary>Gets the short transport label for bit-perfect DoP output.</summary>
     public string DopOutput { get; init; } = "";
+    public string BitDepthFormat { get; init; } = "";
+    public string ChannelCountFormat { get; init; } = "";
     /// <summary>Gets the message shown when DoP is selected without direct ALSA output.</summary>
     public string DopRequiresDirectAlsa { get; init; } = "";
     /// <summary>Gets the ReplayGain settings label.</summary>

@@ -354,15 +354,9 @@ public partial class MainWindow : Window
 #else
         const bool usesDop = false;
 #endif
-        FileInfoTextBlock.Text = player is BrowserAudioPlayer browserOutput ? browserOutput.OutputFormat : usesDop
-            ? $"{info.ContainerName.ToUpperInvariant()}  ·  {info.SourceSampleRate:N0} Hz  ·  {LocalizationManager.Current.DopOutput} ({info.OutputSampleRate:N0} Hz)"
-            : usesNativeDsd
-            ? $"{info.ContainerName.ToUpperInvariant()}  ·  {info.SourceSampleRate:N0} Hz  ·  {LocalizationManager.Current.NativeDsdOutput}"
-            : info.IsDsd
-                ? $"{info.ContainerName.ToUpperInvariant()}  ·  {LocalizationManager.Current.DsdToPcmOutput}  ·  {info.OutputSampleRate:N0} Hz"
-                : info.SourceSampleRate != info.OutputSampleRate
-                    ? $"{info.CodecName.ToUpperInvariant()}  ·  {info.SourceSampleRate:N0} Hz → {info.OutputSampleRate:N0} Hz  ·  {info.Channels} ch"
-                    : $"{info.CodecName.ToUpperInvariant()}  ·  {info.SourceSampleRate:N0} Hz  ·  {info.Channels} ch";
+        FileInfoTextBlock.Text = player is BrowserAudioPlayer browserOutput
+            ? browserOutput.OutputFormat
+            : FormatFileInfo(info, usesDop, usesNativeDsd);
         if (radioStation is null && podcastPlayback is null)
         {
             _currentNowPlayingProvider = _localNowPlayingProvider;
@@ -1267,6 +1261,55 @@ public partial class MainWindow : Window
         });
     }
 
+    /// <summary>Formats the transport's codec, rate, and channel summary with localized units.</summary>
+    /// <param name="info">Decoded track information.</param>
+    /// <param name="usesDop">Whether DoP transport is active.</param>
+    /// <param name="usesNativeDsd">Whether native DSD output is active.</param>
+    /// <returns>The display text.</returns>
+    private static string FormatFileInfo(AudioFileInfo info, bool usesDop, bool usesNativeDsd)
+    {
+        var channels = string.Format(LocalizationManager.Current.ChannelCountFormat, info.Channels);
+        var sourceRate = FormatKhz(info.SourceSampleRate);
+        var outputRate = FormatKhz(info.OutputSampleRate);
+        if (usesDop)
+        {
+            return $"{info.ContainerName.ToUpperInvariant()}  ·  {sourceRate}  ·  " +
+                   $"{LocalizationManager.Current.DopOutput} ({outputRate})  ·  {channels}";
+        }
+        if (usesNativeDsd)
+        {
+            return $"{info.ContainerName.ToUpperInvariant()}  ·  {sourceRate}  ·  " +
+                   $"{LocalizationManager.Current.NativeDsdOutput}  ·  {channels}";
+        }
+        if (info.IsDsd)
+        {
+            return $"{info.ContainerName.ToUpperInvariant()}  ·  " +
+                   $"{LocalizationManager.Current.DsdToPcmOutput}  ·  {outputRate}  ·  {channels}";
+        }
+        var codec = FormatCodec(info.CodecName);
+        return info.SourceSampleRate != info.OutputSampleRate
+            ? $"{codec}  ·  {sourceRate} → {outputRate}  ·  {channels}"
+            : $"{codec}  ·  {sourceRate}  ·  {channels}";
+    }
+
+    private static string FormatCodec(string codecName)
+    {
+        var codec = codecName.ToUpperInvariant();
+        if (!codec.StartsWith("PCM_", StringComparison.Ordinal))
+            return codec;
+        var suffix = codec["PCM_".Length..];
+        var digits = new string(suffix
+            .SkipWhile(character => !char.IsAsciiDigit(character))
+            .TakeWhile(char.IsAsciiDigit)
+            .ToArray());
+        return int.TryParse(digits, out var bits)
+            ? $"PCM  ·  {string.Format(LocalizationManager.Current.BitDepthFormat, bits)}"
+            : "PCM";
+    }
+
+    private static string FormatKhz(int rate) =>
+        $"{rate / 1000.0:0.###} kHz";
+
     private void UpdateGaplessNowPlaying(string filePath, AudioFileInfo info)
     {
         var metadata = GetPlaylistMetadata(filePath);
@@ -1274,11 +1317,7 @@ public partial class MainWindow : Window
         NowPlayingTitleBlock.Text = filename;
         NowPlayingArtistBlock.Text = metadata?.Artist ?? SelectedDriverTextBlock.Text;
         ClearNowPlayingAlbum();
-        FileInfoTextBlock.Text = info.IsDsd
-            ? $"{info.ContainerName.ToUpperInvariant()}  ·  {LocalizationManager.Current.DsdToPcmOutput}  ·  {info.OutputSampleRate:N0} Hz"
-            : info.SourceSampleRate != info.OutputSampleRate
-                ? $"{info.CodecName.ToUpperInvariant()}  ·  {info.SourceSampleRate:N0} Hz → {info.OutputSampleRate:N0} Hz  ·  {info.Channels} ch"
-                : $"{info.CodecName.ToUpperInvariant()}  ·  {info.SourceSampleRate:N0} Hz  ·  {info.Channels} ch";
+        FileInfoTextBlock.Text = FormatFileInfo(info, usesDop: false, usesNativeDsd: false);
 
         _currentNowPlayingProvider = _localNowPlayingProvider;
         _currentHyperFiTrackRow = null;
