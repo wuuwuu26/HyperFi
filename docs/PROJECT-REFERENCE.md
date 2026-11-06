@@ -55,6 +55,13 @@ separate output types even though both retain the persisted
 routing discriminator: `alsa:` identifies direct ALSA; every other Linux device
 ID uses OpenAL. Existing profiles must be classified from that ID.
 
+Direct ALSA bypasses the system mixer, so while such a profile is selected the
+client mirrors the PipeWire/PulseAudio default sink volume through `pactl`:
+system volume and mute changes drive the software PCM gain, and HyperFi volume
+changes are written back to the default sink. The synchronizer is a mirror, not
+part of the audio path, and OpenAL profiles keep their normal system-mixed
+volume.
+
 macOS desktop builds target `net10.0` for `osx-arm64` and `osx-x64`. PCM
 playback uses Apple's system OpenAL framework. FFmpeg/FFprobe discovery checks
 the application and per-user cache, inherited `PATH`, and conventional Homebrew,

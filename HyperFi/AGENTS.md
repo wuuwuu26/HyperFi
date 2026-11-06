@@ -1638,6 +1638,11 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   must not replace the gradient through pointer-event assignments.
 - Audio routing invariants remain: native ASIO/cwASIO DSD is bit-perfect;
   volume, ReplayGain, PCM boost, and equalization affect PCM paths only.
+  Direct ALSA bypasses the system mixer, so `WindowsEndpointVolumeSynchronizer`
+  mirrors the PipeWire/PulseAudio default sink volume through `pactl` while an
+  `alsa:` profile is selected. The mirror drives the software PCM gain and
+  writes slider changes back to the default sink; it must never claim to be
+  part of the audio path, and OpenAL profiles keep their system-mixed volume.
 - The persisted DoP preference and forced DSD-to-PCM conversion are mutually
   exclusive. DoP is bit-perfect encapsulation and must bypass PCM gain and
   equalizer processing. Linux local and HTTP-range-streamed stereo DSF DoP uses

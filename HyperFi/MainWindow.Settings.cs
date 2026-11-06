@@ -54,7 +54,9 @@ public partial class MainWindow : Window
             if (!_updatingVolumeFromSystem)
                 _endpointVolumeSynchronizer.SetVolume((float)VolumeSlider.Value);
             if (_player is not null)
-                _player.Volume = 1.0f;
+                _player.Volume = _endpointVolumeSynchronizer.AppliesToOutputPath
+                    ? 1.0f
+                    : (float)VolumeSlider.Value;
         }
         else if (_player is not null)
         {
@@ -73,7 +75,9 @@ public partial class MainWindow : Window
         if (previous is not null)
             _ = Task.Run(() => DisposeEndpointSynchronizer(previous));
         if (_browserAudioClientId is not null || _settings.OutputBackend != OutputBackend.Wasapi ||
-            string.IsNullOrWhiteSpace(_settings.SelectedWasapiDeviceId))
+            string.IsNullOrWhiteSpace(_settings.SelectedWasapiDeviceId) ||
+            !WindowsEndpointVolumeSynchronizer.SupportsEndpointVolume(
+                _settings.SelectedWasapiDeviceId))
         {
             return;
         }
@@ -96,7 +100,7 @@ public partial class MainWindow : Window
             synchronizer.VolumeChanged += EndpointVolumeSynchronizer_OnVolumeChanged;
             _endpointVolumeSynchronizer = synchronizer;
             var volume = await Task.Run(() => synchronizer.Volume);
-            ApplySystemVolume(volume);
+            ApplySystemVolume(volume, pushToEndpoint: false);
         }
         catch
         {
@@ -150,9 +154,15 @@ public partial class MainWindow : Window
     }
 
     private void EndpointVolumeSynchronizer_OnVolumeChanged(object? sender, float volume) =>
-        Dispatcher.UIThread.Post(() => ApplySystemVolume(volume));
+        Dispatcher.UIThread.Post(() => ApplySystemVolume(volume, pushToEndpoint: false));
 
-    private void ApplySystemVolume(float volume)
+    /// <summary>Applies a volume reported by MPRIS or the platform endpoint.</summary>
+    /// <param name="volume">Linear volume from 0.0 to 1.0.</param>
+    /// <param name="pushToEndpoint">
+    /// Whether the value should also be written to the synchronized endpoint. Endpoint
+    /// callbacks pass <see langword="false"/> so they do not echo back into the system mixer.
+    /// </param>
+    private void ApplySystemVolume(float volume, bool pushToEndpoint = true)
     {
         _updatingVolumeFromSystem = true;
         try
@@ -165,6 +175,9 @@ public partial class MainWindow : Window
         {
             _updatingVolumeFromSystem = false;
         }
+
+        if (pushToEndpoint && _endpointVolumeSynchronizer is not null)
+            _endpointVolumeSynchronizer.SetVolume(volume);
     }
 
     private float GetReplayGainFactor(string filePath)

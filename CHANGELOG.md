@@ -34,6 +34,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Lyrics whose LRC timestamps were stored in the plain-text field are now parsed
   as synchronized lyrics instead of showing the raw `[mm:ss.xx]` markers, so the
   dynamic highlight works for embedded and previously cached lyrics too.
+- Direct ALSA playback now mirrors the PipeWire/PulseAudio default sink volume
+  through `pactl`, so desktop volume and mute keys keep working while HyperFi
+  bypasses the system mixer. Changing HyperFi's own volume writes the value back
+  to the default sink, and OpenAL profiles keep their normal system-mixed
+  volume.
 - The interface uses a warm gold accent on translucent surfaces over a subtle
   gradient, replacing the previous blue-grey palette. The wordmark, dashboard
   hero artwork, About logos, statistic icons, secondary buttons and dialog

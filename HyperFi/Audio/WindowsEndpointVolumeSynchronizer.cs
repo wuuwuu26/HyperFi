@@ -21,6 +21,14 @@ internal sealed class WindowsEndpointVolumeSynchronizer : IDisposable
         _endpointVolume.OnVolumeNotification += EndpointVolume_OnVolumeNotification;
     }
 
+    /// <summary>Gets whether a device identifier can be mirrored through the system endpoint.</summary>
+    /// <param name="deviceId">Selected output device identifier.</param>
+    /// <returns>Always <see langword="true"/> because every Windows render endpoint exposes master volume.</returns>
+    internal static bool SupportsEndpointVolume(string deviceId) => true;
+
+    /// <summary>Gets whether the endpoint volume is already part of the audio path.</summary>
+    internal bool AppliesToOutputPath => true;
+
     /// <summary>Raised when Windows reports a new master-volume value.</summary>
     internal event EventHandler<float>? VolumeChanged;
 

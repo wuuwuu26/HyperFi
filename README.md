@@ -640,6 +640,8 @@ byte-range streaming without FFmpeg.
 
 - Playback through direct ALSA or OpenAL on Linux, and through cwASIO, the
   optional Steinberg ASIO bridge, or exclusive-mode WASAPI on Windows
+- Direct ALSA follows the system output volume, so desktop volume and mute keys
+  keep working while HyperFi bypasses PipeWire/PulseAudio
 - Classic AirPlay playback through automatically discovered RAOP receivers on
   Windows, Linux, and macOS when a compatible `raop_play` helper is installed
 - Automatic PCM down-conversion through `ffmpeg` when the source sample rate
@@ -1375,6 +1377,8 @@ development environments, `C:\Dev\asiosdk_2.3`. When no SDK is found, only
 - FFmpeg and FFprobe available on `PATH`
 - ALSA runtime (`libasound.so.2`) for direct PCM, native DSD, and DoP output
 - OpenAL runtime (`libopenal.so.1`) for the optional system-routed output
+- `pactl` from PulseAudio or PipeWire tools for volume-key mirroring with direct
+  ALSA
 - A DAC/ALSA endpoint advertising `DSD_U32_BE` for native DSD, or a DoP-capable
   DAC for fallback playback
 
