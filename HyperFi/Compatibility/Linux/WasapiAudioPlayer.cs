@@ -31,6 +31,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
     private readonly int _maxOutputSampleRateHz;
     private bool _equalizerEnabled;
     private EqualizerProfile? _equalizerProfile;
+    private readonly PipeWireExclusiveHandoff? _systemMixerHandoff;
     private readonly Task _pumpTask;
     private EqualizerUpdateRequest? _pendingEqualizerUpdate;
     private SeekRequest? _pendingSeek;
@@ -50,7 +51,8 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
         bool equalizerEnabled,
         EqualizerProfile? equalizerProfile,
         string alsaDeviceName,
-        int maxOutputSampleRateHz)
+        int maxOutputSampleRateHz,
+        PipeWireExclusiveHandoff? systemMixerHandoff)
     {
         _items = items;
         _infos = new AudioFileInfo?[items.Count];
@@ -64,6 +66,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
         _maxOutputSampleRateHz = maxOutputSampleRateHz;
         _equalizerEnabled = equalizerEnabled;
         _equalizerProfile = equalizerProfile?.Clone();
+        _systemMixerHandoff = systemMixerHandoff;
         _equalizer = new ParametricEqualizer(sampleRate, _equalizerEnabled, _equalizerProfile);
         _pumpTask = Task.Run(PumpAsync);
     }
@@ -137,7 +140,20 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
 
         if (deviceId.StartsWith("alsa:", StringComparison.Ordinal))
         {
-            var pcm = AlsaNative.OpenExact(deviceId["alsa:".Length..], sourceRate);
+            // PipeWire/PulseAudio normally keep the USB DAC open even when idle.
+            // Release the matching card profile before opening the exclusive
+            // hardware PCM, then restore it when this player is retired.
+            var handoff = PipeWireExclusiveHandoff.TrySuspend(deviceId);
+            nint pcm;
+            try
+            {
+                pcm = AlsaNative.OpenExact(deviceId["alsa:".Length..], sourceRate);
+            }
+            catch
+            {
+                handoff?.Dispose();
+                throw;
+            }
             info = info with { OutputSampleRate = sourceRate };
             var alsaPlayer = new WasapiAudioPlayer(
                 items,
@@ -149,7 +165,8 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
                 equalizerEnabled,
                 equalizerProfile,
                 deviceId["alsa:".Length..],
-                maxOutputSampleRateHz);
+                maxOutputSampleRateHz,
+                handoff);
             try
             {
                 await alsaPlayer._started.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -198,7 +215,8 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
             equalizerEnabled,
             equalizerProfile,
             string.Empty,
-            maxOutputSampleRateHz);
+            maxOutputSampleRateHz,
+            null);
         try
         {
             await player._started.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -273,6 +291,7 @@ public sealed class WasapiAudioPlayer : IGaplessAudioPlayer, IEqualizerAudioPlay
         _disposed = true;
         _cts.Cancel();
         try { _pumpTask.Wait(TimeSpan.FromSeconds(2)); } catch (AggregateException) { }
+        _systemMixerHandoff?.Dispose();
         _cts.Dispose();
     }
 

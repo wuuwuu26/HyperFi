@@ -7,6 +7,7 @@ using Avalonia.Headless;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Styling;
 using Avalonia.VisualTree;
 using Avalonia.Threading;
 using HyperFi.Localization;
@@ -95,8 +96,12 @@ internal static class EmptyLibraryWorkflows
                 }
                 var hintText = ((StackPanel)hint.Content!).Children.OfType<TextBlock>().Single();
                 Check((hint.Transitions?.Count ?? 0) == 0, "Reduced-motion setup retained row transitions.");
+                var baseBackground = Application.Current!.ActualThemeVariant == ThemeVariant.Dark
+                    ? Color.FromRgb(12, 10, 6)
+                    : Color.FromRgb(253, 251, 244);
                 Check(Contrast(((ISolidColorBrush)hintText.Foreground!).Color,
-                    ((ISolidColorBrush)host.Background).Color) >= 4.5, "Setup text contrast is too low.");
+                    OpaqueOver(((ISolidColorBrush)host.Background).Color, baseBackground)) >= 4.5,
+                    "Setup text contrast is too low.");
                 Check(hintText.Text == LocalizationManager.Current.LibraryEmptyHint,
                     "Setup hint failed runtime language refresh.");
                 Check(((TextBlock)folders.Content!).Text == LocalizationManager.Current.Directories &&
@@ -490,6 +495,21 @@ internal static class EmptyLibraryWorkflows
             Contrast(accent.Color, fill.Color) >= 3, "Setup focus text or border contrast is too low.");
         Check((border.Transitions?.Count ?? 0) == 0, "Setup keyboard focus retained animated transitions.");
         Check(button.FocusAdorner is null, "Setup action retained a duplicate focus outline.");
+    }
+
+    /// <summary>Composites a translucent surface over an opaque base for contrast checks.</summary>
+    /// <param name="color">Surface color, possibly translucent.</param>
+    /// <param name="background">Opaque base color.</param>
+    /// <returns>An opaque composited color.</returns>
+    private static Color OpaqueOver(Color color, Color background)
+    {
+        if (color.A == 255)
+            return color;
+        var alpha = color.A / 255d;
+        byte Blend(byte top, byte bottom) =>
+            (byte)Math.Round(top * alpha + bottom * (1 - alpha));
+        return Color.FromArgb(255, Blend(color.R, background.R),
+            Blend(color.G, background.G), Blend(color.B, background.B));
     }
 
     /// <summary>Computes opaque sRGB contrast from relative luminance.</summary>

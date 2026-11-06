@@ -3,7 +3,9 @@ using Avalonia.Controls.ApplicationLifetimes;
 using HyperFi.Localization;
 using HyperFi.Streaming;
 using HyperFi.Updates;
+using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace HyperFi;
 
@@ -31,7 +33,27 @@ public partial class AboutWindow : Window
         _updatePublicKey = assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
             .FirstOrDefault(attribute => attribute.Key == "HyperFiUpdatePublicKey")?.Value ?? string.Empty;
         VersionTextBlock.Text = string.Format(LocalizationManager.Current.VersionLabel, _version);
+        BuildInfoTextBlock.Text = string.Join(
+            " · ",
+            RuntimeInformation.FrameworkDescription,
+            RuntimeInformation.OSDescription,
+            RuntimeInformation.ProcessArchitecture.ToString());
         Opened += (_, _) => WindowChrome.ApplyTheme(this);
+    }
+
+    private void OpenLinkButton_OnClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string url } ||
+            !Uri.TryCreate(url, UriKind.Absolute, out var uri))
+            return;
+
+        try
+        {
+            Process.Start(new ProcessStartInfo(uri.AbsoluteUri) { UseShellExecute = true });
+        }
+        catch (Exception exception) when (exception is System.ComponentModel.Win32Exception or InvalidOperationException)
+        {
+        }
     }
 
     private async void CheckForUpdatesButton_OnClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

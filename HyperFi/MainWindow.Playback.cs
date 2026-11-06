@@ -832,34 +832,13 @@ public partial class MainWindow : Window
             }
             else
 #endif
-            {
-                try
-                {
-                    (player, info) = await WasapiAudioPlayer.CreateAsync(
-                        gaplessItems,
-                        _settings.SelectedWasapiDeviceId,
-                        _settings.EqualizerEnabled,
-                        _settings.EqualizerProfile,
-                        cancellationToken,
-                        _settings.MaxOutputSampleRateHz);
-                }
-                catch (AlsaDeviceBusyException) when (
-                    OperatingSystem.IsLinux() &&
-                    _settings.SelectedWasapiDeviceId.StartsWith("alsa:", StringComparison.Ordinal))
-                {
-                    // Direct ALSA is exclusive; PipeWire or another process may already
-                    // own the device. Keep the music playing through the system mixer
-                    // and state that fallback explicitly instead of failing silently.
-                    StatusTextBlock.Text = LocalizationManager.Current.AlsaBusyUsingSystemMixer;
-                    (player, info) = await WasapiAudioPlayer.CreateAsync(
-                        gaplessItems,
-                        "default",
-                        _settings.EqualizerEnabled,
-                        _settings.EqualizerProfile,
-                        cancellationToken,
-                        _settings.MaxOutputSampleRateHz);
-                }
-            }
+            (player, info) = await WasapiAudioPlayer.CreateAsync(
+                gaplessItems,
+                _settings.SelectedWasapiDeviceId,
+                _settings.EqualizerEnabled,
+                _settings.EqualizerProfile,
+                cancellationToken,
+                _settings.MaxOutputSampleRateHz);
         }
         else
         {

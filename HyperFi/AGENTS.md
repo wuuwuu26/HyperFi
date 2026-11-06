@@ -1672,9 +1672,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   resampling. When a queued track's source rate differs from the open device
   rate, reopen direct ALSA at the new exact rate at the track boundary; never
   keep the previous session rate and resample the next track. A short gap is
-  preferable to silent conversion, while same-rate runs remain gapless. A busy
-  direct ALSA device may fall back to OpenAL only with a visible status message;
-  never make that fallback silent. An `EBUSY` open failure must identify PipeWire/other-process
+  preferable to silent conversion, while same-rate runs remain gapless. Before
+  opening direct ALSA, temporarily disable the matching PipeWire/PulseAudio card
+  profile and restore it on release, including after a crashed process; do not
+  yield to the system mixer while the DAC can be taken exclusively. An `EBUSY` open failure must identify PipeWire/other-process
   ownership and explain that changing the desktop default does not release the
   card. The shared device-information window must use ALSA/OpenAL terminology on
   Linux and must not expose its historical WASAPI labels there. OpenAL requests

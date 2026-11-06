@@ -151,7 +151,7 @@ jobs:
             | `hyperfi-${{ steps.ver.outputs.version }}-1.x86_64.rpm` / `aarch64.rpm` | Fedora, RHEL, and compatible distributions |
             | `hyperfi-${{ steps.ver.outputs.version }}-1-x86_64.pkg.tar.zst` | Arch Linux package |
 
-            All desktop builds are self-contained and bundle .NET 8. Linux
+            All desktop builds are self-contained and bundle .NET 10. Linux
             playback additionally requires FFmpeg, ALSA, and OpenAL; the
             distribution packages declare those runtime dependencies. macOS
             playback uses the system OpenAL framework and requires FFmpeg on

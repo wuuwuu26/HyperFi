@@ -177,6 +177,18 @@ public sealed record LocalizedStrings(
     public string OutputDeviceReleased { get; init; } = "";
     /// <summary>Gets the application-version label shown in the About window.</summary>
     public string VersionLabel { get; init; } = "";
+    /// <summary>Gets the heading for the project link section in About.</summary>
+    public string ProjectLinks { get; init; } = "";
+    /// <summary>Gets the GitHub repository link label.</summary>
+    public string GitHubRepository { get; init; } = "";
+    /// <summary>Gets the issue tracker link label.</summary>
+    public string ReportIssue { get; init; } = "";
+    /// <summary>Gets the documentation link label.</summary>
+    public string Documentation { get; init; } = "";
+    /// <summary>Gets the releases link label.</summary>
+    public string ReleasesLabel { get; init; } = "";
+    /// <summary>Gets the attribution label for the original Orynivo project.</summary>
+    public string BasedOnOrynivo { get; init; } = "";
     /// <summary>Gets the label for checking GitHub Releases for an update.</summary>
     public string CheckForUpdates { get; init; } = "";
     /// <summary>Gets the Settings section label for application updates.</summary>
@@ -253,8 +265,6 @@ public sealed record LocalizedStrings(
     public string AlsaExactOpenFailed { get; init; } = "";
     /// <summary>Gets the formatted guidance shown when another process owns a direct ALSA device.</summary>
     public string AlsaDeviceBusy { get; init; } = "";
-    /// <summary>Gets the status shown when playback falls back to the system mixer because direct ALSA is busy.</summary>
-    public string AlsaBusyUsingSystemMixer { get; init; } = "";
     /// <summary>Gets the message shown when ALSA cannot resume after seeking.</summary>
     public string AlsaPrepareFailed { get; init; } = "";
     public string DeviceInfo { get; init; } = "";
