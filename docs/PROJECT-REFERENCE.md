@@ -2765,10 +2765,13 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   selection pill behind the buttons and animates its width and horizontal
   offset. The checked button background stays transparent so the pill remains
   visible; the motion respects `AppSettings.ReduceMotion`.
-- The default typeface is `Noto Serif CJK SC`, configured through
-  `FontManagerOptions` in `Program.cs` with `Noto Serif` fallbacks. The bundled
-  Inter font is no longer shipped; systems without Noto Serif CJK fall back to
-  the platform font.
+- The default typeface is the bundled `Noto Serif SC`, exposed as the app-owned
+  `HyperFi Serif` alias through `FontManagerOptions.FontFamilyMappings` in
+  `Program.cs`. Regular, SemiBold, and Bold live in `HyperFi/Assets/Fonts` as
+  `AvaloniaResource` entries, together with `Noto Serif Devanagari` for the
+  Hindi interface; system `Noto Serif` is the last fallback. The fonts are
+  licensed under SIL OFL 1.1 (`licenses/OFL-1.1.txt`), and the bundled Inter
+  font is no longer shipped.
 - The main window uses a modern sidebar, content area, and full-width transport
   bar
 - The full HyperFi logo appears directly, without a surrounding logo surface, in

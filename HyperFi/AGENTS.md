@@ -1097,9 +1097,12 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   result is complete, unless a proven virtualized/paged strategy is used.
 - Use shared typography, brushes, vector icons, control themes, loading helpers,
   and context-menu patterns from the existing application resources. The
-  desktop default typeface is `Noto Serif CJK SC` with `Noto Serif` fallbacks,
-  configured through `FontManagerOptions` in `Program.cs`; do not restore Inter
-  as the default.
+  desktop default typeface is the bundled `Noto Serif SC`, mapped to the
+  `HyperFi Serif` alias through `FontManagerOptions` in `Program.cs`, with the
+  bundled `Noto Serif Devanagari` and system `Noto Serif` as fallbacks. Do not
+  restore Inter as the default, and keep the font files under
+  `Assets/Fonts` as `AvaloniaResource` entries so the app never depends on a
+  system font installation.
 - The bulk action bar also offers a genre field. Local rows go through
   `AudioDatabase.SetTrackGenres`; HyperFi Server rows go through
   `HyperFiServerClient.UpdateTrackGenreAsync` to that server's

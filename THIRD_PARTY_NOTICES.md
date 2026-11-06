@@ -60,6 +60,20 @@ The complete Apache License 2.0 text is the repository's `LICENSE` file.
   commit `c38887c5c5e64a4b31108733bd79ca9b2496d987`, supplies the Apache-2.0
   encoder used by the standalone AirPlay2Bridge.
 
+## SIL Open Font License 1.1 components
+
+The complete SIL Open Font License 1.1 text is provided in
+`licenses/OFL-1.1.txt`. These fonts are embedded in the desktop application so
+it does not depend on a system font installation; they are not relicensed under
+HyperFi's Apache License.
+
+- [Noto Serif SC](https://github.com/notofonts/noto-cjk), copyright 2017-2024
+  Adobe (http://www.adobe.com/). Noto is a trademark of Google Inc. Regular,
+  SemiBold, and Bold are bundled as the primary interface typeface.
+- [Noto Serif Devanagari](https://github.com/notofonts/noto-fonts), copyright
+  2019 Google Inc. Regular, SemiBold, and Bold are bundled as the Hindi
+  fallback.
+
 ## zlib-licensed components
 
 - The ed25519 implementation vendored by the pinned airplay2-sender-cpp crypto

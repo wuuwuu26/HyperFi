@@ -20,11 +20,19 @@ sealed class Program
             .UsePlatformDetect()
             .With(new FontManagerOptions
             {
-                DefaultFamilyName = "Noto Serif CJK SC",
+                // The bundled Noto Serif SC family is exposed under an app-owned
+                // alias so the embedded files always win over a system install.
+                DefaultFamilyName = "HyperFi Serif",
+                FontFamilyMappings = new Dictionary<string, FontFamily>
+                {
+                    ["HyperFi Serif"] =
+                        new("avares://HyperFi/Assets/Fonts#Noto Serif SC"),
+                    ["HyperFi Serif Devanagari"] =
+                        new("avares://HyperFi/Assets/Fonts#Noto Serif Devanagari")
+                },
                 FontFallbacks =
                 [
-                    new FontFallback { FontFamily = new FontFamily("Noto Serif CJK SC") },
-                    new FontFallback { FontFamily = new FontFamily("Noto Serif SC") },
+                    new FontFallback { FontFamily = new FontFamily("HyperFi Serif Devanagari") },
                     new FontFallback { FontFamily = new FontFamily("Noto Serif") }
                 ]
             });

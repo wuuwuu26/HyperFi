@@ -79,9 +79,10 @@ requires `ffmpeg` and `ffprobe` on `PATH`.
 
 ## Requirements
 
-The desktop interface uses **Noto Serif CJK SC** with Noto Serif fallbacks.
-Install the Noto Serif CJK fonts if your system does not provide them; otherwise
-Avalonia falls back to the platform font.
+The desktop interface bundles **Noto Serif SC** and **Noto Serif Devanagari**
+under the SIL Open Font License 1.1, so it renders the same on every system
+without installing fonts. The fonts are embedded in the application and add
+about 36 MB to the download.
 
 ### Windows player
 

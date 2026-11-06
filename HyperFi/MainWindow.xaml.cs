@@ -434,6 +434,24 @@ public partial class MainWindow : Window
         AttachSegmentedThumb(GenreRecommendationModeBorder);
         StartUiDiagnosticsLog();
         LogUiDiagnostics("MainWindow constructor after InitializeComponent");
+        if (FontManager.Current.TryGetGlyphTypeface(
+                new Typeface(FontManager.Current.DefaultFontFamily), out var resolvedTypeface))
+        {
+            LogUiDiagnostics($"Default typeface resolved: {resolvedTypeface.FamilyName}");
+        }
+        else
+        {
+            LogUiDiagnostics("Default typeface could not be resolved");
+        }
+        if (FontManager.Current.TryGetGlyphTypeface(
+                new Typeface(new FontFamily("HyperFi Serif Devanagari")), out var devanagariTypeface))
+        {
+            LogUiDiagnostics($"Devanagari fallback resolved: {devanagariTypeface.FamilyName}");
+        }
+        else
+        {
+            LogUiDiagnostics("Devanagari fallback could not be resolved");
+        }
         _dashboardRootPanel = DashboardPanel;
         StartAppLogoGlow();
         _animatedViewSurfaces =
