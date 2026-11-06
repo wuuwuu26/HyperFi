@@ -14,8 +14,8 @@
     <RootNamespace>HyperFi</RootNamespace>
     <Product>HyperFi</Product>
     <Title>HyperFi</Title>
-    <Authors>Björn Schlaack</Authors>
-    <Copyright>Copyright © 2026 Björn Schlaack</Copyright>
+    <Authors>HyperFi contributors, Björn Schlaack</Authors>
+    <Copyright>Copyright © 2026 HyperFi contributors; original Orynivo code © 2026 Björn Schlaack</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/wuuwuu26/HyperFi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

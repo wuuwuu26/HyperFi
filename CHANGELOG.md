@@ -49,6 +49,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   accents now share that gold palette instead of retaining blue and violet
   tones.
 
+### Changed
+
+- The README is now a concise, HyperFi-specific document instead of a renamed
+  copy of the original project README. It covers the current features, packages,
+  requirements, build commands, data locations, limitations, and the Orynivo
+  attribution, and no longer contains a contributing section.
+- Project metadata now credits HyperFi contributors and the original Orynivo
+  author in `Authors` and `Copyright` for the desktop, core, and server
+  assemblies.
+
 ### Removed
 
 - The music visualizer is gone: its transport button, Settings page, preset
@@ -58,6 +68,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- The Windows-only `WasapiSampleRateSelectionTests` file is excluded from
+  non-Windows test builds, so `dotnet test HyperFi.Tests` works on Linux and
+  macOS without moving the file aside.
 - Direct ALSA playback now temporarily disables the matching PipeWire/PulseAudio
   card profile before opening the exclusive hardware device, so HyperFi no
   longer yields to the system mixer when it can take the DAC itself. The

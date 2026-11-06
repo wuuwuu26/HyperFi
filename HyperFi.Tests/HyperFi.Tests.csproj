@@ -20,4 +20,8 @@
   <ItemGroup>
     <ProjectReference Include="..\HyperFi\HyperFi.csproj" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+    <Compile Remove="WasapiSampleRateSelectionTests.cs" />
+  </ItemGroup>
 </Project>
