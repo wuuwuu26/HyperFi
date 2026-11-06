@@ -916,9 +916,11 @@ byte-range streaming without FFmpeg.
   podcast, and playlist sections; the Internet Radio, Podcasts, and **Up Next**
   sidebar items can each be hidden independently in Settings
 - Subtle interface motion for navigation and browsing: sidebar accordion rows
-  fade/collapse, Dashboard and library view changes fade in briefly, artwork
-  cards expose a lightweight hover overlay, and longer content loads use a
-  compact skeleton/progress state instead of a static blank/loading view.
+  fade/collapse, sidebar and Settings selection colours cross-fade, the content
+  header and incoming view surface fade and lift briefly, Dashboard and library
+  view changes fade in, artwork cards expose a lightweight hover overlay, and
+  longer content loads use a compact skeleton/progress state instead of a
+  static blank/loading view.
 - Linked artist and album names for direct navigation to artist albums and album
   tracks
 - Session-wide Back navigation across sidebar views, search results, dashboard
@@ -2022,7 +2024,8 @@ or API key.
 ## Accessibility
 
 - **Reduce motion** under Appearance disables the optional Genre Cloud,
-  Dashboard cover-stage, and karaoke animations.
+  Dashboard cover-stage, karaoke, sidebar/Settings selection, content-header
+  and view-surface animations.
 - The album and artist artwork grids open the selected card with Enter or Space,
   and the transport controls (previous, play/pause, next, volume, artist info,
   lyrics, favorite, shuffle, equalizer, and output) expose accessible names.

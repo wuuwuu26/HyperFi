@@ -182,6 +182,7 @@
                 <Transitions>
                     <DoubleTransition Property="Opacity" Duration="0:0:0.14"/>
                     <DoubleTransition Property="MaxHeight" Duration="0:0:0.16"/>
+                    <BrushTransition Property="Foreground" Duration="0:0:0.14"/>
                 </Transitions>
             </Setter>
             <Setter Property="Template">
@@ -200,6 +201,14 @@
                     </Border>
                 </ControlTemplate>
             </Setter>
+            <Style Selector="^ /template/ Border#Bd">
+                <Setter Property="Transitions">
+                    <Transitions>
+                        <BrushTransition Property="Background" Duration="0:0:0.16"/>
+                        <BrushTransition Property="BorderBrush" Duration="0:0:0.16"/>
+                    </Transitions>
+                </Setter>
+            </Style>
             <Style Selector="^:selected /template/ Border#Bd">
                 <Setter Property="Background" Value="{StaticResource DashboardNavSelectedBackgroundBrush}"/>
                 <Setter Property="BorderBrush" Value="{StaticResource DashboardNavSelectedBorderBrush}"/>
@@ -246,6 +255,13 @@
                     </Border>
                 </ControlTemplate>
             </Setter>
+            <Style Selector="^ /template/ Border#Bd">
+                <Setter Property="Transitions">
+                    <Transitions>
+                        <BrushTransition Property="Background" Duration="0:0:0.16"/>
+                    </Transitions>
+                </Setter>
+            </Style>
             <Style Selector="^:pointerover /template/ Border#Bd">
                 <Setter Property="Background" Value="{DynamicResource AppNavHoverBrush}"/>
             </Style>

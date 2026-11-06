@@ -12,6 +12,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Avalonia;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
@@ -153,6 +155,7 @@ public partial class MainWindow : Window
             _ when tag.StartsWith("Podcast:", StringComparison.Ordinal) => GetPodcastName(tag),
             _         => tag.StartsWith("Playlist:") ? GetPlaylistName(tag) : tag
         };
+        AnimateContentHeader();
 
         // Stop any in-flight unified folder-tree load so a late completion cannot mutate
         // the tree or the count of the view the user is switching to.
@@ -437,12 +440,28 @@ public partial class MainWindow : Window
     private void FadeInVisibleContentSurface(Func<bool>? canFade = null)
     {
         if (canFade is not null && !canFade()) return;
+        var animate = MotionPreferences.ShouldAnimate(_settings.ReduceMotion);
         foreach (var surface in _animatedViewSurfaces)
         {
-            if (surface.IsVisible)
-                surface.Opacity = 0;
-            else
+            if (!surface.IsVisible)
+            {
                 surface.Opacity = 1;
+                surface.RenderTransform = null;
+                continue;
+            }
+            surface.Transitions = animate
+                ? new Transitions
+                {
+                    new DoubleTransition
+                    {
+                        Property = OpacityProperty,
+                        Duration = TimeSpan.FromMilliseconds(160),
+                        Easing = new CubicEaseOut()
+                    }
+                }
+                : null;
+            surface.Opacity = animate ? 0 : 1;
+            surface.RenderTransform = animate ? CreateSurfaceSlideTransform() : null;
         }
 
         Dispatcher.UIThread.Post(() =>
@@ -450,10 +469,65 @@ public partial class MainWindow : Window
             if (canFade is not null && !canFade()) return;
             foreach (var surface in _animatedViewSurfaces)
             {
-                if (surface.IsVisible)
-                    surface.Opacity = 1;
+                if (!surface.IsVisible)
+                    continue;
+                surface.Opacity = 1;
+                if (surface.RenderTransform is TranslateTransform transform)
+                    transform.Y = 0;
             }
         }, DispatcherPriority.Render);
+    }
+
+    private void AnimateContentHeader()
+    {
+        if (!MotionPreferences.ShouldAnimate(_settings.ReduceMotion))
+        {
+            ContentTitleTextBlock.Transitions = null;
+            ContentTitleTextBlock.Opacity = 1;
+            ContentTitleTextBlock.RenderTransform = null;
+            return;
+        }
+        ContentTitleTextBlock.Transitions = new Transitions
+        {
+            new DoubleTransition
+            {
+                Property = OpacityProperty,
+                Duration = TimeSpan.FromMilliseconds(160),
+                Easing = new CubicEaseOut()
+            }
+        };
+        ContentTitleTextBlock.Opacity = 0;
+        var transform = new TranslateTransform(0, -4);
+        transform.Transitions = new Transitions
+        {
+            new DoubleTransition
+            {
+                Property = TranslateTransform.YProperty,
+                Duration = TimeSpan.FromMilliseconds(160),
+                Easing = new CubicEaseOut()
+            }
+        };
+        ContentTitleTextBlock.RenderTransform = transform;
+        Dispatcher.UIThread.Post(() =>
+        {
+            ContentTitleTextBlock.Opacity = 1;
+            transform.Y = 0;
+        }, DispatcherPriority.Render);
+    }
+
+    private static TranslateTransform CreateSurfaceSlideTransform()
+    {
+        var transform = new TranslateTransform(0, 8);
+        transform.Transitions = new Transitions
+        {
+            new DoubleTransition
+            {
+                Property = TranslateTransform.YProperty,
+                Duration = TimeSpan.FromMilliseconds(200),
+                Easing = new CubicEaseOut()
+            }
+        };
+        return transform;
     }
 
     private void UpdateLibraryIntroCard(string? tag)

@@ -2,6 +2,8 @@ using System;
 using System.Globalization;
 using System.IO;
 using Avalonia;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Threading;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -1464,6 +1466,21 @@ internal partial class SettingsView : UserControl
         McpPanel.IsVisible                     = tag == "Mcp";
         MobileRemotePanel.IsVisible            = tag == "MobileRemote";
         AiChatPanel.IsVisible                  = tag == "AiChat";
+        AnimateSettingsSection(tag switch
+        {
+            "AudioDevice" => AudioDevicePanel,
+            "Library" => LibraryPanel,
+            "HyperFiServers" => HyperFiServersSettingsPanel,
+            "Metadata" => MetadataPanel,
+            "Streaming" => StreamingPanel,
+            "Appearance" => AppearancePanel,
+            "UserProfiles" => UserProfilesPanel,
+            "ArtistInfo" => ArtistInfoPanel,
+            "Mcp" => McpPanel,
+            "MobileRemote" => MobileRemotePanel,
+            "AiChat" => AiChatPanel,
+            _ => null
+        });
         if (tag == "AiChat" && _aiModelsLoadedForSignature is null &&
             !string.IsNullOrWhiteSpace(AiChatEndpointUrlTextBox.Text))
         {
@@ -1471,6 +1488,47 @@ internal partial class SettingsView : UserControl
         }
         if (tag == "Metadata" && !_metadataAnalysisLoaded)
             _ = LoadMetadataProblemsAsync();
+    }
+
+    /// <summary>Fades and lifts the newly visible settings section into place.</summary>
+    /// <param name="section">Section panel selected by the settings navigation.</param>
+    private void AnimateSettingsSection(Control? section)
+    {
+        if (section is null || !section.IsVisible)
+            return;
+        if (!MotionPreferences.ShouldAnimate(ReduceMotionValue))
+        {
+            section.Transitions = null;
+            section.Opacity = 1;
+            section.RenderTransform = null;
+            return;
+        }
+        section.Transitions = new Transitions
+        {
+            new DoubleTransition
+            {
+                Property = OpacityProperty,
+                Duration = TimeSpan.FromMilliseconds(160),
+                Easing = new CubicEaseOut()
+            }
+        };
+        section.Opacity = 0;
+        var transform = new TranslateTransform(0, 6);
+        transform.Transitions = new Transitions
+        {
+            new DoubleTransition
+            {
+                Property = TranslateTransform.YProperty,
+                Duration = TimeSpan.FromMilliseconds(160),
+                Easing = new CubicEaseOut()
+            }
+        };
+        section.RenderTransform = transform;
+        Dispatcher.UIThread.Post(() =>
+        {
+            section.Opacity = 1;
+            transform.Y = 0;
+        }, DispatcherPriority.Render);
     }
 
     private void UserProfileComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)

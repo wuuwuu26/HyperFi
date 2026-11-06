@@ -39,6 +39,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   bypasses the system mixer. Changing HyperFi's own volume writes the value back
   to the default sink, and OpenAL profiles keep their normal system-mixed
   volume.
+- Sidebar and Settings navigation now cross-fades their selection colour and
+  lifts the incoming view header and surface into place instead of switching
+  instantly. The transitions stay short and are disabled by the persisted
+  **Reduce motion** preference.
 - The interface uses a warm gold accent on translucent surfaces over a subtle
   gradient, replacing the previous blue-grey palette. The wordmark, dashboard
   hero artwork, About logos, statistic icons, secondary buttons and dialog

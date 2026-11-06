@@ -12,6 +12,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Avalonia;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
@@ -368,6 +370,45 @@ public partial class MainWindow : Window
         };
         SettingsViewHost.Content = view;
         SettingsViewHost.IsVisible = true;
+        AnimateSettingsHostIn();
+    }
+
+    /// <summary>Fades and lifts the embedded settings host into place.</summary>
+    private void AnimateSettingsHostIn()
+    {
+        if (!MotionPreferences.ShouldAnimate(_settings.ReduceMotion))
+        {
+            SettingsViewHost.Transitions = null;
+            SettingsViewHost.Opacity = 1;
+            SettingsViewHost.RenderTransform = null;
+            return;
+        }
+        SettingsViewHost.Transitions = new Transitions
+        {
+            new DoubleTransition
+            {
+                Property = OpacityProperty,
+                Duration = TimeSpan.FromMilliseconds(180),
+                Easing = new CubicEaseOut()
+            }
+        };
+        SettingsViewHost.Opacity = 0;
+        var transform = new TranslateTransform(0, 10);
+        transform.Transitions = new Transitions
+        {
+            new DoubleTransition
+            {
+                Property = TranslateTransform.YProperty,
+                Duration = TimeSpan.FromMilliseconds(180),
+                Easing = new CubicEaseOut()
+            }
+        };
+        SettingsViewHost.RenderTransform = transform;
+        Dispatcher.UIThread.Post(() =>
+        {
+            SettingsViewHost.Opacity = 1;
+            transform.Y = 0;
+        }, DispatcherPriority.Render);
     }
 
     /// <summary>Applies the persisted headphone-crossfeed settings to a PCM player.</summary>

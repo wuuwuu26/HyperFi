@@ -2796,11 +2796,12 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   aligned with the content/table area, not the intro card. The Dashboard
   deliberately has no shared intro card because its greeting hero is the first
   content surface.
-- Main content view switches use short opacity fade-ins and longer library,
-  remote-library, Dashboard, and album-detail loads show the shared
-  `ContentLoadingOverlay` skeleton/progress state. Keep this motion subtle and
-  centralized through the existing helpers instead of adding per-view ad-hoc
-  animations.
+- Main content view switches fade in the incoming surface with a short upward
+  lift, fade the content header, and cross-fade sidebar and Settings selection
+  colours; longer library, remote-library, Dashboard, and album-detail loads
+  keep the shared `ContentLoadingOverlay` skeleton/progress state. Keep motion
+  brief, centralized through the existing helpers, and disabled by
+  `AppSettings.ReduceMotion` instead of adding per-view ad-hoc animations.
 - The album-detail card above its track table stretches across the available
   content width. Its favorite button appears immediately before the album title;
   cover search and **Save as playlist** remain adjacent themed actions.

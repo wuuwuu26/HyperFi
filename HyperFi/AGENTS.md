@@ -1166,13 +1166,16 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   the now-playing remote row changes.
 - Optional UI motion is governed by `AppSettings.ReduceMotion` through the pure,
   tested `HyperFi.Controls.MotionPreferences` helper. The Genre Cloud, the
-  Dashboard cover stage, the lyrics view scroll and `KaraokeWindow` must ask that
-  helper instead of building transitions or frame loops directly, and
-  `KaraokeWindow.ReduceMotion` is assigned from the saved setting when the window
-  opens. The album and artist
-  artwork grids open the selected card on Enter or Space through
-  `ActivateArtworkCardAsync`, and transport controls keep an
+  Dashboard cover stage, the lyrics view scroll, sidebar/settings selection,
+  the top-level view surface, the content header and `KaraokeWindow` must ask
+  that helper instead of building transitions or frame loops directly, and
+  `KaraokeWindow.ReduceMotion` is assigned from the saved setting when the
+  window opens. Navigation motion stays brief (at most 200 ms), never blocks
+  loading or ownership checks, and must not run when the preference is reduced.
+  The album and artist artwork grids open the selected card on Enter or Space
+  through `ActivateArtworkCardAsync`, and transport controls keep an
   `AutomationProperties.Name` that matches their localized tooltip.
+
 - Enhanced-LRC word timestamps (`<mm:ss.xx>`) are parsed by
   `LyricsService.ParseLrc` into `TimedLyricLine.Words`, which also strips the
   markers from the line text. The main lyrics view exposes those words through

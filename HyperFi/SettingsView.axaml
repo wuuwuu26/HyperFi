@@ -12,6 +12,11 @@
             <Setter Property="Padding" Value="0"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Foreground" Duration="0:0:0.14"/>
+                </Transitions>
+            </Setter>
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border x:Name="Bd"
@@ -24,6 +29,14 @@
                     </Border>
                 </ControlTemplate>
             </Setter>
+            <Style Selector="^ /template/ Border#Bd">
+                <Setter Property="Transitions">
+                    <Transitions>
+                        <BrushTransition Property="Background" Duration="0:0:0.16"/>
+                        <BrushTransition Property="BorderBrush" Duration="0:0:0.16"/>
+                    </Transitions>
+                </Setter>
+            </Style>
             <Style Selector="^:selected /template/ Border#Bd">
                 <Setter Property="Background" Value="{DynamicResource AppNavSelectedBrush}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource AppAccentBrush}"/>
