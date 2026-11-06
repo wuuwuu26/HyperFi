@@ -152,7 +152,7 @@ internal sealed class ArtistWorkflowFixture : IDisposable
         Set("_currentTopLevelTag", "HyperFiServer:smoke:Artists");
         _view.IsVisible = false;
         _window.FindControl<ScrollViewer>("SearchResultsScrollViewer")!.IsVisible = false;
-        _window.FindControl<Control>("GenreCloudPanel")!.IsVisible = false;
+        _window.FindControl<Control>("GenreCloudSurface")!.IsVisible = false;
         var selected = RemoteRow();
         _grid.ItemsSource = new[] { new ContentRow { Id = _artistId, Title = "Colliding local", EntityType = "Artist" }, selected };
         _grid.IsVisible = true; _grid.SelectedItem = selected;

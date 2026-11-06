@@ -175,7 +175,6 @@ public partial class MainWindow : Window
         UpdateAlphabetIndex(null, false);
         SearchResultsScrollViewer.IsVisible = false;
         DashboardScrollViewer.IsVisible = false;
-        GenreCloudPanel.IsVisible = false;
         GenreCloudSurface.IsVisible = false;
         ContentDataGrid.Margin = new Thickness(0);
         AlbumArtworkListBox.Margin = new Thickness(0);
@@ -298,7 +297,6 @@ public partial class MainWindow : Window
                 FolderTreeView.IsVisible = false;
                 AlbumArtworkListBox.IsVisible = false;
                 ArtistArtworkListBox.IsVisible = false;
-                GenreCloudPanel.IsVisible = true;
                 GenreCloudSurface.IsVisible = true;
                 ApplyColumns("Tracks");
                 if (!_navigationRestores.ShouldSuppressHistory)

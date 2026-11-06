@@ -51,7 +51,7 @@ public partial class MainWindow
         _genreCloudLoadingOwner = null;
         GenreCloudLoadingPanel.IsVisible = false;
         GenreCloudDisplay.IsVisible = true;
-        if (_currentTopLevelTag == "GenreCloud" && GenreCloudPanel.IsVisible)
+        if (_currentTopLevelTag == "GenreCloud" && GenreCloudSurface.IsVisible)
             ApplyGenreRecommendationMode();
     }
 }

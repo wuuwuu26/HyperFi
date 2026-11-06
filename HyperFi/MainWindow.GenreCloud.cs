@@ -117,7 +117,7 @@ public partial class MainWindow
             (restoreContext is null || _navigationRestores.IsCurrent(restoreContext)) &&
             string.Equals(CreateGenreCloudViewCacheKey(parentKey), cacheKey, StringComparison.Ordinal);
         bool CanPublish() => OwnsAdmission() && _currentTopLevelTag == "GenreCloud" &&
-            GenreCloudPanel.IsVisible && string.Equals(_genreCloudSelectedKey, parentKey, StringComparison.Ordinal);
+            GenreCloudSurface.IsVisible && string.Equals(_genreCloudSelectedKey, parentKey, StringComparison.Ordinal);
         if (isParentCurrent is null)
         {
             // Branch and mode actions replace the enclosing root load without
@@ -154,7 +154,6 @@ public partial class MainWindow
             }
             // Keep the previous image until this level has data to publish.
             // A cached level is synchronous; a cold level paints its shell first.
-            GenreCloudPanel.Opacity = 1;
             GenreCloudSurface.Opacity = 1;
             var snapshot = await GetGenreCloudViewSnapshotAsync(parentKey, cancellationToken);
             if (!CanPublish()) return;
@@ -941,7 +940,6 @@ public partial class MainWindow
     /// <summary>Collapses the Genre Cloud surfaces before an album detail view is displayed.</summary>
     private void HideGenreCloudForDetailView()
     {
-        GenreCloudPanel.IsVisible = false;
         GenreCloudSurface.IsVisible = false;
     }
 
@@ -1189,7 +1187,7 @@ public partial class MainWindow
         var restoreContext = _navigationRestores.Context;
         bool CanArrange() => bindingVersion == _genreCloudNodeBindingVersion &&
             bindingGeneration == Volatile.Read(ref _genreCloudCatalogGeneration) &&
-            !token.IsCancellationRequested && GenreCloudPanel.IsVisible &&
+            !token.IsCancellationRequested && GenreCloudSurface.IsVisible &&
             string.Equals(_currentTopLevelTag, navigationTag, StringComparison.Ordinal) &&
             string.Equals(_genreCloudSelectedKey, parentKey, StringComparison.Ordinal) &&
             string.Equals(CreateGenreCloudViewCacheKey(parentKey), cacheKey, StringComparison.Ordinal) &&

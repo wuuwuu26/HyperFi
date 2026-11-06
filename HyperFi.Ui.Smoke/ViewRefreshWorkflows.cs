@@ -200,7 +200,7 @@ internal static class ViewRefreshWorkflows
             var destination = restarted.FindControl<DataGrid>("ContentDataGrid")!.ItemsSource;
             handler.Pending.SetResult(); Finish(restartCloud);
             Check(ReferenceEquals(destination, restarted.FindControl<DataGrid>("ContentDataGrid")!.ItemsSource) &&
-                !restarted.FindControl<Border>("GenreCloudPanel")!.IsVisible,
+                !restarted.FindControl<Border>("GenreCloudSurface")!.IsVisible,
                 "Late cloud completion overwrote independent navigation.");
             Console.WriteLine("PASS: restart previews precede network data and obsolete refresh cannot overwrite navigation");
 

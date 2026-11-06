@@ -678,9 +678,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   pure, tested `HyperFi.GenreRecommendationScore`; its tie-break variation must
   stay deterministic (stable hash, never `HashCode.Combine` or `Random`), and
   the perceptual background fingerprint lives in
-  `HyperFi.Controls.GenreCloudImageFingerprint`. Its explanatory hero remains
-  separate from the elliptical cloud surface below it; drill-down transitions
-  cross-fade the old level and stagger the new count-scaled nodes. Cloud nodes
+  `HyperFi.Controls.GenreCloudImageFingerprint`. The explanatory hero was
+  removed, so the elliptical cloud surface sits directly below the content
+  header; drill-down transitions cross-fade the old level and stagger the new
+  count-scaled nodes. Cloud nodes
   use measured, centered rows with explicit horizontal/vertical gaps and must
   never overlap; excess rows scroll vertically. Nodes use the shared
   gold-tinted rounded card, count pill, border, soft shadow, and hover glow;
@@ -688,11 +689,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   same segmented `ViewModeRadioTheme` controls as the Artists/Albums view
   selector and switches between the shared track table and source-aware album
   artwork cards. The cloud surface owns a dedicated Auto-sized main-content row
-  between the intro hero and the shared star-sized result row; never overlay it
-  on results or compensate with large result margins. Mode-button clicks must
-  explicitly update both radio states and the visible result host. Opening an
-  album recommendation must collapse both Genre Cloud rows and use the normal
-  star-sized album detail surface. Its navigation state retains the selected
+  directly below the content header; never overlay it on results or compensate
+  with large result margins. Mode-button clicks must explicitly update both
+  radio states and the visible result host. Opening an album recommendation must
+  collapse the cloud surface and use the normal star-sized album detail surface. Its navigation state retains the selected
   taxonomy key and Tracks/Albums mode so Back restores the same cloud context,
   selection, and scroll offset. Node labels and font scaling use track counts in
   Tracks mode and distinct provider-local album counts in Albums mode; changing

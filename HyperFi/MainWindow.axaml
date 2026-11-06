@@ -1818,33 +1818,10 @@
                 </Border>
             </Popup>
 
-            <Border x:Name="GenreCloudPanel"
-                    Grid.Row="1"
-                    Height="96"
-                    Margin="28,18,28,12"
-                    Padding="24,18"
-                    Background="{DynamicResource AppSurfaceBrush}"
-                    BorderBrush="{StaticResource CardHoverGradientBrush}"
-                    BorderThickness="1"
-                    CornerRadius="14"
-                    IsVisible="False">
-                <StackPanel>
-                    <TextBlock Text="{DynamicResource L_GenreExplorer}"
-                               FontSize="{DynamicResource FontSizeTitle}"
-                               FontWeight="SemiBold"
-                               Foreground="{DynamicResource AppPrimaryTextBrush}"/>
-                    <TextBlock Text="{DynamicResource L_GenreCloudHint}"
-                               Margin="0,6,0,0"
-                               FontSize="{DynamicResource FontSizeBody}"
-                               Foreground="{DynamicResource AppSecondaryTextBrush}"
-                               TextWrapping="Wrap"/>
-                </StackPanel>
-            </Border>
-
             <Border x:Name="GenreCloudSurface"
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Height="406"
-                    Margin="28,0,28,0"
+                    Margin="28,18,28,0"
                     Padding="20,12,20,10"
                     VerticalAlignment="Top"
                     Background="{DynamicResource AppSurfaceBrush}"

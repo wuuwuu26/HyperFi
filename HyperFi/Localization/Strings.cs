@@ -1230,7 +1230,6 @@ public sealed record LocalizedStrings(
     /// <summary>Gets the title of the interactive genre explorer.</summary>
     public string GenreExplorer { get; init; } = "";
     /// <summary>Gets the explanatory text shown above the genre cloud.</summary>
-    public string GenreCloudHint { get; init; } = "";
     /// <summary>Gets the foreground genre-view assembly message.</summary>
     public string GenreCloudLoading { get; init; } = "";
     /// <summary>Gets the formatted percentage of completed cloud assembly steps.</summary>

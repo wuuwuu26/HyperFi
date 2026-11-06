@@ -107,7 +107,7 @@ public partial class MainWindow : Window
     {
         var selectedRow = GetSelectedContentRow();
         var target = NavigationCaptureDecision.Select(new NavigationCaptureContext(
-            SearchResultsScrollViewer.IsVisible, GenreCloudPanel.IsVisible, _currentTopLevelTag,
+            SearchResultsScrollViewer.IsVisible, GenreCloudSurface.IsVisible, _currentTopLevelTag,
             _activeAlbumFilterId, _activeArtistFilterId, _activeArtistFilterName,
             _activeLogicalAlbumParts is { Count: > 0 },
             _activeCatalogAlbum is { Source: LibraryCatalogSource.HyperFiServer },

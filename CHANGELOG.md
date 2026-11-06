@@ -92,6 +92,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+- The Genre Cloud intro card with its title and explanatory hint is gone; the
+  cloud surface now sits directly below the content header.
 - The separate karaoke window and the manual lyrics-search dialog and action are
   gone. The lyrics page itself provides the immersive fullscreen presentation.
 - The music visualizer is gone: its transport button, Settings page, preset
