@@ -1727,9 +1727,9 @@ P-256 public key through the `UPDATE_SIGNING_PUBLIC_KEY_BASE64` repository
 variable. Update functionality remains unavailable rather than accepting an
 unsigned release when those values are not configured.
 
-The manifest workflow waits for the Windows installer, every Linux and macOS
-desktop artifact, and all four supported server DEB/RPM packages. It fails
-instead of signing a partial asset list. To repair an already published release,
+The manifest workflow waits for the Windows installer and portable archive,
+every Linux and macOS desktop artifact, and all four supported server DEB/RPM
+packages. It fails instead of signing a partial asset list. To repair an already published release,
 run **Publish signed update manifest** manually and enter its existing tag.
 
 Configure signing once from a trusted administrator machine (never commit the

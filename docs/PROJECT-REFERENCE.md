@@ -404,10 +404,10 @@ Release: `amd64`/`arm64` DEB and `x86_64`/`aarch64` RPM. Support files live in
 install to `/usr/lib/hyperfi-server/`, expose a `/usr/bin/hyperfi-server`
 symlink, ship a default config at `/etc/hyperfi-server/appsettings.json`, and
 register `hyperfi-server.service` running as the `hyperfi-server` system user.
-The signed update-manifest workflow waits for the Windows installer, every Linux
-and macOS desktop artifact, and all four server packages before signing, refuses
-partial manifests, and supports a manual tag input for rebuilding an already
-published release.
+The signed update-manifest workflow waits for the Windows installer and portable
+archive, every Linux and macOS desktop artifact, and all four server packages
+before signing, refuses partial manifests, and supports a manual tag input for
+rebuilding an already published release.
 
 The `hyperfi-server` service user is created with `--no-create-home` and has no
 writable `$HOME`, so the default data directory (`$HOME/.local/share/HyperFi`)
