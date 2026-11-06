@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Media;
 
 namespace HyperFi;
 
@@ -17,7 +18,16 @@ sealed class Program
     {
         var builder = AppBuilder.Configure<App>()
             .UsePlatformDetect()
-            .WithInterFont();
+            .With(new FontManagerOptions
+            {
+                DefaultFamilyName = "Noto Serif CJK SC",
+                FontFallbacks =
+                [
+                    new FontFallback { FontFamily = new FontFamily("Noto Serif CJK SC") },
+                    new FontFallback { FontFamily = new FontFamily("Noto Serif SC") },
+                    new FontFallback { FontFamily = new FontFamily("Noto Serif") }
+                ]
+            });
 
         if (OperatingSystem.IsMacOS())
         {

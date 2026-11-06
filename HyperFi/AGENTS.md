@@ -1090,7 +1090,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
 - Keep long mixed-library row composition off the visible `DataGrid` until the
   result is complete, unless a proven virtualized/paged strategy is used.
 - Use shared typography, brushes, vector icons, control themes, loading helpers,
-  and context-menu patterns from the existing application resources.
+  and context-menu patterns from the existing application resources. The
+  desktop default typeface is `Noto Serif CJK SC` with `Noto Serif` fallbacks,
+  configured through `FontManagerOptions` in `Program.cs`; do not restore Inter
+  as the default.
 - The bulk action bar also offers a genre field. Local rows go through
   `AudioDatabase.SetTrackGenres`; HyperFi Server rows go through
   `HyperFiServerClient.UpdateTrackGenreAsync` to that server's

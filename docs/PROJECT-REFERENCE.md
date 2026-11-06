@@ -2752,6 +2752,10 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   sizes. Immersive detail titles (album, artist, podcast headers) use
   `FontSizeDisplay`; tables use `FontSizeCaption`/`FontSizeBody`; small meta
   text uses `FontSizeMeta` with a muted foreground.
+- The default typeface is `Noto Serif CJK SC`, configured through
+  `FontManagerOptions` in `Program.cs` with `Noto Serif` fallbacks. The bundled
+  Inter font is no longer shipped; systems without Noto Serif CJK fall back to
+  the platform font.
 - The main window uses a modern sidebar, content area, and full-width transport
   bar
 - The full HyperFi logo appears directly, without a surrounding logo surface, in

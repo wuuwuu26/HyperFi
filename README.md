@@ -79,6 +79,10 @@ requires `ffmpeg` and `ffprobe` on `PATH`.
 
 ## Requirements
 
+The desktop interface uses **Noto Serif CJK SC** with Noto Serif fallbacks.
+Install the Noto Serif CJK fonts if your system does not provide them; otherwise
+Avalonia falls back to the platform font.
+
 ### Windows player
 
 - Windows 10 or Windows 11, x64

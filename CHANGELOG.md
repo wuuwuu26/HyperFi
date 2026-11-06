@@ -51,6 +51,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- The desktop interface now uses **Noto Serif CJK SC** as its default typeface,
+  with Noto Serif fallbacks. The bundled Inter font is no longer shipped.
 - The lyrics view now covers the content header and places the cover, title,
   artist, album, and an output-quality line on a black retro Hi-Fi panel with
   gold trim, distinct from the blurred cover background.
