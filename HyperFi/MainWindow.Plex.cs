@@ -353,7 +353,6 @@ public partial class MainWindow : Window
         TrackFilterButton.IsVisible = false;
         SaveSmartPlaylistButton.IsVisible = false;
         HideAlbumDetailHeader();
-        UpdateLibraryIntroCard(null);
     }
 
     /// <summary>Captures the existing Plex binding, source identity and paging before navigation.</summary>

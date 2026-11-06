@@ -81,7 +81,6 @@ public partial class MainWindow : Window
         TrackFilterButton.IsVisible = false;
         SaveSmartPlaylistButton.IsVisible = false;
         UpdateEntityFavoritesFilterToggle(null);
-        UpdateLibraryIntroCard(null);
         LyricsView.IsVisible = false;
         PodcastInfoView.IsVisible = false;
         ArtistInfoView.IsVisible = true;

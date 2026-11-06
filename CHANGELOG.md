@@ -51,6 +51,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- The shared Artists, Albums, Tracks, and Folders intro card is gone. Those
+  views now start directly below the plain content header, so the page title is
+  no longer duplicated by a separate headline and hint.
 - The README is now a concise, HyperFi-specific document instead of a renamed
   copy of the original project README. It covers the current features, packages,
   requirements, build commands, data locations, limitations, and the Orynivo

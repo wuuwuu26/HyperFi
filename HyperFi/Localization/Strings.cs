@@ -868,14 +868,6 @@ public sealed record LocalizedStrings(
     public string Dashboard { get; init; } = "";
     public string DashboardIntroTitle { get; init; } = "";
     public string DashboardIntroHint { get; init; } = "";
-    public string ArtistsIntroTitle { get; init; } = "";
-    public string ArtistsIntroHint { get; init; } = "";
-    public string AlbumsIntroTitle { get; init; } = "";
-    public string AlbumsIntroHint { get; init; } = "";
-    public string TracksIntroTitle { get; init; } = "";
-    public string TracksIntroHint { get; init; } = "";
-    public string FoldersIntroTitle { get; init; } = "";
-    public string FoldersIntroHint { get; init; } = "";
     public string ThemeLight { get; init; } = "";
     public string ThemeDark { get; init; } = "";
     public string StatusAvailable { get; init; } = "";

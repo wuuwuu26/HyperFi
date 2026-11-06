@@ -96,7 +96,6 @@ public partial class MainWindow : Window
         _activeLogicalAlbumRow = row;
         _showAllAlbumTracks = false;
         HideGenreCloudForDetailView();
-        UpdateLibraryIntroCard(null);
         UpdateEntityFavoritesFilterToggle(null);
         _updatingAlbumTrackScope = true;
         ShowAllAlbumTracksCheckBox.IsChecked = false;
@@ -290,7 +289,6 @@ public partial class MainWindow : Window
         _activeLogicalAlbumRow = null;
         _showAllAlbumTracks = false;
         HideGenreCloudForDetailView();
-        UpdateLibraryIntroCard(null);
         UpdateEntityFavoritesFilterToggle(null);
         _updatingAlbumTrackScope = true;
         ShowAllAlbumTracksCheckBox.IsChecked = false;
@@ -467,7 +465,6 @@ public partial class MainWindow : Window
         _activeLogicalAlbumRow = null;
         _showAllAlbumTracks = false;
         HideGenreCloudForDetailView();
-        UpdateLibraryIntroCard(null);
         UpdateEntityFavoritesFilterToggle(null);
         _updatingAlbumTrackScope = true;
         ShowAllAlbumTracksCheckBox.IsChecked = false;

@@ -291,7 +291,6 @@ public partial class MainWindow : Window
         ContentDataGrid.ItemsSource = null;
         if (view != "AlbumTracks")
             HideAlbumDetailHeader();
-        UpdateLibraryIntroCard(view is "Artists" or "Albums" or "Tracks" or "Folders" ? view : null);
         UpdateEntityFavoritesFilterToggle(_currentTopLevelTag);
         TrackFilterButton.IsVisible = view == "Tracks";
         SaveSmartPlaylistButton.IsVisible = view == "Tracks";

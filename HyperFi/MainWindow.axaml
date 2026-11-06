@@ -1695,39 +1695,6 @@
                 </Border>
             </Popup>
 
-            <Border x:Name="LibraryIntroCard"
-                    Grid.Row="1"
-                    Height="108"
-                    Margin="28,18,28,12"
-                    Padding="26,18"
-                    Background="{DynamicResource AppSurfaceBrush}"
-                    BorderBrush="{StaticResource CardHoverGradientBrush}"
-                    BorderThickness="1"
-                    CornerRadius="14"
-                    IsVisible="False">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel>
-                        <TextBlock x:Name="LibraryIntroTitleTextBlock"
-                                   FontSize="{DynamicResource FontSizeTitle}"
-                                   FontWeight="SemiBold"
-                                   Foreground="{DynamicResource AppPrimaryTextBrush}"/>
-                        <TextBlock x:Name="LibraryIntroHintTextBlock"
-                                   Margin="0,6,20,0"
-                                   Foreground="{DynamicResource AppSecondaryTextBrush}"
-                                   TextWrapping="Wrap"/>
-                    </StackPanel>
-                    <Border Grid.Column="1"
-                            Classes="heroIconBadge"
-                            VerticalAlignment="Center">
-                        <Path x:Name="LibraryIntroIconPath" Classes="heroIcon"/>
-                    </Border>
-                </Grid>
-            </Border>
-
             <Border x:Name="GenreCloudPanel"
                     Grid.Row="1"
                     Height="96"
@@ -1904,11 +1871,11 @@
             </ScrollViewer>
 
             <!-- AI Chat.
-                 Placed only in the star row (not spanning the Auto intro-card row):
+                 Placed only in the star row (not spanning the Auto filter row):
                  a *-height ScrollViewer that spans an Auto row is measured with an
                  unbounded height, which lets the message list eat the input row's
-                 space so the input overlaps the newest messages. The intro card in
-                 row 1 is hidden for the AI chat, so row 2 alone is correct. -->
+                 space so the input overlaps the newest messages. The filter row in
+                 row 1 is hidden for the AI chat, so the star row alone is correct. -->
             <ai:AiChatView x:Name="AiChatViewControl"
                            Grid.Row="3"
                            IsVisible="False"

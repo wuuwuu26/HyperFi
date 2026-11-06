@@ -1222,7 +1222,7 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   (`PointerWheelChanged` tunnel handler), never from `ScrollChanged`/offset
   changes, so the constant re-layout of the streamed Markdown cannot be misread
   as a manual scroll-up and disable auto-scroll. The view is hosted in the
-  bounded content row (`Grid.Row="2"`), never spanning the Auto intro-card row,
+  bounded content row (`Grid.Row="2"`), never spanning the Auto filter row,
   so its `ScrollViewer` is measured with a bounded height.
 - `HyperFi/AI/MarkdownTextBlock.cs`: lightweight Markdown renderer for assistant
   messages. Block level: headings, bullet/numbered lists, block quotes,
@@ -1393,8 +1393,7 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   `CollapsedHyperFiServerPlaylistGroups` is retained only for persisted settings
   compatibility. Remote Artists, Albums, and Tracks reuse the **same** local
   table/artwork column masks (`ApplyColumns("Artists"/"Albums"/"Tracks")`),
-  intro card (`UpdateLibraryIntroCard`), per-entity Favorites-only toggle, and
-  A-Z index as the local library. There are no separate `HyperFi*` column masks.
+  per-entity Favorites-only toggle, and A-Z index as the local library. There are no separate `HyperFi*` column masks.
   Server artwork hydrates lazily as rows or artwork cards become visible;
   downloaded remote artwork is cached client-side under
   `%LOCALAPPDATA%\HyperFi\remote-artworks\`. In the shared Artists view and
@@ -1560,9 +1559,8 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   shared link columns and the `SearchAlbumsDataGrid`/`SearchArtistsDataGrid`
   double-click handlers navigate within the remote library, and remote tracks
   play directly from the result list. Clearing the search box restores the
-  remote Tracks list. The three search-result sections use the same
-  accent-bordered card style as the library headline/intro card for local and
-  remote results. The facet rows live in `_hyperfiTrackFacets` while a remote
+  remote Tracks list. The three search-result sections use the shared
+  accent-bordered card style for local and remote results. The facet rows live in `_hyperfiTrackFacets` while a remote
   Tracks view is active and are cleared otherwise. Remote folder tree file nodes
   must register the same `ContentRow` metadata as remote Tracks rows before
   queuing playback. This is required so the transport shows title/artist/artwork
@@ -2028,8 +2026,7 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
   without leaving the detail view, including when opened from a favorites-only
   album list.
 - The album track detail header uses the same accent border and asymmetric
-  `CornerRadius="0,24,0,24"` card shape as the radio, podcast, and shared
-  library intro cards.
+  `CornerRadius="0,24,0,24"` card shape as the radio and podcast cards.
 - `AppSettings.StartMaximized` defaults to maximized startup. When disabled, the
   main window restores its last normal logical size and physical screen
   position; saved bounds must be validated against current screen working areas
@@ -2794,13 +2791,10 @@ WavPack metadata, PCM/DSD caps and an empty eligible candidate set.
 - The content header continues the native title-bar/sidebar appearance and shows
   title, count, search, filters, or album mode controls
 - Main library views keep the plain content header for title, count, search,
-  filters, and mode controls. Directly below it, Artists, Albums, Tracks, Folder
-  structure, and equivalent library overview views use a shared compact
-  accent-bordered intro card (`#20D9E8`, `CornerRadius="14"`) with a short
-  view-specific headline and explanatory text. Search and filter controls stay
-  outside and above that card in the plain header layout; A-Z indexes stay
-  aligned with the content/table area, not the intro card. The Dashboard
-  deliberately has no shared intro card because its greeting hero is the first
+  filters, and mode controls. Artists, Albums, Tracks, Folder structure, and
+  equivalent library overview views place their content directly below that
+  header; there is no separate intro card. A-Z indexes stay aligned with the
+  content/table area. The Dashboard keeps its own greeting hero as the first
   content surface.
 - Main content view switches fade in the incoming surface with a short upward
   lift, fade the content header, and cross-fade sidebar and Settings selection

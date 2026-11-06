@@ -136,7 +136,6 @@ public partial class MainWindow : Window
         PodcastInfoView.IsVisible = false;
         UpdateEntityFavoritesFilterToggle(null);
         UpdateAlphabetIndex(null, false);
-        UpdateLibraryIntroCard(null);
         ContentTitleTextBlock.Text = LocalizationManager.Current.Search;
         AlbumViewModeBorder.IsVisible = false;
         TrackFilterButton.IsVisible = false;

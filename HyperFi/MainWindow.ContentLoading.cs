@@ -41,8 +41,8 @@ using Windows.Media;
 namespace HyperFi;
 
 /// <summary>
-/// Top-level view switching, the shared content loading skeleton, and the
-/// library intro card for <see cref="MainWindow"/>.
+/// Top-level view switching and the shared content loading skeleton for
+/// <see cref="MainWindow"/>.
 /// </summary>
 public partial class MainWindow : Window
 {
@@ -185,7 +185,6 @@ public partial class MainWindow : Window
         PodcastEpisodesView.IsVisible = false;
         HideAlbumDetailHeader();
         ContentCountTextBlock.Text  = "";
-        UpdateLibraryIntroCard(tag);
         var isHyperFiServerTag = tag.StartsWith("HyperFiServer:", StringComparison.Ordinal);
         var isHyperFiTracksTag = TryParseHyperFiServerTag(tag, out _, out var hyperfiViewForHeader) &&
                                  hyperfiViewForHeader == "Tracks";
@@ -514,25 +513,4 @@ public partial class MainWindow : Window
         return transform;
     }
 
-    private void UpdateLibraryIntroCard(string? tag)
-    {
-        var strings = LocalizationManager.Current;
-        var intro = tag switch
-        {
-            "Artists" => (strings.ArtistsIntroTitle, strings.ArtistsIntroHint, "IconArtist"),
-            "Albums" => (strings.AlbumsIntroTitle, strings.AlbumsIntroHint, "IconAlbum"),
-            "Tracks" => (strings.TracksIntroTitle, strings.TracksIntroHint, "IconTrack"),
-            "Folders" => (strings.FoldersIntroTitle, strings.FoldersIntroHint, "IconFolder"),
-            _ => default
-        };
-
-        var visible = !string.IsNullOrWhiteSpace(intro.Item1);
-        LibraryIntroCard.IsVisible = visible;
-        if (!visible)
-            return;
-
-        LibraryIntroTitleTextBlock.Text = intro.Item1;
-        LibraryIntroHintTextBlock.Text = intro.Item2;
-        LibraryIntroIconPath.Data = FindResource<Geometry>(intro.Item3);
-    }
 }
