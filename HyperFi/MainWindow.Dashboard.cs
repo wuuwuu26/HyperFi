@@ -482,7 +482,7 @@ public partial class MainWindow : Window
 
         var hero = new Border
         {
-            Height = 210,
+            Height = 160,
             Background = FindResource<IBrush>("DashboardHeroBackgroundBrush"),
             CornerRadius = new CornerRadius(16),
             ClipToBounds = true,

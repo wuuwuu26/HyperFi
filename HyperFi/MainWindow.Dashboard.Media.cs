@@ -56,7 +56,7 @@ public partial class MainWindow : Window
         };
 
         var panel = new StackPanel { Orientation = Orientation.Horizontal };
-        var template = FindResource<IDataTemplate>("AlbumArtworkCardTemplate");
+        var template = FindResource<IDataTemplate>("DashboardAlbumCardTemplate");
         if (template is not null)
             foreach (var album in albums)
                 panel.Children.Add(BuildRecentAlbumCard(album, template));
@@ -432,7 +432,7 @@ public partial class MainWindow : Window
         HashSet<long> favoriteTrackIds,
         bool expandedSpacing = false)
     {
-        const double artSize = 160;
+        const double artSize = 140;
         var playable = IsPlayableHistoryEntry(entry);
         var isRemote = TryGetHyperFiHistoryTarget(entry, out var favoriteServer, out var favoriteRemoteTrackId);
         var isPlex = entry.ExternalId?.StartsWith("plex:", StringComparison.OrdinalIgnoreCase) == true;
@@ -442,8 +442,8 @@ public partial class MainWindow : Window
             : entry.TrackId is long localTrackId && favoriteTrackIds.Contains(localTrackId);
         var card = new Border
         {
-            Width           = 180,
-            MinHeight       = 296,
+            Width           = 156,
+            MinHeight       = 230,
             Margin          = expandedSpacing
                 ? new Thickness(8, 0, 12, 20)
                 : new Thickness(8),

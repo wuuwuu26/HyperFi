@@ -269,6 +269,125 @@
             </Border>
         </DataTemplate>
 
+        <DataTemplate x:Key="DashboardAlbumCardTemplate" x:DataType="local:ContentRow">
+            <Border Classes="motionCard"
+                    AutomationProperties.Name="{Binding Title}"
+                    Width="148"
+                    MinHeight="230"
+                    Margin="8,10"
+                    Padding="4"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    CornerRadius="4">
+                <StackPanel>
+                    <Border Classes="coverFrame"
+                            CornerRadius="3"
+                            BoxShadow="0 10 22 0 #A6000000">
+                        <Border Width="140"
+                                Height="140"
+                                Background="{DynamicResource AppArtworkPlaceholderBrush}"
+                                BorderBrush="{DynamicResource AppArtworkEdgeBrush}"
+                                BorderThickness="1"
+                                CornerRadius="3"
+                                ClipToBounds="True">
+                            <Border.ContextMenu>
+                                <ContextMenu Opening="AlbumArtworkContextMenu_OnOpened">
+                                    <MenuItem Header="{DynamicResource L_DeleteCover}"
+                                              Tag="{Binding}"
+                                              Click="DeleteCoverMenuItem_OnClick"/>
+                                    <MenuItem Header="{DynamicResource L_ReassignCover}"
+                                              Tag="{Binding}"
+                                              Click="ReassignCoverMenuItem_OnClick"/>
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                            <Grid>
+                                <controls:InitialsAvatar DisplayName="{Binding Title}"
+                                                         FontSize="{DynamicResource FontSizeDisplay}"
+                                                         IsVisible="{Binding Artwork, Converter={x:Static conv:ObjectConverters.IsNull}}"/>
+                                <Image Source="{Binding Artwork}"
+                                       Stretch="UniformToFill"/>
+                                <Border Classes="coverOverlay"
+                                        Background="#5F000000">
+                                    <TextBlock Text="↗"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Top"
+                                               Margin="0,8,8,0"
+                                               FontSize="{DynamicResource FontSizeSubtitle}"
+                                               Foreground="{DynamicResource AppAccentTextBrush}"/>
+                                </Border>
+                                <Border IsVisible="{Binding Artwork, Converter={x:Static conv:ObjectConverters.IsNull}}"
+                                        VerticalAlignment="Bottom"
+                                        Padding="0,7"
+                                        Background="#59000000">
+                                    <Button Content="{DynamicResource L_SearchCover}"
+                                            Tag="{Binding}"
+                                            Width="110"
+                                            Height="28"
+                                            HorizontalAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Padding="0"
+                                            Background="{DynamicResource AppAccentBrush}"
+                                            Foreground="{DynamicResource AppAccentTextBrush}"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Click="SearchCoverButton_OnClick"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <Button Content="{Binding Title}"
+                            Tag="{Binding}"
+                            ToolTip.Tip="{Binding Title}"
+                            Margin="2,10,0,0"
+                            FontSize="{DynamicResource FontSizeCaption}"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Left"
+                            Theme="{DynamicResource EntityLinkButtonTheme}"
+                            Click="AlbumLinkButton_OnClick"/>
+                    <Button Content="{Binding Artist}"
+                            Tag="{Binding}"
+                            Margin="2,3,0,0"
+                            FontSize="{DynamicResource FontSizeMeta}"
+                            HorizontalContentAlignment="Left"
+                            Foreground="{DynamicResource AppSecondaryTextBrush}"
+                            Theme="{DynamicResource EntityLinkButtonTheme}"
+                            Click="ArtistLinkButton_OnClick"/>
+                    <TextBlock Text="{Binding Year}"
+                               Margin="2,3,0,0"
+                               FontSize="{DynamicResource FontSizeMeta}"
+                               Foreground="{DynamicResource AppMutedTextBrush}"/>
+                    <Grid Margin="2,4,0,0" VerticalAlignment="Center">
+                        <Button Content="{Binding FavoriteGlyph}"
+                                Tag="{Binding}"
+                                Width="28"
+                                Height="24"
+                                MinWidth="0"
+                                MinHeight="0"
+                                Padding="0"
+                                HorizontalAlignment="Left"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="{DynamicResource AppFavoriteBrush}"
+                                FontFamily="Segoe UI Symbol"
+                                FontSize="{DynamicResource FontSizeBodyStrong}"
+                                Cursor="Hand"
+                                Click="FavoriteButton_OnClick"/>
+                        <TextBlock Text="{Binding SourceBadge}"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   LetterSpacing="0.8"
+                                   Foreground="{DynamicResource AppAccentBrush}"
+                                   ToolTip.Tip="{Binding SourceName}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
         <!-- Sidebar nav item -->
         <ControlTheme x:Key="NavItemTheme" TargetType="ListBoxItem">
             <Setter Property="Foreground" Value="{DynamicResource AppNavTextBrush}"/>
@@ -1817,7 +1936,7 @@
 
             <Border x:Name="GenreCloudSurface"
                     Grid.Row="1"
-                    Height="406"
+                    Height="340"
                     Margin="28,18,28,0"
                     Padding="20,12,20,10"
                     VerticalAlignment="Top"
@@ -1860,11 +1979,11 @@
                     </Border>
                     <WrapPanel x:Name="GenreCloudBreadcrumbPanel" Orientation="Horizontal"/>
                     <ScrollViewer Grid.Row="1"
-                                  Height="330"
+                                  Height="244"
                                   HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Auto">
                         <Canvas x:Name="GenreCloudNodesCanvas"
-                                MinHeight="330"
+                                MinHeight="244"
                                 HorizontalAlignment="Stretch">
                             <Canvas.Transitions>
                                 <Transitions>

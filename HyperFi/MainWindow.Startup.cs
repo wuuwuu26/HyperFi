@@ -490,7 +490,7 @@ public partial class MainWindow : Window
             OutputBackend.Wasapi when !string.IsNullOrWhiteSpace(_settings.SelectedWasapiDeviceName) =>
                 $"{_settings.SelectedWasapiDeviceName}  ·  {(!OperatingSystem.IsWindows()
                     ? _settings.SelectedWasapiDeviceId?.StartsWith("alsa:", StringComparison.Ordinal) == true
-                        ? LocalizationManager.Current.DirectAlsa
+                        ? LocalizationManager.Current.DirectAlsaMode
                         : LocalizationManager.Current.OpenAl
                     : "WASAPI")}",
             OutputBackend.AirPlay when !string.IsNullOrWhiteSpace(_settings.SelectedAirPlayDeviceName) =>

@@ -112,6 +112,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- The sidebar output summary no longer repeats ALSA, for example
+  `ALSA · USB Audio (Audio) · direct, exclusive` instead of showing ALSA twice.
+- The Dashboard carousels use compact covers and the Genre Cloud node stage is
+  shorter, so the hero, album metadata, and recommendation table stay visible
+  in a short window instead of being clipped.
 - Toggling **Shuffle** no longer stops and recreates the audio output, so the
   click no longer causes a playback stutter or a UI pause. The prepared gapless
   session now stops after the current track while shuffle is on, and gapless

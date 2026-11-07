@@ -3124,8 +3124,10 @@ responsiveness, not a measured portable first-frame deadline.
      a horizontal carousel of up to 20 cards from `GetRecentHistory` (deduped by
      path) placed beside Recently Added in the same transparent section.
      History
-     cards use the same 180 × 276 proportions and 160-px cover size as album
-     artwork cards. Each shows a local/remote album thumbnail or
+     cards use compact 156 × 230 proportions with a 140-px cover; the Recently
+     Added carousel uses the compact `DashboardAlbumCardTemplate` (148 × 230,
+     140-px cover), while the Albums view keeps the larger shared
+     `AlbumArtworkCardTemplate`. Each shows a local/remote album thumbnail or
      `InitialsAvatar`, hover play overlay, favorite heart, and an `L`, `OS`, or
      `P` source badge. Local and remote HyperFi hearts are toggleable; Plex
      hearts are display-only because Plex favorites are not persisted. A card is

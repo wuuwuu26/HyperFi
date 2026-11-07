@@ -255,6 +255,7 @@ public sealed record LocalizedStrings(
     public string OpenAlOutputDevice { get; init; } = "";
     /// <summary>Gets the direct ALSA backend label.</summary>
     public string DirectAlsa { get; init; } = "";
+    public string DirectAlsaMode { get; init; } = "";
     /// <summary>Gets the direct ALSA output-device field label.</summary>
     public string AlsaOutputDevice { get; init; } = "";
     /// <summary>Gets the display name of the system-default Linux audio device.</summary>

@@ -639,9 +639,12 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   versioned server-library ZIP with transfer progress and explicit destructive
   confirmation. Restored server paths refresh the dialog; audio files and API
   credentials are never part of the archive.
-- The shared album artwork card binds its title tooltip to the complete album
-  title so truncated labels remain readable across local, unified, Dashboard,
-  Genre Cloud, and HyperFi Server usages.
+- The shared album artwork card and the compact Dashboard album card bind
+  their title tooltips to the complete album title so truncated labels remain
+  readable across local, unified, Dashboard, Genre Cloud, and HyperFi Server
+  usages. The Dashboard carousels use the compact card sizes so the hero,
+  covers, and metadata fit a short window; the Albums view keeps the larger
+  cards.
 - Settings places the `Metadata` section as **Review metadata** in the
   **LIBRARY** navigation group. It analyzes physical folders rather than
   existing album rows, because incorrect tags may already have fragmented one
@@ -688,9 +691,10 @@ This file applies to the Windows, Linux, and macOS Avalonia desktop client under
   breadcrumbs use the same rounded treatment. The recommendation mode uses the
   same segmented `ViewModeRadioTheme` controls as the Artists/Albums view
   selector and switches between the shared track table and source-aware album
-  artwork cards. The cloud surface owns a dedicated Auto-sized main-content row
+  artwork cards. The cloud surface owns a compact fixed-height main-content row
   directly below the content header; never overlay it on results or compensate
-  with large result margins. Mode-button clicks must explicitly update both
+  with large result margins, and keep its node viewport small enough that the
+  recommendation table still shows at least one full row in a short window. Mode-button clicks must explicitly update both
   radio states and the visible result host. Opening an album recommendation must
   collapse the cloud surface and use the normal star-sized album detail surface. Its navigation state retains the selected
   taxonomy key and Tracks/Albums mode so Back restores the same cloud context,
